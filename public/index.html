@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financial Institution Training Hub</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .header-image {
+            width: 150px;
+            height: 150px;
+            margin: 0 auto 20px;
+            display: block;
+            object-fit: contain;
+            background: white;
+            padding: 10px;
+            border-radius: 50%;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            border: 3px solid #f8f9fa;
+        }
+        
+        .header h1 {
+            color: #2c3e50;
+            font-size: 3em;
+            margin-bottom: 15px;
+            font-weight: 300;
+        }
+        
+        .header p {
+            color: #7f8c8d;
+            font-size: 1.2em;
+            line-height: 1.6;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .option-card {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 2px solid transparent;
+            cursor: pointer;
+        }
+        
+        .option-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+            border-color: #3498db;
+        }
+        
+        .option-icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+            display: block;
+        }
+        
+        .option-title {
+            font-size: 1.8em;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+        
+        .option-description {
+            color: #7f8c8d;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            font-size: 1.1em;
+        }
+        
+        .option-features {
+            text-align: left;
+            margin-bottom: 25px;
+        }
+        
+        .option-features ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .option-features li {
+            padding: 5px 0;
+            color: #34495e;
+            position: relative;
+            padding-left: 20px;
+        }
+        
+        .option-features li:before {
+            content: "✓";
+            color: #27ae60;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+        
+        .option-button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            width: 100%;
+        }
+        
+        .option-button:hover {
+            background: #2980b9;
+        }
+        
+        .game-card {
+            border-left: 5px solid #e74c3c;
+        }
+        
+        .game-card .option-icon {
+            color: #e74c3c;
+        }
+        
+        .discussion-card {
+            border-left: 5px solid #27ae60;
+        }
+        
+        .discussion-card .option-icon {
+            color: #27ae60;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 1px solid #ecf0f1;
+            color: #95a5a6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="/images/bank-logo.png" alt="Financial Institution" class="header-image">
+            <h1>🏦 Financial Institution Training Hub</h1>
+            <p>Choose your training experience: Competitive crisis management simulation or collaborative department discussions</p>
+        </div>
+        
+        <div class="options-grid">
+            <!-- Crisis Management Game -->
+            <div class="option-card game-card" onclick="goToGame()">
+                <span class="option-icon">🎮</span>
+                <h2 class="option-title">Crisis Management Game</h2>
+                <p class="option-description">
+                    Interactive simulation where all departments work together to navigate a crisis through 21 challenging decisions.
+                </p>
+                <div class="option-features">
+                    <ul>
+                        <li>21 questions per scenario</li>
+                        <li>All 7 departments participate</li>
+                        <li>Scoring and strike system</li>
+                        <li>Competitive team dynamics</li>
+                        <li>AI-generated crisis scenarios</li>
+                        <li>Progress tracking across rounds</li>
+                    </ul>
+                </div>
+                <button class="option-button">Start Crisis Simulation</button>
+            </div>
+            
+            <!-- Department Discussion Tool -->
+            <div class="option-card discussion-card" onclick="goToDiscussion()">
+                <span class="option-icon">💬</span>
+                <h2 class="option-title">Department Discussion Tool</h2>
+                <p class="option-description">
+                    Department-specific scenario generator for focused discussions and training sessions.
+                </p>
+                <div class="option-features">
+                    <ul>
+                        <li>Choose specific department</li>
+                        <li>Targeted scenarios per department</li>
+                        <li>Discussion-focused format</li>
+                        <li>No scoring or competition</li>
+                        <li>Collaborative learning</li>
+                        <li>Department expertise building</li>
+                    </ul>
+                </div>
+                <button class="option-button">Start Department Discussion</button>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>© 2025 Financial Institution Training Hub | Powered by AI-Generated Scenarios</p>
+        </div>
+    </div>
+
+    <script>
+        console.log('Training Hub Homepage Loaded');
+        
+        function goToGame() {
+            console.log('Navigating to Crisis Management Game');
+            window.location.href = '/game';
+        }
+        
+        function goToDiscussion() {
+            console.log('Navigating to Department Discussion Tool');
+            window.location.href = '/discussion';
+        }
+        
+        // Add hover effects
+        document.querySelectorAll('.option-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.background = '#ffffff';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.background = '#f8f9fa';
+            });
+        });
+    </script>
+</body>
+</html>

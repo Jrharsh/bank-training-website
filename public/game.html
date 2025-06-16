@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crisis Management Game</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            color: #2c3e50;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .back-button {
+            background: #95a5a6;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9em;
+            margin-bottom: 20px;
+        }
+        
+        .back-button:hover {
+            background: #7f8c8d;
+        }
+        
+        .department-scores {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .department-card {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border-left: 4px solid;
+        }
+        
+        .department-name {
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #2c3e50;
+        }
+        
+        .department-score {
+            font-size: 1.8em;
+            font-weight: bold;
+        }
+        
+        .scenario-panel {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .scenario-title {
+            font-size: 1.4em;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+        
+        .scenario-description {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            font-size: 1.1em;
+        }
+        
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .option-button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 15px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            text-align: left;
+        }
+        
+        .option-button:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+        
+        .option-button:disabled {
+            background: #95a5a6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary {
+            background: #e74c3c;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #c0392b;
+        }
+        
+        .btn-secondary {
+            background: #95a5a6;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: #7f8c8d;
+        }
+        
+        .btn-next {
+            background: #27ae60;
+            color: white;
+        }
+        
+        .btn-next:hover {
+            background: #229954;
+        }
+        
+        .loading {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            padding: 20px;
+        }
+        
+        .error {
+            background: #e74c3c;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .success {
+            background: #27ae60;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .round-info {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.2em;
+            color: #2c3e50;
+        }
+        
+        .department-label {
+            background: #3498db;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 1.3em;
+            text-align: center;
+            margin-bottom: 20px;
+            border: 3px solid #2980b9;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <button class="back-button" onclick="goHome()">← Back to Home</button>
+        
+        <div class="header">
+            <h1>🏦 Crisis Management Game</h1>
+            <p style="color: green; font-size: 20px;">✅ 21 Questions Per Scenario - All Departments</p>
+            <p>Navigate realistic business scenarios and manage departmental impact</p>
+        </div>
+        
+        <div class="round-info">
+            <strong>Round: <span id="roundNumber">1</span></strong>
+        </div>
+        
+        <div class="department-scores" id="departmentScores">
+            <!-- Department cards will be populated by JavaScript -->
+        </div>
+        
+        <div id="scenarioPanel" class="scenario-panel hidden">
+            <div id="departmentLabel" class="department-label"></div>
+            <div class="scenario-title" id="scenarioTitle"></div>
+            <div class="scenario-description" id="scenarioDescription"></div>
+            <div class="options" id="optionsContainer"></div>
+            <div class="action-buttons" style="margin-top: 20px;">
+                <button class="btn btn-next" id="nextQuestionBtn" style="display: none;">Next Question</button>
+            </div>
+        </div>
+        
+        <div id="loadingPanel" class="loading hidden">
+            Generating scenario... 🤖
+        </div>
+        
+        <div id="messagePanel" class="hidden"></div>
+        
+        <div class="action-buttons">
+            <button class="btn btn-primary" id="generateBtn">Generate New Crisis</button>
+            <button class="btn btn-secondary" id="resetBtn">Reset Game</button>
+        </div>
+    </div>
+
+    <script>
+        console.log('Crisis Management Game Loaded');
+        
+        // Game State
+        const departments = {
+            'CEO_SVPs': { name: 'CEO/SVPs', score: 0, strikes: 0, color: '#8e44ad' },
+            'IT_Security': { name: 'IT/Security', score: 0, strikes: 0, color: '#e74c3c' },
+            'HR': { name: 'HR', score: 0, strikes: 0, color: '#3498db' },
+            'Finance': { name: 'Finance', score: 0, strikes: 0, color: '#2ecc71' },
+            'Loans': { name: 'Loans', score: 0, strikes: 0, color: '#f39c12' },
+            'Accounting': { name: 'Accounting', score: 0, strikes: 0, color: '#9b59b6' },
+            'Deposits': { name: 'Deposits', score: 0, strikes: 0, color: '#1abc9c' }
+        };
+        
+        let currentRound = 1;
+        let currentScenario = null;
+        let currentQuestionIndex = 0;
+        
+        // Navigation
+        function goHome() {
+            window.location.href = '/';
+        }
+        
+        // Initialize the game
+        function initGame() {
+            console.log('Initializing game...');
+            renderDepartmentScores();
+            document.getElementById('roundNumber').textContent = currentRound;
+        }
+        
+        // Render department score cards
+        function renderDepartmentScores() {
+            const container = document.getElementById('departmentScores');
+            container.innerHTML = '';
+            
+            Object.entries(departments).forEach(([key, dept]) => {
+                const card = document.createElement('div');
+                card.className = 'department-card';
+                card.style.borderLeftColor = dept.color;
+                
+                // Add visual indicator for strikes
+                let strikeIndicator = '';
+                for (let i = 0; i < 3; i++) {
+                    if (i < dept.strikes) {
+                        strikeIndicator += '❌';
+                    } else {
+                        strikeIndicator += '⚪';
+                    }
+                }
+                
+                card.innerHTML = `
+                    <div class="department-name">${dept.name}</div>
+                    <div class="department-score" style="color: ${dept.color}">${dept.score}</div>
+                    <div style="font-size: 0.8em; margin-top: 5px;">${strikeIndicator}</div>
+                `;
+                
+                container.appendChild(card);
+            });
+        }
+        
+        // Generate scenario
+        async function generateScenario() {
+            console.log('Generating new scenario...');
+            showLoading(true);
+            hideMessage();
+            
+            try {
+                const response = await fetch('/api/generate-scenario', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`Server Error: ${response.status}`);
+                }
+                
+                const scenario = await response.json();
+                console.log('Scenario received:', scenario.questions.length, 'questions');
+                
+                currentScenario = scenario;
+                currentQuestionIndex = 0;
+                
+                displayCurrentQuestion();
+                
+            } catch (error) {
+                console.error('Error generating scenario:', error);
+                showMessage(`Failed to generate scenario: ${error.message}`, 'error');
+            } finally {
+                showLoading(false);
+            }
+        }
+        
+        // Display current question
+        function displayCurrentQuestion() {
+            if (!currentScenario || !currentScenario.questions) {
+                showMessage('No scenario data available', 'error');
+                return;
+            }
+            
+            const question = currentScenario.questions[currentQuestionIndex];
+            if (!question) {
+                // Scenario complete
+                currentRound++;
+                document.getElementById('roundNumber').textContent = currentRound;
+                document.getElementById('scenarioPanel').classList.add('hidden');
+                showMessage('🎉 Scenario Complete! All 21 departments have made their decisions. Generate a new crisis!', 'success');
+                return;
+            }
+            
+            console.log(`Displaying question ${currentQuestionIndex + 1}/21 for ${question.department}`);
+            
+            // Get department color
+            const deptColor = departments[question.department]?.color || '#3498db';
+            
+            // Show department label
+            const departmentLabel = document.getElementById('departmentLabel');
+            departmentLabel.style.backgroundColor = deptColor;
+            departmentLabel.style.borderColor = deptColor;
+            departmentLabel.textContent = `🏢 ${question.department.replace('_', '/')} DEPARTMENT - QUESTION ${currentQuestionIndex + 1}/21`;
+            
+            // Show scenario title
+            document.getElementById('scenarioTitle').textContent = currentScenario.title;
+            
+            // Show question description
+            if (currentQuestionIndex === 0) {
+                // First question shows full scenario description
+                document.getElementById('scenarioDescription').innerHTML = `
+                    <div style="background: #ecf0f1; padding: 15px; border-radius: 8px; margin-bottom: 15px; border-left: 4px solid #e74c3c;">
+                        <strong>🚨 CRISIS SCENARIO:</strong><br>${currentScenario.description}
+                    </div>
+                    <div style="font-weight: bold; color: #2c3e50;">
+                        ${question.questionText}
+                    </div>
+                `;
+            } else {
+                // Subsequent questions show just the question
+                document.getElementById('scenarioDescription').innerHTML = `
+                    <div style="font-weight: bold; color: #2c3e50;">
+                        ${question.questionText}
+                    </div>
+                `;
+            }
+            
+            // Show options
+            const optionsContainer = document.getElementById('optionsContainer');
+            optionsContainer.innerHTML = '';
+            
+            question.options.forEach((option, index) => {
+                const button = document.createElement('button');
+                button.className = 'option-button';
+                button.textContent = option.text;
+                button.onclick = () => selectOption(index, option);
+                optionsContainer.appendChild(button);
+            });
+            
+            document.getElementById('nextQuestionBtn').style.display = 'none';
+            document.getElementById('scenarioPanel').classList.remove('hidden');
+        }
+        
+        // Handle option selection
+        function selectOption(index, option) {
+            console.log('Option selected:', index, option.text);
+            
+            // Disable all option buttons
+            const buttons = document.querySelectorAll('.option-button');
+            buttons.forEach(btn => {
+                btn.disabled = true;
+                if (btn.textContent === option.text) {
+                    btn.style.backgroundColor = '#27ae60'; // Highlight selected
+                }
+            });
+            
+            // Apply score changes (only to answering department)
+            Object.entries(option.impacts).forEach(([deptKey, impact]) => {
+                if (departments[deptKey] && impact !== 0) {
+                    departments[deptKey].score = Math.max(0, Math.min(200, departments[deptKey].score + impact));
+                    
+                    // Check for strikes on very bad decisions
+                    if (impact <= -25) {
+                        departments[deptKey].strikes++;
+                        console.log(`${departments[deptKey].name} received a strike!`);
+                    }
+                }
+            });
+            
+            renderDepartmentScores();
+            
+            // Show next button
+            document.getElementById('nextQuestionBtn').style.display = 'block';
+        }
+        
+        // Next question
+        function nextQuestion() {
+            currentQuestionIndex++;
+            displayCurrentQuestion();
+        }
+        
+        // Reset game
+        function resetGame() {
+            Object.keys(departments).forEach(key => {
+                departments[key].score = 0;
+                departments[key].strikes = 0;
+            });
+            currentRound = 1;
+            currentScenario = null;
+            currentQuestionIndex = 0;
+            
+            initGame();
+            document.getElementById('scenarioPanel').classList.add('hidden');
+            hideMessage();
+        }
+        
+        // Utility functions
+        function showLoading(show) {
+            document.getElementById('loadingPanel').classList.toggle('hidden', !show);
+        }
+        
+        function showMessage(message, type = 'error') {
+            const panel = document.getElementById('messagePanel');
+            panel.className = type;
+            panel.textContent = message;
+            panel.classList.remove('hidden');
+        }
+        
+        function hideMessage() {
+            document.getElementById('messagePanel').classList.add('hidden');
+        }
+        
+        // Event listeners
+        document.getElementById('generateBtn').addEventListener('click', generateScenario);
+        document.getElementById('resetBtn').addEventListener('click', resetGame);
+        document.getElementById('nextQuestionBtn').addEventListener('click', nextQuestion);
+        
+        // Initialize game
+        initGame();
+        console.log('Game ready!');
+    </script>
+</body>
+</html>
