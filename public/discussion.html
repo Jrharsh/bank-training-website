@@ -303,11 +303,6 @@
             background: #f8d7da;
         }
 
-        .status-indicator.warning {
-            border-left-color: #ffc107;
-            background: #fff3cd;
-        }
-
         .refresh-btn {
             background: linear-gradient(135deg, #17a2b8, #138496);
             color: white;
@@ -324,32 +319,6 @@
         .refresh-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(23, 162, 184, 0.4);
-        }
-
-        .debug-info {
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 10px;
-            padding: 15px;
-            margin-top: 20px;
-            font-family: monospace;
-            font-size: 0.85rem;
-            display: none;
-            border-left: 4px solid #17a2b8;
-        }
-
-        .debug-info.show {
-            display: block;
-        }
-
-        .debug-toggle {
-            background: #6c757d;
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            border-radius: 5px;
-            font-size: 0.8rem;
-            cursor: pointer;
-            margin-left: 10px;
         }
 
         @media (max-width: 768px) {
@@ -380,12 +349,6 @@
 
         <div class="status-indicator" id="statusIndicator">
             <strong>Status:</strong> <span id="statusText">Ready to generate scenarios</span>
-            <button class="debug-toggle" onclick="toggleDebug()">Debug</button>
-        </div>
-
-        <div class="debug-info" id="debugInfo">
-            <strong>Debug Information:</strong><br>
-            <span id="debugContent">No debug information yet</span>
         </div>
 
         <div class="controls">
@@ -454,7 +417,6 @@
     <script>
         let selectedDepartment = null;
         let selectedComplexity = 'intermediate';
-        let debugMode = false;
         
         const departments = [
             { id: 'Deposits', name: 'Deposits', icon: '💰' },
@@ -469,33 +431,12 @@
             { id: 'New Accounts', name: 'New Accounts', icon: '📝' }
         ];
 
-        function toggleDebug() {
-            debugMode = !debugMode;
-            const debugInfo = document.getElementById('debugInfo');
-            if (debugMode) {
-                debugInfo.classList.add('show');
-            } else {
-                debugInfo.classList.remove('show');
-            }
-        }
-
-        function addDebugInfo(message) {
-            if (debugMode) {
-                const debugContent = document.getElementById('debugContent');
-                const timestamp = new Date().toLocaleTimeString();
-                debugContent.innerHTML += `<br>[${timestamp}] ${message}`;
-            }
-            console.log(`[DEBUG] ${message}`);
-        }
-
-        function updateStatus(message, type = 'info') {
+        function updateStatus(message, isError = false) {
             const statusIndicator = document.getElementById('statusIndicator');
             const statusText = document.getElementById('statusText');
             
             statusText.textContent = message;
-            statusIndicator.className = `status-indicator ${type === 'error' ? 'error' : type === 'warning' ? 'warning' : ''}`;
-            
-            addDebugInfo(`Status: ${message} (type: ${type})`);
+            statusIndicator.className = isError ? 'status-indicator error' : 'status-indicator';
         }
 
         function createDepartmentCards() {
@@ -556,7 +497,7 @@
 
         async function generateAIScenario() {
             if (!selectedDepartment) {
-                updateStatus('Please select a department first', 'error');
+                updateStatus('Please select a department first', true);
                 return;
             }
 
@@ -569,46 +510,26 @@
             generateBtnText.textContent = 'AI is generating scenario...';
             updateStatus('Contacting OpenAI to generate scenario...');
 
-            addDebugInfo(`Starting scenario generation: ${selectedDepartment} - ${selectedComplexity}`);
-
             try {
-                addDebugInfo('Making fetch request to /api/generate-discussion-scenario');
-                
-                const requestData = {
-                    department: selectedDepartment,
-                    complexity: selectedComplexity
-                };
-                
-                addDebugInfo(`Request data: ${JSON.stringify(requestData)}`);
-
                 const response = await fetch('/api/generate-discussion-scenario', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify(requestData)
+                    body: JSON.stringify({
+                        department: selectedDepartment,
+                        complexity: selectedComplexity
+                    })
                 });
 
-                addDebugInfo(`Response status: ${response.status} ${response.statusText}`);
-
                 if (!response.ok) {
-                    const errorText = await response.text();
-                    addDebugInfo(`Error response body: ${errorText}`);
-                    throw new Error(`HTTP ${response.status}: ${response.statusText} - ${errorText}`);
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
                 }
 
                 const data = await response.json();
-                addDebugInfo(`Response data keys: ${Object.keys(data).join(', ')}`);
-                addDebugInfo(`Response data: ${JSON.stringify(data, null, 2)}`);
                 
                 if (data.error) {
                     throw new Error(data.error);
-                }
-
-                // Validate required fields
-                if (!data.title && !data.description) {
-                    updateStatus('Received incomplete data from AI', 'warning');
-                    addDebugInfo('Warning: Missing title or description in response');
                 }
 
                 displayScenario(data);
@@ -616,11 +537,10 @@
 
             } catch (error) {
                 console.error('Error generating scenario:', error);
-                addDebugInfo(`Error: ${error.message}`);
-                updateStatus(`Error: ${error.message}`, 'error');
+                updateStatus(`Error: ${error.message}`, true);
                 
-                // Show enhanced fallback message
-                displayErrorFallback(error);
+                // Show fallback message
+                displayErrorFallback();
             } finally {
                 // Reset button state
                 generateBtn.classList.remove('loading');
@@ -630,8 +550,6 @@
         }
 
         function displayScenario(data) {
-            addDebugInfo('Displaying scenario data');
-            
             const dept = departments.find(d => d.id === selectedDepartment);
             
             // Update header
@@ -639,54 +557,34 @@
             document.getElementById('scenarioTitle').textContent = data.title || 'AI Generated Scenario';
             document.getElementById('scenarioDepartment').textContent = `${dept.name} Department - ${selectedComplexity.charAt(0).toUpperCase() + selectedComplexity.slice(1)} Level`;
             
-            // Update content - handle both description and scenario fields
-            const scenarioText = data.description || data.scenario || 'Scenario description not available';
-            document.getElementById('scenarioContent').textContent = scenarioText;
+            // Update content
+            document.getElementById('scenarioContent').textContent = data.description || data.scenario || 'Scenario description not available';
             
             // Update discussion points
             const discussionContainer = document.getElementById('discussionPoints');
             discussionContainer.innerHTML = '';
             
-            // Handle multiple possible field names for discussion points
-            const discussionPoints = data.discussionPoints || data.questions || data.discussion || [];
-            
-            addDebugInfo(`Discussion points found: ${discussionPoints.length} items`);
+            const discussionPoints = data.discussionPoints || data.questions || [];
             
             if (Array.isArray(discussionPoints) && discussionPoints.length > 0) {
-                discussionPoints.forEach((point, index) => {
+                discussionPoints.forEach(point => {
                     const li = document.createElement('li');
-                    let pointText = '';
-                    
-                    if (typeof point === 'string') {
-                        pointText = point;
-                    } else if (point && point.text) {
-                        pointText = point.text;
-                    } else if (point && point.question) {
-                        pointText = point.question;
-                    } else {
-                        pointText = `Discussion point ${index + 1}`;
-                    }
-                    
-                    li.textContent = pointText;
+                    li.textContent = typeof point === 'string' ? point : point.text || point.question || 'Discussion point';
                     discussionContainer.appendChild(li);
-                    addDebugInfo(`Added discussion point ${index + 1}: ${pointText.substring(0, 50)}...`);
                 });
             } else {
-                // Enhanced fallback discussion points
-                addDebugInfo('No discussion points found, using fallback');
-                const fallbackPoints = [
-                    `How should the ${dept.name} team immediately respond to this situation?`,
-                    'What are the key risks and regulatory considerations?',
-                    'What policies and procedures should guide your decision-making?',
-                    'How should you communicate with customers and stakeholders?',
-                    'What follow-up actions and preventive measures are needed?'
-                ];
+                // If no structured discussion points, try to extract from description
+                const li = document.createElement('li');
+                li.textContent = 'How would you handle this situation as a team?';
+                discussionContainer.appendChild(li);
                 
-                fallbackPoints.forEach((point, index) => {
-                    const li = document.createElement('li');
-                    li.textContent = point;
-                    discussionContainer.appendChild(li);
-                });
+                const li2 = document.createElement('li');
+                li2.textContent = 'What are the key risks and how can they be mitigated?';
+                discussionContainer.appendChild(li2);
+                
+                const li3 = document.createElement('li');
+                li3.textContent = 'What processes or procedures should be followed?';
+                discussionContainer.appendChild(li3);
             }
             
             // Show scenario output
@@ -699,37 +597,16 @@
             });
         }
 
-        function displayErrorFallback(error) {
-            addDebugInfo('Displaying error fallback');
-            
+        function displayErrorFallback() {
             const dept = departments.find(d => d.id === selectedDepartment);
             
             document.getElementById('scenarioIcon').textContent = dept.icon;
-            document.getElementById('scenarioTitle').textContent = 'Scenario Generation Issue';
+            document.getElementById('scenarioTitle').textContent = 'Scenario Generation Failed';
             document.getElementById('scenarioDepartment').textContent = `${dept.name} Department`;
-            
-            let errorMessage = 'Unable to generate AI scenario. ';
-            
-            if (error.message.includes('fetch')) {
-                errorMessage += 'Connection issue - check if your server is running.';
-            } else if (error.message.includes('500')) {
-                errorMessage += 'Server error - check your OpenAI API configuration.';
-            } else if (error.message.includes('404')) {
-                errorMessage += 'API endpoint not found - verify your server routes.';
-            } else {
-                errorMessage += `Error: ${error.message}`;
-            }
-            
-            document.getElementById('scenarioContent').textContent = errorMessage;
+            document.getElementById('scenarioContent').textContent = 'Unable to generate AI scenario. Please check your backend connection and try again.';
             
             const discussionContainer = document.getElementById('discussionPoints');
-            discussionContainer.innerHTML = `
-                <li>Check that your backend server is running on the correct port</li>
-                <li>Verify the /api/generate-discussion-scenario endpoint exists and is working</li>
-                <li>Ensure OpenAI API key is properly configured in your .env file</li>
-                <li>Check browser console and server logs for detailed error information</li>
-                <li>Try the debug mode above for more detailed information</li>
-            `;
+            discussionContainer.innerHTML = '<li>Check that your backend server is running</li><li>Verify the /api/generate-discussion-scenario endpoint exists</li><li>Ensure OpenAI API is properly configured</li>';
             
             document.getElementById('scenarioOutput').style.display = 'block';
             document.getElementById('scenarioOutput').scrollIntoView({ behavior: 'smooth' });
@@ -737,8 +614,6 @@
 
         // Initialize everything when page loads
         document.addEventListener('DOMContentLoaded', function() {
-            addDebugInfo('Page loaded, initializing components');
-            
             createDepartmentCards();
             setupComplexitySelector();
             
@@ -746,7 +621,6 @@
             document.getElementById('generateBtn').addEventListener('click', generateAIScenario);
             
             updateStatus('Ready to generate AI-powered scenarios');
-            addDebugInfo('Initialization complete');
         });
     </script>
 </body>
