@@ -80,6 +80,40 @@
             font-weight: bold;
         }
         
+        .scenario-reference {
+            background: #ecf0f1;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #e74c3c;
+            position: relative;
+        }
+        
+        .scenario-toggle {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8em;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+        
+        .scenario-toggle:hover {
+            background: #c0392b;
+        }
+        
+        .scenario-content {
+            margin-top: 10px;
+        }
+        
+        .scenario-content.collapsed {
+            display: none;
+        }
+        
         .scenario-panel {
             background: #f8f9fa;
             padding: 25px;
@@ -240,9 +274,21 @@
             <!-- Department cards will be populated by JavaScript -->
         </div>
         
+        <!-- Always visible scenario reference -->
+        <div id="scenarioReference" class="scenario-reference hidden">
+            <button class="scenario-toggle" onclick="toggleScenario()">
+                <span id="toggleText">Hide Scenario</span>
+            </button>
+            <div style="font-weight: bold; color: #e74c3c; margin-bottom: 10px;">
+                🚨 CRISIS SCENARIO: <span id="scenarioTitleRef"></span>
+            </div>
+            <div id="scenarioContentRef" class="scenario-content">
+                <!-- Scenario description will be shown here -->
+            </div>
+        </div>
+        
         <div id="scenarioPanel" class="scenario-panel hidden">
             <div id="departmentLabel" class="department-label"></div>
-            <div class="scenario-title" id="scenarioTitle"></div>
             <div class="scenario-description" id="scenarioDescription"></div>
             <div class="options" id="optionsContainer"></div>
             <div class="action-buttons" style="margin-top: 20px;">
@@ -279,10 +325,21 @@
         let currentRound = 1;
         let currentScenario = null;
         let currentQuestionIndex = 0;
+        let scenarioCollapsed = false;
         
         // Navigation
         function goHome() {
             window.location.href = '/';
+        }
+        
+        // Toggle scenario visibility
+        function toggleScenario() {
+            const content = document.getElementById('scenarioContentRef');
+            const toggleText = document.getElementById('toggleText');
+            
+            scenarioCollapsed = !scenarioCollapsed;
+            content.classList.toggle('collapsed', scenarioCollapsed);
+            toggleText.textContent = scenarioCollapsed ? 'Show Scenario' : 'Hide Scenario';
         }
         
         // Initialize the game
@@ -344,6 +401,11 @@
                 currentScenario = scenario;
                 currentQuestionIndex = 0;
                 
+                // Show the scenario reference
+                document.getElementById('scenarioTitleRef').textContent = scenario.title;
+                document.getElementById('scenarioContentRef').textContent = scenario.description;
+                document.getElementById('scenarioReference').classList.remove('hidden');
+                
                 displayCurrentQuestion();
                 
             } catch (error) {
@@ -367,6 +429,7 @@
                 currentRound++;
                 document.getElementById('roundNumber').textContent = currentRound;
                 document.getElementById('scenarioPanel').classList.add('hidden');
+                document.getElementById('scenarioReference').classList.add('hidden');
                 showMessage('🎉 Scenario Complete! All 21 departments have made their decisions. Generate a new crisis!', 'success');
                 return;
             }
@@ -382,28 +445,12 @@
             departmentLabel.style.borderColor = deptColor;
             departmentLabel.textContent = `🏢 ${question.department.replace('_', '/')} DEPARTMENT - QUESTION ${currentQuestionIndex + 1}/21`;
             
-            // Show scenario title
-            document.getElementById('scenarioTitle').textContent = currentScenario.title;
-            
-            // Show question description
-            if (currentQuestionIndex === 0) {
-                // First question shows full scenario description
-                document.getElementById('scenarioDescription').innerHTML = `
-                    <div style="background: #ecf0f1; padding: 15px; border-radius: 8px; margin-bottom: 15px; border-left: 4px solid #e74c3c;">
-                        <strong>🚨 CRISIS SCENARIO:</strong><br>${currentScenario.description}
-                    </div>
-                    <div style="font-weight: bold; color: #2c3e50;">
-                        ${question.questionText}
-                    </div>
-                `;
-            } else {
-                // Subsequent questions show just the question
-                document.getElementById('scenarioDescription').innerHTML = `
-                    <div style="font-weight: bold; color: #2c3e50;">
-                        ${question.questionText}
-                    </div>
-                `;
-            }
+            // Show question text only (scenario is always visible above)
+            document.getElementById('scenarioDescription').innerHTML = `
+                <div style="font-weight: bold; color: #2c3e50; font-size: 1.2em;">
+                    ${question.questionText}
+                </div>
+            `;
             
             // Show options
             const optionsContainer = document.getElementById('optionsContainer');
@@ -425,12 +472,34 @@
         function selectOption(index, option) {
             console.log('Option selected:', index, option.text);
             
-            // Disable all option buttons
+            // Get the current question to determine which department is answering
+            const question = currentScenario.questions[currentQuestionIndex];
+            const answeringDept = question.department;
+            const impact = option.impacts[answeringDept] || 0;
+            
+            // Determine if this was a good, neutral, or bad choice
+            let isGoodChoice = impact > 10;
+            let isBadChoice = impact < -10;
+            let isNeutralChoice = impact >= -10 && impact <= 10;
+            
+            console.log(`Impact for ${answeringDept}: ${impact}, Good: ${isGoodChoice}, Bad: ${isBadChoice}, Neutral: ${isNeutralChoice}`);
+            
+            // Disable all option buttons and show feedback
             const buttons = document.querySelectorAll('.option-button');
             buttons.forEach(btn => {
                 btn.disabled = true;
                 if (btn.textContent === option.text) {
-                    btn.style.backgroundColor = '#27ae60'; // Highlight selected
+                    // Color the selected option based on its impact
+                    if (isGoodChoice) {
+                        btn.style.backgroundColor = '#27ae60'; // Green for good choice
+                        btn.innerHTML = `${option.text} <strong style="color: white;">(+${impact} points - Good choice!)</strong>`;
+                    } else if (isBadChoice) {
+                        btn.style.backgroundColor = '#e74c3c'; // Red for bad choice
+                        btn.innerHTML = `${option.text} <strong style="color: white;">(${impact} points - Poor choice!)</strong>`;
+                    } else {
+                        btn.style.backgroundColor = '#f39c12'; // Orange for neutral
+                        btn.innerHTML = `${option.text} <strong style="color: white;">(${impact} points - Neutral)</strong>`;
+                    }
                 }
             });
             
@@ -440,9 +509,14 @@
                     departments[deptKey].score = Math.max(0, Math.min(200, departments[deptKey].score + impact));
                     
                     // Check for strikes on very bad decisions
-                    if (impact <= -25) {
+                    if (impact <= -20) {
                         departments[deptKey].strikes++;
                         console.log(`${departments[deptKey].name} received a strike!`);
+                        
+                        // Show strike notification
+                        setTimeout(() => {
+                            alert(`❌ STRIKE! ${departments[deptKey].name} made a critical error and received a strike!`);
+                        }, 500);
                     }
                 }
             });
@@ -471,6 +545,7 @@
             
             initGame();
             document.getElementById('scenarioPanel').classList.add('hidden');
+            document.getElementById('scenarioReference').classList.add('hidden');
             hideMessage();
         }
         
