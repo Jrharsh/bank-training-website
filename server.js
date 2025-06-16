@@ -128,7 +128,7 @@ Always respond with valid JSON only.`
                     }
                 ],
                 max_tokens: 4000,
-                temperature: 0.9  // Increased temperature for more variety
+                temperature: 0.9
             })
         });
 
@@ -319,35 +319,6 @@ function createEnhancedScenario(basicScenario, crisisType) {
     const questions = [];
     let questionNumber = 1;
     
-    // Crisis-specific question templates
-    const crisisSpecificQuestions = {
-        'ransomware cyberattack': {
-            'CEO_SVPs': [
-                'How do you handle media inquiries about the cyberattack?',
-                'What is your communication strategy with regulators?', 
-                'How do you manage customer confidence during the attack?'
-            ],
-            'IT_Security': [
-                'What is your immediate response to the ransomware infection?',
-                'How do you contain the spread of the malware?',
-                'What is your strategy for system recovery?'
-            ]
-        },
-        'hurricane disaster': {
-            'CEO_SVPs': [
-                'How do you ensure business continuity during the hurricane?',
-                'What is your evacuation and safety protocol?',
-                'How do you communicate with customers about service disruptions?'
-            ],
-            'IT_Security': [
-                'How do you protect critical systems from power outages?',
-                'What is your data backup and recovery plan?',
-                'How do you maintain network connectivity?'
-            ]
-        }
-        // Add more crisis-specific questions as needed
-    };
-    
     // Fallback generic questions
     const genericQuestions = {
         'CEO_SVPs': [
@@ -387,11 +358,8 @@ function createEnhancedScenario(basicScenario, crisisType) {
         ]
     };
     
-    // Use crisis-specific questions if available, otherwise use generic
-    const questionSet = crisisSpecificQuestions[crisisType] || {};
-    
     departments.forEach(department => {
-        const deptQuestions = questionSet[department] || genericQuestions[department];
+        const deptQuestions = genericQuestions[department];
         
         for (let i = 0; i < 3; i++) {
             // Generate 3 options with randomized correct answer position
@@ -430,7 +398,6 @@ function createEnhancedScenario(basicScenario, crisisType) {
 
 // Generate appropriate option text based on crisis type
 function generateOptionText(department, questionIndex, optionIndex, isCorrect, crisisType) {
-    // This is a simplified version - you could expand this with more specific options
     const optionSets = {
         correct: [
             'Implement immediate emergency protocols and communicate transparently',
@@ -469,7 +436,7 @@ function generateRightWrongImpacts(primaryDept, baseScore) {
     return impacts;
 }
 
-// NEW: Generate discussion scenario endpoint
+// ENHANCED DISCUSSION SCENARIO ENDPOINT
 app.post('/api/generate-discussion-scenario', async (req, res) => {
     try {
         const { department, complexity } = req.body;
@@ -499,7 +466,7 @@ app.post('/api/generate-discussion-scenario', async (req, res) => {
 
         const departmentName = departmentNames[department] || department;
         
-        // Add crisis type variety to discussion scenarios too
+        // Add crisis type variety to discussion scenarios
         const crisisTypes = [
             'cybersecurity breach', 'natural disaster', 'internal fraud',
             'technology failure', 'regulatory investigation', 'reputation crisis',
@@ -562,7 +529,7 @@ Format the response as valid JSON with this exact structure:
                     }
                 ],
                 max_tokens: 1200,
-                temperature: 0.9  // Higher temperature for more variety
+                temperature: 0.9
             })
         });
 
