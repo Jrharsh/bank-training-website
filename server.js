@@ -34,10 +34,26 @@ app.post('/api/generate-scenario', async (req, res) => {
         // Generate COMPLETE scenario with AI - title, description AND 21 questions
         const fullPrompt = `Generate a complete banking crisis management scenario for training purposes.
 
+CRISIS TYPE: Choose ONE of these diverse crisis types randomly:
+- Cybersecurity breach (ransomware, data theft, system compromise)
+- Natural disaster (hurricane, earthquake, flooding, power grid failure)
+- Internal threat (disgruntled employee, fraud, embezzlement)
+- External threat (robbery, terrorism, physical security breach)
+- Technology failure (core system crash, network outage, vendor failure)
+- Regulatory crisis (compliance violation, audit findings, investigation)
+- Financial crisis (liquidity crisis, market crash, major loan defaults)
+- Reputation crisis (social media backlash, negative publicity, scandal)
+- Operational crisis (key personnel loss, supply chain disruption)
+- Legal crisis (lawsuit, regulatory action, criminal investigation)
+
 Create a realistic financial institution crisis scenario with:
 
-1. A compelling crisis title
-2. A detailed crisis description (2-3 paragraphs)
+1. A compelling crisis title that reflects the chosen crisis type
+2. A detailed crisis description (2-3 paragraphs) with specific details like:
+   - Dollar amounts affected
+   - Timeline of events
+   - Key stakeholders involved
+   - Immediate threats and risks
 3. Exactly 21 questions - 3 questions for each of these 7 departments:
    - CEO_SVPs (executive leadership)
    - IT_Security (technology and security)
@@ -47,13 +63,16 @@ Create a realistic financial institution crisis scenario with:
    - Accounting (financial reporting)
    - Deposits (customer deposits and services)
 
-For each question, provide 3 multiple choice options where:
+CRITICAL REQUIREMENTS FOR QUESTIONS:
+- Each question must have 3 multiple choice options (A, B, C)
+- RANDOMLY determine which option (A, B, or C) is correct for each question
+- Distribute correct answers across all positions - don't favor any position
 - ONLY 1 option is CORRECT (+20 to +25 points)
 - The other 2 options are WRONG (-15 to -25 points)
 - NO neutral or middle-ground answers
-- Randomize which position (A, B, or C) is the correct answer
 - Make wrong answers clearly poor decisions that would worsen the crisis
 - Make the correct answer the best practice response
+- Questions should be specific to your chosen crisis type
 
 Format as JSON:
 {
@@ -82,14 +101,7 @@ Format as JSON:
   ]
 }
 
-Requirements:
-- Make ALL content specific to the crisis scenario
-- Vary which option (A, B, C) is correct across questions
-- Use only RIGHT (+20 to +25) or WRONG (-15 to -25) point values
-- NO neutral scores between -10 and +10
-- Ensure questions test critical decision-making skills
-- Wrong answers should represent poor crisis management
-- Correct answers should follow banking best practices`;
+ENSURE VARIETY: Make sure the crisis scenario is completely different from typical banking scenarios. Be creative and specific to the crisis type you choose.`;
 
         console.log('Requesting FULL AI scenario generation...');
         
@@ -104,7 +116,11 @@ Requirements:
                 messages: [
                     {
                         role: 'system',
-                        content: 'You are an expert banking crisis management consultant. Generate realistic, educational crisis scenarios with varied, challenging questions. Always respond with valid JSON only.'
+                        content: `You are an expert banking crisis management consultant. Generate realistic, educational crisis scenarios with varied, challenging questions. 
+
+IMPORTANT: You must randomize which option (A, B, or C) is correct for each question. Do not always make option B correct. Mix it up randomly across all questions.
+
+Always respond with valid JSON only.`
                     },
                     {
                         role: 'user',
@@ -112,7 +128,7 @@ Requirements:
                     }
                 ],
                 max_tokens: 4000,
-                temperature: 0.8
+                temperature: 0.9  // Increased temperature for more variety
             })
         });
 
@@ -144,12 +160,13 @@ Requirements:
                 console.warn(`Expected 21 questions, got ${aiScenario.questions.length}`);
             }
             
-            // Convert AI format to game format
+            // ADDITIONAL RANDOMIZATION: Shuffle correct answers if AI didn't randomize well
             const gameScenario = convertAIToGameFormat(aiScenario);
+            const finalScenario = ensureRandomizedAnswers(gameScenario);
             
-            console.log(`AI Generated: "${aiScenario.title}" with ${gameScenario.questions.length} questions`);
+            console.log(`AI Generated: "${aiScenario.title}" with ${finalScenario.questions.length} questions`);
             
-            res.json(gameScenario);
+            res.json(finalScenario);
             
         } catch (parseError) {
             console.error('JSON parse error:', parseError);
@@ -204,11 +221,67 @@ function convertAIToGameFormat(aiScenario) {
     };
 }
 
-// Fallback scenario generator if AI fails
+// NEW: Ensure answers are truly randomized
+function ensureRandomizedAnswers(scenario) {
+    const processedQuestions = scenario.questions.map(question => {
+        // Find which option is currently correct (has positive points)
+        const correctIndex = question.options.findIndex(option => 
+            option.impacts[question.department] > 0
+        );
+        
+        if (correctIndex === -1) {
+            // No correct answer found, make one randomly
+            const randomCorrectIndex = Math.floor(Math.random() * 3);
+            question.options.forEach((option, index) => {
+                if (index === randomCorrectIndex) {
+                    option.impacts[question.department] = 20 + Math.floor(Math.random() * 6); // 20-25
+                } else {
+                    option.impacts[question.department] = -15 - Math.floor(Math.random() * 11); // -15 to -25
+                }
+            });
+            return question;
+        }
+        
+        // If correct answer is always in the same position, randomize it
+        const targetPosition = Math.floor(Math.random() * 3);
+        
+        if (correctIndex !== targetPosition) {
+            // Swap the correct answer to a random position
+            const temp = question.options[correctIndex];
+            question.options[correctIndex] = question.options[targetPosition];
+            question.options[targetPosition] = temp;
+        }
+        
+        return question;
+    });
+    
+    return {
+        ...scenario,
+        questions: processedQuestions
+    };
+}
+
+// Fallback scenario generator with diverse crisis types
 async function generateFallbackScenario(apiKey) {
     console.log('Using fallback scenario generation...');
     
-    // Generate basic scenario
+    // Diverse crisis types
+    const crisisTypes = [
+        'ransomware cyberattack',
+        'hurricane disaster',
+        'disgruntled employee fraud',
+        'armed robbery',
+        'core system failure',
+        'regulatory investigation',
+        'major loan default crisis',
+        'social media reputation crisis',
+        'key executive resignation',
+        'class action lawsuit'
+    ];
+    
+    const randomCrisisType = crisisTypes[Math.floor(Math.random() * crisisTypes.length)];
+    
+    // Generate basic scenario with specific crisis type
     const basicResponse = await fetch('https://api.openai.com/v1/chat/completions', {
         method: 'POST',
         headers: {
@@ -219,35 +292,68 @@ async function generateFallbackScenario(apiKey) {
             model: 'gpt-3.5-turbo',
             messages: [{
                 role: 'user',
-                content: `Create a banking crisis scenario with title and description in JSON format:
+                content: `Create a banking crisis scenario about ${randomCrisisType} with title and description in JSON format:
                 {
                   "title": "Crisis Title",
-                  "description": "Crisis description..."
+                  "description": "Crisis description with specific details, amounts, timeline..."
                 }`
             }],
             max_tokens: 300,
-            temperature: 0.7
+            temperature: 0.8
         })
     });
     
     const basicData = await basicResponse.json();
-    const basicScenario = JSON.parse(basicData.choices[0].message.content);
+    let basicContent = basicData.choices[0].message.content.trim();
+    basicContent = basicContent.replace(/```json\n?/g, '').replace(/```\n?/g, '');
+    
+    const basicScenario = JSON.parse(basicContent);
     
     // Use enhanced templates with randomization
-    return createEnhancedScenario(basicScenario);
+    return createEnhancedScenario(basicScenario, randomCrisisType);
 }
 
-// Enhanced scenario creation with RIGHT/WRONG answers only
-function createEnhancedScenario(basicScenario) {
+// Enhanced scenario creation with diverse questions and randomized answers
+function createEnhancedScenario(basicScenario, crisisType) {
     const departments = ['CEO_SVPs', 'IT_Security', 'HR', 'Finance', 'Loans', 'Accounting', 'Deposits'];
     const questions = [];
     let questionNumber = 1;
     
-    const questionTemplates = {
+    // Crisis-specific question templates
+    const crisisSpecificQuestions = {
+        'ransomware cyberattack': {
+            'CEO_SVPs': [
+                'How do you handle media inquiries about the cyberattack?',
+                'What is your communication strategy with regulators?', 
+                'How do you manage customer confidence during the attack?'
+            ],
+            'IT_Security': [
+                'What is your immediate response to the ransomware infection?',
+                'How do you contain the spread of the malware?',
+                'What is your strategy for system recovery?'
+            ]
+        },
+        'hurricane disaster': {
+            'CEO_SVPs': [
+                'How do you ensure business continuity during the hurricane?',
+                'What is your evacuation and safety protocol?',
+                'How do you communicate with customers about service disruptions?'
+            ],
+            'IT_Security': [
+                'How do you protect critical systems from power outages?',
+                'What is your data backup and recovery plan?',
+                'How do you maintain network connectivity?'
+            ]
+        }
+        // Add more crisis-specific questions as needed
+    };
+    
+    // Fallback generic questions
+    const genericQuestions = {
         'CEO_SVPs': [
             'How do you inform the board of directors about this crisis?',
             'What is your public communication strategy?', 
-            'How do you manage investor and stakeholder relations?'
+            'How do you manage stakeholder relations during this crisis?'
         ],
         'IT_Security': [
             'What immediate technical security measures do you implement?',
@@ -256,97 +362,59 @@ function createEnhancedScenario(basicScenario) {
         ],
         'HR': [
             'How do you communicate with employees about this crisis?',
-            'What staffing and workforce adjustments do you make?',
-            'How do you handle employee training and support needs?'
+            'What staffing adjustments do you make?',
+            'How do you handle employee safety and support needs?'
         ],
         'Finance': [
             'How do you manage the immediate financial impact?',
-            'What budget reallocations and cost controls do you implement?',
-            'How do you handle investor relations and financial reporting?'
+            'What emergency funding measures do you implement?',
+            'How do you handle financial reporting during the crisis?'
         ],
         'Loans': [
-            'How do you manage your loan portfolio during this crisis?',
-            'What approach do you take with borrower communications?',
-            'How do you adjust lending policies and risk assessment?'
+            'How do you manage loan operations during this crisis?',
+            'What approach do you take with affected borrowers?',
+            'How do you adjust risk assessment procedures?'
         ],
         'Accounting': [
-            'How do you handle financial reporting and disclosure requirements?',
+            'How do you handle financial reporting requirements?',
             'What audit and compliance measures do you implement?',
             'How do you manage regulatory reporting obligations?'
         ],
         'Deposits': [
             'How do you reassure and retain depositors?',
             'What customer service measures do you implement?',
-            'How do you manage account access and customer communications?'
+            'How do you manage account access during the crisis?'
         ]
     };
     
-    const optionTemplates = {
-        'CEO_SVPs': [
-            ['Immediate emergency board meeting', 'Scheduled briefing in next regular meeting', 'Written report with follow-up call'],
-            ['Immediate public statement and press conference', 'Prepared statement released tomorrow', 'No public comment until investigation complete'],
-            ['Host investor call within 24 hours', 'Include update in next quarterly report', 'Private meetings with major stakeholders only']
-        ],
-        'IT_Security': [
-            ['Immediately isolate all affected systems', 'Gradual system shutdown for assessment', 'Continue operations with enhanced monitoring'],
-            ['Implement emergency security protocols', 'Upgrade existing security measures', 'Hire external security consulting firm'],
-            ['Activate full disaster recovery plan', 'Implement targeted system restoration', 'Focus on business continuity first']
-        ],
-        'HR': [
-            ['All-hands emergency meeting today', 'Department-by-department briefings', 'Email communication with Q&A session'],
-            ['Implement temporary staffing adjustments', 'Maintain current staffing levels', 'Bring in additional temporary staff'],
-            ['Mandatory crisis management training for all', 'Training for key personnel only', 'Provide optional support resources']
-        ],
-        'Finance': [
-            ['Activate emergency financial reserves', 'Implement immediate cost-cutting measures', 'Secure additional credit lines'],
-            ['Reallocate budget priorities immediately', 'Maintain current budget with monitoring', 'Defer non-essential expenditures'],
-            ['Emergency investor communication', 'Include in next scheduled reporting', 'Proactive outreach to key financial partners']
-        ],
-        'Loans': [
-            ['Immediately review entire loan portfolio', 'Focus review on high-risk accounts only', 'Continue normal operations with enhanced monitoring'],
-            ['Proactive outreach to all borrowers', 'Communicate with affected borrowers only', 'Wait for borrowers to contact us'],
-            ['Temporarily tighten lending standards', 'Maintain current lending policies', 'Implement enhanced due diligence procedures']
-        ],
-        'Accounting': [
-            ['Immediate disclosure in next filing', 'Include in quarterly report', 'Consult with auditors on timing'],
-            ['Engage external audit firm immediately', 'Enhance internal audit procedures', 'Coordinate with existing audit schedule'],
-            ['Accelerate all regulatory reporting', 'Maintain normal reporting schedule', 'Request extensions where possible']
-        ],
-        'Deposits': [
-            ['Personal calls to major depositors', 'Email reassurance to all customers', 'Increase customer service staffing'],
-            ['Waive fees and extend service hours', 'Maintain normal service levels', 'Implement enhanced customer support'],
-            ['Proactive communication campaign', 'Respond to inquiries as they come', 'Coordinate with marketing for messaging']
-        ]
-    };
+    // Use crisis-specific questions if available, otherwise use generic
+    const questionSet = crisisSpecificQuestions[crisisType] || {};
     
     departments.forEach(department => {
+        const deptQuestions = questionSet[department] || genericQuestions[department];
+        
         for (let i = 0; i < 3; i++) {
-            // RIGHT/WRONG only - no neutral answers
-            const rightWrongPatterns = [
-                [22, -18, -20],   // A is RIGHT, B&C are WRONG
-                [-15, 24, -22],   // B is RIGHT, A&C are WRONG  
-                [-19, -17, 23],   // C is RIGHT, A&B are WRONG
-                [25, -20, -16],   // A is RIGHT, B&C are WRONG
-                [-21, 20, -24],   // B is RIGHT, A&C are WRONG
-                [-18, -23, 21]    // C is RIGHT, A&B are WRONG
-            ];
+            // Generate 3 options with randomized correct answer position
+            const correctPosition = Math.floor(Math.random() * 3); // 0, 1, or 2
+            const options = [];
             
-            const randomScores = rightWrongPatterns[Math.floor(Math.random() * rightWrongPatterns.length)];
-            const shuffledOptions = [...optionTemplates[department][i]];
-            
-            // Sometimes shuffle the option order too
-            if (Math.random() > 0.5) {
-                shuffledOptions.sort(() => Math.random() - 0.5);
+            for (let j = 0; j < 3; j++) {
+                const isCorrect = j === correctPosition;
+                const points = isCorrect ? 
+                    (20 + Math.floor(Math.random() * 6)) :  // 20-25 for correct
+                    (-15 - Math.floor(Math.random() * 11)); // -15 to -25 for wrong
+                
+                options.push({
+                    text: generateOptionText(department, i, j, isCorrect, crisisType),
+                    impacts: generateRightWrongImpacts(department, points)
+                });
             }
             
             const question = {
                 questionNumber: questionNumber,
                 department: department,
-                questionText: questionTemplates[department][i],
-                options: shuffledOptions.map((text, optionIndex) => ({
-                    text: text,
-                    impacts: generateRightWrongImpacts(department, randomScores[optionIndex])
-                }))
+                questionText: deptQuestions[i],
+                options: options
             };
             questions.push(question);
             questionNumber++;
@@ -360,6 +428,31 @@ function createEnhancedScenario(basicScenario) {
     };
 }
 
+// Generate appropriate option text based on crisis type
+function generateOptionText(department, questionIndex, optionIndex, isCorrect, crisisType) {
+    // This is a simplified version - you could expand this with more specific options
+    const optionSets = {
+        correct: [
+            'Implement immediate emergency protocols and communicate transparently',
+            'Activate crisis management team and follow established procedures',
+            'Take immediate action while ensuring regulatory compliance'
+        ],
+        wrong: [
+            'Wait for more information before taking any action',
+            'Minimize the situation to avoid panic',
+            'Handle internally without external communication',
+            'Continue normal operations with minimal changes',
+            'Defer decisions to next business day'
+        ]
+    };
+    
+    if (isCorrect) {
+        return optionSets.correct[optionIndex % optionSets.correct.length];
+    } else {
+        return optionSets.wrong[Math.floor(Math.random() * optionSets.wrong.length)];
+    }
+}
+
 // Generate impacts with RIGHT/WRONG only (no neutral)
 function generateRightWrongImpacts(primaryDept, baseScore) {
     const departments = ['CEO_SVPs', 'IT_Security', 'HR', 'Finance', 'Loans', 'Accounting', 'Deposits'];
@@ -367,18 +460,7 @@ function generateRightWrongImpacts(primaryDept, baseScore) {
     
     departments.forEach(dept => {
         if (dept === primaryDept) {
-            // Ensure score stays in RIGHT (+15 to +25) or WRONG (-15 to -25) range
-            const variation = Math.random() * 4 - 2; // -2 to +2 variation
-            let finalScore = Math.round(baseScore + variation);
-            
-            // Force into RIGHT/WRONG categories
-            if (finalScore > 0 && finalScore < 15) {
-                finalScore = 15 + Math.floor(Math.random() * 10); // 15-25
-            } else if (finalScore < 0 && finalScore > -15) {
-                finalScore = -15 - Math.floor(Math.random() * 10); // -15 to -25
-            }
-            
-            impacts[dept] = Math.max(-30, Math.min(30, finalScore));
+            impacts[dept] = baseScore;
         } else {
             impacts[dept] = 0;
         }
@@ -417,16 +499,26 @@ app.post('/api/generate-discussion-scenario', async (req, res) => {
 
         const departmentName = departmentNames[department] || department;
         
+        // Add crisis type variety to discussion scenarios too
+        const crisisTypes = [
+            'cybersecurity breach', 'natural disaster', 'internal fraud',
+            'technology failure', 'regulatory investigation', 'reputation crisis',
+            'financial crisis', 'operational disruption', 'legal challenge'
+        ];
+        
+        const randomCrisisType = crisisTypes[Math.floor(Math.random() * crisisTypes.length)];
+        
         const prompt = `Generate a realistic banking crisis scenario for a tabletop discussion exercise.
 
 Department: ${departmentName}
 Complexity Level: ${complexity}
+Crisis Type: ${randomCrisisType}
 
 Create a scenario that includes:
-1. A compelling title
-2. A detailed situation description (2-3 paragraphs)
+1. A compelling title related to the ${randomCrisisType}
+2. A detailed situation description (2-3 paragraphs) specific to this crisis type
 3. Specific context details (amounts, timeframes, stakeholders)
-4. 5 thought-provoking discussion questions
+4. 5 thought-provoking discussion questions related to the ${randomCrisisType}
 
 The scenario should be:
 - Realistic and based on actual banking challenges
@@ -434,6 +526,7 @@ The scenario should be:
 - Focused on ${departmentName} department responsibilities
 - Designed for team discussion and learning
 - Include specific details like dollar amounts, timeframes, and stakeholder names
+- Directly related to the ${randomCrisisType} crisis type
 
 Format the response as valid JSON with this exact structure:
 {
@@ -448,7 +541,7 @@ Format the response as valid JSON with this exact structure:
   ]
 }`;
 
-        console.log('Getting discussion scenario from OpenAI...');
+        console.log(`Getting ${randomCrisisType} discussion scenario from OpenAI...`);
         
         const response = await fetch('https://api.openai.com/v1/chat/completions', {
             method: 'POST',
@@ -461,7 +554,7 @@ Format the response as valid JSON with this exact structure:
                 messages: [
                     {
                         role: 'system',
-                        content: 'You are an expert in banking operations and crisis management. Generate realistic, educational scenarios for bank training exercises. Always respond with valid JSON only.'
+                        content: 'You are an expert in banking operations and crisis management. Generate realistic, educational scenarios for bank training exercises. Create diverse crisis scenarios including cyberattacks, natural disasters, fraud, system failures, and other realistic banking challenges. Always respond with valid JSON only.'
                     },
                     {
                         role: 'user', 
@@ -469,7 +562,7 @@ Format the response as valid JSON with this exact structure:
                     }
                 ],
                 max_tokens: 1200,
-                temperature: 0.8
+                temperature: 0.9  // Higher temperature for more variety
             })
         });
 
@@ -497,7 +590,7 @@ Format the response as valid JSON with this exact structure:
                 throw new Error('Invalid response structure from OpenAI');
             }
             
-            console.log(`Generated ${complexity} scenario for ${departmentName}:`, jsonResponse.title);
+            console.log(`Generated ${complexity} ${randomCrisisType} scenario for ${departmentName}:`, jsonResponse.title);
             res.json(jsonResponse);
             
         } catch (parseError) {
@@ -506,10 +599,10 @@ Format the response as valid JSON with this exact structure:
             
             // Fallback response if JSON parsing fails
             res.json({
-                title: `${departmentName} Department Crisis Scenario`,
+                title: `${departmentName} Department ${randomCrisisType.charAt(0).toUpperCase() + randomCrisisType.slice(1)} Crisis Scenario`,
                 description: responseContent.replace(/[{}"\[\]]/g, ''), // Strip JSON characters if they exist
                 discussionPoints: [
-                    `How would the ${departmentName} team handle this situation?`,
+                    `How would the ${departmentName} team handle this ${randomCrisisType}?`,
                     "What are the immediate risks and how can they be mitigated?",
                     "What regulatory or compliance considerations apply?",
                     "How should this be communicated to management and customers?",
