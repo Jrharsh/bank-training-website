@@ -11,6 +11,7 @@ const PORT = 3000;
 app.use(cors());
 app.use(express.json());
 app.use(express.static('public'));
+app.use('/images', express.static(path.join(__dirname, 'public/images')));
 
 // Test endpoint
 app.get('/api/test', (req, res) => {
