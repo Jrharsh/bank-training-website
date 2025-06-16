@@ -82,7 +82,7 @@
         
         .scenario-reference {
             background: #ecf0f1;
-            padding: 15px;
+            padding: 15px 15px 15px 15px; /* Added right padding for button */
             border-radius: 8px;
             margin-bottom: 20px;
             border-left: 4px solid #e74c3c;
@@ -100,6 +100,7 @@
             position: absolute;
             top: 10px;
             right: 10px;
+            z-index: 10; /* Ensure button stays on top */
         }
         
         .scenario-toggle:hover {
@@ -108,10 +109,16 @@
         
         .scenario-content {
             margin-top: 10px;
+            padding-right: 80px; /* Add space so text doesn't go under button */
         }
         
         .scenario-content.collapsed {
             display: none;
+        }
+        
+        .scenario-title-area {
+            padding-right: 80px; /* Add space for button */
+            margin-bottom: 10px;
         }
         
         .scenario-panel {
@@ -514,6 +521,22 @@
             margin-bottom: 20px;
             font-weight: 600;
         }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .scenario-content {
+                padding-right: 60px; /* Less padding on mobile */
+            }
+            
+            .scenario-title-area {
+                padding-right: 60px;
+            }
+            
+            .scenario-toggle {
+                padding: 4px 8px;
+                font-size: 0.7em;
+            }
+        }
     </style>
 </head>
 <body>
@@ -539,8 +562,10 @@
             <button class="scenario-toggle" onclick="toggleScenario()">
                 <span id="toggleText">Hide Scenario</span>
             </button>
-            <div style="font-weight: bold; color: #e74c3c; margin-bottom: 10px;">
-                🚨 CRISIS SCENARIO: <span id="scenarioTitleRef"></span>
+            <div class="scenario-title-area">
+                <div style="font-weight: bold; color: #e74c3c; margin-bottom: 10px;">
+                    🚨 CRISIS SCENARIO: <span id="scenarioTitleRef"></span>
+                </div>
             </div>
             <div id="scenarioContentRef" class="scenario-content">
                 <!-- Scenario description will be shown here -->
