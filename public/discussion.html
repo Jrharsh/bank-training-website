@@ -1,501 +1,627 @@
-// Enhanced discussion scenario generation with department-specific contexts
-app.post('/api/generate-discussion-scenario', async (req, res) => {
-    try {
-        const { department, complexity } = req.body;
-        const apiKey = process.env.OPENAI_API_KEY;
-        
-        console.log(`Discussion scenario request: ${department} - ${complexity}`);
-        console.log('API key exists:', !!apiKey);
-        
-        if (!apiKey) {
-            console.log('No OpenAI API key found');
-            return res.status(500).json({ error: 'OpenAI API key not configured' });
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Powered Bank Tabletop Scenario Generator</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
         }
-        
-        // Enhanced department-specific contexts and responsibilities
-        const departmentContexts = {
-            deposits: {
-                name: 'Deposits',
-                focus: 'Customer deposit accounts, savings, checking, CDs, money market accounts',
-                responsibilities: [
-                    'Managing customer deposit relationships and retention',
-                    'Processing deposit transactions and account maintenance',
-                    'Handling deposit product compliance and regulations',
-                    'Customer service for deposit account holders',
-                    'Interest rate management and product pricing',
-                    'Deposit insurance (FDIC) compliance and reporting'
-                ],
-                uniqueChallenges: [
-                    'Bank runs and deposit withdrawals during crises',
-                    'Interest rate environment changes',
-                    'Customer confidence and retention',
-                    'Regulatory compliance for deposit products',
-                    'Technology failures affecting account access'
-                ],
-                metrics: 'deposit volumes, customer satisfaction, account growth, retention rates'
-            },
-            tellers: {
-                name: 'Tellers',
-                focus: 'Front-line customer service, cash handling, transaction processing',
-                responsibilities: [
-                    'Processing customer transactions (deposits, withdrawals, transfers)',
-                    'Cash management and vault operations',
-                    'Customer identification and verification',
-                    'Cross-selling bank products and services',
-                    'Fraud detection and prevention at transaction level',
-                    'Compliance with cash handling procedures'
-                ],
-                uniqueChallenges: [
-                    'Robbery and security threats',
-                    'Cash shortages or vault issues',
-                    'Counterfeit currency detection',
-                    'Long customer wait times during system outages',
-                    'Handling upset customers during service disruptions'
-                ],
-                metrics: 'transaction accuracy, customer wait times, cash balancing, sales conversions'
-            },
-            loans: {
-                name: 'Loans',
-                focus: 'Loan origination, underwriting, portfolio management, credit risk',
-                responsibilities: [
-                    'Evaluating and approving loan applications',
-                    'Credit risk assessment and underwriting standards',
-                    'Loan portfolio management and monitoring',
-                    'Regulatory compliance for lending practices',
-                    'Managing loan documentation and legal requirements',
-                    'Handling loan modifications and workouts'
-                ],
-                uniqueChallenges: [
-                    'Economic downturns affecting borrower ability to pay',
-                    'Rising default rates and credit losses',
-                    'Regulatory changes in lending standards',
-                    'Fair lending compliance and discrimination issues',
-                    'Competition from fintech and online lenders'
-                ],
-                metrics: 'loan approval rates, default rates, portfolio quality, origination volumes'
-            },
-            accounting: {
-                name: 'Accounting',
-                focus: 'Financial reporting, general ledger, regulatory reporting, audit compliance',
-                responsibilities: [
-                    'Preparing accurate financial statements',
-                    'Managing general ledger and chart of accounts',
-                    'Regulatory reporting (Call Reports, etc.)',
-                    'Supporting external audits and examinations',
-                    'Month-end and quarter-end close processes',
-                    'Financial analysis and variance reporting'
-                ],
-                uniqueChallenges: [
-                    'Regulatory deadline pressures for financial reporting',
-                    'Complex accounting standards changes',
-                    'System failures during critical reporting periods',
-                    'Audit findings and corrective action requirements',
-                    'Reconciliation issues and accounting errors'
-                ],
-                metrics: 'reporting accuracy, timeliness of closes, audit findings, regulatory compliance'
-            },
-            bookkeeping: {
-                name: 'Bookkeeping',
-                focus: 'Daily transaction recording, reconciliations, account maintenance',
-                responsibilities: [
-                    'Recording daily banking transactions',
-                    'Account reconciliations and balancing',
-                    'Maintaining accurate customer account records',
-                    'Processing journal entries and adjustments',
-                    'Supporting month-end closing activities',
-                    'Document management and filing'
-                ],
-                uniqueChallenges: [
-                    'High transaction volumes during peak periods',
-                    'System errors causing reconciliation issues',
-                    'Missing documentation for transactions',
-                    'Time-sensitive deadline pressures',
-                    'Manual processes prone to human error'
-                ],
-                metrics: 'reconciliation accuracy, processing speed, error rates, backlogs'
-            },
-            loan_servicing: {
-                name: 'Loan Servicing',
-                focus: 'Payment processing, customer account management, collections, modifications',
-                responsibilities: [
-                    'Processing loan payments and maintaining balances',
-                    'Customer service for existing borrowers',
-                    'Managing delinquent accounts and collections',
-                    'Processing loan modifications and deferrals',
-                    'Escrow account management for mortgages',
-                    'Investor reporting for sold loans'
-                ],
-                uniqueChallenges: [
-                    'High delinquency rates during economic stress',
-                    'Customer hardship and modification requests',
-                    'Foreclosure processes and legal requirements',
-                    'Investor requirements and reporting deadlines',
-                    'System outages affecting payment processing'
-                ],
-                metrics: 'delinquency rates, customer satisfaction, modification success rates, collections efficiency'
-            },
-            compliance: {
-                name: 'Compliance',
-                focus: 'Regulatory adherence, risk management, policy enforcement, training',
-                responsibilities: [
-                    'Monitoring compliance with banking regulations',
-                    'Developing and updating bank policies and procedures',
-                    'Conducting compliance training and awareness programs',
-                    'Managing regulatory examinations and responses',
-                    'Anti-money laundering (AML) and BSA compliance',
-                    'Fair lending and consumer protection compliance'
-                ],
-                uniqueChallenges: [
-                    'Rapidly changing regulatory requirements',
-                    'Regulatory examination findings and enforcement actions',
-                    'Complex multi-jurisdiction compliance requirements',
-                    'Staff training and awareness challenges',
-                    'Balancing business growth with compliance requirements'
-                ],
-                metrics: 'examination ratings, violation rates, training completion, policy adherence'
-            },
-            it: {
-                name: 'IT',
-                focus: 'Technology infrastructure, cybersecurity, system maintenance, digital banking',
-                responsibilities: [
-                    'Maintaining core banking systems and infrastructure',
-                    'Cybersecurity monitoring and incident response',
-                    'System upgrades and technology implementations',
-                    'Digital banking platform management',
-                    'Data backup and disaster recovery planning',
-                    'Vendor management for technology services'
-                ],
-                uniqueChallenges: [
-                    'Cyberattacks and data security breaches',
-                    'System outages and technical failures',
-                    'Legacy system limitations and upgrade challenges',
-                    'Rapid technology changes and innovation pressure',
-                    'Balancing security with user convenience'
-                ],
-                metrics: 'system uptime, security incident rates, project delivery, user satisfaction'
-            },
-            security: {
-                name: 'Security',
-                focus: 'Physical security, fraud prevention, investigations, risk assessment',
-                responsibilities: [
-                    'Physical security of bank premises and assets',
-                    'Fraud detection and investigation',
-                    'Security risk assessments and threat analysis',
-                    'Emergency response and crisis management',
-                    'Security training and awareness programs',
-                    'Coordination with law enforcement'
-                ],
-                uniqueChallenges: [
-                    'Armed robberies and physical threats',
-                    'Sophisticated fraud schemes and scams',
-                    'Insider threats and employee misconduct',
-                    'Emergency situations requiring evacuation',
-                    'Balancing security with customer accessibility'
-                ],
-                metrics: 'incident rates, response times, loss prevention, investigation success rates'
-            },
-            new_accounts: {
-                name: 'New Accounts',
-                focus: 'Account opening, customer onboarding, identity verification, documentation',
-                responsibilities: [
-                    'Opening new customer accounts efficiently',
-                    'Customer identity verification and due diligence',
-                    'Know Your Customer (KYC) and CIP compliance',
-                    'Account documentation and record keeping',
-                    'Cross-selling additional products during onboarding',
-                    'Managing account opening backlogs and processing times'
-                ],
-                uniqueChallenges: [
-                    'Identity theft and fraudulent account applications',
-                    'Complex KYC requirements for business accounts',
-                    'High application volumes during promotional periods',
-                    'Technology failures during account opening process',
-                    'Regulatory changes affecting documentation requirements'
-                ],
-                metrics: 'account opening volume, processing time, approval rates, compliance accuracy'
-            }
-        };
 
-        // Diverse crisis types with specific banking context
-        const crisisTypes = [
-            {
-                type: 'cybersecurity_breach',
-                description: 'Major data breach exposing customer information',
-                bankingContext: 'Customer data compromised, potential regulatory violations, reputation damage'
-            },
-            {
-                type: 'natural_disaster',
-                description: 'Severe weather disrupting operations',
-                bankingContext: 'Branch closures, system outages, customer service disruption, business continuity'
-            },
-            {
-                type: 'economic_downturn',
-                description: 'Sudden economic recession affecting customers',
-                bankingContext: 'Rising loan defaults, deposit withdrawals, decreased lending demand'
-            },
-            {
-                type: 'regulatory_investigation',
-                description: 'Government investigation into bank practices',
-                bankingContext: 'Potential violations, examination scrutiny, enforcement actions, reputation risk'
-            },
-            {
-                type: 'technology_failure',
-                description: 'Critical system outage affecting core operations',
-                bankingContext: 'Transaction processing halted, customer access limited, manual workarounds needed'
-            },
-            {
-                type: 'fraud_scheme',
-                description: 'Large-scale fraud targeting the bank',
-                bankingContext: 'Customer losses, investigation requirements, system vulnerabilities exposed'
-            },
-            {
-                type: 'liquidity_crisis',
-                description: 'Unexpected demand for cash and liquidity',
-                bankingContext: 'Large deposit withdrawals, funding pressures, capital adequacy concerns'
-            },
-            {
-                type: 'reputation_crisis',
-                description: 'Negative publicity affecting customer confidence',
-                bankingContext: 'Social media backlash, customer attrition, competitive disadvantage'
-            },
-            {
-                type: 'vendor_failure',
-                description: 'Critical third-party vendor experiencing issues',
-                bankingContext: 'Service disruptions, compliance gaps, operational dependencies exposed'
-            },
-            {
-                type: 'personnel_crisis',
-                description: 'Key staff departure or misconduct incident',
-                bankingContext: 'Knowledge gaps, operational disruption, internal control weaknesses'
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            color: #2c3e50;
+            margin: 0 0 10px 0;
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+
+        .header .ai-badge {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        .controls {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .department-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .department-card {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border: 2px solid #dee2e6;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .department-card:hover {
+            transform: translateY(-5px);
+            border-color: #667eea;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .department-card.selected {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-color: #667eea;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .department-icon {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .department-name {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin: 0;
+        }
+
+        .complexity-selector {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+
+        .complexity-selector h3 {
+            margin: 0 0 15px 0;
+            color: #495057;
+        }
+
+        .complexity-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+        }
+
+        .complexity-option {
+            background: white;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .complexity-option:hover {
+            border-color: #667eea;
+        }
+
+        .complexity-option.selected {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .complexity-label {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .complexity-desc {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .generate-section {
+            text-align: center;
+        }
+
+        .generate-btn {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-size: 1.3rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(40, 167, 69, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .generate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(40, 167, 69, 0.4);
+        }
+
+        .generate-btn:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .generate-btn.loading {
+            background: #6c757d;
+            cursor: wait;
+        }
+
+        .loading-spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid transparent;
+            border-top: 2px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 10px;
+        }
+
+        .generate-btn.loading .loading-spinner {
+            display: inline-block;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .scenario-output {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-top: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            display: none;
+        }
+
+        .scenario-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        .scenario-icon {
+            font-size: 3rem;
+        }
+
+        .scenario-title h3 {
+            color: #2c3e50;
+            margin: 0 0 5px 0;
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .scenario-title p {
+            color: #7f8c8d;
+            margin: 0;
+            font-size: 1.1rem;
+        }
+
+        .scenario-content {
+            color: #2c3e50;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 25px;
+            white-space: pre-wrap;
+        }
+
+        .discussion-points {
+            background: #e3f2fd;
+            border-radius: 12px;
+            padding: 20px;
+            border-left: 5px solid #2196f3;
+        }
+
+        .discussion-points h4 {
+            color: #1976d2;
+            margin: 0 0 15px 0;
+            font-size: 1.3rem;
+        }
+
+        .discussion-points ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        .discussion-points li {
+            color: #424242;
+            margin-bottom: 10px;
+            font-size: 1.05rem;
+        }
+
+        .back-btn {
+            background: transparent;
+            color: #2c3e50;
+            border: 2px solid #2c3e50;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: #2c3e50;
+            color: white;
+        }
+
+        .status-indicator {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-family: monospace;
+            font-size: 0.9rem;
+            border-left: 4px solid #28a745;
+        }
+
+        .status-indicator.error {
+            border-left-color: #dc3545;
+            background: #f8d7da;
+        }
+
+        .refresh-btn {
+            background: linear-gradient(135deg, #17a2b8, #138496);
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-left: 15px;
+        }
+
+        .refresh-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(23, 162, 184, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .department-grid {
+                grid-template-columns: repeat(2, 1fr);
             }
+            
+            .complexity-options {
+                grid-template-columns: 1fr;
+            }
+            
+            .scenario-header {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="/" class="back-btn">← Back to Main Menu</a>
+        
+        <div class="header">
+            <h1>🤖 AI-Powered Tabletop Scenario Generator</h1>
+            <p>Generate unique, realistic training scenarios using artificial intelligence</p>
+            <div class="ai-badge">Powered by OpenAI GPT</div>
+        </div>
+
+        <div class="status-indicator" id="statusIndicator">
+            <strong>Status:</strong> <span id="statusText">Ready to generate scenarios</span>
+        </div>
+
+        <div class="controls">
+            <h2>Configure Your Scenario</h2>
+            
+            <!-- Department Selection -->
+            <h3>1. Select Department</h3>
+            <div class="department-grid" id="departmentGrid">
+                <!-- Departments populated by JavaScript -->
+            </div>
+
+            <!-- Complexity Selection -->
+            <div class="complexity-selector">
+                <h3>2. Choose Scenario Complexity</h3>
+                <div class="complexity-options" id="complexityOptions">
+                    <div class="complexity-option" data-complexity="basic">
+                        <div class="complexity-label">Basic</div>
+                        <div class="complexity-desc">Simple, straightforward scenarios</div>
+                    </div>
+                    <div class="complexity-option selected" data-complexity="intermediate">
+                        <div class="complexity-label">Intermediate</div>
+                        <div class="complexity-desc">Multi-faceted challenges</div>
+                    </div>
+                    <div class="complexity-option" data-complexity="advanced">
+                        <div class="complexity-label">Advanced</div>
+                        <div class="complexity-desc">Complex, interconnected issues</div>
+                    </div>
+                    <div class="complexity-option" data-complexity="crisis">
+                        <div class="complexity-label">Crisis</div>
+                        <div class="complexity-desc">High-pressure emergency situations</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="generate-section">
+                <button class="generate-btn" id="generateBtn" disabled>
+                    <span class="loading-spinner"></span>
+                    <span id="generateBtnText">🤖 Generate AI Scenario</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="scenario-output" id="scenarioOutput">
+            <div class="scenario-header">
+                <div class="scenario-icon" id="scenarioIcon">🏢</div>
+                <div class="scenario-title">
+                    <h3 id="scenarioTitle">Scenario Title</h3>
+                    <p id="scenarioDepartment">Department Name</p>
+                </div>
+                <button class="refresh-btn" onclick="generateAIScenario()">🔄 Generate New</button>
+            </div>
+
+            <div class="scenario-content" id="scenarioContent">
+                <!-- AI-generated scenario will appear here -->
+            </div>
+
+            <div class="discussion-points" id="discussionSection">
+                <h4>💭 Discussion Points</h4>
+                <ul id="discussionPoints">
+                    <!-- AI-generated discussion points will appear here -->
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let selectedDepartment = null;
+        let selectedComplexity = 'intermediate';
+        
+        const departments = [
+            { id: 'deposits', name: 'Deposits', icon: '💰' },
+            { id: 'tellers', name: 'Tellers', icon: '🏪' },
+            { id: 'loans', name: 'Loans', icon: '📊' },
+            { id: 'accounting', name: 'Accounting', icon: '📈' },
+            { id: 'bookkeeping', name: 'Bookkeeping', icon: '📚' },
+            { id: 'loan_servicing', name: 'Loan Servicing', icon: '🔧' },
+            { id: 'compliance', name: 'Compliance', icon: '⚖️' },
+            { id: 'it', name: 'IT', icon: '💻' },
+            { id: 'security', name: 'Security', icon: '🔒' },
+            { id: 'new_accounts', name: 'New Accounts', icon: '📝' }
         ];
 
-        const departmentInfo = departmentContexts[department];
-        if (!departmentInfo) {
-            return res.status(400).json({ error: 'Invalid department specified' });
+        function updateStatus(message, isError = false) {
+            const statusIndicator = document.getElementById('statusIndicator');
+            const statusText = document.getElementById('statusText');
+            
+            statusText.textContent = message;
+            statusIndicator.className = isError ? 'status-indicator error' : 'status-indicator';
         }
 
-        // Select a random crisis type
-        const selectedCrisis = crisisTypes[Math.floor(Math.random() * crisisTypes.length)];
-        
-        const prompt = `Generate a realistic, department-specific banking crisis scenario for tabletop discussion.
+        function createDepartmentCards() {
+            const grid = document.getElementById('departmentGrid');
+            grid.innerHTML = '';
+            
+            departments.forEach(dept => {
+                const card = document.createElement('div');
+                card.className = 'department-card';
+                card.innerHTML = `
+                    <div class="department-icon">${dept.icon}</div>
+                    <div class="department-name">${dept.name}</div>
+                `;
+                
+                card.addEventListener('click', () => selectDepartment(dept.id, card));
+                grid.appendChild(card);
+            });
+            
+            updateStatus(`${departments.length} departments loaded`);
+        }
 
-TARGET DEPARTMENT: ${departmentInfo.name}
-COMPLEXITY LEVEL: ${complexity}
-CRISIS TYPE: ${selectedCrisis.type} - ${selectedCrisis.description}
+        function selectDepartment(deptId, cardElement) {
+            // Remove selection from all cards
+            document.querySelectorAll('.department-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            
+            // Add selection to clicked card
+            cardElement.classList.add('selected');
+            selectedDepartment = deptId;
+            
+            // Enable generate button if department is selected
+            updateGenerateButton();
+            updateStatus(`Selected department: ${departments.find(d => d.id === deptId).name}`);
+        }
 
-DEPARTMENT CONTEXT:
-- Primary Focus: ${departmentInfo.focus}
-- Key Responsibilities: ${departmentInfo.responsibilities.join(', ')}
-- Unique Challenges: ${departmentInfo.uniqueChallenges.join(', ')}
-- Success Metrics: ${departmentInfo.metrics}
+        function setupComplexitySelector() {
+            const options = document.querySelectorAll('.complexity-option');
+            
+            options.forEach(option => {
+                option.addEventListener('click', () => {
+                    // Remove selection from all options
+                    options.forEach(opt => opt.classList.remove('selected'));
+                    
+                    // Add selection to clicked option
+                    option.classList.add('selected');
+                    selectedComplexity = option.dataset.complexity;
+                    
+                    updateStatus(`Complexity set to: ${selectedComplexity}`);
+                });
+            });
+        }
 
-CRISIS CONTEXT: ${selectedCrisis.bankingContext}
+        function updateGenerateButton() {
+            const generateBtn = document.getElementById('generateBtn');
+            generateBtn.disabled = !selectedDepartment;
+        }
 
-REQUIREMENTS:
-1. Create a scenario that is SPECIFICALLY relevant to ${departmentInfo.name} department operations
-2. The crisis should directly impact their day-to-day responsibilities and decision-making
-3. Include specific banking industry details (dollar amounts, timeframes, regulatory concerns)
-4. Make the scenario realistic based on actual ${departmentInfo.name} department challenges
-5. Ensure the discussion points focus on ${departmentInfo.name}-specific actions and decisions
+        async function generateAIScenario() {
+            if (!selectedDepartment) {
+                updateStatus('Please select a department first', true);
+                return;
+            }
 
-COMPLEXITY GUIDELINES:
-- Basic: Simple, single-issue problems with clear solutions
-- Intermediate: Multi-faceted challenges requiring coordination
-- Advanced: Complex problems with competing priorities and stakeholders
-- Crisis: High-pressure, time-sensitive situations with significant consequences
+            const generateBtn = document.getElementById('generateBtn');
+            const generateBtnText = document.getElementById('generateBtnText');
+            
+            // Show loading state
+            generateBtn.classList.add('loading');
+            generateBtn.disabled = true;
+            generateBtnText.textContent = 'AI is generating scenario...';
+            updateStatus('Contacting OpenAI to generate scenario...');
 
-Generate a scenario with:
-- A compelling, specific title that reflects both the crisis type and department impact
-- 2-3 paragraphs of detailed situation description with specific banking context
-- 5 discussion questions that are unique to ${departmentInfo.name} department responsibilities
-
-FORMAT AS JSON:
-{
-  "title": "Specific scenario title reflecting ${selectedCrisis.type} impact on ${departmentInfo.name}",
-  "description": "Detailed scenario with specific banking context, dollar amounts, timeframes, and regulatory implications relevant to ${departmentInfo.name} operations...",
-  "discussionPoints": [
-    "Specific ${departmentInfo.name} question about immediate actions?",
-    "How should ${departmentInfo.name} coordinate with other departments?",
-    "What ${departmentInfo.name}-specific risks need immediate attention?",
-    "Which ${departmentInfo.name} procedures should be activated?",
-    "How does this impact ${departmentInfo.name} compliance and reporting?"
-  ]
-}
-
-CRITICAL: Make this scenario completely unique to ${departmentInfo.name} department. Avoid generic banking questions. Focus on what ${departmentInfo.name} staff would actually need to do and decide in this specific crisis.`;
-
-        console.log(`Generating ${selectedCrisis.type} scenario for ${departmentInfo.name} department...`);
-        
-        const response = await fetch('https://api.openai.com/v1/chat/completions', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${apiKey}`
-            },
-            body: JSON.stringify({
-                model: 'gpt-3.5-turbo',
-                messages: [
-                    {
-                        role: 'system',
-                        content: `You are an expert banking operations consultant and crisis management trainer. You have deep knowledge of how different bank departments operate and what specific challenges they face. 
-
-CRITICAL INSTRUCTIONS:
-- Generate scenarios that are DEPARTMENT-SPECIFIC, not generic banking scenarios
-- Each department has unique responsibilities, challenges, and decision-making requirements
-- Avoid repeating similar scenarios - be creative and vary the crisis types and specific impacts
-- Include realistic banking industry details like amounts, timeframes, regulations, and procedures
-- Make discussion questions focus on department-specific actions, not general management questions
-
-Always respond with valid JSON only.`
+            try {
+                const response = await fetch('/api/generate-discussion-scenario', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
                     },
-                    {
-                        role: 'user', 
-                        content: prompt
-                    }
-                ],
-                max_tokens: 1500,
-                temperature: 0.95  // High temperature for maximum variety
-            })
+                    body: JSON.stringify({
+                        department: selectedDepartment,
+                        complexity: selectedComplexity
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+
+                const data = await response.json();
+                
+                if (data.error) {
+                    throw new Error(data.error);
+                }
+
+                displayScenario(data);
+                updateStatus('AI scenario generated successfully!');
+
+            } catch (error) {
+                console.error('Error generating scenario:', error);
+                updateStatus(`Error: ${error.message}`, true);
+                
+                // Show fallback message
+                displayErrorFallback();
+            } finally {
+                // Reset button state
+                generateBtn.classList.remove('loading');
+                generateBtn.disabled = false;
+                generateBtnText.textContent = '🤖 Generate AI Scenario';
+            }
+        }
+
+        function displayScenario(data) {
+            const dept = departments.find(d => d.id === selectedDepartment);
+            
+            // Update header
+            document.getElementById('scenarioIcon').textContent = dept.icon;
+            document.getElementById('scenarioTitle').textContent = data.title || 'AI Generated Scenario';
+            document.getElementById('scenarioDepartment').textContent = `${dept.name} Department - ${selectedComplexity.charAt(0).toUpperCase() + selectedComplexity.slice(1)} Level`;
+            
+            // Update content
+            document.getElementById('scenarioContent').textContent = data.description || data.scenario || 'Scenario description not available';
+            
+            // Update discussion points
+            const discussionContainer = document.getElementById('discussionPoints');
+            discussionContainer.innerHTML = '';
+            
+            const discussionPoints = data.discussionPoints || data.questions || [];
+            
+            if (Array.isArray(discussionPoints) && discussionPoints.length > 0) {
+                discussionPoints.forEach(point => {
+                    const li = document.createElement('li');
+                    li.textContent = typeof point === 'string' ? point : point.text || point.question || 'Discussion point';
+                    discussionContainer.appendChild(li);
+                });
+            } else {
+                // If no structured discussion points, try to extract from description
+                const li = document.createElement('li');
+                li.textContent = 'How would you handle this situation as a team?';
+                discussionContainer.appendChild(li);
+                
+                const li2 = document.createElement('li');
+                li2.textContent = 'What are the key risks and how can they be mitigated?';
+                discussionContainer.appendChild(li2);
+                
+                const li3 = document.createElement('li');
+                li3.textContent = 'What processes or procedures should be followed?';
+                discussionContainer.appendChild(li3);
+            }
+            
+            // Show scenario output
+            document.getElementById('scenarioOutput').style.display = 'block';
+            
+            // Scroll to scenario
+            document.getElementById('scenarioOutput').scrollIntoView({ 
+                behavior: 'smooth',
+                block: 'start' 
+            });
+        }
+
+        function displayErrorFallback() {
+            const dept = departments.find(d => d.id === selectedDepartment);
+            
+            document.getElementById('scenarioIcon').textContent = dept.icon;
+            document.getElementById('scenarioTitle').textContent = 'Scenario Generation Failed';
+            document.getElementById('scenarioDepartment').textContent = `${dept.name} Department`;
+            document.getElementById('scenarioContent').textContent = 'Unable to generate AI scenario. Please check your backend connection and try again.';
+            
+            const discussionContainer = document.getElementById('discussionPoints');
+            discussionContainer.innerHTML = '<li>Check that your backend server is running</li><li>Verify the /api/generate-discussion-scenario endpoint exists</li><li>Ensure OpenAI API is properly configured</li>';
+            
+            document.getElementById('scenarioOutput').style.display = 'block';
+            document.getElementById('scenarioOutput').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Initialize everything when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            createDepartmentCards();
+            setupComplexitySelector();
+            
+            // Add click handler to generate button
+            document.getElementById('generateBtn').addEventListener('click', generateAIScenario);
+            
+            updateStatus('Ready to generate AI-powered scenarios');
         });
-
-        console.log('OpenAI API response status:', response.status);
-
-        if (!response.ok) {
-            const errorText = await response.text();
-            console.log('OpenAI API error response:', errorText);
-            throw new Error(`OpenAI API Error: ${response.status} - ${errorText}`);
-        }
-
-        const data = await response.json();
-        let responseContent = data.choices[0].message.content.trim();
-        
-        // Clean up response (remove any markdown formatting)
-        responseContent = responseContent.replace(/```json\n?/g, '').replace(/```\n?/g, '');
-        
-        console.log('Raw OpenAI response:', responseContent);
-        
-        try {
-            const jsonResponse = JSON.parse(responseContent);
-            
-            // Validate the response structure
-            if (!jsonResponse.title || !jsonResponse.description || !jsonResponse.discussionPoints) {
-                throw new Error('Invalid response structure from OpenAI');
-            }
-            
-            console.log(`Generated ${complexity} ${selectedCrisis.type} scenario for ${departmentInfo.name}:`, jsonResponse.title);
-            res.json(jsonResponse);
-            
-        } catch (parseError) {
-            console.error('JSON parse error:', parseError);
-            console.log('Raw response that failed to parse:', responseContent);
-            
-            // Enhanced fallback response with department-specific content
-            const fallbackScenario = generateDepartmentSpecificFallback(departmentInfo, selectedCrisis, complexity);
-            res.json(fallbackScenario);
-        }
-
-    } catch (error) {
-        console.error('Error generating discussion scenario:', error);
-        res.status(500).json({ 
-            error: 'Failed to generate scenario',
-            details: error.message,
-            department: req.body.department,
-            complexity: req.body.complexity
-        });
-    }
-});
-
-// Enhanced fallback with department-specific scenarios
-function generateDepartmentSpecificFallback(departmentInfo, selectedCrisis, complexity) {
-    const specificScenarios = {
-        deposits: {
-            cybersecurity_breach: {
-                title: "Customer Data Breach Affecting Deposit Accounts",
-                description: "A cybersecurity breach has exposed personal information of 15,000 deposit customers, including account numbers and transaction histories. Customers are calling demanding account closures and threatening to withdraw $25 million in deposits. The FDIC has been notified and a regulatory investigation is pending. The breach occurred during peak banking hours on Friday afternoon.",
-                questions: [
-                    "How should the Deposits team prioritize customer retention vs. allowing immediate account closures?",
-                    "What specific steps should Deposits take to secure remaining customer accounts and prevent further withdrawals?",
-                    "How should Deposits coordinate with IT to identify which specific deposit accounts were compromised?",
-                    "What communication strategy should Deposits use for both affected and unaffected customers?",
-                    "How should Deposits handle the expected surge in account closure requests while maintaining service levels?"
-                ]
-            },
-            natural_disaster: {
-                title: "Hurricane Forces Branch Closures During Peak Deposit Period",
-                description: "Hurricane evacuation orders have closed 8 of 12 branches during the typically busy end-of-month deposit period. Online banking is experiencing 300% higher traffic, causing intermittent outages. Business customers need to make large payroll deposits totaling $2.8 million, but cannot access branches. ATM networks are also experiencing power outages in affected areas.",
-                questions: [
-                    "How should Deposits prioritize which business deposit needs get manual processing first?",
-                    "What alternative deposit options can Deposits offer to customers unable to reach branches?",
-                    "How should Deposits handle the backlog of deposits once branches reopen?",
-                    "What Deposits procedures need modification to handle the increased digital banking volume?",
-                    "How should Deposits communicate deposit availability and alternatives to customers during the outage?"
-                ]
-            }
-        },
-        loans: {
-            economic_downturn: {
-                title: "Sudden Economic Recession Triggers Loan Default Surge",
-                description: "Local unemployment has spiked to 12% following a major employer's bankruptcy. The Loans department is seeing a 400% increase in hardship calls, with 1,200 borrowers requesting payment deferrals. Current delinquency rates have jumped from 2.1% to 8.3% in just two months. Regulatory pressure is mounting to provide borrower assistance while maintaining safe and sound lending practices.",
-                questions: [
-                    "How should Loans triage the surge in hardship requests while maintaining fair lending standards?",
-                    "What criteria should Loans use to evaluate modification requests during this economic crisis?",
-                    "How should Loans adjust underwriting standards for new loan applications during the downturn?",
-                    "What reporting and documentation requirements does Loans need to prepare for regulators?",
-                    "How should Loans coordinate with Collections to balance assistance with loss mitigation?"
-                ]
-            },
-            fraud_scheme: {
-                title: "Sophisticated Identity Theft Ring Targets Loan Applications",
-                description: "A fraud ring has submitted 47 fake loan applications using stolen identities, totaling $1.8 million in requested credit. The scheme was discovered when real customers reported unauthorized credit inquiries. Some fraudulent loans have already been funded and the perpetrators have disappeared. The FBI is investigating and regulators are questioning the bank's application verification procedures.",
-                questions: [
-                    "How should Loans immediately strengthen identity verification for all pending applications?",
-                    "What specific loan application red flags should Loans staff be trained to identify?",
-                    "How should Loans coordinate with law enforcement while protecting customer privacy?",
-                    "What documentation must Loans provide to support the criminal investigation?",
-                    "How should Loans modify underwriting procedures to prevent similar fraud in the future?"
-                ]
-            }
-        },
-        // Add more department-specific scenarios...
-        it: {
-            cybersecurity_breach: {
-                title: "Ransomware Attack Encrypts Core Banking Systems",
-                description: "A ransomware attack has encrypted the primary loan servicing system and backup servers. Attackers are demanding $500,000 in cryptocurrency. The core banking system is partially functional but customer account access is severely limited. The attack occurred at 2 AM on Monday morning, and business operations resume in 4 hours. Cyber insurance coverage is unclear.",
-                questions: [
-                    "What immediate IT isolation procedures should be implemented to prevent spread?",
-                    "How should IT prioritize system recovery to restore critical banking functions first?",
-                    "What IT incident response protocols need activation for this level of breach?",
-                    "How should IT coordinate with cybersecurity experts and law enforcement?",
-                    "What IT communication plan should be implemented for other departments and customers?"
-                ]
-            }
-        }
-    };
-
-    // Try to find a specific scenario for this department and crisis type
-    const deptScenarios = specificScenarios[departmentInfo.name.toLowerCase()] || 
-                         specificScenarios[departmentInfo.name.toLowerCase().replace(/[^a-z]/g, '_')];
-    
-    if (deptScenarios && deptScenarios[selectedCrisis.type]) {
-        const scenario = deptScenarios[selectedCrisis.type];
-        return {
-            title: scenario.title,
-            description: scenario.description,
-            discussionPoints: scenario.questions
-        };
-    }
-
-    // Generic fallback if no specific scenario exists
-    return {
-        title: `${departmentInfo.name} Department ${selectedCrisis.description} Response`,
-        description: `The ${departmentInfo.name} department is facing a ${selectedCrisis.description.toLowerCase()} that directly impacts ${departmentInfo.focus}. This situation requires immediate attention to ${departmentInfo.responsibilities[0]} while managing ${departmentInfo.uniqueChallenges[0]}. The crisis is affecting ${departmentInfo.metrics} and requires coordinated response.`,
-        discussionPoints: [
-            `How should ${departmentInfo.name} immediately address this crisis within their area of responsibility?`,
-            `What ${departmentInfo.name}-specific procedures should be activated in response to this situation?`,
-            `How should ${departmentInfo.name} coordinate with other departments during this crisis?`,
-            `What are the key ${departmentInfo.name} metrics that need monitoring during this situation?`,
-            `What lessons can ${departmentInfo.name} learn to prevent similar issues in the future?`
-        ]
-    };
-}
+    </script>
+</body>
+</html>
