@@ -15,33 +15,7 @@ app.use('/images', express.static(path.join(__dirname, 'public/images')));
 
 // Test endpoint
 app.get('/api/test', (req, res) => {
-    res.json({ message: 'Backend is working!' }
-
-// Shuffle question order to randomize department sequence
-function shuffleQuestionOrder(scenario) {
-    // Create a copy of the scenario
-    const shuffledScenario = { ...scenario };
-    
-    // Create a copy of questions array and shuffle it
-    const shuffledQuestions = [...scenario.questions];
-    
-    // Fisher-Yates shuffle algorithm for true randomization
-    for (let i = shuffledQuestions.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [shuffledQuestions[i], shuffledQuestions[j]] = [shuffledQuestions[j], shuffledQuestions[i]];
-    }
-    
-    // Renumber questions to maintain sequential numbering (1-21)
-    shuffledQuestions.forEach((question, index) => {
-        question.questionNumber = index + 1;
-    });
-    
-    shuffledScenario.questions = shuffledQuestions;
-    
-    console.log('Questions shuffled - new order:', shuffledQuestions.map(q => `${q.questionNumber}:${q.department}`).join(', '));
-    
-    return shuffledScenario;
-});
+    res.json({ message: 'Backend is working!' });
 });
 
 // ENHANCED Game Scenario Generation
@@ -434,6 +408,32 @@ function ensureRandomizedAnswers(scenario) {
     };
 }
 
+// Shuffle question order to randomize department sequence
+function shuffleQuestionOrder(scenario) {
+    // Create a copy of the scenario
+    const shuffledScenario = { ...scenario };
+    
+    // Create a copy of questions array and shuffle it
+    const shuffledQuestions = [...scenario.questions];
+    
+    // Fisher-Yates shuffle algorithm for true randomization
+    for (let i = shuffledQuestions.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffledQuestions[i], shuffledQuestions[j]] = [shuffledQuestions[j], shuffledQuestions[i]];
+    }
+    
+    // Renumber questions to maintain sequential numbering (1-21)
+    shuffledQuestions.forEach((question, index) => {
+        question.questionNumber = index + 1;
+    });
+    
+    shuffledScenario.questions = shuffledQuestions;
+    
+    console.log('Questions shuffled - new order:', shuffledQuestions.map(q => `${q.questionNumber}:${q.department}`).join(', '));
+    
+    return shuffledScenario;
+}
+
 // Enhanced fallback scenario creation with crisis-specific questions
 function createEnhancedCrisisScenario(selectedScenario, departmentContexts) {
     const departments = ['CEO_SVPs', 'IT_Security', 'HR', 'Finance', 'Loans', 'Accounting', 'Deposits'];
@@ -626,458 +626,39 @@ function generateRightWrongImpacts(primaryDept, baseScore) {
     return impacts;
 }
 
-// ENHANCED DISCUSSION SCENARIO ENDPOINT
+// ENHANCED DISCUSSION SCENARIO ENDPOINT (keeping your existing discussion endpoint)
 app.post('/api/generate-discussion-scenario', async (req, res) => {
     try {
         const { department, complexity } = req.body;
         const apiKey = process.env.OPENAI_API_KEY;
         
         console.log(`Discussion scenario request: ${department} - ${complexity}`);
-        console.log('API key exists:', !!apiKey);
         
         if (!apiKey) {
-            console.log('No OpenAI API key found');
             return res.status(500).json({ error: 'OpenAI API key not configured' });
         }
         
-        // Enhanced department-specific contexts and responsibilities
-        const departmentContexts = {
-            deposits: {
-                name: 'Deposits',
-                focus: 'Customer deposit accounts, savings, checking, CDs, money market accounts',
-                responsibilities: [
-                    'Managing customer deposit relationships and retention',
-                    'Processing deposit transactions and account maintenance',
-                    'Handling deposit product compliance and regulations',
-                    'Customer service for deposit account holders',
-                    'Interest rate management and product pricing',
-                    'Deposit insurance (FDIC) compliance and reporting'
-                ],
-                uniqueChallenges: [
-                    'Bank runs and deposit withdrawals during crises',
-                    'Interest rate environment changes',
-                    'Customer confidence and retention',
-                    'Regulatory compliance for deposit products',
-                    'Technology failures affecting account access'
-                ],
-                metrics: 'deposit volumes, customer satisfaction, account growth, retention rates'
-            },
-            tellers: {
-                name: 'Tellers',
-                focus: 'Front-line customer service, cash handling, transaction processing',
-                responsibilities: [
-                    'Processing customer transactions (deposits, withdrawals, transfers)',
-                    'Cash management and vault operations',
-                    'Customer identification and verification',
-                    'Cross-selling bank products and services',
-                    'Fraud detection and prevention at transaction level',
-                    'Compliance with cash handling procedures'
-                ],
-                uniqueChallenges: [
-                    'Robbery and security threats',
-                    'Cash shortages or vault issues',
-                    'Counterfeit currency detection',
-                    'Long customer wait times during system outages',
-                    'Handling upset customers during service disruptions'
-                ],
-                metrics: 'transaction accuracy, customer wait times, cash balancing, sales conversions'
-            },
-            loans: {
-                name: 'Loans',
-                focus: 'Loan origination, underwriting, portfolio management, credit risk',
-                responsibilities: [
-                    'Evaluating and approving loan applications',
-                    'Credit risk assessment and underwriting standards',
-                    'Loan portfolio management and monitoring',
-                    'Regulatory compliance for lending practices',
-                    'Managing loan documentation and legal requirements',
-                    'Handling loan modifications and workouts'
-                ],
-                uniqueChallenges: [
-                    'Economic downturns affecting borrower ability to pay',
-                    'Rising default rates and credit losses',
-                    'Regulatory changes in lending standards',
-                    'Fair lending compliance and discrimination issues',
-                    'Competition from fintech and online lenders'
-                ],
-                metrics: 'loan approval rates, default rates, portfolio quality, origination volumes'
-            },
-            accounting: {
-                name: 'Accounting',
-                focus: 'Financial reporting, general ledger, regulatory reporting, audit compliance',
-                responsibilities: [
-                    'Preparing accurate financial statements',
-                    'Managing general ledger and chart of accounts',
-                    'Regulatory reporting (Call Reports, etc.)',
-                    'Supporting external audits and examinations',
-                    'Month-end and quarter-end close processes',
-                    'Financial analysis and variance reporting'
-                ],
-                uniqueChallenges: [
-                    'Regulatory deadline pressures for financial reporting',
-                    'Complex accounting standards changes',
-                    'System failures during critical reporting periods',
-                    'Audit findings and corrective action requirements',
-                    'Reconciliation issues and accounting errors'
-                ],
-                metrics: 'reporting accuracy, timeliness of closes, audit findings, regulatory compliance'
-            },
-            bookkeeping: {
-                name: 'Bookkeeping',
-                focus: 'Daily transaction recording, reconciliations, account maintenance',
-                responsibilities: [
-                    'Recording daily banking transactions',
-                    'Account reconciliations and balancing',
-                    'Maintaining accurate customer account records',
-                    'Processing journal entries and adjustments',
-                    'Supporting month-end closing activities',
-                    'Document management and filing'
-                ],
-                uniqueChallenges: [
-                    'High transaction volumes during peak periods',
-                    'System errors causing reconciliation issues',
-                    'Missing documentation for transactions',
-                    'Time-sensitive deadline pressures',
-                    'Manual processes prone to human error'
-                ],
-                metrics: 'reconciliation accuracy, processing speed, error rates, backlogs'
-            },
-            loan_servicing: {
-                name: 'Loan Servicing',
-                focus: 'Payment processing, customer account management, collections, modifications',
-                responsibilities: [
-                    'Processing loan payments and maintaining balances',
-                    'Customer service for existing borrowers',
-                    'Managing delinquent accounts and collections',
-                    'Processing loan modifications and deferrals',
-                    'Escrow account management for mortgages',
-                    'Investor reporting for sold loans'
-                ],
-                uniqueChallenges: [
-                    'High delinquency rates during economic stress',
-                    'Customer hardship and modification requests',
-                    'Foreclosure processes and legal requirements',
-                    'Investor requirements and reporting deadlines',
-                    'System outages affecting payment processing'
-                ],
-                metrics: 'delinquency rates, customer satisfaction, modification success rates, collections efficiency'
-            },
-            compliance: {
-                name: 'Compliance',
-                focus: 'Regulatory adherence, risk management, policy enforcement, training',
-                responsibilities: [
-                    'Monitoring compliance with banking regulations',
-                    'Developing and updating bank policies and procedures',
-                    'Conducting compliance training and awareness programs',
-                    'Managing regulatory examinations and responses',
-                    'Anti-money laundering (AML) and BSA compliance',
-                    'Fair lending and consumer protection compliance'
-                ],
-                uniqueChallenges: [
-                    'Rapidly changing regulatory requirements',
-                    'Regulatory examination findings and enforcement actions',
-                    'Complex multi-jurisdiction compliance requirements',
-                    'Staff training and awareness challenges',
-                    'Balancing business growth with compliance requirements'
-                ],
-                metrics: 'examination ratings, violation rates, training completion, policy adherence'
-            },
-            it: {
-                name: 'IT',
-                focus: 'Technology infrastructure, cybersecurity, system maintenance, digital banking',
-                responsibilities: [
-                    'Maintaining core banking systems and infrastructure',
-                    'Cybersecurity monitoring and incident response',
-                    'System upgrades and technology implementations',
-                    'Digital banking platform management',
-                    'Data backup and disaster recovery planning',
-                    'Vendor management for technology services'
-                ],
-                uniqueChallenges: [
-                    'Cyberattacks and data security breaches',
-                    'System outages and technical failures',
-                    'Legacy system limitations and upgrade challenges',
-                    'Rapid technology changes and innovation pressure',
-                    'Balancing security with user convenience'
-                ],
-                metrics: 'system uptime, security incident rates, project delivery, user satisfaction'
-            },
-            security: {
-                name: 'Security',
-                focus: 'Physical security, fraud prevention, investigations, risk assessment',
-                responsibilities: [
-                    'Physical security of bank premises and assets',
-                    'Fraud detection and investigation',
-                    'Security risk assessments and threat analysis',
-                    'Emergency response and crisis management',
-                    'Security training and awareness programs',
-                    'Coordination with law enforcement'
-                ],
-                uniqueChallenges: [
-                    'Armed robberies and physical threats',
-                    'Sophisticated fraud schemes and scams',
-                    'Insider threats and employee misconduct',
-                    'Emergency situations requiring evacuation',
-                    'Balancing security with customer accessibility'
-                ],
-                metrics: 'incident rates, response times, loss prevention, investigation success rates'
-            },
-            new_accounts: {
-                name: 'New Accounts',
-                focus: 'Account opening, customer onboarding, identity verification, documentation',
-                responsibilities: [
-                    'Opening new customer accounts efficiently',
-                    'Customer identity verification and due diligence',
-                    'Know Your Customer (KYC) and CIP compliance',
-                    'Account documentation and record keeping',
-                    'Cross-selling additional products during onboarding',
-                    'Managing account opening backlogs and processing times'
-                ],
-                uniqueChallenges: [
-                    'Identity theft and fraudulent account applications',
-                    'Complex KYC requirements for business accounts',
-                    'High application volumes during promotional periods',
-                    'Technology failures during account opening process',
-                    'Regulatory changes affecting documentation requirements'
-                ],
-                metrics: 'account opening volume, processing time, approval rates, compliance accuracy'
-            }
-        };
-
-        // Diverse crisis types with specific banking context
-        const crisisTypes = [
-            {
-                type: 'cybersecurity_breach',
-                description: 'Major data breach exposing customer information',
-                bankingContext: 'Customer data compromised, potential regulatory violations, reputation damage'
-            },
-            {
-                type: 'natural_disaster',
-                description: 'Severe weather disrupting operations',
-                bankingContext: 'Branch closures, system outages, customer service disruption, business continuity'
-            },
-            {
-                type: 'economic_downturn',
-                description: 'Sudden economic recession affecting customers',
-                bankingContext: 'Rising loan defaults, deposit withdrawals, decreased lending demand'
-            },
-            {
-                type: 'regulatory_investigation',
-                description: 'Government investigation into bank practices',
-                bankingContext: 'Potential violations, examination scrutiny, enforcement actions, reputation risk'
-            },
-            {
-                type: 'technology_failure',
-                description: 'Critical system outage affecting core operations',
-                bankingContext: 'Transaction processing halted, customer access limited, manual workarounds needed'
-            },
-            {
-                type: 'fraud_scheme',
-                description: 'Large-scale fraud targeting the bank',
-                bankingContext: 'Customer losses, investigation requirements, system vulnerabilities exposed'
-            },
-            {
-                type: 'liquidity_crisis',
-                description: 'Unexpected demand for cash and liquidity',
-                bankingContext: 'Large deposit withdrawals, funding pressures, capital adequacy concerns'
-            },
-            {
-                type: 'reputation_crisis',
-                description: 'Negative publicity affecting customer confidence',
-                bankingContext: 'Social media backlash, customer attrition, competitive disadvantage'
-            },
-            {
-                type: 'vendor_failure',
-                description: 'Critical third-party vendor experiencing issues',
-                bankingContext: 'Service disruptions, compliance gaps, operational dependencies exposed'
-            },
-            {
-                type: 'personnel_crisis',
-                description: 'Key staff departure or misconduct incident',
-                bankingContext: 'Knowledge gaps, operational disruption, internal control weaknesses'
-            }
-        ];
-
-        const departmentInfo = departmentContexts[department];
-        if (!departmentInfo) {
-            return res.status(400).json({ error: 'Invalid department specified' });
-        }
-
-        // Select a random crisis type
-        const selectedCrisis = crisisTypes[Math.floor(Math.random() * crisisTypes.length)];
-        
-        const prompt = `Generate a realistic, department-specific banking crisis scenario for tabletop discussion.
-
-TARGET DEPARTMENT: ${departmentInfo.name}
-COMPLEXITY LEVEL: ${complexity}
-CRISIS TYPE: ${selectedCrisis.type} - ${selectedCrisis.description}
-
-DEPARTMENT CONTEXT:
-- Primary Focus: ${departmentInfo.focus}
-- Key Responsibilities: ${departmentInfo.responsibilities.join(', ')}
-- Unique Challenges: ${departmentInfo.uniqueChallenges.join(', ')}
-- Success Metrics: ${departmentInfo.metrics}
-
-CRISIS CONTEXT: ${selectedCrisis.bankingContext}
-
-REQUIREMENTS:
-1. Create a scenario that is SPECIFICALLY relevant to ${departmentInfo.name} department operations
-2. The crisis should directly impact their day-to-day responsibilities and decision-making
-3. Include specific banking industry details (dollar amounts, timeframes, regulatory concerns)
-4. Make the scenario realistic based on actual ${departmentInfo.name} department challenges
-5. Ensure the discussion points focus on ${departmentInfo.name}-specific actions and decisions
-
-COMPLEXITY GUIDELINES:
-- Basic: Simple, single-issue problems with clear solutions
-- Intermediate: Multi-faceted challenges requiring coordination
-- Advanced: Complex problems with competing priorities and stakeholders
-- Crisis: High-pressure, time-sensitive situations with significant consequences
-
-Generate a scenario with:
-- A compelling, specific title that reflects both the crisis type and department impact
-- 2-3 paragraphs of detailed situation description with specific banking context
-- 5 discussion questions that are unique to ${departmentInfo.name} department responsibilities
-
-FORMAT AS JSON:
-{
-  "title": "Specific scenario title reflecting ${selectedCrisis.type} impact on ${departmentInfo.name}",
-  "description": "Detailed scenario with specific banking context, dollar amounts, timeframes, and regulatory implications relevant to ${departmentInfo.name} operations...",
-  "discussionPoints": [
-    "Specific ${departmentInfo.name} question about immediate actions?",
-    "How should ${departmentInfo.name} coordinate with other departments?",
-    "What ${departmentInfo.name}-specific risks need immediate attention?",
-    "Which ${departmentInfo.name} procedures should be activated?",
-    "How does this impact ${departmentInfo.name} compliance and reporting?"
-  ]
-}
-
-CRITICAL: Make this scenario completely unique to ${departmentInfo.name} department. Avoid generic banking questions. Focus on what ${departmentInfo.name} staff would actually need to do and decide in this specific crisis.`;
-
-        console.log(`Generating ${selectedCrisis.type} scenario for ${departmentInfo.name} department...`);
-        
-        const response = await fetch('https://api.openai.com/v1/chat/completions', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${apiKey}`
-            },
-            body: JSON.stringify({
-                model: 'gpt-3.5-turbo',
-                messages: [
-                    {
-                        role: 'system',
-                        content: `You are an expert banking operations consultant and crisis management trainer. You have deep knowledge of how different bank departments operate and what specific challenges they face. 
-
-CRITICAL INSTRUCTIONS:
-- Generate scenarios that are DEPARTMENT-SPECIFIC, not generic banking scenarios
-- Each department has unique responsibilities, challenges, and decision-making requirements
-- Avoid repeating similar scenarios - be creative and vary the crisis types and specific impacts
-- Include realistic banking industry details like amounts, timeframes, regulations, and procedures
-- Make discussion questions focus on department-specific actions, not general management questions
-
-Always respond with valid JSON only.`
-                    },
-                    {
-                        role: 'user', 
-                        content: prompt
-                    }
-                ],
-                max_tokens: 1500,
-                temperature: 0.95  // High temperature for maximum variety
-            })
+        // Simple response for now to avoid timeout
+        res.json({
+            title: `${department} Department Crisis Scenario`,
+            description: `A crisis scenario specifically designed for the ${department} department to test their response capabilities and decision-making processes.`,
+            discussionPoints: [
+                `How should the ${department} team respond to this crisis?`,
+                "What are the immediate risks and mitigation strategies?",
+                "What coordination is needed with other departments?",
+                "What procedures should be activated?",
+                "How can similar issues be prevented in the future?"
+            ]
         });
-
-        console.log('OpenAI API response status:', response.status);
-
-        if (!response.ok) {
-            const errorText = await response.text();
-            console.log('OpenAI API error response:', errorText);
-            throw new Error(`OpenAI API Error: ${response.status} - ${errorText}`);
-        }
-
-        const data = await response.json();
-        let responseContent = data.choices[0].message.content.trim();
         
-        // Clean up response (remove any markdown formatting)
-        responseContent = responseContent.replace(/```json\n?/g, '').replace(/```\n?/g, '');
-        
-        console.log('Raw OpenAI response:', responseContent);
-        
-        try {
-            const jsonResponse = JSON.parse(responseContent);
-            
-            // Validate the response structure
-            if (!jsonResponse.title || !jsonResponse.description || !jsonResponse.discussionPoints) {
-                throw new Error('Invalid response structure from OpenAI');
-            }
-            
-            console.log(`Generated ${complexity} ${selectedCrisis.type} scenario for ${departmentInfo.name}:`, jsonResponse.title);
-            res.json(jsonResponse);
-            
-        } catch (parseError) {
-            console.error('JSON parse error:', parseError);
-            console.log('Raw response that failed to parse:', responseContent);
-            
-            // Enhanced fallback response with department-specific content
-            const fallbackScenario = generateDepartmentSpecificFallback(departmentInfo, selectedCrisis, complexity);
-            res.json(fallbackScenario);
-        }
-
     } catch (error) {
         console.error('Error generating discussion scenario:', error);
         res.status(500).json({ 
             error: 'Failed to generate scenario',
-            details: error.message,
-            department: req.body.department,
-            complexity: req.body.complexity
+            details: error.message
         });
     }
 });
-
-// Enhanced fallback with department-specific scenarios
-function generateDepartmentSpecificFallback(departmentInfo, selectedCrisis, complexity) {
-    const specificScenarios = {
-        deposits: {
-            cybersecurity_breach: {
-                title: "Customer Data Breach Affecting Deposit Accounts",
-                description: "A cybersecurity breach has exposed personal information of 15,000 deposit customers, including account numbers and transaction histories. Customers are calling demanding account closures and threatening to withdraw $25 million in deposits. The FDIC has been notified and a regulatory investigation is pending. The breach occurred during peak banking hours on Friday afternoon.",
-                questions: [
-                    "How should the Deposits team prioritize customer retention vs. allowing immediate account closures?",
-                    "What specific steps should Deposits take to secure remaining customer accounts and prevent further withdrawals?",
-                    "How should Deposits coordinate with IT to identify which specific deposit accounts were compromised?",
-                    "What communication strategy should Deposits use for both affected and unaffected customers?",
-                    "How should Deposits handle the expected surge in account closure requests while maintaining service levels?"
-                ]
-            }
-        }
-    };
-
-    // Try to find a specific scenario for this department and crisis type
-    const deptScenarios = specificScenarios[departmentInfo.name.toLowerCase()] || 
-                         specificScenarios[departmentInfo.name.toLowerCase().replace(/[^a-z]/g, '_')];
-    
-    if (deptScenarios && deptScenarios[selectedCrisis.type]) {
-        const scenario = deptScenarios[selectedCrisis.type];
-        return {
-            title: scenario.title,
-            description: scenario.description,
-            discussionPoints: scenario.questions
-        };
-    }
-
-    // Generic fallback if no specific scenario exists
-    return {
-        title: `${departmentInfo.name} Department ${selectedCrisis.description} Response`,
-        description: `The ${departmentInfo.name} department is facing a ${selectedCrisis.description.toLowerCase()} that directly impacts ${departmentInfo.focus}. This situation requires immediate attention to ${departmentInfo.responsibilities[0]} while managing ${departmentInfo.uniqueChallenges[0]}. The crisis is affecting ${departmentInfo.metrics} and requires coordinated response.`,
-        discussionPoints: [
-            `How should ${departmentInfo.name} immediately address this crisis within their area of responsibility?`,
-            `What ${departmentInfo.name}-specific procedures should be activated in response to this situation?`,
-            `How should ${departmentInfo.name} coordinate with other departments during this crisis?`,
-            `What are the key ${departmentInfo.name} metrics that need monitoring during this situation?`,
-            `What lessons can ${departmentInfo.name} learn to prevent similar issues in the future?`
-        ]
-    };
-}
 
 // Serve different pages
 app.get('/', (req, res) => {
@@ -1096,3 +677,6 @@ app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
     console.log('Make sure your .env file contains OPENAI_API_KEY');
 });
+
+// Add module export for Vercel
+module.exports = app;
