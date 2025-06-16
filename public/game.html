@@ -503,25 +503,42 @@
                 }
             });
             
+            // Track strikes for bad choices
+            let strikeAdded = false;
+            
             // Apply score changes (only to answering department)
             Object.entries(option.impacts).forEach(([deptKey, impact]) => {
                 if (departments[deptKey] && impact !== 0) {
                     departments[deptKey].score = Math.max(0, Math.min(200, departments[deptKey].score + impact));
                     
-                    // Check for strikes on very bad decisions
-                    if (impact <= -20) {
+                    // Add strike for bad decisions (-15 or worse)
+                    if (impact <= -15 && deptKey === answeringDept) {
                         departments[deptKey].strikes++;
-                        console.log(`${departments[deptKey].name} received a strike!`);
+                        strikeAdded = true;
+                        console.log(`${departments[deptKey].name} received a strike! (${departments[deptKey].strikes}/3)`);
                         
-                        // Show strike notification
-                        setTimeout(() => {
-                            alert(`❌ STRIKE! ${departments[deptKey].name} made a critical error and received a strike!`);
-                        }, 500);
+                        // Check for game over
+                        if (departments[deptKey].strikes >= 3) {
+                            setTimeout(() => {
+                                alert(`💀 GAME OVER! ${departments[deptKey].name} has made 3 critical errors and the crisis management has failed!`);
+                                resetGame();
+                            }, 1000);
+                            return;
+                        }
                     }
                 }
             });
             
             renderDepartmentScores();
+            
+            // Show strike notification
+            if (strikeAdded) {
+                const deptName = departments[answeringDept].name;
+                const strikeCount = departments[answeringDept].strikes;
+                setTimeout(() => {
+                    alert(`❌ STRIKE ${strikeCount}/3! ${deptName} made a critical error! ${3 - strikeCount} strikes remaining before GAME OVER!`);
+                }, 500);
+            }
             
             // Show next button
             document.getElementById('nextQuestionBtn').style.display = 'block';
