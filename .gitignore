@@ -30,3 +30,5 @@ pids
 
 # Optional eslint cache
 .eslintcache
+
+.env
