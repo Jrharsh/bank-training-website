@@ -15,7 +15,33 @@ app.use('/images', express.static(path.join(__dirname, 'public/images')));
 
 // Test endpoint
 app.get('/api/test', (req, res) => {
-    res.json({ message: 'Backend is working!' });
+    res.json({ message: 'Backend is working!' }
+
+// Shuffle question order to randomize department sequence
+function shuffleQuestionOrder(scenario) {
+    // Create a copy of the scenario
+    const shuffledScenario = { ...scenario };
+    
+    // Create a copy of questions array and shuffle it
+    const shuffledQuestions = [...scenario.questions];
+    
+    // Fisher-Yates shuffle algorithm for true randomization
+    for (let i = shuffledQuestions.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffledQuestions[i], shuffledQuestions[j]] = [shuffledQuestions[j], shuffledQuestions[i]];
+    }
+    
+    // Renumber questions to maintain sequential numbering (1-21)
+    shuffledQuestions.forEach((question, index) => {
+        question.questionNumber = index + 1;
+    });
+    
+    shuffledScenario.questions = shuffledQuestions;
+    
+    console.log('Questions shuffled - new order:', shuffledQuestions.map(q => `${q.questionNumber}:${q.department}`).join(', '));
+    
+    return shuffledScenario;
+});
 });
 
 // ENHANCED Game Scenario Generation
@@ -307,9 +333,10 @@ Always respond with valid JSON only.`
             
             // Convert AI format to game format and ensure randomization
             const gameScenario = convertAIToGameFormat(aiScenario);
-            const finalScenario = ensureRandomizedAnswers(gameScenario);
+            const randomizedScenario = ensureRandomizedAnswers(gameScenario);
+            const finalScenario = shuffleQuestionOrder(randomizedScenario);
             
-            console.log(`AI Generated: "${aiScenario.title}" with ${finalScenario.questions.length} department-specific questions`);
+            console.log(`AI Generated: "${aiScenario.title}" with ${finalScenario.questions.length} department-specific questions in randomized order`);
             
             res.json(finalScenario);
             
@@ -319,7 +346,8 @@ Always respond with valid JSON only.`
             
             // Fallback to enhanced scenario with specific crisis context
             const fallbackScenario = createEnhancedCrisisScenario(selectedScenario, departmentContexts);
-            res.json(fallbackScenario);
+            const shuffledFallback = shuffleQuestionOrder(fallbackScenario);
+            res.json(shuffledFallback);
         }
         
     } catch (error) {
