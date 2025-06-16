@@ -415,213 +415,249 @@
     </div>
 
     <script>
-        let selectedDepartment = null;
-        let selectedComplexity = 'intermediate';
+        // Replace just the <script> section in your existing discussion.html file with this:
+
+let selectedDepartment = null;
+let selectedComplexity = 'intermediate';
+
+const departments = [
+    { id: 'Deposits', name: 'Deposits', icon: '💰' },
+    { id: 'Tellers', name: 'Tellers', icon: '🏪' },
+    { id: 'Loans', name: 'Loans', icon: '📊' },
+    { id: 'Accounting', name: 'Accounting', icon: '📈' },
+    { id: 'Bookkeeping', name: 'Bookkeeping', icon: '📚' },
+    { id: 'Loan Servicing', name: 'Loan Servicing', icon: '🔧' },
+    { id: 'Compliance', name: 'Compliance', icon: '⚖️' },
+    { id: 'IT', name: 'IT', icon: '💻' },
+    { id: 'Security', name: 'Security', icon: '🔒' },
+    { id: 'New Accounts', name: 'New Accounts', icon: '📝' }
+];
+
+function updateStatus(message, isError = false) {
+    const statusIndicator = document.getElementById('statusIndicator');
+    const statusText = document.getElementById('statusText');
+    
+    statusText.textContent = message;
+    statusIndicator.className = isError ? 'status-indicator error' : 'status-indicator';
+    
+    // Add console logging for debugging
+    console.log(`[STATUS] ${message}`, isError ? '(ERROR)' : '');
+}
+
+function createDepartmentCards() {
+    const grid = document.getElementById('departmentGrid');
+    grid.innerHTML = '';
+    
+    departments.forEach(dept => {
+        const card = document.createElement('div');
+        card.className = 'department-card';
+        card.innerHTML = `
+            <div class="department-icon">${dept.icon}</div>
+            <div class="department-name">${dept.name}</div>
+        `;
         
-        const departments = [
-            { id: 'Deposits', name: 'Deposits', icon: '💰' },
-            { id: 'Tellers', name: 'Tellers', icon: '🏪' },
-            { id: 'Loans', name: 'Loans', icon: '📊' },
-            { id: 'Accounting', name: 'Accounting', icon: '📈' },
-            { id: 'Bookkeeping', name: 'Bookkeeping', icon: '📚' },
-            { id: 'Loan Servicing', name: 'Loan Servicing', icon: '🔧' },
-            { id: 'Compliance', name: 'Compliance', icon: '⚖️' },
-            { id: 'IT', name: 'IT', icon: '💻' },
-            { id: 'Security', name: 'Security', icon: '🔒' },
-            { id: 'New Accounts', name: 'New Accounts', icon: '📝' }
-        ];
+        card.addEventListener('click', () => selectDepartment(dept.id, card));
+        grid.appendChild(card);
+    });
+    
+    updateStatus(`${departments.length} departments loaded`);
+}
 
-        function updateStatus(message, isError = false) {
-            const statusIndicator = document.getElementById('statusIndicator');
-            const statusText = document.getElementById('statusText');
-            
-            statusText.textContent = message;
-            statusIndicator.className = isError ? 'status-indicator error' : 'status-indicator';
-        }
+function selectDepartment(deptId, cardElement) {
+    // Remove selection from all cards
+    document.querySelectorAll('.department-card').forEach(card => {
+        card.classList.remove('selected');
+    });
+    
+    // Add selection to clicked card
+    cardElement.classList.add('selected');
+    selectedDepartment = deptId;
+    
+    // Enable generate button if department is selected
+    updateGenerateButton();
+    updateStatus(`Selected department: ${departments.find(d => d.id === deptId).name}`);
+}
 
-        function createDepartmentCards() {
-            const grid = document.getElementById('departmentGrid');
-            grid.innerHTML = '';
+function setupComplexitySelector() {
+    const options = document.querySelectorAll('.complexity-option');
+    
+    options.forEach(option => {
+        option.addEventListener('click', () => {
+            // Remove selection from all options
+            options.forEach(opt => opt.classList.remove('selected'));
             
-            departments.forEach(dept => {
-                const card = document.createElement('div');
-                card.className = 'department-card';
-                card.innerHTML = `
-                    <div class="department-icon">${dept.icon}</div>
-                    <div class="department-name">${dept.name}</div>
-                `;
-                
-                card.addEventListener('click', () => selectDepartment(dept.id, card));
-                grid.appendChild(card);
-            });
+            // Add selection to clicked option
+            option.classList.add('selected');
+            selectedComplexity = option.dataset.complexity;
             
-            updateStatus(`${departments.length} departments loaded`);
-        }
-
-        function selectDepartment(deptId, cardElement) {
-            // Remove selection from all cards
-            document.querySelectorAll('.department-card').forEach(card => {
-                card.classList.remove('selected');
-            });
-            
-            // Add selection to clicked card
-            cardElement.classList.add('selected');
-            selectedDepartment = deptId;
-            
-            // Enable generate button if department is selected
-            updateGenerateButton();
-            updateStatus(`Selected department: ${departments.find(d => d.id === deptId).name}`);
-        }
-
-        function setupComplexitySelector() {
-            const options = document.querySelectorAll('.complexity-option');
-            
-            options.forEach(option => {
-                option.addEventListener('click', () => {
-                    // Remove selection from all options
-                    options.forEach(opt => opt.classList.remove('selected'));
-                    
-                    // Add selection to clicked option
-                    option.classList.add('selected');
-                    selectedComplexity = option.dataset.complexity;
-                    
-                    updateStatus(`Complexity set to: ${selectedComplexity}`);
-                });
-            });
-        }
-
-        function updateGenerateButton() {
-            const generateBtn = document.getElementById('generateBtn');
-            generateBtn.disabled = !selectedDepartment;
-        }
-
-        async function generateAIScenario() {
-            if (!selectedDepartment) {
-                updateStatus('Please select a department first', true);
-                return;
-            }
-
-            const generateBtn = document.getElementById('generateBtn');
-            const generateBtnText = document.getElementById('generateBtnText');
-            
-            // Show loading state
-            generateBtn.classList.add('loading');
-            generateBtn.disabled = true;
-            generateBtnText.textContent = 'AI is generating scenario...';
-            updateStatus('Contacting OpenAI to generate scenario...');
-
-            try {
-                const response = await fetch('/api/generate-discussion-scenario', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        department: selectedDepartment,
-                        complexity: selectedComplexity
-                    })
-                });
-
-                if (!response.ok) {
-                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-                }
-
-                const data = await response.json();
-                
-                if (data.error) {
-                    throw new Error(data.error);
-                }
-
-                displayScenario(data);
-                updateStatus('AI scenario generated successfully!');
-
-            } catch (error) {
-                console.error('Error generating scenario:', error);
-                updateStatus(`Error: ${error.message}`, true);
-                
-                // Show fallback message
-                displayErrorFallback();
-            } finally {
-                // Reset button state
-                generateBtn.classList.remove('loading');
-                generateBtn.disabled = false;
-                generateBtnText.textContent = '🤖 Generate AI Scenario';
-            }
-        }
-
-        function displayScenario(data) {
-            const dept = departments.find(d => d.id === selectedDepartment);
-            
-            // Update header
-            document.getElementById('scenarioIcon').textContent = dept.icon;
-            document.getElementById('scenarioTitle').textContent = data.title || 'AI Generated Scenario';
-            document.getElementById('scenarioDepartment').textContent = `${dept.name} Department - ${selectedComplexity.charAt(0).toUpperCase() + selectedComplexity.slice(1)} Level`;
-            
-            // Update content
-            document.getElementById('scenarioContent').textContent = data.description || data.scenario || 'Scenario description not available';
-            
-            // Update discussion points
-            const discussionContainer = document.getElementById('discussionPoints');
-            discussionContainer.innerHTML = '';
-            
-            const discussionPoints = data.discussionPoints || data.questions || [];
-            
-            if (Array.isArray(discussionPoints) && discussionPoints.length > 0) {
-                discussionPoints.forEach(point => {
-                    const li = document.createElement('li');
-                    li.textContent = typeof point === 'string' ? point : point.text || point.question || 'Discussion point';
-                    discussionContainer.appendChild(li);
-                });
-            } else {
-                // If no structured discussion points, try to extract from description
-                const li = document.createElement('li');
-                li.textContent = 'How would you handle this situation as a team?';
-                discussionContainer.appendChild(li);
-                
-                const li2 = document.createElement('li');
-                li2.textContent = 'What are the key risks and how can they be mitigated?';
-                discussionContainer.appendChild(li2);
-                
-                const li3 = document.createElement('li');
-                li3.textContent = 'What processes or procedures should be followed?';
-                discussionContainer.appendChild(li3);
-            }
-            
-            // Show scenario output
-            document.getElementById('scenarioOutput').style.display = 'block';
-            
-            // Scroll to scenario
-            document.getElementById('scenarioOutput').scrollIntoView({ 
-                behavior: 'smooth',
-                block: 'start' 
-            });
-        }
-
-        function displayErrorFallback() {
-            const dept = departments.find(d => d.id === selectedDepartment);
-            
-            document.getElementById('scenarioIcon').textContent = dept.icon;
-            document.getElementById('scenarioTitle').textContent = 'Scenario Generation Failed';
-            document.getElementById('scenarioDepartment').textContent = `${dept.name} Department`;
-            document.getElementById('scenarioContent').textContent = 'Unable to generate AI scenario. Please check your backend connection and try again.';
-            
-            const discussionContainer = document.getElementById('discussionPoints');
-            discussionContainer.innerHTML = '<li>Check that your backend server is running</li><li>Verify the /api/generate-discussion-scenario endpoint exists</li><li>Ensure OpenAI API is properly configured</li>';
-            
-            document.getElementById('scenarioOutput').style.display = 'block';
-            document.getElementById('scenarioOutput').scrollIntoView({ behavior: 'smooth' });
-        }
-
-        // Initialize everything when page loads
-        document.addEventListener('DOMContentLoaded', function() {
-            createDepartmentCards();
-            setupComplexitySelector();
-            
-            // Add click handler to generate button
-            document.getElementById('generateBtn').addEventListener('click', generateAIScenario);
-            
-            updateStatus('Ready to generate AI-powered scenarios');
+            updateStatus(`Complexity set to: ${selectedComplexity}`);
         });
+    });
+}
+
+function updateGenerateButton() {
+    const generateBtn = document.getElementById('generateBtn');
+    generateBtn.disabled = !selectedDepartment;
+}
+
+async function generateAIScenario() {
+    if (!selectedDepartment) {
+        updateStatus('Please select a department first', true);
+        return;
+    }
+
+    const generateBtn = document.getElementById('generateBtn');
+    const generateBtnText = document.getElementById('generateBtnText');
+    
+    // Show loading state
+    generateBtn.classList.add('loading');
+    generateBtn.disabled = true;
+    generateBtnText.textContent = 'AI is generating scenario...';
+    updateStatus('Contacting OpenAI to generate scenario...');
+
+    console.log(`[DEBUG] Starting generation: ${selectedDepartment} - ${selectedComplexity}`);
+
+    try {
+        const requestData = {
+            department: selectedDepartment,
+            complexity: selectedComplexity
+        };
+        
+        console.log('[DEBUG] Request data:', requestData);
+
+        const response = await fetch('/api/generate-discussion-scenario', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(requestData)
+        });
+
+        console.log(`[DEBUG] Response status: ${response.status}`);
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            console.log('[DEBUG] Error response:', errorText);
+            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        console.log('[DEBUG] Response data:', data);
+        
+        if (data.error) {
+            throw new Error(data.error);
+        }
+
+        displayScenario(data);
+        updateStatus('AI scenario generated successfully!');
+
+    } catch (error) {
+        console.error('[DEBUG] Error:', error);
+        updateStatus(`Error: ${error.message}`, true);
+        displayErrorFallback();
+    } finally {
+        // Reset button state
+        generateBtn.classList.remove('loading');
+        generateBtn.disabled = false;
+        generateBtnText.textContent = '🤖 Generate AI Scenario';
+    }
+}
+
+function displayScenario(data) {
+    console.log('[DEBUG] Displaying scenario:', data);
+    
+    const dept = departments.find(d => d.id === selectedDepartment);
+    
+    // Update header
+    document.getElementById('scenarioIcon').textContent = dept.icon;
+    document.getElementById('scenarioTitle').textContent = data.title || 'AI Generated Scenario';
+    document.getElementById('scenarioDepartment').textContent = `${dept.name} Department - ${selectedComplexity.charAt(0).toUpperCase() + selectedComplexity.slice(1)} Level`;
+    
+    // Update content - handle multiple possible field names
+    const scenarioText = data.description || data.scenario || 'Scenario description not available';
+    document.getElementById('scenarioContent').textContent = scenarioText;
+    
+    // Update discussion points
+    const discussionContainer = document.getElementById('discussionPoints');
+    discussionContainer.innerHTML = '';
+    
+    // Handle multiple possible field names
+    const discussionPoints = data.discussionPoints || data.questions || data.discussion || [];
+    
+    console.log('[DEBUG] Discussion points:', discussionPoints);
+    
+    if (Array.isArray(discussionPoints) && discussionPoints.length > 0) {
+        discussionPoints.forEach(point => {
+            const li = document.createElement('li');
+            
+            // Handle different point formats
+            if (typeof point === 'string') {
+                li.textContent = point;
+            } else if (point && point.text) {
+                li.textContent = point.text;
+            } else if (point && point.question) {
+                li.textContent = point.question;
+            } else {
+                li.textContent = 'Discussion point';
+            }
+            
+            discussionContainer.appendChild(li);
+        });
+    } else {
+        // Simple fallback
+        const fallbackPoints = [
+            'How would you handle this situation as a team?',
+            'What are the key risks and how can they be mitigated?',
+            'What processes or procedures should be followed?',
+            'How should you communicate with stakeholders?',
+            'What follow-up actions are necessary?'
+        ];
+        
+        fallbackPoints.forEach(point => {
+            const li = document.createElement('li');
+            li.textContent = point;
+            discussionContainer.appendChild(li);
+        });
+    }
+    
+    // Show scenario output
+    document.getElementById('scenarioOutput').style.display = 'block';
+    
+    // Scroll to scenario
+    document.getElementById('scenarioOutput').scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start' 
+    });
+}
+
+function displayErrorFallback() {
+    const dept = departments.find(d => d.id === selectedDepartment);
+    
+    document.getElementById('scenarioIcon').textContent = dept.icon;
+    document.getElementById('scenarioTitle').textContent = 'Scenario Generation Failed';
+    document.getElementById('scenarioDepartment').textContent = `${dept.name} Department`;
+    document.getElementById('scenarioContent').textContent = 'Unable to generate AI scenario. Check the browser console (F12) for error details.';
+    
+    const discussionContainer = document.getElementById('discussionPoints');
+    discussionContainer.innerHTML = '<li>Check browser console for error details</li><li>Verify server is running</li><li>Check OpenAI API configuration</li>';
+    
+    document.getElementById('scenarioOutput').style.display = 'block';
+    document.getElementById('scenarioOutput').scrollIntoView({ behavior: 'smooth' });
+}
+
+// Initialize everything when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('[DEBUG] Page loaded, initializing...');
+    
+    createDepartmentCards();
+    setupComplexitySelector();
+    
+    // Add click handler to generate button
+    document.getElementById('generateBtn').addEventListener('click', generateAIScenario);
+    
+    updateStatus('Ready to generate AI-powered scenarios');
+    console.log('[DEBUG] Initialization complete');
+});
     </script>
 </body>
 </html>
