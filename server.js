@@ -383,3 +383,50 @@ function createEnhancedDiscussionFallback(department, complexity, deptContext) {
         ]
     };
 }
+// DISCUSSION SCENARIO ENDPOINT
+app.post('/api/generate-discussion-scenario', async (req, res) => {
+    try {
+        const { department, complexity } = req.body;
+        const apiKey = process.env.OPENAI_API_KEY;
+        
+        if (!apiKey) {
+            return res.status(500).json({ error: 'OpenAI API key not configured' });
+        }
+
+        const response = await fetch('https://api.openai.com/v1/chat/completions', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${apiKey}`
+            },
+            body: JSON.stringify({
+                model: 'gpt-3.5-turbo',
+                messages: [{ 
+                    role: 'user', 
+                    content: `Create a realistic ${complexity} level banking scenario for the ${department} department. Include specific details and 4-5 discussion questions. Return as JSON: {"title": "...", "description": "...", "discussionPoints": [...]}`
+                }],
+                max_tokens: 1500,
+                temperature: 0.8
+            })
+        });
+
+        const data = await response.json();
+        const content = data.choices[0].message.content.trim().replace(/```json/g, '').replace(/```/g, '');
+        const scenario = JSON.parse(content);
+        
+        res.json(scenario);
+        
+    } catch (error) {
+        console.error('Error generating discussion scenario:', error);
+        res.status(500).json({ error: 'Failed to generate scenario' });
+    }
+});
+
+// Serve different pages
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+app.get('/game', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'game.html'));
+});
