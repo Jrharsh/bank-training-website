@@ -889,230 +889,228 @@
         }
 
         function generateDepartmentSpecificQuestions(department, scenario) {
-            const questionSets = {
-                'CEO_SVPs': {
-                    'cyberattack': [
-                        {
-                            questionText: 'How do you immediately communicate the ransomware attack to stakeholders?',
-                            options: [
-                                { text: 'Issue immediate public statement with full details of the breach', impacts: { 'CEO_SVPs': -20, 'IT_Security': -10, 'HR': -5 } },
-                                { text: 'Coordinate with legal team and issue measured statement after assessment', impacts: { 'CEO_SVPs': 25, 'IT_Security': 10, 'HR': 5 } },
-                                { text: 'Wait until systems are restored before making any public announcements', impacts: { 'CEO_SVPs': -15, 'IT_Security': -5, 'HR': -10 } }
-                            ]
-                        },
-                        {
-                            questionText: 'What is your decision regarding the $2.5 million ransom demand?',
-                            options: [
-                                { text: 'Pay the ransom immediately to restore operations quickly', impacts: { 'CEO_SVPs': -25, 'IT_Security': -15, 'Finance': -20 } },
-                                { text: 'Refuse to pay and focus all resources on system recovery', impacts: { 'CEO_SVPs': 20, 'IT_Security': 15, 'Finance': 10 } },
-                                { text: 'Negotiate with attackers while pursuing parallel recovery options', impacts: { 'CEO_SVPs': -10, 'IT_Security': 5, 'Finance': -5 } }
-                            ]
-                        },
-                        {
-                            questionText: 'How do you manage the crisis with markets opening in 5 hours?',
-                            options: [
-                                { text: 'Request trading halt and emergency board meeting', impacts: { 'CEO_SVPs': 22, 'Finance': 15, 'Accounting': 10 } },
-                                { text: 'Issue confidence statement and continue normal trading', impacts: { 'CEO_SVPs': -18, 'Finance': -10, 'Accounting': -5 } },
-                                { text: 'Coordinate with regulators before making any market decisions', impacts: { 'CEO_SVPs': 18, 'Finance': 12, 'Accounting': 8 } }
-                            ]
-                        }
-                    ],
-                    'natural_disaster': [
-                        {
-                            questionText: 'How do you coordinate the bank\'s response to the hurricane disaster?',
-                            options: [
-                                { text: 'Activate disaster response plan and coordinate with emergency management', impacts: { 'CEO_SVPs': 25, 'HR': 15, 'IT_Security': 10 } },
-                                { text: 'Focus primarily on protecting bank assets and facilities', impacts: { 'CEO_SVPs': -15, 'HR': -20, 'IT_Security': -5 } },
-                                { text: 'Wait for government guidance before taking action', impacts: { 'CEO_SVPs': -20, 'HR': -15, 'IT_Security': -10 } }
-                            ]
-                        },
-                        {
-                            questionText: 'What is your strategy for supporting affected communities?',
-                            options: [
-                                { text: 'Immediately announce loan payment deferrals and emergency credit programs', impacts: { 'CEO_SVPs': 20, 'Loans': 15, 'HR': 10 } },
-                                { text: 'Maintain normal lending standards to protect bank stability', impacts: { 'CEO_SVPs': -18, 'Loans': -15, 'HR': -10 } },
-                                { text: 'Partner with government agencies for coordinated disaster relief', impacts: { 'CEO_SVPs': 22, 'Loans': 12, 'HR': 8 } }
-                            ]
-                        },
-                        {
-                            questionText: 'How do you address business continuity with 12 branches closed?',
-                            options: [
-                                { text: 'Deploy mobile banking units and expand digital services immediately', impacts: { 'CEO_SVPs': 23, 'IT_Security': 15, 'Deposits': 12 } },
-                                { text: 'Redirect customers to remaining open branches only', impacts: { 'CEO_SVPs': -12, 'IT_Security': -5, 'Deposits': -15 } },
-                                { text: 'Temporarily suspend services until branches can reopen', impacts: { 'CEO_SVPs': -25, 'IT_Security': -10, 'Deposits': -20 } }
-                            ]
-                        }
+            // All departments get questions in mixed order for all scenarios
+            const allQuestions = [
+                // CEO/SVP Questions
+                {
+                    department: 'CEO_SVPs',
+                    questionText: 'How do you communicate this crisis to stakeholders?',
+                    options: [
+                        { text: 'Issue immediate public statement with full crisis details', impacts: { 'CEO_SVPs': -20 } },
+                        { text: 'Wait until situation is fully resolved before communicating', impacts: { 'CEO_SVPs': -18 } },
+                        { text: 'Coordinate with legal team and issue measured statement', impacts: { 'CEO_SVPs': 25 } }
                     ]
                 },
-                'IT_Security': {
-                    'cyberattack': [
-                        {
-                            questionText: 'What is your immediate response to isolate the ransomware infection?',
-                            options: [
-                                { text: 'Immediately shut down all network connections and systems', impacts: { 'IT_Security': 25, 'CEO_SVPs': 10, 'Deposits': -5 } },
-                                { text: 'Attempt to identify infected systems while maintaining operations', impacts: { 'IT_Security': -20, 'CEO_SVPs': -10, 'Deposits': -15 } },
-                                { text: 'Focus on backing up uninfected data before taking action', impacts: { 'IT_Security': -15, 'CEO_SVPs': -5, 'Deposits': -10 } }
-                            ]
-                        },
-                        {
-                            questionText: 'How do you prioritize system recovery to restore critical functions?',
-                            options: [
-                                { text: 'Restore core banking systems first, then customer-facing services', impacts: { 'IT_Security': 22, 'Deposits': 15, 'Loans': 10 } },
-                                { text: 'Focus on customer-facing systems to minimize service disruption', impacts: { 'IT_Security': -10, 'Deposits': -5, 'Loans': -8 } },
-                                { text: 'Restore all systems simultaneously using all available resources', impacts: { 'IT_Security': -18, 'Deposits': -10, 'Loans': -12 } }
-                            ]
-                        },
-                        {
-                            questionText: 'What forensic investigation steps should be taken immediately?',
-                            options: [
-                                { text: 'Preserve all logs and evidence before starting any recovery', impacts: { 'IT_Security': 20, 'CEO_SVPs': 15, 'Accounting': 10 } },
-                                { text: 'Focus on recovery first, investigate after systems are restored', impacts: { 'IT_Security': -15, 'CEO_SVPs': -10, 'Accounting': -5 } },
-                                { text: 'Coordinate with FBI cyber team before taking any action', impacts: { 'IT_Security': 18, 'CEO_SVPs': 12, 'Accounting': 8 } }
-                            ]
-                        }
+                {
+                    department: 'CEO_SVPs',
+                    questionText: 'What is your priority for managing this crisis?',
+                    options: [
+                        { text: 'Focus primarily on protecting bank reputation', impacts: { 'CEO_SVPs': -15 } },
+                        { text: 'Balance stakeholder communication with operational response', impacts: { 'CEO_SVPs': 22 } },
+                        { text: 'Minimize public attention until crisis passes', impacts: { 'CEO_SVPs': -25 } }
                     ]
                 },
-                'HR': {
-                    'cyberattack': [
-                        {
-                            questionText: 'How do you manage employee communications about the cybersecurity incident?',
-                            options: [
-                                { text: 'Send detailed email explaining the situation and safety measures', impacts: { 'HR': 20, 'CEO_SVPs': 10, 'IT_Security': 8 } },
-                                { text: 'Hold emergency all-hands meeting to address concerns', impacts: { 'HR': 25, 'CEO_SVPs': 15, 'IT_Security': 10 } },
-                                { text: 'Minimize communication to prevent panic and rumors', impacts: { 'HR': -20, 'CEO_SVPs': -15, 'IT_Security': -10 } }
-                            ]
-                        },
-                        {
-                            questionText: 'What staffing adjustments are needed when digital systems are down?',
-                            options: [
-                                { text: 'Implement manual processes and redeploy staff to critical functions', impacts: { 'HR': 22, 'Deposits': 15, 'Loans': 10 } },
-                                { text: 'Send non-essential employees home until systems are restored', impacts: { 'HR': -15, 'Deposits': -20, 'Loans': -18 } },
-                                { text: 'Maintain normal staffing and wait for IT resolution', impacts: { 'HR': -10, 'Deposits': -12, 'Loans': -8 } }
-                            ]
-                        },
-                        {
-                            questionText: 'How do you handle employees who may have been phishing email targets?',
-                            options: [
-                                { text: 'Provide immediate security training and counseling support', impacts: { 'HR': 18, 'IT_Security': 12, 'CEO_SVPs': 8 } },
-                                { text: 'Investigate and potentially discipline employees involved', impacts: { 'HR': -20, 'IT_Security': -10, 'CEO_SVPs': -15 } },
-                                { text: 'Focus on system recovery without addressing individual involvement', impacts: { 'HR': -12, 'IT_Security': -8, 'CEO_SVPs': -5 } }
-                            ]
-                        }
+                {
+                    department: 'CEO_SVPs',
+                    questionText: 'How do you coordinate the overall crisis response?',
+                    options: [
+                        { text: 'Activate emergency management protocols immediately', impacts: { 'CEO_SVPs': 24 } },
+                        { text: 'Handle crisis internally without external coordination', impacts: { 'CEO_SVPs': -20 } },
+                        { text: 'Wait for situation assessment before taking action', impacts: { 'CEO_SVPs': -16 } }
                     ]
                 },
-                'Finance': {
-                    'cyberattack': [
-                        {
-                            questionText: 'How do you assess the immediate financial impact of the ransomware attack?',
-                            options: [
-                                { text: 'Calculate direct costs, lost revenue, and recovery expenses immediately', impacts: { 'Finance': 25, 'CEO_SVPs': 15, 'Accounting': 10 } },
-                                { text: 'Wait until systems are restored to assess financial impact', impacts: { 'Finance': -20, 'CEO_SVPs': -15, 'Accounting': -12 } },
-                                { text: 'Focus only on immediate operational costs', impacts: { 'Finance': -10, 'CEO_SVPs': -8, 'Accounting': -5 } }
-                            ]
-                        },
-                        {
-                            questionText: 'What is your approach to managing the $2.5 million ransom payment decision?',
-                            options: [
-                                { text: 'Analyze cost-benefit of paying ransom versus recovery costs', impacts: { 'Finance': 20, 'CEO_SVPs': 12, 'IT_Security': 8 } },
-                                { text: 'Recommend against payment due to financial and ethical concerns', impacts: { 'Finance': 22, 'CEO_SVPs': 18, 'IT_Security': 15 } },
-                                { text: 'Support immediate payment to minimize financial losses', impacts: { 'Finance': -25, 'CEO_SVPs': -20, 'IT_Security': -15 } }
-                            ]
-                        },
-                        {
-                            questionText: 'How do you handle cyber insurance claims during this incident?',
-                            options: [
-                                { text: 'Immediately contact insurance providers and begin claims process', impacts: { 'Finance': 25, 'CEO_SVPs': 15, 'Accounting': 10 } },
-                                { text: 'Document all costs first before contacting insurance', impacts: { 'Finance': 15, 'CEO_SVPs': 8, 'Accounting': 12 } },
-                                { text: 'Handle costs internally without involving insurance initially', impacts: { 'Finance': -18, 'CEO_SVPs': -12, 'Accounting': -8 } }
-                            ]
-                        }
+
+                // IT/Security Questions
+                {
+                    department: 'IT_Security',
+                    questionText: 'What is your immediate response to secure critical systems?',
+                    options: [
+                        { text: 'Continue operations while monitoring for additional threats', impacts: { 'IT_Security': -22 } },
+                        { text: 'Immediately isolate and secure all critical systems', impacts: { 'IT_Security': 25 } },
+                        { text: 'Focus on backing up data before taking defensive action', impacts: { 'IT_Security': -18 } }
                     ]
                 },
-                'Loans': {
-                    'natural_disaster': [
-                        {
-                            questionText: 'How do you handle loan payment deferrals for hurricane-affected borrowers?',
-                            options: [
-                                { text: 'Immediately implement blanket payment deferrals for affected areas', impacts: { 'Loans': 25, 'CEO_SVPs': 15, 'Finance': 10 } },
-                                { text: 'Require individual hardship documentation before approving deferrals', impacts: { 'Loans': -15, 'CEO_SVPs': -10, 'Finance': -5 } },
-                                { text: 'Continue normal collection procedures to maintain standards', impacts: { 'Loans': -25, 'CEO_SVPs': -20, 'Finance': -15 } }
-                            ]
-                        },
-                        {
-                            questionText: 'What is your approach to assessing collateral damage from the storm?',
-                            options: [
-                                { text: 'Deploy emergency assessment teams immediately to affected areas', impacts: { 'Loans': 22, 'Finance': 12, 'Accounting': 8 } },
-                                { text: 'Wait for insurance adjusters to complete their assessments first', impacts: { 'Loans': -12, 'Finance': -8, 'Accounting': -5 } },
-                                { text: 'Use satellite imagery and remote assessment tools initially', impacts: { 'Loans': 15, 'Finance': 10, 'Accounting': 5 } }
-                            ]
-                        },
-                        {
-                            questionText: 'How do you coordinate with SBA for disaster lending programs?',
-                            options: [
-                                { text: 'Immediately contact SBA to expedite disaster loan processing', impacts: { 'Loans': 20, 'CEO_SVPs': 15, 'HR': 10 } },
-                                { text: 'Focus on internal loan modifications before involving SBA', impacts: { 'Loans': -10, 'CEO_SVPs': -5, 'HR': -3 } },
-                                { text: 'Set up joint processing center with SBA representatives', impacts: { 'Loans': 25, 'CEO_SVPs': 18, 'HR': 12 } }
-                            ]
-                        }
+                {
+                    department: 'IT_Security',
+                    questionText: 'How do you prioritize system recovery efforts?',
+                    options: [
+                        { text: 'Restore all systems simultaneously to minimize downtime', impacts: { 'IT_Security': -20 } },
+                        { text: 'Restore core banking systems first, then customer services', impacts: { 'IT_Security': 23 } },
+                        { text: 'Focus on customer-facing systems to maintain service', impacts: { 'IT_Security': -15 } }
                     ]
                 },
-                'Accounting': {
-                    'cyberattack': [
-                        {
-                            questionText: 'How do you maintain financial record integrity when systems are compromised?',
-                            options: [
-                                { text: 'Immediately switch to manual backup procedures and paper records', impacts: { 'Accounting': 25, 'Finance': 15, 'CEO_SVPs': 10 } },
-                                { text: 'Wait for system restoration before processing any transactions', impacts: { 'Accounting': -20, 'Finance': -15, 'CEO_SVPs': -10 } },
-                                { text: 'Use limited offline systems for critical transactions only', impacts: { 'Accounting': 10, 'Finance': 5, 'CEO_SVPs': 3 } }
-                            ]
-                        },
-                        {
-                            questionText: 'What manual procedures should be implemented for transaction recording?',
-                            options: [
-                                { text: 'Establish comprehensive paper-based recording system immediately', impacts: { 'Accounting': 22, 'Deposits': 15, 'Loans': 10 } },
-                                { text: 'Record only essential transactions until systems are restored', impacts: { 'Accounting': -10, 'Deposits': -8, 'Loans': -5 } },
-                                { text: 'Use secure mobile devices for basic transaction logging', impacts: { 'Accounting': 15, 'Deposits': 12, 'Loans': 8 } }
-                            ]
-                        },
-                        {
-                            questionText: 'How do you handle regulatory reporting requirements during the outage?',
-                            options: [
-                                { text: 'Contact regulators immediately to request extensions and explain situation', impacts: { 'Accounting': 20, 'CEO_SVPs': 15, 'Finance': 10 } },
-                                { text: 'Prepare manual reports using available backup data', impacts: { 'Accounting': 18, 'CEO_SVPs': 10, 'Finance': 8 } },
-                                { text: 'Wait until systems are restored to address reporting requirements', impacts: { 'Accounting': -25, 'CEO_SVPs': -20, 'Finance': -15 } }
-                            ]
-                        }
+                {
+                    department: 'IT_Security',
+                    questionText: 'What security measures should be implemented immediately?',
+                    options: [
+                        { text: 'Implement enhanced monitoring and access controls', impacts: { 'IT_Security': 21 } },
+                        { text: 'Maintain current security protocols during crisis', impacts: { 'IT_Security': -25 } },
+                        { text: 'Reduce security measures to speed up recovery', impacts: { 'IT_Security': -30 } }
                     ]
                 },
-                'Deposits': {
-                    'cyberattack': [
-                        {
-                            questionText: 'How do you reassure customers about deposit safety during the cyberattack?',
-                            options: [
-                                { text: 'Issue immediate statement emphasizing FDIC protection and deposit security', impacts: { 'Deposits': 25, 'CEO_SVPs': 15, 'HR': 10 } },
-                                { text: 'Avoid public statements until the extent of the breach is known', impacts: { 'Deposits': -20, 'CEO_SVPs': -15, 'HR': -10 } },
-                                { text: 'Provide details only when customers specifically ask', impacts: { 'Deposits': -15, 'CEO_SVPs': -10, 'HR': -5 } }
-                            ]
-                        },
-                        {
-                            questionText: 'What alternative service delivery methods should be implemented immediately?',
-                            options: [
-                                { text: 'Deploy mobile banking units and extend branch hours immediately', impacts: { 'Deposits': 22, 'IT_Security': 10, 'HR': 12 } },
-                                { text: 'Direct customers to use phone banking and mail-in services', impacts: { 'Deposits': 10, 'IT_Security': 5, 'HR': 3 } },
-                                { text: 'Temporarily limit services to essential transactions only', impacts: { 'Deposits': -15, 'IT_Security': -5, 'HR': -8 } }
-                            ]
-                        },
-                        {
-                            questionText: 'How do you prevent a deposit run when online banking is down?',
-                            options: [
-                                { text: 'Increase branch staffing and ensure adequate cash availability', impacts: { 'Deposits': 20, 'Finance': 15, 'HR': 12 } },
-                                { text: 'Implement temporary withdrawal limits to manage demand', impacts: { 'Deposits': -10, 'Finance': -5, 'HR': -3 } },
-                                { text: 'Maintain normal operations and address concerns individually', impacts: { 'Deposits': 15, 'Finance': 8, 'HR': 5 } }
-                            ]
-                        }
+
+                // HR Questions
+                {
+                    department: 'HR',
+                    questionText: 'How do you manage employee communications during this crisis?',
+                    options: [
+                        { text: 'Minimize communication to prevent panic among staff', impacts: { 'HR': -20 } },
+                        { text: 'Hold emergency meetings to address all employee concerns', impacts: { 'HR': 25 } },
+                        { text: 'Send brief updates only when absolutely necessary', impacts: { 'HR': -15 } }
+                    ]
+                },
+                {
+                    department: 'HR',
+                    questionText: 'What staffing adjustments are needed for crisis response?',
+                    options: [
+                        { text: 'Maintain normal staffing levels and wait for resolution', impacts: { 'HR': -18 } },
+                        { text: 'Send non-essential employees home until crisis passes', impacts: { 'HR': -22 } },
+                        { text: 'Redeploy staff to critical functions and implement manual processes', impacts: { 'HR': 24 } }
+                    ]
+                },
+                {
+                    department: 'HR',
+                    questionText: 'How do you support employee wellbeing during the crisis?',
+                    options: [
+                        { text: 'Provide counseling and stress management resources immediately', impacts: { 'HR': 23 } },
+                        { text: 'Address wellbeing concerns after crisis is resolved', impacts: { 'HR': -20 } },
+                        { text: 'Expect employees to manage stress independently', impacts: { 'HR': -25 } }
+                    ]
+                },
+
+                // Finance Questions
+                {
+                    department: 'Finance',
+                    questionText: 'How do you assess the financial impact of this crisis?',
+                    options: [
+                        { text: 'Wait until crisis is resolved to calculate financial impact', impacts: { 'Finance': -20 } },
+                        { text: 'Calculate immediate costs, lost revenue, and recovery expenses', impacts: { 'Finance': 25 } },
+                        { text: 'Focus only on direct operational costs', impacts: { 'Finance': -15 } }
+                    ]
+                },
+                {
+                    department: 'Finance',
+                    questionText: 'What is your approach to managing crisis-related expenses?',
+                    options: [
+                        { text: 'Approve all necessary crisis response expenditures immediately', impacts: { 'Finance': 22 } },
+                        { text: 'Limit spending to essential items only during crisis', impacts: { 'Finance': -18 } },
+                        { text: 'Delay all non-critical expenses until situation stabilizes', impacts: { 'Finance': -25 } }
+                    ]
+                },
+                {
+                    department: 'Finance',
+                    questionText: 'How do you handle insurance and recovery funding?',
+                    options: [
+                        { text: 'Immediately contact insurance providers and begin claims process', impacts: { 'Finance': 24 } },
+                        { text: 'Document all costs before contacting insurance', impacts: { 'Finance': -10 } },
+                        { text: 'Handle all costs internally without involving insurance', impacts: { 'Finance': -22 } }
+                    ]
+                },
+
+                // Loans Questions
+                {
+                    department: 'Loans',
+                    questionText: 'How do you handle loan operations during this crisis?',
+                    options: [
+                        { text: 'Continue normal lending operations and collection procedures', impacts: { 'Loans': -25 } },
+                        { text: 'Implement emergency loan assistance programs for affected customers', impacts: { 'Loans': 25 } },
+                        { text: 'Temporarily suspend all new lending until crisis passes', impacts: { 'Loans': -20 } }
+                    ]
+                },
+                {
+                    department: 'Loans',
+                    questionText: 'What is your approach to customer payment issues?',
+                    options: [
+                        { text: 'Provide immediate payment deferrals for affected borrowers', impacts: { 'Loans': 23 } },
+                        { text: 'Require full documentation before approving any deferrals', impacts: { 'Loans': -18 } },
+                        { text: 'Maintain standard collection procedures during crisis', impacts: { 'Loans': -25 } }
+                    ]
+                },
+                {
+                    department: 'Loans',
+                    questionText: 'How do you assess loan portfolio risk during the crisis?',
+                    options: [
+                        { text: 'Conduct immediate risk assessment of all affected loans', impacts: { 'Loans': 22 } },
+                        { text: 'Wait for crisis to pass before assessing portfolio risk', impacts: { 'Loans': -20 } },
+                        { text: 'Use existing risk models without crisis-specific adjustments', impacts: { 'Loans': -15 } }
+                    ]
+                },
+
+                // Accounting Questions
+                {
+                    department: 'Accounting',
+                    questionText: 'How do you maintain financial records during system disruptions?',
+                    options: [
+                        { text: 'Wait for systems to be restored before processing transactions', impacts: { 'Accounting': -25 } },
+                        { text: 'Implement manual backup procedures and paper records', impacts: { 'Accounting': 25 } },
+                        { text: 'Use limited offline systems for essential transactions only', impacts: { 'Accounting': -10 } }
+                    ]
+                },
+                {
+                    department: 'Accounting',
+                    questionText: 'What procedures should be implemented for transaction recording?',
+                    options: [
+                        { text: 'Establish comprehensive manual recording system immediately', impacts: { 'Accounting': 23 } },
+                        { text: 'Record only essential transactions until systems restored', impacts: { 'Accounting': -18 } },
+                        { text: 'Postpone all transaction recording until full system recovery', impacts: { 'Accounting': -30 } }
+                    ]
+                },
+                {
+                    department: 'Accounting',
+                    questionText: 'How do you handle regulatory reporting during the crisis?',
+                    options: [
+                        { text: 'Contact regulators immediately to explain situation and request extensions', impacts: { 'Accounting': 24 } },
+                        { text: 'Prepare manual reports using available backup data', impacts: { 'Accounting': 15 } },
+                        { text: 'Wait until systems are restored to address reporting', impacts: { 'Accounting': -25 } }
+                    ]
+                },
+
+                // Deposits Questions
+                {
+                    department: 'Deposits',
+                    questionText: 'How do you reassure customers about deposit safety?',
+                    options: [
+                        { text: 'Avoid public statements until extent of crisis is known', impacts: { 'Deposits': -20 } },
+                        { text: 'Issue immediate statement emphasizing FDIC protection', impacts: { 'Deposits': 25 } },
+                        { text: 'Provide details only when customers ask directly', impacts: { 'Deposits': -15 } }
+                    ]
+                },
+                {
+                    department: 'Deposits',
+                    questionText: 'What alternative service methods should be implemented?',
+                    options: [
+                        { text: 'Deploy mobile banking units and extend branch hours', impacts: { 'Deposits': 24 } },
+                        { text: 'Direct customers to phone banking and mail services', impacts: { 'Deposits': -10 } },
+                        { text: 'Temporarily limit services to essential transactions only', impacts: { 'Deposits': -20 } }
+                    ]
+                },
+                {
+                    department: 'Deposits',
+                    questionText: 'How do you prevent customer panic and deposit runs?',
+                    options: [
+                        { text: 'Increase branch staffing and ensure adequate cash availability', impacts: { 'Deposits': 23 } },
+                        { text: 'Implement temporary withdrawal limits to manage demand', impacts: { 'Deposits': -18 } },
+                        { text: 'Maintain normal operations and address concerns individually', impacts: { 'Deposits': -15 } }
                     ]
                 }
-            };
+            ];
+
+            // Return 3 questions for the specific department
+            const deptQuestions = allQuestions.filter(q => q.department === department);
+            
+            // If we have specific questions for this department, return them
+            if (deptQuestions.length >= 3) {
+                return deptQuestions.slice(0, 3).map((q, index) => ({
+                    questionNumber: index + 1,
+                    department: q.department,
+                    questionText: q.questionText,
+                    options: q.options
+                }));
+            }
+            
+            // Fallback generic questions if needed
+            return generateGenericQuestions(department, scenario);
+        }
             
             // Get questions for this department and scenario type, or use generic questions
             const deptQuestions = questionSets[department]?.[scenario.type] || generateGenericQuestions(department, scenario);
@@ -1123,7 +1121,6 @@
                 questionText: q.questionText,
                 options: q.options
             }));
-        }
 
         function generateGenericQuestions(department, scenario) {
             // Generic fallback questions when specific ones aren't defined
