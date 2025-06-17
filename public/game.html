@@ -50,7 +50,6 @@
   </style>
 </head>
 <body>
-  
 
   <h1>🧠 Crisis Management Game</h1>
   <button id="generateBtn">Generate New Crisis Scenario</button>
@@ -69,8 +68,7 @@
 
       try {
         const response = await fetch('/api/generate-scenario', { method: 'POST' });
-
-        const data = await res.json();
+        const data = await response.json(); // ✅ fixed: response instead of res
 
         container.innerHTML = `
           <div class="question-box">
