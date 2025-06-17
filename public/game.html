@@ -2,93 +2,103 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Bank Crisis Management Game</title>
+  <title>Crisis Management Game</title>
   <style>
     body {
       font-family: sans-serif;
-      background: #eef2f3;
-      padding: 30px;
+      background: #f4f4f4;
+      padding: 40px;
     }
-    #questionBox {
-      background: white;
-      border-radius: 10px;
-      padding: 20px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      margin-bottom: 20px;
+    h1 {
+      color: #c0392b;
     }
-    .choice {
-      background: #3498db;
+    button {
+      padding: 12px 24px;
+      font-size: 16px;
+      background: #27ae60;
       color: white;
-      padding: 10px;
+      border: none;
       border-radius: 5px;
-      margin: 8px 0;
       cursor: pointer;
     }
-    .choice:hover {
-      background: #2980b9;
+    button:hover {
+      background: #1f8c4d;
     }
-    #resultBox {
-      background: #2ecc71;
-      color: white;
-      padding: 15px;
+    .question-box {
+      background: #fff;
+      border: 1px solid #ddd;
+      padding: 20px;
+      margin-top: 20px;
       border-radius: 8px;
-      display: none;
+    }
+    .question-box h2 {
+      margin-bottom: 10px;
+    }
+    .choice {
+      margin: 8px 0;
+    }
+    .choice input {
+      margin-right: 10px;
+    }
+    #status {
+      margin-top: 20px;
+      padding: 15px;
+      background: #ecf0f1;
+      border-radius: 6px;
+      font-family: monospace;
     }
   </style>
 </head>
 <body>
 
-  <h1>🏦 Bank Crisis Management Game</h1>
-  <button id="generateBtn">🔁 New Scenario</button>
-  <div id="scenario"></div>
+  <h1>🧠 Crisis Management Game</h1>
+  <button id="generateBtn">Generate New Crisis Scenario</button>
 
-  <div id="questionBox" style="display:none;">
-    <h3 id="questionText"></h3>
-    <div id="choices"></div>
-  </div>
-
-  <div id="resultBox"></div>
+  <div id="scenarioContainer"></div>
+  <div id="status"></div>
 
   <script>
-    let scenario = null;
-    let currentQuestion = 0;
-    let score = 0;
-
     document.getElementById('generateBtn').addEventListener('click', async () => {
-      const res = await fetch('/api/generate-scenario', { method: 'POST' });
-      scenario = await res.json();
-      document.getElementById('scenario').innerHTML = `<h2>${scenario.title}</h2><p>${scenario.description}</p>`;
-      currentQuestion = 0;
-      score = 0;
-      document.getElementById('resultBox').style.display = 'none';
-      showQuestion();
-    });
+      const btn = document.getElementById('generateBtn');
+      const status = document.getElementById('status');
+      const container = document.getElementById('scenarioContainer');
 
-    function showQuestion() {
-      if (currentQuestion >= scenario.questions.length) {
-        document.getElementById('questionBox').style.display = 'none';
-        document.getElementById('resultBox').textContent = `✅ You completed the scenario! Score: ${score}/${scenario.questions.length}`;
-        document.getElementById('resultBox').style.display = 'block';
-        return;
+      btn.disabled = true;
+      status.textContent = '⏳ Generating scenario...';
+
+      try {
+        const res = await fetch('/api/generate-scenario', { method: 'POST' });
+        const data = await res.json();
+
+        container.innerHTML = `
+          <div class="question-box">
+            <h2>${data.title}</h2>
+            <p>${data.description}</p>
+          </div>
+        `;
+
+        data.questions.forEach((q, index) => {
+          const qEl = document.createElement('div');
+          qEl.className = 'question-box';
+          qEl.innerHTML = `
+            <h3>Q${index + 1}: ${q.questionText}</h3>
+            ${q.choices.map(choice => `
+              <div class="choice">
+                <label><input type="radio" name="q${index}" value="${choice}"> ${choice}</label>
+              </div>`).join('')}
+          `;
+          container.appendChild(qEl);
+        });
+
+        status.textContent = '✅ Scenario loaded. Select your answers!';
+      } catch (err) {
+        console.error(err);
+        status.textContent = '❌ Error: ' + err.message;
+      } finally {
+        btn.disabled = false;
       }
-
-      const q = scenario.questions[currentQuestion];
-      document.getElementById('questionText').textContent = q.questionText;
-      const choiceContainer = document.getElementById('choices');
-      choiceContainer.innerHTML = '';
-      q.choices.forEach(choice => {
-        const btn = document.createElement('div');
-        btn.textContent = choice;
-        btn.className = 'choice';
-        btn.onclick = () => {
-          if (choice === q.answer) score++;
-          currentQuestion++;
-          showQuestion();
-        };
-        choiceContainer.appendChild(btn);
-      });
-      document.getElementById('questionBox').style.display = 'block';
-    }
+    });
   </script>
+
 </body>
 </html>
