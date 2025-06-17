@@ -1,17 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Crisis Management Game</title>
   <style>
     body {
       font-family: sans-serif;
-      background: #f4f4f4;
+      background: #f7f7f7;
+      margin: 0;
       padding: 40px;
     }
     h1 {
       color: #c0392b;
+      margin-bottom: 20px;
     }
     button {
       padding: 12px 24px;
@@ -25,65 +27,152 @@
     button:hover {
       background: #1f8c4d;
     }
-    .question-box {
+    .scenario-box, .question-box {
       background: #fff;
       border: 1px solid #ddd;
       padding: 20px;
       margin-top: 20px;
       border-radius: 8px;
     }
-    .question-box h2 {
+    .scoreboard {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 15px;
+      margin-top: 30px;
+    }
+    .dept-card {
+      background: #fff;
+      border-radius: 10px;
+      padding: 15px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    .dept-card h3 {
       margin-bottom: 10px;
+    }
+    .strikes {
+      margin-top: 10px;
+    }
+    .strike {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      margin: 2px;
+      border-radius: 50%;
+      background: #ccc;
+    }
+    .strike.active {
+      background: #e74c3c;
     }
     .choice {
       margin: 8px 0;
     }
-    .choice input {
-      margin-right: 10px;
-    }
-    #status {
-      margin-top: 20px;
-      padding: 15px;
-      background: #ecf0f1;
-      border-radius: 6px;
-      font-family: monospace;
-    }
   </style>
 </head>
 <body>
-
   <h1>🧠 Crisis Management Game</h1>
   <button id="generateBtn">Generate New Crisis Scenario</button>
 
-  <div class="question-box">
+  <div class="scenario-box" id="scenarioBox">
     <h2>Round <span id="roundNumber">0</span></h2>
-    <p id="scenarioText">Click the button to generate a scenario...</p>
+    <p id="scenarioText">Click to begin a new scenario.</p>
   </div>
 
-  <div id="status"></div>
+  <div class="question-box" id="questionsContainer"></div>
+
+  <div class="scoreboard" id="scoreboard"></div>
 
   <script>
     let round = 0;
+    const departments = [
+      "CEO/SVPs", "IT/Security", "HR", "Finance", "Loans", "Accounting", "Deposits"
+    ];
 
-    document.addEventListener("DOMContentLoaded", () => {
-      function updateRound() {
-        document.getElementById("roundNumber").textContent = round;
+    const state = {};
+
+    function initScoreboard() {
+      const board = document.getElementById("scoreboard");
+      board.innerHTML = "";
+      departments.forEach(dept => {
+        state[dept] = { score: 0, strikes: 0 };
+        const div = document.createElement("div");
+        div.className = "dept-card";
+        div.innerHTML = `
+          <h3>${dept}</h3>
+          <p id="score-${dept}">0</p>
+          <div class="strikes" id="strikes-${dept}">
+            <span class="strike"></span><span class="strike"></span><span class="strike"></span>
+          </div>
+        `;
+        board.appendChild(div);
+      });
+    }
+
+    function updateRound() {
+      document.getElementById("roundNumber").textContent = round;
+    }
+
+    function updateDept(dept, correct = true) {
+      if (!state[dept]) return;
+      if (correct) {
+        state[dept].score += 5;
+      } else {
+        state[dept].strikes++;
       }
 
-      document.getElementById("generateBtn").addEventListener("click", async () => {
-        round++;
-        updateRound();
+      document.getElementById(`score-${dept}`).textContent = state[dept].score;
+      const strikeEls = document.getElementById(`strikes-${dept}`).children;
+      for (let i = 0; i < 3; i++) {
+        strikeEls[i].className = i < state[dept].strikes ? "strike active" : "strike";
+      }
+    }
 
-        try {
-          const response = await fetch("/api/generate-scenario", { method: "POST" });
-          const data = await response.json();
-          document.getElementById("scenarioText").textContent = data.description || "Scenario loaded.";
-        } catch (err) {
-          document.getElementById("scenarioText").textContent = "❌ Error: " + err.message;
-        }
-      });
+    document.getElementById("generateBtn").addEventListener("click", async () => {
+      round++;
+      updateRound();
+
+      try {
+        const res = await fetch("/api/generate-scenario", { method: "POST" });
+        const data = await res.json();
+        document.getElementById("scenarioText").textContent = data.description || "Scenario loaded.";
+
+        const container = document.getElementById("questionsContainer");
+        container.innerHTML = "";
+
+        data.questions.forEach((q, i) => {
+          const qEl = document.createElement("div");
+          qEl.className = "question-box";
+          qEl.innerHTML = `<h3>Q${i + 1}: ${q.questionText}</h3>` +
+            q.choices.map(choice => `
+              <div class="choice">
+                <label>
+                  <input type="radio" name="q${i}" value="${choice}" onchange="handleAnswer('${choice}', '${q.answer}', '${departments[i % departments.length]}', this)" />
+                  ${choice}
+                </label>
+              </div>
+            `).join("");
+
+          container.appendChild(qEl);
+        });
+      } catch (err) {
+        document.getElementById("scenarioText").textContent = "❌ Error: " + err.message;
+      }
     });
-  </script>
 
+    window.handleAnswer = (selected, correct, dept, inputEl) => {
+      const correctAnswer = correct.trim();
+      const selectedAnswer = selected.trim();
+      const allInputs = inputEl.closest(".question-box").querySelectorAll("input");
+      allInputs.forEach(input => input.disabled = true);
+
+      if (selectedAnswer === correctAnswer) {
+        updateDept(dept, true);
+      } else {
+        updateDept(dept, false);
+      }
+    };
+
+    initScoreboard();
+  </script>
 </body>
 </html>
