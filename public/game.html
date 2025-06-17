@@ -50,8 +50,7 @@
   </style>
 </head>
 <body>
-  <pre id="scenarioOutput">Click the button to generate a new scenario...</pre>
-
+  
 
   <h1>🧠 Crisis Management Game</h1>
   <button id="generateBtn">Generate New Crisis Scenario</button>
@@ -69,7 +68,8 @@
       status.textContent = '⏳ Generating scenario...';
 
       try {
-        const res = await fetch('/api/generate-scenario', { method: 'POST' });
+        const response = await fetch('/api/generate-scenario', { method: 'POST' });
+
         const data = await res.json();
 
         container.innerHTML = `
