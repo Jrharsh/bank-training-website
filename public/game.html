@@ -5,12 +5,56 @@
   <title>Crisis Management Game</title>
   <style>
     body {
-      font-family: sans-serif;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background: #f4f4f4;
+      margin: 0;
       padding: 40px;
+      text-align: center;
     }
     h1 {
       color: #c0392b;
+      margin-bottom: 10px;
+    }
+    h2 {
+      margin-bottom: 30px;
+    }
+    .departments {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+    }
+    .department {
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      width: 150px;
+      position: relative;
+    }
+    .department h3 {
+      margin: 0;
+      font-size: 1.1em;
+      margin-bottom: 10px;
+    }
+    .score {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    .strikes {
+      display: flex;
+      justify-content: center;
+      gap: 5px;
+    }
+    .strike {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #ccc;
+    }
+    .strike.active {
+      background: #9b59b6;
     }
     button {
       padding: 12px 24px;
@@ -20,85 +64,71 @@
       border: none;
       border-radius: 5px;
       cursor: pointer;
+      margin: 20px 0;
     }
     button:hover {
       background: #1f8c4d;
     }
-    .question-box {
+    .scenario-box {
       background: #fff;
       border: 1px solid #ddd;
       padding: 20px;
-      margin-top: 20px;
       border-radius: 8px;
-    }
-    .question-box h2 {
-      margin-bottom: 10px;
-    }
-    .choice {
-      margin: 8px 0;
-    }
-    .choice input {
-      margin-right: 10px;
-    }
-    #status {
-      margin-top: 20px;
-      padding: 15px;
-      background: #ecf0f1;
-      border-radius: 6px;
-      font-family: monospace;
+      margin: 20px auto;
+      max-width: 600px;
+      text-align: left;
     }
   </style>
 </head>
 <body>
-
   <h1>🧠 Crisis Management Game</h1>
+  <h2>Round: <span id="roundNumber">1</span></h2>
+  <div class="departments" id="departments"></div>
+
+  <div class="scenario-box" id="scenarioBox">
+    <strong>Scenario:</strong>
+    <p id="scenarioText">Click the button to generate a new scenario...</p>
+  </div>
+
   <button id="generateBtn">Generate New Crisis Scenario</button>
 
-  <div id="scenarioContainer"></div>
-  <div id="status"></div>
-
   <script>
-    document.getElementById('generateBtn').addEventListener('click', async () => {
-      const btn = document.getElementById('generateBtn');
-      const status = document.getElementById('status');
-      const container = document.getElementById('scenarioContainer');
+    const departments = ["CEO/SVPs", "IT/Security", "HR", "Finance", "Loans", "Accounting", "Deposits"];
+    let round = 1;
 
-      btn.disabled = true;
-      status.textContent = '⏳ Generating scenario...';
+    function initDepartments() {
+      const container = document.getElementById("departments");
+      container.innerHTML = departments.map(dep => `
+        <div class="department">
+          <h3>${dep}</h3>
+          <div class="score" id="score-${dep}">0</div>
+          <div class="strikes" id="strikes-${dep}">
+            <div class="strike"></div>
+            <div class="strike"></div>
+            <div class="strike"></div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function updateRound() {
+      document.getElementById("roundNumber").textContent = round;
+    }
+
+    document.getElementById("generateBtn").addEventListener("click", async () => {
+      round++;
+      updateRound();
 
       try {
-        const response = await fetch('/api/generate-scenario', { method: 'POST' });
-        const data = await response.json(); // ✅ fixed: response instead of res
-
-        container.innerHTML = `
-          <div class="question-box">
-            <h2>${data.title}</h2>
-            <p>${data.description}</p>
-          </div>
-        `;
-
-        data.questions.forEach((q, index) => {
-          const qEl = document.createElement('div');
-          qEl.className = 'question-box';
-          qEl.innerHTML = `
-            <h3>Q${index + 1}: ${q.questionText}</h3>
-            ${q.choices.map(choice => `
-              <div class="choice">
-                <label><input type="radio" name="q${index}" value="${choice}"> ${choice}</label>
-              </div>`).join('')}
-          `;
-          container.appendChild(qEl);
-        });
-
-        status.textContent = '✅ Scenario loaded. Select your answers!';
+        const response = await fetch("/api/generate-scenario", { method: "POST" });
+        const data = await response.json();
+        document.getElementById("scenarioText").textContent = data.description || "Scenario loaded.";
       } catch (err) {
-        console.error(err);
-        status.textContent = '❌ Error: ' + err.message;
-      } finally {
-        btn.disabled = false;
+        document.getElementById("scenarioText").textContent = "❌ Error: " + err.message;
       }
     });
-  </script>
 
+    initDepartments();
+  </script>
 </body>
 </html>
