@@ -1,5 +1,4 @@
-console.log('Crisis Management Game Loaded');
-
+<script>
 // Game State
 const departments = {
     'CEO_SVPs': { name: 'CEO/SVPs', score: 0, strikes: 0, color: '#8e44ad' },
@@ -147,7 +146,6 @@ function showGameOverPopup() {
 
 // Initialize the game
 function initGame() {
-    console.log('Initializing game...');
     renderDepartmentScores();
     document.getElementById('roundNumber').textContent = currentRound;
 }
@@ -184,7 +182,7 @@ function renderDepartmentScores() {
         } else {
             card.innerHTML = `
                 <div class="department-name">${dept.name}</div>
-                <div class="department-score" style="color: '${dept.color}'">${dept.score}</div>
+                <div class="department-score" style="color: ${dept.color || '#000'}">${dept.score}</div>
                 <div style="font-size: 0.8em; margin-top: 5px;">${strikeIndicator}</div>
             `;
         }
@@ -195,7 +193,6 @@ function renderDepartmentScores() {
 
 // Generate scenario - IMPROVED LOCAL VERSION
 function generateScenario() {
-    console.log('Generating new scenario...');
     showLoading(true);
     hideMessage();
     
@@ -203,8 +200,6 @@ function generateScenario() {
         // Create scenario directly without API call
         currentScenario = createRandomScenario();
         currentQuestionIndex = 0;
-        
-        console.log('Scenario created:', currentScenario.questions.length, 'questions');
         
         // Show the scenario reference
         document.getElementById('scenarioTitleRef').textContent = currentScenario.title;
@@ -214,7 +209,6 @@ function generateScenario() {
         displayCurrentQuestion();
         
     } catch (error) {
-        console.error('Error generating scenario:', error);
         showMessage(`Failed to generate scenario: ${error.message}`, 'error');
     } finally {
         showLoading(false);
@@ -541,13 +535,10 @@ function displayCurrentQuestion() {
     
     // Check if the current department is eliminated - skip their questions
     if (departments[question.department] && departments[question.department].eliminated) {
-        console.log(`Skipping question for eliminated department: ${question.department}`);
         currentQuestionIndex++;
         displayCurrentQuestion(); // Recursively call to get next question
         return;
     }
-    
-    console.log(`Displaying question ${currentQuestionIndex + 1}/21 for ${question.department}`);
     
     // Get department color
     const deptColor = departments[question.department]?.color || '#3498db';
@@ -583,8 +574,6 @@ function displayCurrentQuestion() {
 
 // Handle option selection
 function selectOption(index, option) {
-    console.log('Option selected:', index, option.text);
-    
     // Get the current question to determine which department is answering
     const question = currentScenario.questions[currentQuestionIndex];
     const answeringDept = question.department;
@@ -593,8 +582,6 @@ function selectOption(index, option) {
     // Determine if this was a right or wrong choice
     let isRightChoice = impact > 0;
     let isWrongChoice = impact < 0;
-    
-    console.log(`Impact for ${answeringDept}: ${impact}, Right: ${isRightChoice}, Wrong: ${isWrongChoice}`);
     
     // Disable all option buttons and show feedback
     const buttons = document.querySelectorAll('.option-button');
@@ -624,7 +611,6 @@ function selectOption(index, option) {
             if (impact < 0 && deptKey === answeringDept) {
                 departments[deptKey].strikes++;
                 strikeAdded = true;
-                console.log(`${departments[deptKey].name} received a strike! (${departments[deptKey].strikes}/3)`);
                 
                 // Check for department elimination
                 if (departments[deptKey].strikes >= 3) {
@@ -709,4 +695,3 @@ document.getElementById('strikesOverlay').addEventListener('click', function(e) 
 
 // Initialize game
 initGame();
-console.log('Game ready!');
