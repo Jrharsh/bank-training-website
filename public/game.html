@@ -1,98 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AI Crisis Management Game (Scoring Upgrade)</title>
-  <style>
-    body { font-family: 'Segoe UI', Tahoma, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); margin: 0; padding: 20px; color: #333; }
-    .container { max-width: 900px; margin: 0 auto; background: #fff; padding: 30px; border-radius: 15px; box-shadow: 0 0 20px rgba(0,0,0,0.1); }
-    h1 { text-align: center; color: #2c3e50; }
-    #scenarioTitle { font-weight: bold; font-size: 1.5rem; margin: 20px 0; }
-    #scenarioDescription { margin-bottom: 20px; }
-    .question { margin: 20px 0; padding: 15px; background: #f9f9f9; border-radius: 10px; }
-    .choices { margin-top: 10px; }
-    .choices button { margin: 5px 0; padding: 12px 20px; border: none; border-radius: 8px; cursor: pointer; font-size: 1rem; background: #3498db; color: #fff; transition: 0.3s; }
-    .choices button:hover { background: #2980b9; }
-    .correct { background: #27ae60 !important; }
-    .wrong { background: #e74c3c !important; }
-    #generateBtn { margin-top: 20px; padding: 15px 30px; border: none; border-radius: 8px; background: #e74c3c; color: #fff; font-size: 1.2rem; cursor: pointer; }
-    #generateBtn:hover { background: #c0392b; }
-    #scoreBoard { font-size: 1.2rem; color: #2c3e50; text-align: center; margin-bottom: 20px; }
-  </style>
-</head>
+document.getElementById('generateBtn').addEventListener('click', async () => {
+  try {
+    const response = await fetch('/api/generate-scenario', { method: 'POST' });
+    const data = await response.json();
 
-<body>
-<div class="container">
-  <h1>AI Crisis Management Game</h1>
-  <div id="scoreBoard">Score: 0</div>
-  
-  <div id="scenarioTitle"></div>
-  <div id="scenarioDescription"></div>
+    // Safely display the generated scenario
+    document.getElementById('scenarioOutput').textContent = JSON.stringify(data, null, 2);
 
-  <div id="questionsContainer"></div>
-
-  <button id="generateBtn">Generate New AI Scenario</button>
-</div>
-
-<script>
-  let score = 0;
-  document.getElementById('generateBtn').addEventListener('click', generateScenarioFromAPI);
-
-  async function generateScenarioFromAPI() {
-    document.getElementById("generateBtn").disabled = true;
-    document.getElementById("generateBtn").innerText = "Generating...";
-    score = 0;
-    updateScore();
-
-    try {
-      const response = await fetch('/api/generate-scenario', { method: 'POST' });
-      const data = await response.json();
-
-      document.getElementById("scenarioTitle").innerText = data.title;
-      document.getElementById("scenarioDescription").innerText = data.description;
-
-      const questionsContainer = document.getElementById("questionsContainer");
-      questionsContainer.innerHTML = "";
-
-      data.questions.forEach((q, index) => {
-        const qDiv = document.createElement("div");
-        qDiv.className = "question";
-        qDiv.innerHTML = `<h3>Question ${index + 1}: ${q.questionText}</h3>`;
-
-        const choicesDiv = document.createElement("div");
-        choicesDiv.className = "choices";
-
-        q.choices.forEach(choice => {
-          const btn = document.createElement("button");
-          btn.textContent = choice;
-          btn.onclick = () => {
-            if (choice === q.answer) {
-              btn.classList.add("correct");
-              score += 10;
-              updateScore();
-            } else {
-              btn.classList.add("wrong");
-            }
-            Array.from(choicesDiv.children).forEach(b => b.disabled = true);
-          };
-          choicesDiv.appendChild(btn);
-        });
-
-        qDiv.appendChild(choicesDiv);
-        questionsContainer.appendChild(qDiv);
-      });
-    } catch (err) {
-      alert("Error generating scenario: " + err);
-    } finally {
-      document.getElementById("generateBtn").disabled = false;
-      document.getElementById("generateBtn").innerText = "Generate New AI Scenario";
-    }
+  } catch (err) {
+    alert(`Error generating scenario: ${err.message}`);
+    console.error('Error:', err);
   }
-
-  function updateScore() {
-    document.getElementById("scoreBoard").innerText = `Score: ${score}`;
-  }
-</script>
-</body>
-</html>
+});

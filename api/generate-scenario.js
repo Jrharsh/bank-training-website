@@ -4,7 +4,6 @@ export default async function handler(req, res) {
   }
 
   const apiKey = process.env.OPENAI_API_KEY;
-
   if (!apiKey) {
     return res.status(500).json({ error: 'OpenAI API key not configured' });
   }
@@ -47,11 +46,12 @@ Rules:
 
     const data = await response.json();
     const content = data.choices[0].message.content.trim();
-    const scenario = JSON.parse(content);
 
+    // Try parsing only if it's valid JSON
+    const scenario = JSON.parse(content);
     res.status(200).json(scenario);
-  } catch (error) {
-    console.error('Error generating scenario:', error);
+  } catch (err) {
+    console.error('Error generating scenario:', err);
     res.status(500).json({ error: 'Failed to generate scenario' });
   }
 }
