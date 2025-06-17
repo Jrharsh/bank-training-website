@@ -1,0 +1,7 @@
+{
+  "cleanUrls": true,
+  "rewrites": [
+    { "source": "/game", "destination": "/game.html" },
+    { "source": "/discussion", "destination": "/discussion.html" }
+  ]
+}
