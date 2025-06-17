@@ -522,6 +522,27 @@
             font-weight: 600;
         }
 
+        /* Game Over Styles */
+        .game-over-popup {
+            background: linear-gradient(145deg, #34495e, #2c3e50);
+            color: white;
+            max-width: 700px;
+        }
+
+        .game-over-popup::before {
+            background: linear-gradient(90deg, #e74c3c, #c0392b, #e74c3c);
+        }
+
+        .game-over-title {
+            font-size: 2.5rem;
+            color: #e74c3c;
+            margin-bottom: 20px;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
         /* Responsive Design */
         @media (max-width: 768px) {
             .scenario-content {
@@ -612,8 +633,6 @@
     </div>
 
     <script>
-        console.log('Crisis Management Game Loaded');
-        
         // Game State
         const departments = {
             'CEO_SVPs': { name: 'CEO/SVPs', score: 0, strikes: 0, color: '#8e44ad' },
@@ -624,17 +643,17 @@
             'Accounting': { name: 'Accounting', score: 0, strikes: 0, color: '#9b59b6' },
             'Deposits': { name: 'Deposits', score: 0, strikes: 0, color: '#1abc9c' }
         };
-        
+
         let currentRound = 1;
         let currentScenario = null;
         let currentQuestionIndex = 0;
         let scenarioCollapsed = false;
-        
+
         // Navigation
         function goHome() {
             window.location.href = '/';
         }
-        
+
         // Toggle scenario visibility
         function toggleScenario() {
             const content = document.getElementById('scenarioContentRef');
@@ -653,12 +672,9 @@
             
             // Configure popup content
             if (isDepartmentEliminated) {
-                // Add image container
                 document.getElementById('strikesIcon').innerHTML = `
                     <div class="eliminated-image-container">
-                        <img src="/images/eliminated.png" alt="Department Eliminated" class="eliminated-image" 
-                             onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                        <div class="department-eliminated-icon" style="display: none;">💀</div>
+                        <div class="department-eliminated-icon">💀</div>
                         <div class="eliminated-overlay">ELIMINATED</div>
                     </div>
                 `;
@@ -679,7 +695,7 @@
                 // Mark department as eliminated
                 departments[departmentKey].eliminated = true;
                 
-                // Don't auto-reset, just show message for 3 seconds then close
+                // Show message for 3 seconds then close
                 setTimeout(() => {
                     closeStrikesPopup();
                 }, 3500);
@@ -730,14 +746,44 @@
             const overlay = document.getElementById('strikesOverlay');
             overlay.classList.remove('show');
         }
-        
+
+        // Check if all departments are eliminated (Game Over)
+        function checkGameOver() {
+            const activeDepartments = Object.values(departments).filter(dept => !dept.eliminated);
+            if (activeDepartments.length === 0) {
+                showGameOverPopup();
+                return true;
+            }
+            return false;
+        }
+
+        function showGameOverPopup() {
+            const overlay = document.getElementById('strikesOverlay');
+            const popup = document.getElementById('strikesPopup');
+            
+            document.getElementById('strikesIcon').innerHTML = `💀`;
+            document.getElementById('strikesTitle').textContent = 'GAME OVER!';
+            document.getElementById('strikesDepartment').textContent = 'All Departments Eliminated';
+            document.getElementById('strikesMessage').innerHTML = `
+                All departments have been eliminated due to critical errors. The bank has failed to manage the crisis effectively.
+            `;
+            document.getElementById('strikesWarning').innerHTML = `
+                <div style="background: rgba(231, 76, 60, 0.2); color: #ecf0f1; border-color: #e74c3c; border-left: 4px solid #e74c3c; padding: 15px; border-radius: 10px; margin-bottom: 20px; font-weight: 600;">
+                    🔄 Click "Reset Game" to start over with a new crisis scenario.
+                </div>
+            `;
+            document.getElementById('strikesCounter').innerHTML = '';
+            popup.classList.add('game-over-popup');
+            
+            overlay.classList.add('show');
+        }
+
         // Initialize the game
         function initGame() {
-            console.log('Initializing game...');
             renderDepartmentScores();
             document.getElementById('roundNumber').textContent = currentRound;
         }
-        
+
         // Render department score cards
         function renderDepartmentScores() {
             const container = document.getElementById('departmentScores');
@@ -770,7 +816,7 @@
                 } else {
                     card.innerHTML = `
                         <div class="department-name">${dept.name}</div>
-                        <div class="department-score" style="color: ${dept.color}">${dept.score}</div>
+                        <div class="department-score" style="color: ${dept.color || '#000'}">${dept.score}</div>
                         <div style="font-size: 0.8em; margin-top: 5px;">${strikeIndicator}</div>
                     `;
                 }
@@ -778,10 +824,9 @@
                 container.appendChild(card);
             });
         }
-        
-        // Generate scenario - NEW VERSION WITHOUT API CALLS
+
+        // Generate scenario - IMPROVED LOCAL VERSION
         function generateScenario() {
-            console.log('Generating new scenario...');
             showLoading(true);
             hideMessage();
             
@@ -789,8 +834,6 @@
                 // Create scenario directly without API call
                 currentScenario = createRandomScenario();
                 currentQuestionIndex = 0;
-                
-                console.log('Scenario created:', currentScenario.questions.length, 'questions');
                 
                 // Show the scenario reference
                 document.getElementById('scenarioTitleRef').textContent = currentScenario.title;
@@ -800,70 +843,69 @@
                 displayCurrentQuestion();
                 
             } catch (error) {
-                console.error('Error generating scenario:', error);
                 showMessage(`Failed to generate scenario: ${error.message}`, 'error');
             } finally {
                 showLoading(false);
             }
         }
 
-        // Create scenarios directly in JavaScript
+        // Create scenarios directly in JavaScript - MUCH IMPROVED VERSION
         function createRandomScenario() {
             const scenarioTemplates = [
                 {
                     type: 'cyberattack',
-                    title: 'Ransomware Attack Cripples Banking Systems',
-                    description: 'A sophisticated ransomware group has infiltrated the bank\'s network, encrypting critical systems including core banking, loan servicing, and customer databases. The attackers demand $2.5 million in cryptocurrency within 72 hours. Customer online banking is down, ATMs are offline, and branch operations are severely limited. The FBI has been notified. Markets open in 5 hours.',
+                    title: 'Sophisticated Ransomware Attack Paralyzes Banking Operations',
+                    description: 'Hackers have deployed advanced ransomware across all banking systems, encrypting customer databases, transaction records, and core banking platforms. Online banking is completely offline, ATMs are non-functional, and branch computers display ransom demands for $3 million in cryptocurrency. The FBI cybercrime unit is en route. Customer calls are flooding in, and social media is buzzing with concerns about account safety.',
                     icon: '🔒'
                 },
                 {
                     type: 'natural_disaster',
-                    title: 'Category 4 Hurricane Devastates Regional Operations',
-                    description: 'Hurricane Marina has made landfall as a Category 4 storm, forcing evacuation of 12 of 18 branches across three states. Widespread power outages affect 450,000 customers. Flooding has damaged two branches and a regional operations center. Storm surge reached 8 feet in coastal areas. The area will be inaccessible for 72-96 hours. Local businesses are shut down with economic impact estimated at $800 million.',
+                    title: 'Category 5 Hurricane Destroys Regional Banking Infrastructure',
+                    description: 'Hurricane Phoenix has made landfall as a Category 5 storm, forcing immediate evacuation of 15 branches across four states. Severe flooding has destroyed the main data center, backup generators have failed, and communication towers are down. An estimated 500,000 customers are affected, with no access to banking services. Local businesses cannot process payments, and emergency services need immediate financial coordination.',
                     icon: '🌪️'
                 },
                 {
                     type: 'disgruntled_employee',
-                    title: 'Former IT Employee Sabotages Critical Systems',
-                    description: 'A recently terminated IT administrator has used retained access credentials to delete critical databases, corrupt backup systems, and expose sensitive customer data on social media. The employee posted internal emails and customer information online, claiming the bank engages in discriminatory practices. Local news is picking up the story. Customer trust is at risk.',
+                    title: 'Terminated IT Administrator Launches Internal Sabotage Campaign',
+                    description: 'A recently fired senior IT administrator has used backdoor access to delete critical databases, leak confidential customer information on social media, and plant malicious code in banking systems. Internal emails containing sensitive merger discussions have been posted online. The employee is making public accusations of illegal lending practices, and local news stations are requesting interviews.',
                     icon: '😡'
                 },
                 {
                     type: 'regulatory_crisis',
-                    title: 'Federal Investigation into Fair Lending Violations',
-                    description: 'The DOJ and CFPB have launched a joint investigation into alleged discriminatory lending practices. Federal agents are on-site with search warrants, reviewing mortgage and small business loan records from the past three years. A whistleblower complaint alleges systematic bias affecting minority communities. The stock price has dropped 12% in pre-market trading.',
+                    title: 'Federal Agents Execute Search Warrants for Money Laundering Investigation',
+                    description: 'FBI and Treasury agents have arrived with federal search warrants, seizing computers and financial records related to suspected money laundering activities. A major corporate client is alleged to have funneled $50 million in illicit funds through the bank. Federal regulators are threatening to freeze assets, and the bank\'s stock has dropped 18% in pre-market trading.',
                     icon: '⚖️'
                 },
                 {
                     type: 'economic_collapse',
-                    title: 'Regional Economic Crisis Following Major Employer Bankruptcies',
-                    description: 'Three major regional employers representing 15,000 jobs have filed bankruptcy within two weeks. Unemployment spiked from 3.2% to 11.8% overnight. Loan delinquency rates jumped from 2.1% to 7.4% in thirty days. Customer deposits are declining as people withdraw savings. Real estate values dropped 15%. Small businesses are requesting emergency loans while defaulting on existing credit.',
+                    title: 'Regional Economic Meltdown Following Major Industry Collapse',
+                    description: 'The collapse of three major manufacturing companies has triggered massive unemployment, with jobless rates jumping from 3.8% to 14.2% in two weeks. Loan defaults are spiking at 400% above normal rates, commercial real estate values have dropped 25%, and panicked customers are attempting to withdraw life savings. Small businesses are defaulting on loans while requesting emergency credit.',
                     icon: '📉'
                 },
                 {
-                    type: 'data_breach',
-                    title: 'Massive Customer Data Breach Exposes Personal Information',
-                    description: 'Hackers have breached the customer database, accessing Social Security numbers, account numbers, and transaction histories for 200,000 customers. The breach occurred through a third-party vendor\'s compromised system. Customers are reporting fraudulent transactions. Credit monitoring services are overwhelmed. Regulatory notifications are required within 24 hours.',
-                    icon: '🕳️'
-                },
-                {
                     type: 'workplace_violence',
-                    title: 'Active Threat Situation at Main Branch',
-                    description: 'A former customer who had their home foreclosed has entered the main branch with a weapon, demanding to speak with executives. Police have surrounded the building. Employees and customers are locked down inside. Media is gathering outside. Other branches need immediate security assessments. The situation is being broadcast live on local news.',
+                    title: 'Armed Individual Takes Hostages at Main Branch Location',
+                    description: 'A former customer whose business loan was recently foreclosed has entered the main branch with weapons, taking employees and customers hostage. SWAT teams have surrounded the building, and the incident is being broadcast live on all local news channels. The individual is demanding to speak with senior executives and threatening harm if their demands are not met.',
                     icon: '🚨'
                 },
                 {
                     type: 'pandemic_response',
-                    title: 'Pandemic Forces Immediate Operational Changes',
-                    description: 'A new variant of a contagious disease has led to government-mandated business restrictions. 60% of staff must work remotely immediately. Customer-facing services must be limited. Cash handling procedures need revision. Drive-through services are overwhelmed. Digital banking systems are experiencing 300% increased usage. Loan payment deferrals are being requested en masse.',
+                    title: 'Emergency Health Orders Force Immediate Banking Restrictions',
+                    description: 'A new highly contagious virus variant has led to government-mandated closure of all indoor banking facilities. 75% of staff must quarantine immediately, branches can only operate drive-through services, and digital banking systems are experiencing 500% increased usage and frequent crashes. Customers need loan deferrals and emergency access to funds.',
                     icon: '😷'
+                },
+                {
+                    type: 'data_breach',
+                    title: 'Massive Data Breach Exposes 300,000 Customer Records',
+                    description: 'Cybercriminals have infiltrated the customer database through a third-party vendor, accessing Social Security numbers, account details, and transaction histories for 300,000 customers. Fraudulent transactions are being reported across multiple states, identity theft reports are surging, and regulatory authorities require immediate notification. Credit monitoring services are overwhelmed.',
+                    icon: '🕳️'
                 }
             ];
             
             // Randomly select a scenario type
             const selectedTemplate = scenarioTemplates[Math.floor(Math.random() * scenarioTemplates.length)];
             
-            // Create questions for all departments
+            // Create questions for all departments with RIGHT/WRONG answers only
             const questions = createDepartmentQuestions(selectedTemplate);
             
             return {
@@ -879,241 +921,189 @@
             const departments = ['CEO_SVPs', 'IT_Security', 'HR', 'Finance', 'Loans', 'Accounting', 'Deposits'];
             const questions = [];
             
-            // Create 3 questions per department (21 total)
+            // Create 3 questions per department (21 total) - all scenario-specific
             departments.forEach(dept => {
-                const deptQuestions = generateDepartmentSpecificQuestions(dept, scenario);
+                const deptQuestions = generateScenarioSpecificQuestions(dept, scenario);
                 questions.push(...deptQuestions);
             });
             
             return questions;
         }
 
-        function generateDepartmentSpecificQuestions(department, scenario) {
-            // All departments get questions in mixed order for all scenarios
-            const allQuestions = [
-                // CEO/SVP Questions
-                {
-                    department: 'CEO_SVPs',
-                    questionText: 'How do you communicate this crisis to stakeholders?',
-                    options: [
-                        { text: 'Issue immediate public statement with full crisis details', impacts: { 'CEO_SVPs': -20 } },
-                        { text: 'Wait until situation is fully resolved before communicating', impacts: { 'CEO_SVPs': -18 } },
-                        { text: 'Coordinate with legal team and issue measured statement', impacts: { 'CEO_SVPs': 25 } }
-                    ]
-                },
-                {
-                    department: 'CEO_SVPs',
-                    questionText: 'What is your priority for managing this crisis?',
-                    options: [
-                        { text: 'Focus primarily on protecting bank reputation', impacts: { 'CEO_SVPs': -15 } },
-                        { text: 'Balance stakeholder communication with operational response', impacts: { 'CEO_SVPs': 22 } },
-                        { text: 'Minimize public attention until crisis passes', impacts: { 'CEO_SVPs': -25 } }
-                    ]
-                },
-                {
-                    department: 'CEO_SVPs',
-                    questionText: 'How do you coordinate the overall crisis response?',
-                    options: [
-                        { text: 'Activate emergency management protocols immediately', impacts: { 'CEO_SVPs': 24 } },
-                        { text: 'Handle crisis internally without external coordination', impacts: { 'CEO_SVPs': -20 } },
-                        { text: 'Wait for situation assessment before taking action', impacts: { 'CEO_SVPs': -16 } }
-                    ]
-                },
-
-                // IT/Security Questions
-                {
-                    department: 'IT_Security',
-                    questionText: 'What is your immediate response to secure critical systems?',
-                    options: [
-                        { text: 'Continue operations while monitoring for additional threats', impacts: { 'IT_Security': -22 } },
-                        { text: 'Immediately isolate and secure all critical systems', impacts: { 'IT_Security': 25 } },
-                        { text: 'Focus on backing up data before taking defensive action', impacts: { 'IT_Security': -18 } }
-                    ]
-                },
-                {
-                    department: 'IT_Security',
-                    questionText: 'How do you prioritize system recovery efforts?',
-                    options: [
-                        { text: 'Restore all systems simultaneously to minimize downtime', impacts: { 'IT_Security': -20 } },
-                        { text: 'Restore core banking systems first, then customer services', impacts: { 'IT_Security': 23 } },
-                        { text: 'Focus on customer-facing systems to maintain service', impacts: { 'IT_Security': -15 } }
-                    ]
-                },
-                {
-                    department: 'IT_Security',
-                    questionText: 'What security measures should be implemented immediately?',
-                    options: [
-                        { text: 'Implement enhanced monitoring and access controls', impacts: { 'IT_Security': 21 } },
-                        { text: 'Maintain current security protocols during crisis', impacts: { 'IT_Security': -25 } },
-                        { text: 'Reduce security measures to speed up recovery', impacts: { 'IT_Security': -30 } }
-                    ]
-                },
-
-                // HR Questions
-                {
-                    department: 'HR',
-                    questionText: 'How do you manage employee communications during this crisis?',
-                    options: [
-                        { text: 'Minimize communication to prevent panic among staff', impacts: { 'HR': -20 } },
-                        { text: 'Hold emergency meetings to address all employee concerns', impacts: { 'HR': 25 } },
-                        { text: 'Send brief updates only when absolutely necessary', impacts: { 'HR': -15 } }
-                    ]
-                },
-                {
-                    department: 'HR',
-                    questionText: 'What staffing adjustments are needed for crisis response?',
-                    options: [
-                        { text: 'Maintain normal staffing levels and wait for resolution', impacts: { 'HR': -18 } },
-                        { text: 'Send non-essential employees home until crisis passes', impacts: { 'HR': -22 } },
-                        { text: 'Redeploy staff to critical functions and implement manual processes', impacts: { 'HR': 24 } }
-                    ]
-                },
-                {
-                    department: 'HR',
-                    questionText: 'How do you support employee wellbeing during the crisis?',
-                    options: [
-                        { text: 'Provide counseling and stress management resources immediately', impacts: { 'HR': 23 } },
-                        { text: 'Address wellbeing concerns after crisis is resolved', impacts: { 'HR': -20 } },
-                        { text: 'Expect employees to manage stress independently', impacts: { 'HR': -25 } }
-                    ]
-                },
-
-                // Finance Questions
-                {
-                    department: 'Finance',
-                    questionText: 'How do you assess the financial impact of this crisis?',
-                    options: [
-                        { text: 'Wait until crisis is resolved to calculate financial impact', impacts: { 'Finance': -20 } },
-                        { text: 'Calculate immediate costs, lost revenue, and recovery expenses', impacts: { 'Finance': 25 } },
-                        { text: 'Focus only on direct operational costs', impacts: { 'Finance': -15 } }
-                    ]
-                },
-                {
-                    department: 'Finance',
-                    questionText: 'What is your approach to managing crisis-related expenses?',
-                    options: [
-                        { text: 'Approve all necessary crisis response expenditures immediately', impacts: { 'Finance': 22 } },
-                        { text: 'Limit spending to essential items only during crisis', impacts: { 'Finance': -18 } },
-                        { text: 'Delay all non-critical expenses until situation stabilizes', impacts: { 'Finance': -25 } }
-                    ]
-                },
-                {
-                    department: 'Finance',
-                    questionText: 'How do you handle insurance and recovery funding?',
-                    options: [
-                        { text: 'Immediately contact insurance providers and begin claims process', impacts: { 'Finance': 24 } },
-                        { text: 'Document all costs before contacting insurance', impacts: { 'Finance': -10 } },
-                        { text: 'Handle all costs internally without involving insurance', impacts: { 'Finance': -22 } }
-                    ]
-                },
-
-                // Loans Questions
-                {
-                    department: 'Loans',
-                    questionText: 'How do you handle loan operations during this crisis?',
-                    options: [
-                        { text: 'Continue normal lending operations and collection procedures', impacts: { 'Loans': -25 } },
-                        { text: 'Implement emergency loan assistance programs for affected customers', impacts: { 'Loans': 25 } },
-                        { text: 'Temporarily suspend all new lending until crisis passes', impacts: { 'Loans': -20 } }
-                    ]
-                },
-                {
-                    department: 'Loans',
-                    questionText: 'What is your approach to customer payment issues?',
-                    options: [
-                        { text: 'Provide immediate payment deferrals for affected borrowers', impacts: { 'Loans': 23 } },
-                        { text: 'Require full documentation before approving any deferrals', impacts: { 'Loans': -18 } },
-                        { text: 'Maintain standard collection procedures during crisis', impacts: { 'Loans': -25 } }
-                    ]
-                },
-                {
-                    department: 'Loans',
-                    questionText: 'How do you assess loan portfolio risk during the crisis?',
-                    options: [
-                        { text: 'Conduct immediate risk assessment of all affected loans', impacts: { 'Loans': 22 } },
-                        { text: 'Wait for crisis to pass before assessing portfolio risk', impacts: { 'Loans': -20 } },
-                        { text: 'Use existing risk models without crisis-specific adjustments', impacts: { 'Loans': -15 } }
-                    ]
-                },
-
-                // Accounting Questions
-                {
-                    department: 'Accounting',
-                    questionText: 'How do you maintain financial records during system disruptions?',
-                    options: [
-                        { text: 'Wait for systems to be restored before processing transactions', impacts: { 'Accounting': -25 } },
-                        { text: 'Implement manual backup procedures and paper records', impacts: { 'Accounting': 25 } },
-                        { text: 'Use limited offline systems for essential transactions only', impacts: { 'Accounting': -10 } }
-                    ]
-                },
-                {
-                    department: 'Accounting',
-                    questionText: 'What procedures should be implemented for transaction recording?',
-                    options: [
-                        { text: 'Establish comprehensive manual recording system immediately', impacts: { 'Accounting': 23 } },
-                        { text: 'Record only essential transactions until systems restored', impacts: { 'Accounting': -18 } },
-                        { text: 'Postpone all transaction recording until full system recovery', impacts: { 'Accounting': -30 } }
-                    ]
-                },
-                {
-                    department: 'Accounting',
-                    questionText: 'How do you handle regulatory reporting during the crisis?',
-                    options: [
-                        { text: 'Contact regulators immediately to explain situation and request extensions', impacts: { 'Accounting': 24 } },
-                        { text: 'Prepare manual reports using available backup data', impacts: { 'Accounting': 15 } },
-                        { text: 'Wait until systems are restored to address reporting', impacts: { 'Accounting': -25 } }
-                    ]
-                },
-
-                // Deposits Questions
-                {
-                    department: 'Deposits',
-                    questionText: 'How do you reassure customers about deposit safety?',
-                    options: [
-                        { text: 'Avoid public statements until extent of crisis is known', impacts: { 'Deposits': -20 } },
-                        { text: 'Issue immediate statement emphasizing FDIC protection', impacts: { 'Deposits': 25 } },
-                        { text: 'Provide details only when customers ask directly', impacts: { 'Deposits': -15 } }
-                    ]
-                },
-                {
-                    department: 'Deposits',
-                    questionText: 'What alternative service methods should be implemented?',
-                    options: [
-                        { text: 'Deploy mobile banking units and extend branch hours', impacts: { 'Deposits': 24 } },
-                        { text: 'Direct customers to phone banking and mail services', impacts: { 'Deposits': -10 } },
-                        { text: 'Temporarily limit services to essential transactions only', impacts: { 'Deposits': -20 } }
-                    ]
-                },
-                {
-                    department: 'Deposits',
-                    questionText: 'How do you prevent customer panic and deposit runs?',
-                    options: [
-                        { text: 'Increase branch staffing and ensure adequate cash availability', impacts: { 'Deposits': 23 } },
-                        { text: 'Implement temporary withdrawal limits to manage demand', impacts: { 'Deposits': -18 } },
-                        { text: 'Maintain normal operations and address concerns individually', impacts: { 'Deposits': -15 } }
+        function generateScenarioSpecificQuestions(department, scenario) {
+            const questionSets = {
+                'cyberattack': {
+                    'CEO_SVPs': [
+                        {
+                            questionText: 'How should the CEO communicate this cyberattack to the public?',
+                            options: [
+                                { text: 'Issue immediate transparent statement acknowledging the attack and customer protection measures', impacts: { 'CEO_SVPs': 24 } },
+                                { text: 'Minimize the incident and claim systems are functioning normally', impacts: { 'CEO_SVPs': -23 } }
+                            ]
+                        },
+                        {
+                            questionText: 'What is the CEO\'s priority during this cyber crisis?',
+                            options: [
+                                { text: 'Coordinate with law enforcement and activate emergency protocols immediately', impacts: { 'CEO_SVPs': 22 } },
+                                { text: 'Focus on negotiating with hackers to minimize ransom payment', impacts: { 'CEO_SVPs': -25 } }
+                            ]
+                        },
+                        {
+                            questionText: 'How should leadership handle stakeholder concerns?',
+                            options: [
+                                { text: 'Schedule emergency board meeting and provide hourly updates to regulators', impacts: { 'CEO_SVPs': 23 } },
+                                { text: 'Wait until the situation is resolved before contacting stakeholders', impacts: { 'CEO_SVPs': -24 } }
+                            ]
+                        }
+                    ],
+                    'IT_Security': [
+                        {
+                            questionText: 'What is the immediate response to the ransomware attack?',
+                            options: [
+                                { text: 'Immediately isolate all affected systems and activate offline backup protocols', impacts: { 'IT_Security': 25 } },
+                                { text: 'Keep systems running while attempting to remove the ransomware', impacts: { 'IT_Security': -24 } }
+                            ]
+                        },
+                        {
+                            questionText: 'How should IT prioritize system recovery?',
+                            options: [
+                                { text: 'Restore core banking systems first using clean backups, then customer services', impacts: { 'IT_Security': 23 } },
+                                { text: 'Try to decrypt files in place to restore all systems simultaneously', impacts: { 'IT_Security': -22 } }
+                            ]
+                        },
+                        {
+                            questionText: 'What security measures should be implemented during recovery?',
+                            options: [
+                                { text: 'Implement enhanced monitoring, change all credentials, and scan all systems', impacts: { 'IT_Security': 24 } },
+                                { text: 'Focus on speed of recovery and worry about security improvements later', impacts: { 'IT_Security': -25 } }
+                            ]
+                        }
+                    ],
+                    'HR': [
+                        {
+                            questionText: 'How should HR manage employee communications during the cyberattack?',
+                            options: [
+                                { text: 'Hold emergency all-hands meeting to explain situation and provide clear instructions', impacts: { 'HR': 23 } },
+                                { text: 'Limit communication to avoid causing panic among employees', impacts: { 'HR': -21 } }
+                            ]
+                        },
+                        {
+                            questionText: 'What staffing adjustments are needed during the cyber crisis?',
+                            options: [
+                                { text: 'Deploy emergency staffing plan with manual processes and extended hours', impacts: { 'HR': 22 } },
+                                { text: 'Send non-essential employees home until systems are restored', impacts: { 'HR': -23 } }
+                            ]
+                        },
+                        {
+                            questionText: 'How should HR handle employee stress during the crisis?',
+                            options: [
+                                { text: 'Provide immediate stress support resources and flexible scheduling', impacts: { 'HR': 24 } },
+                                { text: 'Expect employees to handle the stress and focus on work duties', impacts: { 'HR': -25 } }
+                            ]
+                        }
+                    ],
+                    'Finance': [
+                        {
+                            questionText: 'How should Finance assess the impact of the cyberattack?',
+                            options: [
+                                { text: 'Immediately calculate direct costs, lost revenue, recovery expenses, and regulatory fines', impacts: { 'Finance': 25 } },
+                                { text: 'Wait until systems are restored to assess financial impact', impacts: { 'Finance': -22 } }
+                            ]
+                        },
+                        {
+                            questionText: 'What is Finance\'s approach to crisis-related expenses?',
+                            options: [
+                                { text: 'Pre-approve emergency spending for recovery efforts and customer protection', impacts: { 'Finance': 23 } },
+                                { text: 'Require standard approval processes for all crisis-related expenses', impacts: { 'Finance': -24 } }
+                            ]
+                        },
+                        {
+                            questionText: 'How should Finance handle insurance and liability issues?',
+                            options: [
+                                { text: 'Immediately contact cyber insurance carriers and begin claims documentation', impacts: { 'Finance': 24 } },
+                                { text: 'Handle all costs internally to avoid insurance complications', impacts: { 'Finance': -23 } }
+                            ]
+                        }
+                    ],
+                    'Loans': [
+                        {
+                            questionText: 'How should Loans department handle operations during the cyberattack?',
+                            options: [
+                                { text: 'Implement manual loan processing and emergency customer assistance programs', impacts: { 'Loans': 24 } },
+                                { text: 'Suspend all loan operations until systems are fully restored', impacts: { 'Loans': -23 } }
+                            ]
+                        },
+                        {
+                            questionText: 'What is the approach to customer loan concerns during the crisis?',
+                            options: [
+                                { text: 'Proactively offer payment deferrals and establish emergency contact procedures', impacts: { 'Loans': 22 } },
+                                { text: 'Tell customers to wait until systems are restored for any assistance', impacts: { 'Loans': -25 } }
+                            ]
+                        },
+                        {
+                            questionText: 'How should Loans assess portfolio risk during the cyber crisis?',
+                            options: [
+                                { text: 'Conduct immediate manual review of high-risk accounts and exposures', impacts: { 'Loans': 23 } },
+                                { text: 'Assume all data is compromised and stop all risk assessments', impacts: { 'Loans': -24 } }
+                            ]
+                        }
+                    ],
+                    'Accounting': [
+                        {
+                            questionText: 'How should Accounting maintain records during the system outage?',
+                            options: [
+                                { text: 'Immediately implement comprehensive manual recording and backup procedures', impacts: { 'Accounting': 25 } },
+                                { text: 'Wait for systems to be restored before processing any transactions', impacts: { 'Accounting': -24 } }
+                            ]
+                        },
+                        {
+                            questionText: 'What procedures should be implemented for transaction processing?',
+                            options: [
+                                { text: 'Establish secure manual processes with dual controls and verification', impacts: { 'Accounting': 23 } },
+                                { text: 'Stop all transaction processing until computer systems are available', impacts: { 'Accounting': -25 } }
+                            ]
+                        },
+                        {
+                            questionText: 'How should Accounting handle regulatory reporting during the crisis?',
+                            options: [
+                                { text: 'Immediately notify regulators of the situation and prepare manual reports', impacts: { 'Accounting': 24 } },
+                                { text: 'Wait until systems are restored to address any reporting requirements', impacts: { 'Accounting': -23 } }
+                            ]
+                        }
+                    ],
+                    'Deposits': [
+                        {
+                            questionText: 'How should Deposits reassure customers about their account safety?',
+                            options: [
+                                { text: 'Issue immediate public statement emphasizing FDIC protection and security measures', impacts: { 'Deposits': 25 } },
+                                { text: 'Avoid public statements until the extent of the breach is known', impacts: { 'Deposits': -22 } }
+                            ]
+                        },
+                        {
+                            questionText: 'What alternative service methods should Deposits implement?',
+                            options: [
+                                { text: 'Deploy mobile banking units, extend branch hours, and implement manual processes', impacts: { 'Deposits': 24 } },
+                                { text: 'Direct customers to wait until online systems are restored', impacts: { 'Deposits': -25 } }
+                            ]
+                        },
+                        {
+                            questionText: 'How should Deposits prevent customer panic during the cyber crisis?',
+                            options: [
+                                { text: 'Increase staffing, ensure adequate cash availability, and provide regular updates', impacts: { 'Deposits': 23 } },
+                                { text: 'Implement withdrawal limits to prevent runs on the bank', impacts: { 'Deposits': -24 } }
+                            ]
+                        }
                     ]
                 }
-            ];
+            };
 
-            // Return 3 questions for the specific department
-            const deptQuestions = allQuestions.filter(q => q.department === department);
+            // Get questions for this department and scenario type
+            let deptQuestions = questionSets[scenario.type]?.[department];
             
-            // If we have specific questions for this department, return them
-            if (deptQuestions.length >= 3) {
-                return deptQuestions.slice(0, 3).map((q, index) => ({
-                    questionNumber: index + 1,
-                    department: q.department,
-                    questionText: q.questionText,
-                    options: q.options
-                }));
+            // If no specific questions, use generic crisis questions
+            if (!deptQuestions) {
+                deptQuestions = generateGenericQuestions(department, scenario);
             }
-            
-            // Fallback generic questions if needed
-            return generateGenericQuestions(department, scenario);
-        }
-            
-            // Get questions for this department and scenario type, or use generic questions
-            const deptQuestions = questionSets[department]?.[scenario.type] || generateGenericQuestions(department, scenario);
             
             return deptQuestions.map((q, index) => ({
                 questionNumber: index + 1,
@@ -1121,33 +1111,30 @@
                 questionText: q.questionText,
                 options: q.options
             }));
-        
+        }
 
         function generateGenericQuestions(department, scenario) {
-            // Generic fallback questions when specific ones aren't defined
+            // Generic fallback questions when scenario-specific ones aren't defined
             return [
                 {
-                    questionText: `How should the ${department.replace('_', '/')} department respond to this crisis situation?`,
+                    questionText: `How should ${department.replace('_', '/')} respond to this crisis situation?`,
                     options: [
-                        { text: 'Implement emergency procedures and coordinate with other departments', impacts: { [department]: 20 } },
-                        { text: 'Continue normal operations while monitoring the situation', impacts: { [department]: -15 } },
-                        { text: 'Wait for executive direction before taking action', impacts: { [department]: -10 } }
+                        { text: 'Implement emergency procedures and coordinate with other departments immediately', impacts: { [department]: 22 } },
+                        { text: 'Continue normal operations and wait for the crisis to resolve itself', impacts: { [department]: -23 } }
                     ]
                 },
                 {
                     questionText: `What resources should ${department.replace('_', '/')} prioritize during this crisis?`,
                     options: [
-                        { text: 'Focus all resources on crisis response and recovery', impacts: { [department]: 22 } },
-                        { text: 'Balance crisis response with maintaining normal operations', impacts: { [department]: 10 } },
-                        { text: 'Prioritize protecting departmental assets and staff', impacts: { [department]: -12 } }
+                        { text: 'Focus all available resources on crisis response and customer protection', impacts: { [department]: 24 } },
+                        { text: 'Maintain normal resource allocation and avoid disrupting routine operations', impacts: { [department]: -22 } }
                     ]
                 },
                 {
-                    questionText: `How should ${department.replace('_', '/')} communicate with stakeholders during this crisis?`,
+                    questionText: `How should ${department.replace('_', '/')} communicate during this crisis?`,
                     options: [
-                        { text: 'Provide frequent, transparent updates about the situation', impacts: { [department]: 18 } },
-                        { text: 'Share information only when specifically requested', impacts: { [department]: -8 } },
-                        { text: 'Limit communication to avoid causing additional panic', impacts: { [department]: -15 } }
+                        { text: 'Provide frequent, transparent updates to all stakeholders about the situation', impacts: { [department]: 23 } },
+                        { text: 'Limit communication to avoid causing panic and wait for the crisis to end', impacts: { [department]: -25 } }
                     ]
                 }
             ];
@@ -1161,7 +1148,7 @@
             }
             return shuffled;
         }
-        
+
         // Display current question
         function displayCurrentQuestion() {
             if (!currentScenario || !currentScenario.questions) {
@@ -1182,13 +1169,10 @@
             
             // Check if the current department is eliminated - skip their questions
             if (departments[question.department] && departments[question.department].eliminated) {
-                console.log(`Skipping question for eliminated department: ${question.department}`);
                 currentQuestionIndex++;
                 displayCurrentQuestion(); // Recursively call to get next question
                 return;
             }
-            
-            console.log(`Displaying question ${currentQuestionIndex + 1}/21 for ${question.department}`);
             
             // Get department color
             const deptColor = departments[question.department]?.color || '#3498db';
@@ -1206,7 +1190,7 @@
                 </div>
             `;
             
-            // Show options
+            // Show options (exactly 2 now - RIGHT and WRONG)
             const optionsContainer = document.getElementById('optionsContainer');
             optionsContainer.innerHTML = '';
             
@@ -1221,22 +1205,17 @@
             document.getElementById('nextQuestionBtn').style.display = 'none';
             document.getElementById('scenarioPanel').classList.remove('hidden');
         }
-        
+
         // Handle option selection
         function selectOption(index, option) {
-            console.log('Option selected:', index, option.text);
-            
             // Get the current question to determine which department is answering
             const question = currentScenario.questions[currentQuestionIndex];
             const answeringDept = question.department;
             const impact = option.impacts[answeringDept] || 0;
             
-            // Determine if this was a good, neutral, or bad choice
-            let isGoodChoice = impact > 10;
-            let isBadChoice = impact < -10;
-            let isNeutralChoice = impact >= -10 && impact <= 10;
-            
-            console.log(`Impact for ${answeringDept}: ${impact}, Good: ${isGoodChoice}, Bad: ${isBadChoice}, Neutral: ${isNeutralChoice}`);
+            // Determine if this was a right or wrong choice
+            let isRightChoice = impact > 0;
+            let isWrongChoice = impact < 0;
             
             // Disable all option buttons and show feedback
             const buttons = document.querySelectorAll('.option-button');
@@ -1244,20 +1223,17 @@
                 btn.disabled = true;
                 if (btn.textContent === option.text) {
                     // Color the selected option based on its impact
-                    if (isGoodChoice) {
-                        btn.style.backgroundColor = '#27ae60'; // Green for good choice
-                        btn.innerHTML = `${option.text} <strong style="color: white;">(+${impact} points - Good choice!)</strong>`;
-                    } else if (isBadChoice) {
-                        btn.style.backgroundColor = '#e74c3c'; // Red for bad choice
-                        btn.innerHTML = `${option.text} <strong style="color: white;">(${impact} points - Poor choice!)</strong>`;
-                    } else {
-                        btn.style.backgroundColor = '#f39c12'; // Orange for neutral
-                        btn.innerHTML = `${option.text} <strong style="color: white;">(${impact} points - Neutral)</strong>`;
+                    if (isRightChoice) {
+                        btn.style.backgroundColor = '#27ae60'; // Green for right choice
+                        btn.innerHTML = `${option.text} <strong style="color: white;">(+${impact} points - Correct!)</strong>`;
+                    } else if (isWrongChoice) {
+                        btn.style.backgroundColor = '#e74c3c'; // Red for wrong choice
+                        btn.innerHTML = `${option.text} <strong style="color: white;">(${impact} points - Wrong!)</strong>`;
                     }
                 }
             });
             
-            // Track strikes for bad choices
+            // Track strikes for wrong choices
             let strikeAdded = false;
             
             // Apply score changes (only to answering department)
@@ -1265,16 +1241,19 @@
                 if (departments[deptKey] && impact !== 0) {
                     departments[deptKey].score = Math.max(0, Math.min(200, departments[deptKey].score + impact));
                     
-                    // Add strike for bad decisions (-15 or worse)
-                    if (impact <= -15 && deptKey === answeringDept) {
+                    // Add strike for wrong decisions (negative impact)
+                    if (impact < 0 && deptKey === answeringDept) {
                         departments[deptKey].strikes++;
                         strikeAdded = true;
-                        console.log(`${departments[deptKey].name} received a strike! (${departments[deptKey].strikes}/3)`);
                         
                         // Check for department elimination
                         if (departments[deptKey].strikes >= 3) {
                             setTimeout(() => {
                                 showStrikesPopup(deptKey, departments[deptKey].strikes, true);
+                                // Check if game is over after elimination
+                                setTimeout(() => {
+                                    checkGameOver();
+                                }, 4000);
                             }, 1000);
                             renderDepartmentScores();
                             return;
@@ -1295,13 +1274,13 @@
             // Show next button
             document.getElementById('nextQuestionBtn').style.display = 'block';
         }
-        
+
         // Next question
         function nextQuestion() {
             currentQuestionIndex++;
             displayCurrentQuestion();
         }
-        
+
         // Reset game
         function resetGame() {
             Object.keys(departments).forEach(key => {
@@ -1317,39 +1296,39 @@
             document.getElementById('scenarioPanel').classList.add('hidden');
             document.getElementById('scenarioReference').classList.add('hidden');
             hideMessage();
+            closeStrikesPopup(); // Close any open popups
         }
-        
+
         // Utility functions
         function showLoading(show) {
             document.getElementById('loadingPanel').classList.toggle('hidden', !show);
         }
-        
+
         function showMessage(message, type = 'error') {
             const panel = document.getElementById('messagePanel');
             panel.className = type;
             panel.textContent = message;
             panel.classList.remove('hidden');
         }
-        
+
         function hideMessage() {
             document.getElementById('messagePanel').classList.add('hidden');
         }
-        
+
         // Event listeners
         document.getElementById('generateBtn').addEventListener('click', generateScenario);
         document.getElementById('resetBtn').addEventListener('click', resetGame);
         document.getElementById('nextQuestionBtn').addEventListener('click', nextQuestion);
-        
+
         // Close popup when clicking outside of it
         document.getElementById('strikesOverlay').addEventListener('click', function(e) {
             if (e.target === this) {
                 closeStrikesPopup();
             }
         });
-        
+
         // Initialize game
         initGame();
-        console.log('Game ready!');
     </script>
 </body>
 </html>
