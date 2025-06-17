@@ -6,26 +6,45 @@
   <title>Crisis Management Game</title>
   <style>
     body {
-      font-family: sans-serif;
+      font-family: 'Segoe UI', sans-serif;
       background: #f4f4f4;
-      padding: 20px;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 40px;
     }
     h1 {
-      color: #c0392b;
+      text-align: center;
+      color: #2c3e50;
+      margin-bottom: 20px;
+    }
+    #startScreen, #gameScreen {
+      display: none;
+    }
+    #startScreen.active, #gameScreen.active {
+      display: block;
+    }
+    .button-group {
+      text-align: center;
+      margin-top: 20px;
     }
     button {
+      margin: 10px;
       padding: 12px 24px;
       font-size: 16px;
-      background: #27ae60;
+      background: #3498db;
       color: white;
       border: none;
       border-radius: 5px;
       cursor: pointer;
     }
     button:hover {
-      background: #1f8c4d;
+      background: #2980b9;
     }
-    .question-box, .status-box {
+    .question-box {
       background: #fff;
       border: 1px solid #ddd;
       padding: 20px;
@@ -38,128 +57,120 @@
     .choice input {
       margin-right: 10px;
     }
-    #status {
-      margin-top: 20px;
-      padding: 15px;
-      background: #ecf0f1;
-      border-radius: 6px;
-      font-family: monospace;
-    }
-    .scoreboard {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 20px;
-    }
-    .dept {
+    #scoreboard {
+      margin-top: 30px;
       background: #fff;
-      padding: 10px 15px;
-      border-radius: 5px;
-      box-shadow: 0 0 5px rgba(0,0,0,0.1);
-      flex: 1 1 150px;
+      padding: 15px;
+      border-radius: 8px;
+      border: 1px solid #ddd;
     }
-    .dept.out {
-      background: #f8d7da;
-      color: #721c24;
+    .department {
+      margin-bottom: 10px;
     }
   </style>
 </head>
 <body>
-  <h1>🧠 Crisis Management Game</h1>
-  <button id="generateBtn">Start New Round</button>
-  <div id="scenarioBox" class="question-box"></div>
-  <div id="questionBox" class="question-box"></div>
-  <div id="status"></div>
-  <div class="scoreboard" id="scoreboard"></div>
+<div class="container">
+  <div id="startScreen" class="active">
+    <h1>🧠 Crisis Management Simulation</h1>
+    <p style="text-align:center">Train department heads to manage financial crises. Each round presents a unique challenge with one question per department.</p>
+    <div class="button-group">
+      <button onclick="startGame()">Generate New Scenario</button>
+      <button onclick="window.location.href='index.html'">Back to Home</button>
+    </div>
+  </div>
 
-  <script>
-    const departments = ["CEO", "IT", "HR", "Finance", "Loans", "Accounting", "Deposits"];
-    let currentDeptIndex = 0;
-    let scenario = null;
-    let round = 1;
-    const score = {};
-    const strikes = {};
+  <div id="gameScreen">
+    <h2 id="scenarioTitle"></h2>
+    <p id="scenarioText"></p>
+    <div id="questionBox"></div>
+    <div id="scoreboard"></div>
+    <div class="button-group">
+      <button onclick="resetGame()">Reset Game</button>
+    </div>
+  </div>
+</div>
 
-    departments.forEach(d => {
-      score[d] = 0;
-      strikes[d] = 0;
-    });
+<script>
+  let round = 0;
+  let departmentIndex = 0;
+  let departments = ["CEO", "IT", "HR", "Finance", "Loans", "Accounting", "Deposits"];
+  let scores = {};
+  let strikes = {};
+  departments.forEach(dep => { scores[dep] = 0; strikes[dep] = 0; });
+  let questions = [];
 
-    const scenarioBox = document.getElementById("scenarioBox");
-    const questionBox = document.getElementById("questionBox");
-    const scoreboard = document.getElementById("scoreboard");
-    const status = document.getElementById("status");
-    const generateBtn = document.getElementById("generateBtn");
+  function startGame() {
+    document.getElementById("startScreen").classList.remove("active");
+    document.getElementById("gameScreen").classList.add("active");
+    fetchScenario();
+  }
 
-    generateBtn.addEventListener("click", async () => {
-      status.textContent = `🔄 Loading new scenario for Round ${round}...`;
-      currentDeptIndex = 0;
-      questionBox.innerHTML = '';
-      try {
-        const response = await fetch("/api/generate-scenario", { method: "POST" });
-        scenario = await response.json();
-        scenarioBox.innerHTML = `<h2>Round ${round}: ${scenario.title}</h2><p>${scenario.description}</p>`;
-        displayQuestion();
-        round++;
-      } catch (err) {
-        status.textContent = "❌ Error loading scenario: " + err.message;
-      }
-    });
+  function fetchScenario() {
+    round++;
+    departmentIndex = 0;
+    fetch("/api/generate-scenario", { method: "POST" })
+      .then(res => res.json())
+      .then(data => {
+        questions = data.questions.slice(0, 7);
+        document.getElementById("scenarioTitle").textContent = data.title;
+        document.getElementById("scenarioText").textContent = data.description;
+        showQuestion();
+      })
+      .catch(err => alert("Error: " + err.message));
+  }
 
-    function displayQuestion() {
-      const dept = departments[currentDeptIndex];
-      if (strikes[dept] >= 3) {
-        nextQuestion();
-        return;
-      }
-      const question = scenario.questions[currentDeptIndex];
-      questionBox.innerHTML = `
-        <h3>${dept} Department</h3>
-        <p><strong>Q:</strong> ${question.questionText}</p>
-        ${question.choices.map((choice, i) => `
-          <div class="choice">
-            <label><input type="radio" name="choice" value="${choice}"> ${choice}</label>
-          </div>`).join('')}
-        <button onclick="submitAnswer('${question.answer}')">Submit Answer</button>
-      `;
+  function showQuestion() {
+    const dept = departments[departmentIndex];
+    const question = questions[departmentIndex];
+    const box = document.getElementById("questionBox");
+    box.innerHTML = `<div class="question-box">
+      <h3>${dept} Department - Q${departmentIndex + 1}:</h3>
+      <p>${question.questionText}</p>
+      ${question.choices.map(choice => `<div class="choice"><label><input type="radio" name="q" value="${choice}"> ${choice}</label></div>`).join('')}
+      <button onclick="submitAnswer('${question.answer}')">Submit Answer</button>
+    </div>`;
+  }
+
+  function submitAnswer(correct) {
+    const dept = departments[departmentIndex];
+    const selected = document.querySelector("input[name='q']:checked");
+    if (!selected) return alert("Please select an answer.");
+
+    if (selected.value === correct) {
+      scores[dept]++;
+    } else {
+      strikes[dept]++;
     }
 
-    function submitAnswer(correctAnswer) {
-      const selected = document.querySelector('input[name="choice"]:checked');
-      if (!selected) {
-        alert("Please select an answer.");
-        return;
-      }
-      const dept = departments[currentDeptIndex];
-      if (selected.value === correctAnswer) {
-        score[dept]++;
-        status.textContent = `${dept} answered correctly!`;
-      } else {
-        strikes[dept]++;
-        status.textContent = `${dept} answered incorrectly! Strike ${strikes[dept]}/3`;
-      }
-      updateScoreboard();
-      nextQuestion();
+    departmentIndex++;
+    if (departmentIndex < departments.length) {
+      showQuestion();
+    } else {
+      alert("Round complete! Starting next round.");
+      fetchScenario();
     }
+    updateScoreboard();
+  }
 
-    function nextQuestion() {
-      currentDeptIndex++;
-      if (currentDeptIndex < departments.length) {
-        displayQuestion();
-      } else {
-        questionBox.innerHTML = `<h3>Round Complete</h3><p>Click "Start New Round" to continue.</p>`;
-      }
-    }
+  function updateScoreboard() {
+    const board = document.getElementById("scoreboard");
+    board.innerHTML = `<h3>Scoreboard</h3>
+      ${departments.map(dep => `<div class="department"><strong>${dep}</strong>: Score ${scores[dep]}, Strikes ${strikes[dep]}</div>`).join('')}`;
+  }
 
-    function updateScoreboard() {
-      scoreboard.innerHTML = departments.map(dept => `
-        <div class="dept ${strikes[dept] >= 3 ? 'out' : ''}">
-          <strong>${dept}</strong><br>
-          Score: ${score[dept]}<br>
-          Strikes: ${strikes[dept]}
-        </div>
-      `).join('');
-    }
-  </script>
+  function resetGame() {
+    round = 0;
+    departmentIndex = 0;
+    scores = {}; strikes = {};
+    departments.forEach(dep => { scores[dep] = 0; strikes[dep] = 0; });
+    document.getElementById("scenarioTitle").textContent = "";
+    document.getElementById("scenarioText").textContent = "";
+    document.getElementById("questionBox").innerHTML = "";
+    document.getElementById("scoreboard").innerHTML = "";
+    document.getElementById("gameScreen").classList.remove("active");
+    document.getElementById("startScreen").classList.add("active");
+  }
+</script>
 </body>
 </html>
