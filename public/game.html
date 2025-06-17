@@ -1,192 +1,160 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Crisis Management Game</title>
   <style>
     body {
-      font-family: 'Segoe UI', sans-serif;
-      background: #f9f9f9;
-      margin: 0;
+      font-family: sans-serif;
+      background: #f4f4f4;
       padding: 20px;
       text-align: center;
     }
-
-    .header {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 20px;
-    }
-
-    .logo {
-      width: 60px;
-      height: 60px;
-    }
-
     h1 {
       color: #c0392b;
-      font-size: 2rem;
     }
-
-    #generateBtn, #resetBtn, #backBtn {
-      padding: 12px 20px;
+    .logo {
+      width: 80px;
+    }
+    .btn {
+      padding: 10px 20px;
       font-size: 16px;
       margin: 10px;
       background: #27ae60;
       color: white;
       border: none;
-      border-radius: 6px;
+      border-radius: 5px;
       cursor: pointer;
     }
-
-    #generateBtn:hover, #resetBtn:hover, #backBtn:hover {
-      background: #1f8c4d;
+    .btn:hover {
+      background: #219150;
     }
-
     .scoreboard {
       display: flex;
-      flex-wrap: wrap;
       justify-content: center;
-      margin-top: 30px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
     }
-
     .dept-card {
-      width: 150px;
-      height: 120px;
-      margin: 10px;
-      border-radius: 12px;
-      color: white;
+      width: 130px;
       padding: 15px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      margin: 5px;
+      border-radius: 10px;
+      color: white;
+      font-weight: bold;
     }
-
-    .CEO { background: #8e44ad; }
-    .IT { background: #e74c3c; }
-    .HR { background: #2980b9; }
-    .Finance { background: #27ae60; }
-    .Loans { background: #f39c12; }
-    .Accounting { background: #9b59b6; }
-    .Deposits { background: #2ecc71; }
-
-    .dept-score {
-      font-size: 1.8rem;
-      margin-top: 10px;
-    }
-
-    #scenarioBox {
-      background: white;
-      padding: 25px;
-      border-radius: 12px;
-      margin: 30px auto;
+    .scenario-box, .question-box {
+      background: #fff;
+      margin: 20px auto;
+      padding: 20px;
+      border-radius: 10px;
       max-width: 600px;
-      box-shadow: 0 0 8px rgba(0,0,0,0.1);
       text-align: left;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     }
-
-    #scenarioBox h2 {
+    .question-box h2 {
       margin-bottom: 10px;
     }
-
-    #questionBox {
-      background: white;
-      padding: 25px;
-      border-radius: 12px;
-      margin: 20px auto;
-      max-width: 600px;
-      box-shadow: 0 0 8px rgba(0,0,0,0.1);
+    .choice {
+      margin: 10px 0;
     }
   </style>
 </head>
 <body>
-  <div class="header">
-    <img src="images/bank-logo.png" alt="Bank Logo" class="logo">
-    <h1>Crisis Management Game</h1>
-  </div>
+  <img src="images/bank-logo.png" alt="Bank Logo" class="logo" />
+  <h1>Crisis Management Game</h1>
+  <button class="btn" onclick="generateScenario()">Generate New Crisis Scenario</button>
+  <button class="btn" onclick="resetGame()">Reset Game</button>
+  <button class="btn" onclick="location.href='index.html'">Back to Home</button>
 
-  <button id="generateBtn">Generate New Crisis Scenario</button>
-  <button id="resetBtn">Reset Game</button>
-  <button id="backBtn" onclick="location.href='index.html'">Back to Home</button>
+  <div class="scoreboard" id="scoreboard"></div>
 
-  <div class="scoreboard">
-    <div class="dept-card CEO">
-      <div>CEO/SVPs</div>
-      <div class="dept-score" id="CEOscore">0</div>
-    </div>
-    <div class="dept-card IT">
-      <div>IT/Security</div>
-      <div class="dept-score" id="ITscore">0</div>
-    </div>
-    <div class="dept-card HR">
-      <div>HR</div>
-      <div class="dept-score" id="HRscore">0</div>
-    </div>
-    <div class="dept-card Finance">
-      <div>Finance</div>
-      <div class="dept-score" id="Financescore">0</div>
-    </div>
-    <div class="dept-card Loans">
-      <div>Loans</div>
-      <div class="dept-score" id="Loansscore">0</div>
-    </div>
-    <div class="dept-card Accounting">
-      <div>Accounting</div>
-      <div class="dept-score" id="Accountingscore">0</div>
-    </div>
-    <div class="dept-card Deposits">
-      <div>Deposits</div>
-      <div class="dept-score" id="Depositsscore">0</div>
-    </div>
-  </div>
-
-  <div id="scenarioBox">
+  <div class="scenario-box" id="scenarioBox" style="display:none;">
     <h2>Scenario</h2>
-    <p id="scenarioText">Click the button to generate a new scenario...</p>
+    <p id="scenarioText"></p>
   </div>
 
-  <div id="questionBox"></div>
+  <div class="question-box" id="questionBox" style="display:none;">
+    <h2 id="questionText"></h2>
+    <div id="choices"></div>
+    <button class="btn" onclick="nextQuestion()">Next</button>
+  </div>
 
   <script>
-    let round = 0;
+    const departments = {
+      "CEO/SVPs": "#9b59b6",
+      "IT/Security": "#e74c3c",
+      "HR": "#2980b9",
+      "Finance": "#27ae60",
+      "Loans": "#f39c12",
+      "Accounting": "#8e44ad",
+      "Deposits": "#2ecc71"
+    };
 
-    function updateScores() {
-      // Placeholder: hook into actual game state
-      document.getElementById("CEOscore").textContent = "0";
-      document.getElementById("ITscore").textContent = "0";
-      document.getElementById("HRscore").textContent = "0";
-      document.getElementById("Financescore").textContent = "0";
-      document.getElementById("Loansscore").textContent = "0";
-      document.getElementById("Accountingscore").textContent = "0";
-      document.getElementById("Depositsscore").textContent = "0";
+    const departmentNames = Object.keys(departments);
+    const scores = {};
+    departmentNames.forEach(dept => scores[dept] = 0);
+
+    let questions = [], currentQ = 0, scenarioDesc = '';
+
+    function updateScoreboard() {
+      const board = document.getElementById('scoreboard');
+      board.innerHTML = departmentNames.map(dept =>
+        `<div class="dept-card" style="background:${departments[dept]}">
+          ${dept}<br/>${scores[dept]}
+        </div>`
+      ).join('');
     }
 
-    document.getElementById("generateBtn").addEventListener("click", async () => {
-      round++;
-      try {
-        const res = await fetch("/api/generate-scenario", { method: "POST" });
-        const data = await res.json();
-        document.getElementById("scenarioText").textContent = data.description || "Scenario loaded.";
+    async function generateScenario() {
+      const res = await fetch('/api/generate-scenario', { method: 'POST' });
+      const data = await res.json();
+      scenarioDesc = data.description;
+      questions = data.questions;
+      currentQ = 0;
 
-        // Render 1 sample question (future: loop over 7 w/ timers or round logic)
-        const q = data.questions[0];
-        document.getElementById("questionBox").innerHTML = `
-          <h3>${q.questionText}</h3>
-          ${q.choices.map(c => `<div><input type='radio' name='answer'> ${c}</div>`).join("")}
-        `;
-      } catch (err) {
-        document.getElementById("scenarioText").textContent = "❌ Error: " + err.message;
+      document.getElementById('scenarioBox').style.display = 'block';
+      document.getElementById('scenarioText').textContent = scenarioDesc;
+      updateScoreboard();
+      showQuestion();
+    }
+
+    function showQuestion() {
+      const question = questions[currentQ];
+      const dept = departmentNames[currentQ % departmentNames.length];
+      const qBox = document.getElementById('questionBox');
+      const qText = document.getElementById('questionText');
+      const choices = document.getElementById('choices');
+
+      qBox.style.display = 'block';
+      qBox.style.border = `3px solid ${departments[dept]}`;
+
+      qText.textContent = `(${dept}) ${question.questionText}`;
+      choices.innerHTML = question.choices.map((choice, i) =>
+        `<div class="choice">
+          <label><input type="radio" name="choice" value="${choice}" /> ${choice}</label>
+        </div>`).join('');
+    }
+
+    function nextQuestion() {
+      currentQ++;
+      if (currentQ < questions.length) {
+        showQuestion();
+      } else {
+        alert("End of scenario. Reset to play again.");
+        document.getElementById('questionBox').style.display = 'none';
       }
-    });
+    }
 
-    document.getElementById("resetBtn").addEventListener("click", () => {
-      document.getElementById("scenarioText").textContent = "Click the button to generate a new scenario...";
-      document.getElementById("questionBox").innerHTML = "";
-      round = 0;
-      updateScores();
-    });
+    function resetGame() {
+      departmentNames.forEach(dept => scores[dept] = 0);
+      document.getElementById('scenarioBox').style.display = 'none';
+      document.getElementById('questionBox').style.display = 'none';
+      updateScoreboard();
+    }
 
-    updateScores();
+    updateScoreboard();
   </script>
 </body>
 </html>
