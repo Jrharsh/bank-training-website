@@ -1,697 +1,1334 @@
-<script>
-// Game State
-const departments = {
-    'CEO_SVPs': { name: 'CEO/SVPs', score: 0, strikes: 0, color: '#8e44ad' },
-    'IT_Security': { name: 'IT/Security', score: 0, strikes: 0, color: '#e74c3c' },
-    'HR': { name: 'HR', score: 0, strikes: 0, color: '#3498db' },
-    'Finance': { name: 'Finance', score: 0, strikes: 0, color: '#2ecc71' },
-    'Loans': { name: 'Loans', score: 0, strikes: 0, color: '#f39c12' },
-    'Accounting': { name: 'Accounting', score: 0, strikes: 0, color: '#9b59b6' },
-    'Deposits': { name: 'Deposits', score: 0, strikes: 0, color: '#1abc9c' }
-};
-
-let currentRound = 1;
-let currentScenario = null;
-let currentQuestionIndex = 0;
-let scenarioCollapsed = false;
-
-// Navigation
-function goHome() {
-    window.location.href = '/';
-}
-
-// Toggle scenario visibility
-function toggleScenario() {
-    const content = document.getElementById('scenarioContentRef');
-    const toggleText = document.getElementById('toggleText');
-    
-    scenarioCollapsed = !scenarioCollapsed;
-    content.classList.toggle('collapsed', scenarioCollapsed);
-    toggleText.textContent = scenarioCollapsed ? 'Show Scenario' : 'Hide Scenario';
-}
-
-// ELEGANT STRIKES POPUP FUNCTIONS
-function showStrikesPopup(departmentKey, strikeCount, isDepartmentEliminated = false) {
-    const dept = departments[departmentKey];
-    const overlay = document.getElementById('strikesOverlay');
-    const popup = document.getElementById('strikesPopup');
-    
-    // Configure popup content
-    if (isDepartmentEliminated) {
-        document.getElementById('strikesIcon').innerHTML = `
-            <div class="eliminated-image-container">
-                <div class="department-eliminated-icon">💀</div>
-                <div class="eliminated-overlay">ELIMINATED</div>
-            </div>
-        `;
-        
-        document.getElementById('strikesTitle').textContent = 'Department Eliminated!';
-        document.getElementById('strikesDepartment').textContent = dept.name + ' Department';
-        document.getElementById('strikesMessage').innerHTML = `
-            <strong>${dept.name}</strong> has made 3 critical errors and is no longer able to participate in crisis management decisions.
-        `;
-        document.getElementById('strikesWarning').innerHTML = `
-            <div class="continue-game-message">
-                🎮 The game continues with the remaining departments!<br>
-                Other departments must work harder to compensate.
-            </div>
-        `;
-        popup.classList.add('department-eliminated-popup');
-        
-        // Mark department as eliminated
-        departments[departmentKey].eliminated = true;
-        
-        // Show message for 3 seconds then close
-        setTimeout(() => {
-            closeStrikesPopup();
-        }, 3500);
-    } else {
-        document.getElementById('strikesIcon').textContent = '❌';
-        document.getElementById('strikesTitle').textContent = 'Critical Error!';
-        document.getElementById('strikesDepartment').textContent = dept.name + ' Department';
-        document.getElementById('strikesMessage').textContent = 
-            `${dept.name} made a poor decision that could worsen the crisis. This decision has been recorded as a critical error.`;
-        
-        const remainingStrikes = 3 - strikeCount;
-        document.getElementById('strikesWarning').textContent = 
-            remainingStrikes > 0 
-                ? `⚠️ ${remainingStrikes} more critical error(s) will eliminate this department!`
-                : '🚨 Next critical error will eliminate this department!';
-                
-        popup.classList.remove('department-eliminated-popup');
-    }
-    
-    // Update strikes counter visual
-    updateStrikesCounter(strikeCount);
-    
-    // Show popup with animation
-    overlay.classList.add('show');
-}
-
-function updateStrikesCounter(strikeCount) {
-    const counter = document.getElementById('strikesCounter');
-    counter.innerHTML = '';
-    
-    for (let i = 1; i <= 3; i++) {
-        const indicator = document.createElement('div');
-        indicator.className = 'strike-indicator';
-        
-        if (i <= strikeCount) {
-            indicator.classList.add('active');
-            indicator.textContent = 'X';
-        } else {
-            indicator.classList.add('inactive');
-            indicator.textContent = i;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crisis Management Game</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
         
-        counter.appendChild(indicator);
-    }
-}
-
-function closeStrikesPopup() {
-    const overlay = document.getElementById('strikesOverlay');
-    overlay.classList.remove('show');
-}
-
-// Check if all departments are eliminated (Game Over)
-function checkGameOver() {
-    const activeDepartments = Object.values(departments).filter(dept => !dept.eliminated);
-    if (activeDepartments.length === 0) {
-        showGameOverPopup();
-        return true;
-    }
-    return false;
-}
-
-function showGameOverPopup() {
-    const overlay = document.getElementById('strikesOverlay');
-    const popup = document.getElementById('strikesPopup');
-    
-    document.getElementById('strikesIcon').innerHTML = `💀`;
-    document.getElementById('strikesTitle').textContent = 'GAME OVER!';
-    document.getElementById('strikesDepartment').textContent = 'All Departments Eliminated';
-    document.getElementById('strikesMessage').innerHTML = `
-        All departments have been eliminated due to critical errors. The bank has failed to manage the crisis effectively.
-    `;
-    document.getElementById('strikesWarning').innerHTML = `
-        <div style="background: rgba(231, 76, 60, 0.2); color: #ecf0f1; border-color: #e74c3c; border-left: 4px solid #e74c3c; padding: 15px; border-radius: 10px; margin-bottom: 20px; font-weight: 600;">
-            🔄 Click "Reset Game" to start over with a new crisis scenario.
-        </div>
-    `;
-    document.getElementById('strikesCounter').innerHTML = '';
-    popup.classList.add('game-over-popup');
-    
-    overlay.classList.add('show');
-}
-
-// Initialize the game
-function initGame() {
-    renderDepartmentScores();
-    document.getElementById('roundNumber').textContent = currentRound;
-}
-
-// Render department score cards
-function renderDepartmentScores() {
-    const container = document.getElementById('departmentScores');
-    container.innerHTML = '';
-    
-    Object.entries(departments).forEach(([key, dept]) => {
-        const card = document.createElement('div');
-        card.className = 'department-card';
-        card.style.borderLeftColor = dept.color;
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
         
-        // Add visual indicator for strikes
-        let strikeIndicator = '';
-        for (let i = 0; i < 3; i++) {
-            if (i < dept.strikes) {
-                strikeIndicator += '❌';
-            } else {
-                strikeIndicator += '⚪';
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            color: #2c3e50;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .back-button {
+            background: #95a5a6;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9em;
+            margin-bottom: 20px;
+        }
+        
+        .back-button:hover {
+            background: #7f8c8d;
+        }
+        
+        .department-scores {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .department-card {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border-left: 4px solid;
+        }
+        
+        .department-name {
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #2c3e50;
+        }
+        
+        .department-score {
+            font-size: 1.8em;
+            font-weight: bold;
+        }
+        
+        .scenario-reference {
+            background: #ecf0f1;
+            padding: 15px 15px 15px 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #e74c3c;
+            position: relative;
+        }
+        
+        .scenario-toggle {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8em;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 10;
+        }
+        
+        .scenario-toggle:hover {
+            background: #c0392b;
+        }
+        
+        .scenario-content {
+            margin-top: 10px;
+            padding-right: 80px;
+        }
+        
+        .scenario-content.collapsed {
+            display: none;
+        }
+        
+        .scenario-title-area {
+            padding-right: 80px;
+            margin-bottom: 10px;
+        }
+        
+        .scenario-panel {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .scenario-title {
+            font-size: 1.4em;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+        
+        .scenario-description {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            font-size: 1.1em;
+        }
+        
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .option-button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 15px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            text-align: left;
+        }
+        
+        .option-button:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+        
+        .option-button:disabled {
+            background: #95a5a6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary {
+            background: #e74c3c;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #c0392b;
+        }
+        
+        .btn-secondary {
+            background: #95a5a6;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: #7f8c8d;
+        }
+        
+        .btn-next {
+            background: #27ae60;
+            color: white;
+        }
+        
+        .btn-next:hover {
+            background: #229954;
+        }
+        
+        .loading {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            padding: 20px;
+        }
+        
+        .error {
+            background: #e74c3c;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .success {
+            background: #27ae60;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .round-info {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.2em;
+            color: #2c3e50;
+        }
+        
+        .department-label {
+            background: #3498db;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 1.3em;
+            text-align: center;
+            margin-bottom: 20px;
+            border: 3px solid #2980b9;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        /* ELEGANT STRIKES POPUP STYLES */
+        .strikes-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        .strikes-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .strikes-popup {
+            background: linear-gradient(145deg, #ffffff, #f8f9fa);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 
+                0 25px 50px rgba(0, 0, 0, 0.2),
+                0 0 0 1px rgba(255, 255, 255, 0.5);
+            transform: scale(0.7) translateY(30px);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .strikes-overlay.show .strikes-popup {
+            transform: scale(1) translateY(0);
+        }
+
+        .strikes-popup::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, #e74c3c, #f39c12, #e74c3c);
+            background-size: 200% 100%;
+            animation: pulse-gradient 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-gradient {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .strikes-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            animation: shake 0.6s ease-in-out;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px) rotate(-5deg); }
+            75% { transform: translateX(10px) rotate(5deg); }
+        }
+
+        .strikes-title {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #e74c3c;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .strikes-department {
+            font-size: 1.3rem;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .strikes-counter {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 25px 0;
+        }
+
+        .strike-indicator {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            border: 3px solid;
+        }
+
+        .strike-indicator.active {
+            background: linear-gradient(145deg, #e74c3c, #c0392b);
+            color: white;
+            border-color: #c0392b;
+            animation: strike-pulse 0.6s ease-out;
+        }
+
+        .strike-indicator.inactive {
+            background: linear-gradient(145deg, #ecf0f1, #d5dbdb);
+            color: #95a5a6;
+            border-color: #bdc3c7;
+        }
+
+        @keyframes strike-pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); box-shadow: 0 0 20px rgba(231, 76, 60, 0.5); }
+            100% { transform: scale(1); }
+        }
+
+        .strikes-message {
+            font-size: 1.1rem;
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            padding: 15px;
+            background: rgba(231, 76, 60, 0.1);
+            border-radius: 10px;
+            border-left: 4px solid #e74c3c;
+        }
+
+        .strikes-warning {
+            font-size: 1rem;
+            color: #e67e22;
+            font-weight: 600;
+            margin-bottom: 25px;
+            padding: 10px;
+            background: rgba(243, 156, 18, 0.1);
+            border-radius: 8px;
+            border: 1px solid rgba(243, 156, 18, 0.3);
+        }
+
+        .strikes-close-btn {
+            background: linear-gradient(145deg, #e74c3c, #c0392b);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+        }
+
+        .strikes-close-btn:hover {
+            background: linear-gradient(145deg, #c0392b, #a93226);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(231, 76, 60, 0.4);
+        }
+
+        .strikes-close-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Department Eliminated Popup Styles */
+        .department-eliminated-popup {
+            background: linear-gradient(145deg, #2c3e50, #34495e);
+            color: white;
+            max-width: 600px;
+        }
+
+        .department-eliminated-popup::before {
+            background: linear-gradient(90deg, #e74c3c, #8e44ad, #e74c3c);
+        }
+
+        .eliminated-image-container {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .eliminated-image {
+            width: 200px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            animation: elimination-shake 1s ease-in-out;
+        }
+
+        @keyframes elimination-shake {
+            0%, 100% { transform: translateX(0) rotate(0deg); }
+            25% { transform: translateX(-5px) rotate(-2deg); }
+            75% { transform: translateX(5px) rotate(2deg); }
+        }
+
+        .eliminated-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(231, 76, 60, 0.9);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .department-eliminated-icon {
+            font-size: 4rem;
+            margin-bottom: 15px;
+            animation: elimination-pulse 1s ease-in-out infinite;
+        }
+
+        @keyframes elimination-pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.8; filter: brightness(1.2); }
+        }
+
+        .department-eliminated-title {
+            font-size: 2rem;
+            color: #e74c3c;
+            margin-bottom: 15px;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .department-eliminated-message {
+            background: rgba(231, 76, 60, 0.2);
+            color: #ecf0f1;
+            border-color: #e74c3c;
+            margin-bottom: 20px;
+        }
+
+        .continue-game-message {
+            background: rgba(46, 204, 113, 0.2);
+            color: #ecf0f1;
+            border-color: #27ae60;
+            border-left: 4px solid #27ae60;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        /* Game Over Styles */
+        .game-over-popup {
+            background: linear-gradient(145deg, #34495e, #2c3e50);
+            color: white;
+            max-width: 700px;
+        }
+
+        .game-over-popup::before {
+            background: linear-gradient(90deg, #e74c3c, #c0392b, #e74c3c);
+        }
+
+        .game-over-title {
+            font-size: 2.5rem;
+            color: #e74c3c;
+            margin-bottom: 20px;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .scenario-content {
+                padding-right: 60px;
             }
-        }
-        
-        // Check if department is eliminated
-        if (dept.eliminated) {
-            card.style.opacity = '0.5';
-            card.style.background = '#f8f9fa';
-            card.innerHTML = `
-                <div class="department-name" style="color: #e74c3c;">💀 ${dept.name}</div>
-                <div class="department-score" style="color: #e74c3c; font-size: 1.2em;">ELIMINATED</div>
-                <div style="font-size: 0.8em; margin-top: 5px; color: #e74c3c;">3 Critical Errors</div>
-            `;
-        } else {
-            card.innerHTML = `
-                <div class="department-name">${dept.name}</div>
-                <div class="department-score" style="color: ${dept.color || '#000'}">${dept.score}</div>
-                <div style="font-size: 0.8em; margin-top: 5px;">${strikeIndicator}</div>
-            `;
-        }
-        
-        container.appendChild(card);
-    });
-}
-
-// Generate scenario - IMPROVED LOCAL VERSION
-function generateScenario() {
-    showLoading(true);
-    hideMessage();
-    
-    try {
-        // Create scenario directly without API call
-        currentScenario = createRandomScenario();
-        currentQuestionIndex = 0;
-        
-        // Show the scenario reference
-        document.getElementById('scenarioTitleRef').textContent = currentScenario.title;
-        document.getElementById('scenarioContentRef').textContent = currentScenario.description;
-        document.getElementById('scenarioReference').classList.remove('hidden');
-        
-        displayCurrentQuestion();
-        
-    } catch (error) {
-        showMessage(`Failed to generate scenario: ${error.message}`, 'error');
-    } finally {
-        showLoading(false);
-    }
-}
-
-// Create scenarios directly in JavaScript - MUCH IMPROVED VERSION
-function createRandomScenario() {
-    const scenarioTemplates = [
-        {
-            type: 'cyberattack',
-            title: 'Sophisticated Ransomware Attack Paralyzes Banking Operations',
-            description: 'Hackers have deployed advanced ransomware across all banking systems, encrypting customer databases, transaction records, and core banking platforms. Online banking is completely offline, ATMs are non-functional, and branch computers display ransom demands for $3 million in cryptocurrency. The FBI cybercrime unit is en route. Customer calls are flooding in, and social media is buzzing with concerns about account safety.',
-            icon: '🔒'
-        },
-        {
-            type: 'natural_disaster',
-            title: 'Category 5 Hurricane Destroys Regional Banking Infrastructure',
-            description: 'Hurricane Phoenix has made landfall as a Category 5 storm, forcing immediate evacuation of 15 branches across four states. Severe flooding has destroyed the main data center, backup generators have failed, and communication towers are down. An estimated 500,000 customers are affected, with no access to banking services. Local businesses cannot process payments, and emergency services need immediate financial coordination.',
-            icon: '🌪️'
-        },
-        {
-            type: 'disgruntled_employee',
-            title: 'Terminated IT Administrator Launches Internal Sabotage Campaign',
-            description: 'A recently fired senior IT administrator has used backdoor access to delete critical databases, leak confidential customer information on social media, and plant malicious code in banking systems. Internal emails containing sensitive merger discussions have been posted online. The employee is making public accusations of illegal lending practices, and local news stations are requesting interviews.',
-            icon: '😡'
-        },
-        {
-            type: 'regulatory_crisis',
-            title: 'Federal Agents Execute Search Warrants for Money Laundering Investigation',
-            description: 'FBI and Treasury agents have arrived with federal search warrants, seizing computers and financial records related to suspected money laundering activities. A major corporate client is alleged to have funneled $50 million in illicit funds through the bank. Federal regulators are threatening to freeze assets, and the bank\'s stock has dropped 18% in pre-market trading.',
-            icon: '⚖️'
-        },
-        {
-            type: 'economic_collapse',
-            title: 'Regional Economic Meltdown Following Major Industry Collapse',
-            description: 'The collapse of three major manufacturing companies has triggered massive unemployment, with jobless rates jumping from 3.8% to 14.2% in two weeks. Loan defaults are spiking at 400% above normal rates, commercial real estate values have dropped 25%, and panicked customers are attempting to withdraw life savings. Small businesses are defaulting on loans while requesting emergency credit.',
-            icon: '📉'
-        },
-        {
-            type: 'workplace_violence',
-            title: 'Armed Individual Takes Hostages at Main Branch Location',
-            description: 'A former customer whose business loan was recently foreclosed has entered the main branch with weapons, taking employees and customers hostage. SWAT teams have surrounded the building, and the incident is being broadcast live on all local news channels. The individual is demanding to speak with senior executives and threatening harm if their demands are not met.',
-            icon: '🚨'
-        },
-        {
-            type: 'pandemic_response',
-            title: 'Emergency Health Orders Force Immediate Banking Restrictions',
-            description: 'A new highly contagious virus variant has led to government-mandated closure of all indoor banking facilities. 75% of staff must quarantine immediately, branches can only operate drive-through services, and digital banking systems are experiencing 500% increased usage and frequent crashes. Customers need loan deferrals and emergency access to funds.',
-            icon: '😷'
-        },
-        {
-            type: 'data_breach',
-            title: 'Massive Data Breach Exposes 300,000 Customer Records',
-            description: 'Cybercriminals have infiltrated the customer database through a third-party vendor, accessing Social Security numbers, account details, and transaction histories for 300,000 customers. Fraudulent transactions are being reported across multiple states, identity theft reports are surging, and regulatory authorities require immediate notification. Credit monitoring services are overwhelmed.',
-            icon: '🕳️'
-        }
-    ];
-    
-    // Randomly select a scenario type
-    const selectedTemplate = scenarioTemplates[Math.floor(Math.random() * scenarioTemplates.length)];
-    
-    // Create questions for all departments with RIGHT/WRONG answers only
-    const questions = createDepartmentQuestions(selectedTemplate);
-    
-    return {
-        title: selectedTemplate.title,
-        description: selectedTemplate.description,
-        type: selectedTemplate.type,
-        icon: selectedTemplate.icon,
-        questions: shuffleArray(questions) // Randomize question order
-    };
-}
-
-function createDepartmentQuestions(scenario) {
-    const departments = ['CEO_SVPs', 'IT_Security', 'HR', 'Finance', 'Loans', 'Accounting', 'Deposits'];
-    const questions = [];
-    
-    // Create 3 questions per department (21 total) - all scenario-specific
-    departments.forEach(dept => {
-        const deptQuestions = generateScenarioSpecificQuestions(dept, scenario);
-        questions.push(...deptQuestions);
-    });
-    
-    return questions;
-}
-
-function generateScenarioSpecificQuestions(department, scenario) {
-    const questionSets = {
-        'cyberattack': {
-            'CEO_SVPs': [
-                {
-                    questionText: 'How should the CEO communicate this cyberattack to the public?',
-                    options: [
-                        { text: 'Issue immediate transparent statement acknowledging the attack and customer protection measures', impacts: { 'CEO_SVPs': 24 } },
-                        { text: 'Minimize the incident and claim systems are functioning normally', impacts: { 'CEO_SVPs': -23 } }
-                    ]
-                },
-                {
-                    questionText: 'What is the CEO\'s priority during this cyber crisis?',
-                    options: [
-                        { text: 'Coordinate with law enforcement and activate emergency protocols immediately', impacts: { 'CEO_SVPs': 22 } },
-                        { text: 'Focus on negotiating with hackers to minimize ransom payment', impacts: { 'CEO_SVPs': -25 } }
-                    ]
-                },
-                {
-                    questionText: 'How should leadership handle stakeholder concerns?',
-                    options: [
-                        { text: 'Schedule emergency board meeting and provide hourly updates to regulators', impacts: { 'CEO_SVPs': 23 } },
-                        { text: 'Wait until the situation is resolved before contacting stakeholders', impacts: { 'CEO_SVPs': -24 } }
-                    ]
-                }
-            ],
-            'IT_Security': [
-                {
-                    questionText: 'What is the immediate response to the ransomware attack?',
-                    options: [
-                        { text: 'Immediately isolate all affected systems and activate offline backup protocols', impacts: { 'IT_Security': 25 } },
-                        { text: 'Keep systems running while attempting to remove the ransomware', impacts: { 'IT_Security': -24 } }
-                    ]
-                },
-                {
-                    questionText: 'How should IT prioritize system recovery?',
-                    options: [
-                        { text: 'Restore core banking systems first using clean backups, then customer services', impacts: { 'IT_Security': 23 } },
-                        { text: 'Try to decrypt files in place to restore all systems simultaneously', impacts: { 'IT_Security': -22 } }
-                    ]
-                },
-                {
-                    questionText: 'What security measures should be implemented during recovery?',
-                    options: [
-                        { text: 'Implement enhanced monitoring, change all credentials, and scan all systems', impacts: { 'IT_Security': 24 } },
-                        { text: 'Focus on speed of recovery and worry about security improvements later', impacts: { 'IT_Security': -25 } }
-                    ]
-                }
-            ],
-            'HR': [
-                {
-                    questionText: 'How should HR manage employee communications during the cyberattack?',
-                    options: [
-                        { text: 'Hold emergency all-hands meeting to explain situation and provide clear instructions', impacts: { 'HR': 23 } },
-                        { text: 'Limit communication to avoid causing panic among employees', impacts: { 'HR': -21 } }
-                    ]
-                },
-                {
-                    questionText: 'What staffing adjustments are needed during the cyber crisis?',
-                    options: [
-                        { text: 'Deploy emergency staffing plan with manual processes and extended hours', impacts: { 'HR': 22 } },
-                        { text: 'Send non-essential employees home until systems are restored', impacts: { 'HR': -23 } }
-                    ]
-                },
-                {
-                    questionText: 'How should HR handle employee stress during the crisis?',
-                    options: [
-                        { text: 'Provide immediate stress support resources and flexible scheduling', impacts: { 'HR': 24 } },
-                        { text: 'Expect employees to handle the stress and focus on work duties', impacts: { 'HR': -25 } }
-                    ]
-                }
-            ],
-            'Finance': [
-                {
-                    questionText: 'How should Finance assess the impact of the cyberattack?',
-                    options: [
-                        { text: 'Immediately calculate direct costs, lost revenue, recovery expenses, and regulatory fines', impacts: { 'Finance': 25 } },
-                        { text: 'Wait until systems are restored to assess financial impact', impacts: { 'Finance': -22 } }
-                    ]
-                },
-                {
-                    questionText: 'What is Finance\'s approach to crisis-related expenses?',
-                    options: [
-                        { text: 'Pre-approve emergency spending for recovery efforts and customer protection', impacts: { 'Finance': 23 } },
-                        { text: 'Require standard approval processes for all crisis-related expenses', impacts: { 'Finance': -24 } }
-                    ]
-                },
-                {
-                    questionText: 'How should Finance handle insurance and liability issues?',
-                    options: [
-                        { text: 'Immediately contact cyber insurance carriers and begin claims documentation', impacts: { 'Finance': 24 } },
-                        { text: 'Handle all costs internally to avoid insurance complications', impacts: { 'Finance': -23 } }
-                    ]
-                }
-            ],
-            'Loans': [
-                {
-                    questionText: 'How should Loans department handle operations during the cyberattack?',
-                    options: [
-                        { text: 'Implement manual loan processing and emergency customer assistance programs', impacts: { 'Loans': 24 } },
-                        { text: 'Suspend all loan operations until systems are fully restored', impacts: { 'Loans': -23 } }
-                    ]
-                },
-                {
-                    questionText: 'What is the approach to customer loan concerns during the crisis?',
-                    options: [
-                        { text: 'Proactively offer payment deferrals and establish emergency contact procedures', impacts: { 'Loans': 22 } },
-                        { text: 'Tell customers to wait until systems are restored for any assistance', impacts: { 'Loans': -25 } }
-                    ]
-                },
-                {
-                    questionText: 'How should Loans assess portfolio risk during the cyber crisis?',
-                    options: [
-                        { text: 'Conduct immediate manual review of high-risk accounts and exposures', impacts: { 'Loans': 23 } },
-                        { text: 'Assume all data is compromised and stop all risk assessments', impacts: { 'Loans': -24 } }
-                    ]
-                }
-            ],
-            'Accounting': [
-                {
-                    questionText: 'How should Accounting maintain records during the system outage?',
-                    options: [
-                        { text: 'Immediately implement comprehensive manual recording and backup procedures', impacts: { 'Accounting': 25 } },
-                        { text: 'Wait for systems to be restored before processing any transactions', impacts: { 'Accounting': -24 } }
-                    ]
-                },
-                {
-                    questionText: 'What procedures should be implemented for transaction processing?',
-                    options: [
-                        { text: 'Establish secure manual processes with dual controls and verification', impacts: { 'Accounting': 23 } },
-                        { text: 'Stop all transaction processing until computer systems are available', impacts: { 'Accounting': -25 } }
-                    ]
-                },
-                {
-                    questionText: 'How should Accounting handle regulatory reporting during the crisis?',
-                    options: [
-                        { text: 'Immediately notify regulators of the situation and prepare manual reports', impacts: { 'Accounting': 24 } },
-                        { text: 'Wait until systems are restored to address any reporting requirements', impacts: { 'Accounting': -23 } }
-                    ]
-                }
-            ],
-            'Deposits': [
-                {
-                    questionText: 'How should Deposits reassure customers about their account safety?',
-                    options: [
-                        { text: 'Issue immediate public statement emphasizing FDIC protection and security measures', impacts: { 'Deposits': 25 } },
-                        { text: 'Avoid public statements until the extent of the breach is known', impacts: { 'Deposits': -22 } }
-                    ]
-                },
-                {
-                    questionText: 'What alternative service methods should Deposits implement?',
-                    options: [
-                        { text: 'Deploy mobile banking units, extend branch hours, and implement manual processes', impacts: { 'Deposits': 24 } },
-                        { text: 'Direct customers to wait until online systems are restored', impacts: { 'Deposits': -25 } }
-                    ]
-                },
-                {
-                    questionText: 'How should Deposits prevent customer panic during the cyber crisis?',
-                    options: [
-                        { text: 'Increase staffing, ensure adequate cash availability, and provide regular updates', impacts: { 'Deposits': 23 } },
-                        { text: 'Implement withdrawal limits to prevent runs on the bank', impacts: { 'Deposits': -24 } }
-                    ]
-                }
-            ]
-        }
-    };
-
-    // Get questions for this department and scenario type
-    let deptQuestions = questionSets[scenario.type]?.[department];
-    
-    // If no specific questions, use generic crisis questions
-    if (!deptQuestions) {
-        deptQuestions = generateGenericQuestions(department, scenario);
-    }
-    
-    return deptQuestions.map((q, index) => ({
-        questionNumber: index + 1,
-        department: department,
-        questionText: q.questionText,
-        options: q.options
-    }));
-}
-
-function generateGenericQuestions(department, scenario) {
-    // Generic fallback questions when scenario-specific ones aren't defined
-    return [
-        {
-            questionText: `How should ${department.replace('_', '/')} respond to this crisis situation?`,
-            options: [
-                { text: 'Implement emergency procedures and coordinate with other departments immediately', impacts: { [department]: 22 } },
-                { text: 'Continue normal operations and wait for the crisis to resolve itself', impacts: { [department]: -23 } }
-            ]
-        },
-        {
-            questionText: `What resources should ${department.replace('_', '/')} prioritize during this crisis?`,
-            options: [
-                { text: 'Focus all available resources on crisis response and customer protection', impacts: { [department]: 24 } },
-                { text: 'Maintain normal resource allocation and avoid disrupting routine operations', impacts: { [department]: -22 } }
-            ]
-        },
-        {
-            questionText: `How should ${department.replace('_', '/')} communicate during this crisis?`,
-            options: [
-                { text: 'Provide frequent, transparent updates to all stakeholders about the situation', impacts: { [department]: 23 } },
-                { text: 'Limit communication to avoid causing panic and wait for the crisis to end', impacts: { [department]: -25 } }
-            ]
-        }
-    ];
-}
-
-function shuffleArray(array) {
-    const shuffled = [...array];
-    for (let i = shuffled.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-    }
-    return shuffled;
-}
-
-// Display current question
-function displayCurrentQuestion() {
-    if (!currentScenario || !currentScenario.questions) {
-        showMessage('No scenario data available', 'error');
-        return;
-    }
-    
-    const question = currentScenario.questions[currentQuestionIndex];
-    if (!question) {
-        // Scenario complete
-        currentRound++;
-        document.getElementById('roundNumber').textContent = currentRound;
-        document.getElementById('scenarioPanel').classList.add('hidden');
-        document.getElementById('scenarioReference').classList.add('hidden');
-        showMessage('🎉 Scenario Complete! All 21 questions answered. Generate a new crisis!', 'success');
-        return;
-    }
-    
-    // Check if the current department is eliminated - skip their questions
-    if (departments[question.department] && departments[question.department].eliminated) {
-        currentQuestionIndex++;
-        displayCurrentQuestion(); // Recursively call to get next question
-        return;
-    }
-    
-    // Get department color
-    const deptColor = departments[question.department]?.color || '#3498db';
-    
-    // Show department label
-    const departmentLabel = document.getElementById('departmentLabel');
-    departmentLabel.style.backgroundColor = deptColor;
-    departmentLabel.style.borderColor = deptColor;
-    departmentLabel.textContent = `🏢 ${question.department.replace('_', '/')} DEPARTMENT - QUESTION ${currentQuestionIndex + 1}/21`;
-    
-    // Show question text only (scenario is always visible above)
-    document.getElementById('scenarioDescription').innerHTML = `
-        <div style="font-weight: bold; color: #2c3e50; font-size: 1.2em;">
-            ${question.questionText}
-        </div>
-    `;
-    
-    // Show options (exactly 2 now - RIGHT and WRONG)
-    const optionsContainer = document.getElementById('optionsContainer');
-    optionsContainer.innerHTML = '';
-    
-    question.options.forEach((option, index) => {
-        const button = document.createElement('button');
-        button.className = 'option-button';
-        button.textContent = option.text;
-        button.onclick = () => selectOption(index, option);
-        optionsContainer.appendChild(button);
-    });
-    
-    document.getElementById('nextQuestionBtn').style.display = 'none';
-    document.getElementById('scenarioPanel').classList.remove('hidden');
-}
-
-// Handle option selection
-function selectOption(index, option) {
-    // Get the current question to determine which department is answering
-    const question = currentScenario.questions[currentQuestionIndex];
-    const answeringDept = question.department;
-    const impact = option.impacts[answeringDept] || 0;
-    
-    // Determine if this was a right or wrong choice
-    let isRightChoice = impact > 0;
-    let isWrongChoice = impact < 0;
-    
-    // Disable all option buttons and show feedback
-    const buttons = document.querySelectorAll('.option-button');
-    buttons.forEach(btn => {
-        btn.disabled = true;
-        if (btn.textContent === option.text) {
-            // Color the selected option based on its impact
-            if (isRightChoice) {
-                btn.style.backgroundColor = '#27ae60'; // Green for right choice
-                btn.innerHTML = `${option.text} <strong style="color: white;">(+${impact} points - Correct!)</strong>`;
-            } else if (isWrongChoice) {
-                btn.style.backgroundColor = '#e74c3c'; // Red for wrong choice
-                btn.innerHTML = `${option.text} <strong style="color: white;">(${impact} points - Wrong!)</strong>`;
-            }
-        }
-    });
-    
-    // Track strikes for wrong choices
-    let strikeAdded = false;
-    
-    // Apply score changes (only to answering department)
-    Object.entries(option.impacts).forEach(([deptKey, impact]) => {
-        if (departments[deptKey] && impact !== 0) {
-            departments[deptKey].score = Math.max(0, Math.min(200, departments[deptKey].score + impact));
             
-            // Add strike for wrong decisions (negative impact)
-            if (impact < 0 && deptKey === answeringDept) {
-                departments[deptKey].strikes++;
-                strikeAdded = true;
-                
-                // Check for department elimination
-                if (departments[deptKey].strikes >= 3) {
-                    setTimeout(() => {
-                        showStrikesPopup(deptKey, departments[deptKey].strikes, true);
-                        // Check if game is over after elimination
-                        setTimeout(() => {
-                            checkGameOver();
-                        }, 4000);
-                    }, 1000);
-                    renderDepartmentScores();
-                    return;
-                }
+            .scenario-title-area {
+                padding-right: 60px;
+            }
+            
+            .scenario-toggle {
+                padding: 4px 8px;
+                font-size: 0.7em;
             }
         }
-    });
-    
-    renderDepartmentScores();
-    
-    // Show elegant strike notification
-    if (strikeAdded) {
-        setTimeout(() => {
-            showStrikesPopup(answeringDept, departments[answeringDept].strikes, false);
-        }, 800);
-    }
-    
-    // Show next button
-    document.getElementById('nextQuestionBtn').style.display = 'block';
-}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <button class="back-button" onclick="goHome()">← Back to Home</button>
+        
+        <div class="header">
+            <h1>🏦 Crisis Management Game</h1>
+            <p style="color: green; font-size: 20px;">✅ 21 Questions Per Scenario - All Departments</p>
+            <p>Navigate realistic business scenarios and manage departmental impact</p>
+        </div>
+        
+        <div class="round-info">
+            <strong>Round: <span id="roundNumber">1</span></strong>
+        </div>
+        
+        <div class="department-scores" id="departmentScores">
+            <!-- Department cards will be populated by JavaScript -->
+        </div>
+        
+        <!-- Always visible scenario reference -->
+        <div id="scenarioReference" class="scenario-reference hidden">
+            <button class="scenario-toggle" onclick="toggleScenario()">
+                <span id="toggleText">Hide Scenario</span>
+            </button>
+            <div class="scenario-title-area">
+                <div style="font-weight: bold; color: #e74c3c; margin-bottom: 10px;">
+                    🚨 CRISIS SCENARIO: <span id="scenarioTitleRef"></span>
+                </div>
+            </div>
+            <div id="scenarioContentRef" class="scenario-content">
+                <!-- Scenario description will be shown here -->
+            </div>
+        </div>
+        
+        <div id="scenarioPanel" class="scenario-panel hidden">
+            <div id="departmentLabel" class="department-label"></div>
+            <div class="scenario-description" id="scenarioDescription"></div>
+            <div class="options" id="optionsContainer"></div>
+            <div class="action-buttons" style="margin-top: 20px;">
+                <button class="btn btn-next" id="nextQuestionBtn" style="display: none;">Next Question</button>
+            </div>
+        </div>
+        
+        <div id="loadingPanel" class="loading hidden">
+            Generating scenario... 🤖
+        </div>
+        
+        <div id="messagePanel" class="hidden"></div>
+        
+        <div class="action-buttons">
+            <button class="btn btn-primary" id="generateBtn">Generate New Crisis</button>
+            <button class="btn btn-secondary" id="resetBtn">Reset Game</button>
+        </div>
+    </div>
 
-// Next question
-function nextQuestion() {
-    currentQuestionIndex++;
-    displayCurrentQuestion();
-}
+    <!-- ELEGANT STRIKES POPUP -->
+    <div id="strikesOverlay" class="strikes-overlay">
+        <div id="strikesPopup" class="strikes-popup">
+            <div id="strikesIcon" class="strikes-icon">❌</div>
+            <div id="strikesTitle" class="strikes-title">Critical Error!</div>
+            <div id="strikesDepartment" class="strikes-department"></div>
+            
+            <div class="strikes-counter" id="strikesCounter">
+                <!-- Strike indicators will be populated by JavaScript -->
+            </div>
+            
+            <div id="strikesMessage" class="strikes-message"></div>
+            <div id="strikesWarning" class="strikes-warning"></div>
+            
+            <button class="strikes-close-btn" onclick="closeStrikesPopup()">Continue Game</button>
+        </div>
+    </div>
 
-// Reset game
-function resetGame() {
-    Object.keys(departments).forEach(key => {
-        departments[key].score = 0;
-        departments[key].strikes = 0;
-        departments[key].eliminated = false; // Reset elimination status
-    });
-    currentRound = 1;
-    currentScenario = null;
-    currentQuestionIndex = 0;
-    
-    initGame();
-    document.getElementById('scenarioPanel').classList.add('hidden');
-    document.getElementById('scenarioReference').classList.add('hidden');
-    hideMessage();
-    closeStrikesPopup(); // Close any open popups
-}
+    <script>
+        // Game State
+        const departments = {
+            'CEO_SVPs': { name: 'CEO/SVPs', score: 0, strikes: 0, color: '#8e44ad' },
+            'IT_Security': { name: 'IT/Security', score: 0, strikes: 0, color: '#e74c3c' },
+            'HR': { name: 'HR', score: 0, strikes: 0, color: '#3498db' },
+            'Finance': { name: 'Finance', score: 0, strikes: 0, color: '#2ecc71' },
+            'Loans': { name: 'Loans', score: 0, strikes: 0, color: '#f39c12' },
+            'Accounting': { name: 'Accounting', score: 0, strikes: 0, color: '#9b59b6' },
+            'Deposits': { name: 'Deposits', score: 0, strikes: 0, color: '#1abc9c' }
+        };
 
-// Utility functions
-function showLoading(show) {
-    document.getElementById('loadingPanel').classList.toggle('hidden', !show);
-}
+        let currentRound = 1;
+        let currentScenario = null;
+        let currentQuestionIndex = 0;
+        let scenarioCollapsed = false;
 
-function showMessage(message, type = 'error') {
-    const panel = document.getElementById('messagePanel');
-    panel.className = type;
-    panel.textContent = message;
-    panel.classList.remove('hidden');
-}
+        // Navigation
+        function goHome() {
+            window.location.href = '/';
+        }
 
-function hideMessage() {
-    document.getElementById('messagePanel').classList.add('hidden');
-}
+        // Toggle scenario visibility
+        function toggleScenario() {
+            const content = document.getElementById('scenarioContentRef');
+            const toggleText = document.getElementById('toggleText');
+            
+            scenarioCollapsed = !scenarioCollapsed;
+            content.classList.toggle('collapsed', scenarioCollapsed);
+            toggleText.textContent = scenarioCollapsed ? 'Show Scenario' : 'Hide Scenario';
+        }
 
-// Event listeners
-document.getElementById('generateBtn').addEventListener('click', generateScenario);
-document.getElementById('resetBtn').addEventListener('click', resetGame);
-document.getElementById('nextQuestionBtn').addEventListener('click', nextQuestion);
+        // ELEGANT STRIKES POPUP FUNCTIONS
+        function showStrikesPopup(departmentKey, strikeCount, isDepartmentEliminated = false) {
+            const dept = departments[departmentKey];
+            const overlay = document.getElementById('strikesOverlay');
+            const popup = document.getElementById('strikesPopup');
+            
+            // Configure popup content
+            if (isDepartmentEliminated) {
+                document.getElementById('strikesIcon').innerHTML = `
+                    <div class="eliminated-image-container">
+                        <div class="department-eliminated-icon">💀</div>
+                        <div class="eliminated-overlay">ELIMINATED</div>
+                    </div>
+                `;
+                
+                document.getElementById('strikesTitle').textContent = 'Department Eliminated!';
+                document.getElementById('strikesDepartment').textContent = dept.name + ' Department';
+                document.getElementById('strikesMessage').innerHTML = `
+                    <strong>${dept.name}</strong> has made 3 critical errors and is no longer able to participate in crisis management decisions.
+                `;
+                document.getElementById('strikesWarning').innerHTML = `
+                    <div class="continue-game-message">
+                        🎮 The game continues with the remaining departments!<br>
+                        Other departments must work harder to compensate.
+                    </div>
+                `;
+                popup.classList.add('department-eliminated-popup');
+                
+                // Mark department as eliminated
+                departments[departmentKey].eliminated = true;
+                
+                // Show message for 3 seconds then close
+                setTimeout(() => {
+                    closeStrikesPopup();
+                }, 3500);
+            } else {
+                document.getElementById('strikesIcon').textContent = '❌';
+                document.getElementById('strikesTitle').textContent = 'Critical Error!';
+                document.getElementById('strikesDepartment').textContent = dept.name + ' Department';
+                document.getElementById('strikesMessage').textContent = 
+                    `${dept.name} made a poor decision that could worsen the crisis. This decision has been recorded as a critical error.`;
+                
+                const remainingStrikes = 3 - strikeCount;
+                document.getElementById('strikesWarning').textContent = 
+                    remainingStrikes > 0 
+                        ? `⚠️ ${remainingStrikes} more critical error(s) will eliminate this department!`
+                        : '🚨 Next critical error will eliminate this department!';
+                        
+                popup.classList.remove('department-eliminated-popup');
+            }
+            
+            // Update strikes counter visual
+            updateStrikesCounter(strikeCount);
+            
+            // Show popup with animation
+            overlay.classList.add('show');
+        }
 
-// Close popup when clicking outside of it
-document.getElementById('strikesOverlay').addEventListener('click', function(e) {
-    if (e.target === this) {
-        closeStrikesPopup();
-    }
-});
+        function updateStrikesCounter(strikeCount) {
+            const counter = document.getElementById('strikesCounter');
+            counter.innerHTML = '';
+            
+            for (let i = 1; i <= 3; i++) {
+                const indicator = document.createElement('div');
+                indicator.className = 'strike-indicator';
+                
+                if (i <= strikeCount) {
+                    indicator.classList.add('active');
+                    indicator.textContent = 'X';
+                } else {
+                    indicator.classList.add('inactive');
+                    indicator.textContent = i;
+                }
+                
+                counter.appendChild(indicator);
+            }
+        }
 
-// Initialize game
-initGame();
+        function closeStrikesPopup() {
+            const overlay = document.getElementById('strikesOverlay');
+            overlay.classList.remove('show');
+        }
+
+        // Check if all departments are eliminated (Game Over)
+        function checkGameOver() {
+            const activeDepartments = Object.values(departments).filter(dept => !dept.eliminated);
+            if (activeDepartments.length === 0) {
+                showGameOverPopup();
+                return true;
+            }
+            return false;
+        }
+
+        function showGameOverPopup() {
+            const overlay = document.getElementById('strikesOverlay');
+            const popup = document.getElementById('strikesPopup');
+            
+            document.getElementById('strikesIcon').innerHTML = `💀`;
+            document.getElementById('strikesTitle').textContent = 'GAME OVER!';
+            document.getElementById('strikesDepartment').textContent = 'All Departments Eliminated';
+            document.getElementById('strikesMessage').innerHTML = `
+                All departments have been eliminated due to critical errors. The bank has failed to manage the crisis effectively.
+            `;
+            document.getElementById('strikesWarning').innerHTML = `
+                <div style="background: rgba(231, 76, 60, 0.2); color: #ecf0f1; border-color: #e74c3c; border-left: 4px solid #e74c3c; padding: 15px; border-radius: 10px; margin-bottom: 20px; font-weight: 600;">
+                    🔄 Click "Reset Game" to start over with a new crisis scenario.
+                </div>
+            `;
+            document.getElementById('strikesCounter').innerHTML = '';
+            popup.classList.add('game-over-popup');
+            
+            overlay.classList.add('show');
+        }
+
+        // Initialize the game
+        function initGame() {
+            renderDepartmentScores();
+            document.getElementById('roundNumber').textContent = currentRound;
+        }
+
+        // Render department score cards
+        function renderDepartmentScores() {
+            const container = document.getElementById('departmentScores');
+            container.innerHTML = '';
+            
+            Object.entries(departments).forEach(([key, dept]) => {
+                const card = document.createElement('div');
+                card.className = 'department-card';
+                card.style.borderLeftColor = dept.color;
+                
+                // Add visual indicator for strikes
+                let strikeIndicator = '';
+                for (let i = 0; i < 3; i++) {
+                    if (i < dept.strikes) {
+                        strikeIndicator += '❌';
+                    } else {
+                        strikeIndicator += '⚪';
+                    }
+                }
+                
+                // Check if department is eliminated
+                if (dept.eliminated) {
+                    card.style.opacity = '0.5';
+                    card.style.background = '#f8f9fa';
+                    card.innerHTML = `
+                        <div class="department-name" style="color: #e74c3c;">💀 ${dept.name}</div>
+                        <div class="department-score" style="color: #e74c3c; font-size: 1.2em;">ELIMINATED</div>
+                        <div style="font-size: 0.8em; margin-top: 5px; color: #e74c3c;">3 Critical Errors</div>
+                    `;
+                } else {
+                    card.innerHTML = `
+                        <div class="department-name">${dept.name}</div>
+                        <div class="department-score" style="color: ${dept.color || '#000'}">${dept.score}</div>
+                        <div style="font-size: 0.8em; margin-top: 5px;">${strikeIndicator}</div>
+                    `;
+                }
+                
+                container.appendChild(card);
+            });
+        }
+
+        // Generate scenario - IMPROVED LOCAL VERSION
+        function generateScenario() {
+            showLoading(true);
+            hideMessage();
+            
+            try {
+                // Create scenario directly without API call
+                currentScenario = createRandomScenario();
+                currentQuestionIndex = 0;
+                
+                // Show the scenario reference
+                document.getElementById('scenarioTitleRef').textContent = currentScenario.title;
+                document.getElementById('scenarioContentRef').textContent = currentScenario.description;
+                document.getElementById('scenarioReference').classList.remove('hidden');
+                
+                displayCurrentQuestion();
+                
+            } catch (error) {
+                showMessage(`Failed to generate scenario: ${error.message}`, 'error');
+            } finally {
+                showLoading(false);
+            }
+        }
+
+        // Create scenarios directly in JavaScript - MUCH IMPROVED VERSION
+        function createRandomScenario() {
+            const scenarioTemplates = [
+                {
+                    type: 'cyberattack',
+                    title: 'Sophisticated Ransomware Attack Paralyzes Banking Operations',
+                    description: 'Hackers have deployed advanced ransomware across all banking systems, encrypting customer databases, transaction records, and core banking platforms. Online banking is completely offline, ATMs are non-functional, and branch computers display ransom demands for $3 million in cryptocurrency. The FBI cybercrime unit is en route. Customer calls are flooding in, and social media is buzzing with concerns about account safety.',
+                    icon: '🔒'
+                },
+                {
+                    type: 'natural_disaster',
+                    title: 'Category 5 Hurricane Destroys Regional Banking Infrastructure',
+                    description: 'Hurricane Phoenix has made landfall as a Category 5 storm, forcing immediate evacuation of 15 branches across four states. Severe flooding has destroyed the main data center, backup generators have failed, and communication towers are down. An estimated 500,000 customers are affected, with no access to banking services. Local businesses cannot process payments, and emergency services need immediate financial coordination.',
+                    icon: '🌪️'
+                },
+                {
+                    type: 'disgruntled_employee',
+                    title: 'Terminated IT Administrator Launches Internal Sabotage Campaign',
+                    description: 'A recently fired senior IT administrator has used backdoor access to delete critical databases, leak confidential customer information on social media, and plant malicious code in banking systems. Internal emails containing sensitive merger discussions have been posted online. The employee is making public accusations of illegal lending practices, and local news stations are requesting interviews.',
+                    icon: '😡'
+                },
+                {
+                    type: 'regulatory_crisis',
+                    title: 'Federal Agents Execute Search Warrants for Money Laundering Investigation',
+                    description: 'FBI and Treasury agents have arrived with federal search warrants, seizing computers and financial records related to suspected money laundering activities. A major corporate client is alleged to have funneled $50 million in illicit funds through the bank. Federal regulators are threatening to freeze assets, and the bank\'s stock has dropped 18% in pre-market trading.',
+                    icon: '⚖️'
+                },
+                {
+                    type: 'economic_collapse',
+                    title: 'Regional Economic Meltdown Following Major Industry Collapse',
+                    description: 'The collapse of three major manufacturing companies has triggered massive unemployment, with jobless rates jumping from 3.8% to 14.2% in two weeks. Loan defaults are spiking at 400% above normal rates, commercial real estate values have dropped 25%, and panicked customers are attempting to withdraw life savings. Small businesses are defaulting on loans while requesting emergency credit.',
+                    icon: '📉'
+                },
+                {
+                    type: 'workplace_violence',
+                    title: 'Armed Individual Takes Hostages at Main Branch Location',
+                    description: 'A former customer whose business loan was recently foreclosed has entered the main branch with weapons, taking employees and customers hostage. SWAT teams have surrounded the building, and the incident is being broadcast live on all local news channels. The individual is demanding to speak with senior executives and threatening harm if their demands are not met.',
+                    icon: '🚨'
+                },
+                {
+                    type: 'pandemic_response',
+                    title: 'Emergency Health Orders Force Immediate Banking Restrictions',
+                    description: 'A new highly contagious virus variant has led to government-mandated closure of all indoor banking facilities. 75% of staff must quarantine immediately, branches can only operate drive-through services, and digital banking systems are experiencing 500% increased usage and frequent crashes. Customers need loan deferrals and emergency access to funds.',
+                    icon: '😷'
+                },
+                {
+                    type: 'data_breach',
+                    title: 'Massive Data Breach Exposes 300,000 Customer Records',
+                    description: 'Cybercriminals have infiltrated the customer database through a third-party vendor, accessing Social Security numbers, account details, and transaction histories for 300,000 customers. Fraudulent transactions are being reported across multiple states, identity theft reports are surging, and regulatory authorities require immediate notification. Credit monitoring services are overwhelmed.',
+                    icon: '🕳️'
+                }
+            ];
+            
+            // Randomly select a scenario type
+            const selectedTemplate = scenarioTemplates[Math.floor(Math.random() * scenarioTemplates.length)];
+            
+            // Create questions for all departments with RIGHT/WRONG answers only
+            const questions = createDepartmentQuestions(selectedTemplate);
+            
+            return {
+                title: selectedTemplate.title,
+                description: selectedTemplate.description,
+                type: selectedTemplate.type,
+                icon: selectedTemplate.icon,
+                questions: shuffleArray(questions) // Randomize question order
+            };
+        }
+
+        function createDepartmentQuestions(scenario) {
+            const departments = ['CEO_SVPs', 'IT_Security', 'HR', 'Finance', 'Loans', 'Accounting', 'Deposits'];
+            const questions = [];
+            
+            // Create 3 questions per department (21 total) - all scenario-specific
+            departments.forEach(dept => {
+                const deptQuestions = generateScenarioSpecificQuestions(dept, scenario);
+                questions.push(...deptQuestions);
+            });
+            
+            return questions;
+        }
+
+        function generateScenarioSpecificQuestions(department, scenario) {
+            const questionSets = {
+                'cyberattack': {
+                    'CEO_SVPs': [
+                        {
+                            questionText: 'How should the CEO communicate this cyberattack to the public?',
+                            options: [
+                                { text: 'Issue immediate transparent statement acknowledging the attack and customer protection measures', impacts: { 'CEO_SVPs': 24 } },
+                                { text: 'Minimize the incident and claim systems are functioning normally', impacts: { 'CEO_SVPs': -23 } }
+                            ]
+                        },
+                        {
+                            questionText: 'What is the CEO\'s priority during this cyber crisis?',
+                            options: [
+                                { text: 'Coordinate with law enforcement and activate emergency protocols immediately', impacts: { 'CEO_SVPs': 22 } },
+                                { text: 'Focus on negotiating with hackers to minimize ransom payment', impacts: { 'CEO_SVPs': -25 } }
+                            ]
+                        },
+                        {
+                            questionText: 'How should leadership handle stakeholder concerns?',
+                            options: [
+                                { text: 'Schedule emergency board meeting and provide hourly updates to regulators', impacts: { 'CEO_SVPs': 23 } },
+                                { text: 'Wait until the situation is resolved before contacting stakeholders', impacts: { 'CEO_SVPs': -24 } }
+                            ]
+                        }
+                    ],
+                    'IT_Security': [
+                        {
+                            questionText: 'What is the immediate response to the ransomware attack?',
+                            options: [
+                                { text: 'Immediately isolate all affected systems and activate offline backup protocols', impacts: { 'IT_Security': 25 } },
+                                { text: 'Keep systems running while attempting to remove the ransomware', impacts: { 'IT_Security': -24 } }
+                            ]
+                        },
+                        {
+                            questionText: 'How should IT prioritize system recovery?',
+                            options: [
+                                { text: 'Restore core banking systems first using clean backups, then customer services', impacts: { 'IT_Security': 23 } },
+                                { text: 'Try to decrypt files in place to restore all systems simultaneously', impacts: { 'IT_Security': -22 } }
+                            ]
+                        },
+                        {
+                            questionText: 'What security measures should be implemented during recovery?',
+                            options: [
+                                { text: 'Implement enhanced monitoring, change all credentials, and scan all systems', impacts: { 'IT_Security': 24 } },
+                                { text: 'Focus on speed of recovery and worry about security improvements later', impacts: { 'IT_Security': -25 } }
+                            ]
+                        }
+                    ],
+                    'HR': [
+                        {
+                            questionText: 'How should HR manage employee communications during the cyberattack?',
+                            options: [
+                                { text: 'Hold emergency all-hands meeting to explain situation and provide clear instructions', impacts: { 'HR': 23 } },
+                                { text: 'Limit communication to avoid causing panic among employees', impacts: { 'HR': -21 } }
+                            ]
+                        },
+                        {
+                            questionText: 'What staffing adjustments are needed during the cyber crisis?',
+                            options: [
+                                { text: 'Deploy emergency staffing plan with manual processes and extended hours', impacts: { 'HR': 22 } },
+                                { text: 'Send non-essential employees home until systems are restored', impacts: { 'HR': -23 } }
+                            ]
+                        },
+                        {
+                            questionText: 'How should HR handle employee stress during the crisis?',
+                            options: [
+                                { text: 'Provide immediate stress support resources and flexible scheduling', impacts: { 'HR': 24 } },
+                                { text: 'Expect employees to handle the stress and focus on work duties', impacts: { 'HR': -25 } }
+                            ]
+                        }
+                    ],
+                    'Finance': [
+                        {
+                            questionText: 'How should Finance assess the impact of the cyberattack?',
+                            options: [
+                                { text: 'Immediately calculate direct costs, lost revenue, recovery expenses, and regulatory fines', impacts: { 'Finance': 25 } },
+                                { text: 'Wait until systems are restored to assess financial impact', impacts: { 'Finance': -22 } }
+                            ]
+                        },
+                        {
+                            questionText: 'What is Finance\'s approach to crisis-related expenses?',
+                            options: [
+                                { text: 'Pre-approve emergency spending for recovery efforts and customer protection', impacts: { 'Finance': 23 } },
+                                { text: 'Require standard approval processes for all crisis-related expenses', impacts: { 'Finance': -24 } }
+                            ]
+                        },
+                        {
+                            questionText: 'How should Finance handle insurance and liability issues?',
+                            options: [
+                                { text: 'Immediately contact cyber insurance carriers and begin claims documentation', impacts: { 'Finance': 24 } },
+                                { text: 'Handle all costs internally to avoid insurance complications', impacts: { 'Finance': -23 } }
+                            ]
+                        }
+                    ],
+                    'Loans': [
+                        {
+                            questionText: 'How should Loans department handle operations during the cyberattack?',
+                            options: [
+                                { text: 'Implement manual loan processing and emergency customer assistance programs', impacts: { 'Loans': 24 } },
+                                { text: 'Suspend all loan operations until systems are fully restored', impacts: { 'Loans': -23 } }
+                            ]
+                        },
+                        {
+                            questionText: 'What is the approach to customer loan concerns during the crisis?',
+                            options: [
+                                { text: 'Proactively offer payment deferrals and establish emergency contact procedures', impacts: { 'Loans': 22 } },
+                                { text: 'Tell customers to wait until systems are restored for any assistance', impacts: { 'Loans': -25 } }
+                            ]
+                        },
+                        {
+                            questionText: 'How should Loans assess portfolio risk during the cyber crisis?',
+                            options: [
+                                { text: 'Conduct immediate manual review of high-risk accounts and exposures', impacts: { 'Loans': 23 } },
+                                { text: 'Assume all data is compromised and stop all risk assessments', impacts: { 'Loans': -24 } }
+                            ]
+                        }
+                    ],
+                    'Accounting': [
+                        {
+                            questionText: 'How should Accounting maintain records during the system outage?',
+                            options: [
+                                { text: 'Immediately implement comprehensive manual recording and backup procedures', impacts: { 'Accounting': 25 } },
+                                { text: 'Wait for systems to be restored before processing any transactions', impacts: { 'Accounting': -24 } }
+                            ]
+                        },
+                        {
+                            questionText: 'What procedures should be implemented for transaction processing?',
+                            options: [
+                                { text: 'Establish secure manual processes with dual controls and verification', impacts: { 'Accounting': 23 } },
+                                { text: 'Stop all transaction processing until computer systems are available', impacts: { 'Accounting': -25 } }
+                            ]
+                        },
+                        {
+                            questionText: 'How should Accounting handle regulatory reporting during the crisis?',
+                            options: [
+                                { text: 'Immediately notify regulators of the situation and prepare manual reports', impacts: { 'Accounting': 24 } },
+                                { text: 'Wait until systems are restored to address any reporting requirements', impacts: { 'Accounting': -23 } }
+                            ]
+                        }
+                    ],
+                    'Deposits': [
+                        {
+                            questionText: 'How should Deposits reassure customers about their account safety?',
+                            options: [
+                                { text: 'Issue immediate public statement emphasizing FDIC protection and security measures', impacts: { 'Deposits': 25 } },
+                                { text: 'Avoid public statements until the extent of the breach is known', impacts: { 'Deposits': -22 } }
+                            ]
+                        },
+                        {
+                            questionText: 'What alternative service methods should Deposits implement?',
+                            options: [
+                                { text: 'Deploy mobile banking units, extend branch hours, and implement manual processes', impacts: { 'Deposits': 24 } },
+                                { text: 'Direct customers to wait until online systems are restored', impacts: { 'Deposits': -25 } }
+                            ]
+                        },
+                        {
+                            questionText: 'How should Deposits prevent customer panic during the cyber crisis?',
+                            options: [
+                                { text: 'Increase staffing, ensure adequate cash availability, and provide regular updates', impacts: { 'Deposits': 23 } },
+                                { text: 'Implement withdrawal limits to prevent runs on the bank', impacts: { 'Deposits': -24 } }
+                            ]
+                        }
+                    ]
+                }
+            };
+
+            // Get questions for this department and scenario type
+            let deptQuestions = questionSets[scenario.type]?.[department];
+            
+            // If no specific questions, use generic crisis questions
+            if (!deptQuestions) {
+                deptQuestions = generateGenericQuestions(department, scenario);
+            }
+            
+            return deptQuestions.map((q, index) => ({
+                questionNumber: index + 1,
+                department: department,
+                questionText: q.questionText,
+                options: q.options
+            }));
+        }
+
+        function generateGenericQuestions(department, scenario) {
+            // Generic fallback questions when scenario-specific ones aren't defined
+            return [
+                {
+                    questionText: `How should ${department.replace('_', '/')} respond to this crisis situation?`,
+                    options: [
+                        { text: 'Implement emergency procedures and coordinate with other departments immediately', impacts: { [department]: 22 } },
+                        { text: 'Continue normal operations and wait for the crisis to resolve itself', impacts: { [department]: -23 } }
+                    ]
+                },
+                {
+                    questionText: `What resources should ${department.replace('_', '/')} prioritize during this crisis?`,
+                    options: [
+                        { text: 'Focus all available resources on crisis response and customer protection', impacts: { [department]: 24 } },
+                        { text: 'Maintain normal resource allocation and avoid disrupting routine operations', impacts: { [department]: -22 } }
+                    ]
+                },
+                {
+                    questionText: `How should ${department.replace('_', '/')} communicate during this crisis?`,
+                    options: [
+                        { text: 'Provide frequent, transparent updates to all stakeholders about the situation', impacts: { [department]: 23 } },
+                        { text: 'Limit communication to avoid causing panic and wait for the crisis to end', impacts: { [department]: -25 } }
+                    ]
+                }
+            ];
+        }
+
+        function shuffleArray(array) {
+            const shuffled = [...array];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            return shuffled;
+        }
+
+        // Display current question
+        function displayCurrentQuestion() {
+            if (!currentScenario || !currentScenario.questions) {
+                showMessage('No scenario data available', 'error');
+                return;
+            }
+            
+            const question = currentScenario.questions[currentQuestionIndex];
+            if (!question) {
+                // Scenario complete
+                currentRound++;
+                document.getElementById('roundNumber').textContent = currentRound;
+                document.getElementById('scenarioPanel').classList.add('hidden');
+                document.getElementById('scenarioReference').classList.add('hidden');
+                showMessage('🎉 Scenario Complete! All 21 questions answered. Generate a new crisis!', 'success');
+                return;
+            }
+            
+            // Check if the current department is eliminated - skip their questions
+            if (departments[question.department] && departments[question.department].eliminated) {
+                currentQuestionIndex++;
+                displayCurrentQuestion(); // Recursively call to get next question
+                return;
+            }
+            
+            // Get department color
+            const deptColor = departments[question.department]?.color || '#3498db';
+            
+            // Show department label
+            const departmentLabel = document.getElementById('departmentLabel');
+            departmentLabel.style.backgroundColor = deptColor;
+            departmentLabel.style.borderColor = deptColor;
+            departmentLabel.textContent = `🏢 ${question.department.replace('_', '/')} DEPARTMENT - QUESTION ${currentQuestionIndex + 1}/21`;
+            
+            // Show question text only (scenario is always visible above)
+            document.getElementById('scenarioDescription').innerHTML = `
+                <div style="font-weight: bold; color: #2c3e50; font-size: 1.2em;">
+                    ${question.questionText}
+                </div>
+            `;
+            
+            // Show options (exactly 2 now - RIGHT and WRONG)
+            const optionsContainer = document.getElementById('optionsContainer');
+            optionsContainer.innerHTML = '';
+            
+            question.options.forEach((option, index) => {
+                const button = document.createElement('button');
+                button.className = 'option-button';
+                button.textContent = option.text;
+                button.onclick = () => selectOption(index, option);
+                optionsContainer.appendChild(button);
+            });
+            
+            document.getElementById('nextQuestionBtn').style.display = 'none';
+            document.getElementById('scenarioPanel').classList.remove('hidden');
+        }
+
+        // Handle option selection
+        function selectOption(index, option) {
+            // Get the current question to determine which department is answering
+            const question = currentScenario.questions[currentQuestionIndex];
+            const answeringDept = question.department;
+            const impact = option.impacts[answeringDept] || 0;
+            
+            // Determine if this was a right or wrong choice
+            let isRightChoice = impact > 0;
+            let isWrongChoice = impact < 0;
+            
+            // Disable all option buttons and show feedback
+            const buttons = document.querySelectorAll('.option-button');
+            buttons.forEach(btn => {
+                btn.disabled = true;
+                if (btn.textContent === option.text) {
+                    // Color the selected option based on its impact
+                    if (isRightChoice) {
+                        btn.style.backgroundColor = '#27ae60'; // Green for right choice
+                        btn.innerHTML = `${option.text} <strong style="color: white;">(+${impact} points - Correct!)</strong>`;
+                    } else if (isWrongChoice) {
+                        btn.style.backgroundColor = '#e74c3c'; // Red for wrong choice
+                        btn.innerHTML = `${option.text} <strong style="color: white;">(${impact} points - Wrong!)</strong>`;
+                    }
+                }
+            });
+            
+            // Track strikes for wrong choices
+            let strikeAdded = false;
+            
+            // Apply score changes (only to answering department)
+            Object.entries(option.impacts).forEach(([deptKey, impact]) => {
+                if (departments[deptKey] && impact !== 0) {
+                    departments[deptKey].score = Math.max(0, Math.min(200, departments[deptKey].score + impact));
+                    
+                    // Add strike for wrong decisions (negative impact)
+                    if (impact < 0 && deptKey === answeringDept) {
+                        departments[deptKey].strikes++;
+                        strikeAdded = true;
+                        
+                        // Check for department elimination
+                        if (departments[deptKey].strikes >= 3) {
+                            setTimeout(() => {
+                                showStrikesPopup(deptKey, departments[deptKey].strikes, true);
+                                // Check if game is over after elimination
+                                setTimeout(() => {
+                                    checkGameOver();
+                                }, 4000);
+                            }, 1000);
+                            renderDepartmentScores();
+                            return;
+                        }
+                    }
+                }
+            });
+            
+            renderDepartmentScores();
+            
+            // Show elegant strike notification
+            if (strikeAdded) {
+                setTimeout(() => {
+                    showStrikesPopup(answeringDept, departments[answeringDept].strikes, false);
+                }, 800);
+            }
+            
+            // Show next button
+            document.getElementById('nextQuestionBtn').style.display = 'block';
+        }
+
+        // Next question
+        function nextQuestion() {
+            currentQuestionIndex++;
+            displayCurrentQuestion();
+        }
+
+        // Reset game
+        function resetGame() {
+            Object.keys(departments).forEach(key => {
+                departments[key].score = 0;
+                departments[key].strikes = 0;
+                departments[key].eliminated = false; // Reset elimination status
+            });
+            currentRound = 1;
+            currentScenario = null;
+            currentQuestionIndex = 0;
+            
+            initGame();
+            document.getElementById('scenarioPanel').classList.add('hidden');
+            document.getElementById('scenarioReference').classList.add('hidden');
+            hideMessage();
+            closeStrikesPopup(); // Close any open popups
+        }
+
+        // Utility functions
+        function showLoading(show) {
+            document.getElementById('loadingPanel').classList.toggle('hidden', !show);
+        }
+
+        function showMessage(message, type = 'error') {
+            const panel = document.getElementById('messagePanel');
+            panel.className = type;
+            panel.textContent = message;
+            panel.classList.remove('hidden');
+        }
+
+        function hideMessage() {
+            document.getElementById('messagePanel').classList.add('hidden');
+        }
+
+        // Event listeners
+        document.getElementById('generateBtn').addEventListener('click', generateScenario);
+        document.getElementById('resetBtn').addEventListener('click', resetGame);
+        document.getElementById('nextQuestionBtn').addEventListener('click', nextQuestion);
+
+        // Close popup when clicking outside of it
+        document.getElementById('strikesOverlay').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeStrikesPopup();
+            }
+        });
+
+        // Initialize game
+        initGame();
+    </script>
+</body>
+</html>
