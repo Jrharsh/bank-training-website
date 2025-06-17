@@ -1,4 +1,3 @@
-<script>
 console.log('Crisis Management Game Loaded');
 
 // Game State
@@ -185,7 +184,7 @@ function renderDepartmentScores() {
         } else {
             card.innerHTML = `
                 <div class="department-name">${dept.name}</div>
-                <div class="department-score" style="color: ${dept.color}">${dept.score}</div>
+                <div class="department-score" style="color: '${dept.color}'">${dept.score}</div>
                 <div style="font-size: 0.8em; margin-top: 5px;">${strikeIndicator}</div>
             `;
         }
@@ -709,6 +708,5 @@ document.getElementById('strikesOverlay').addEventListener('click', function(e) 
 });
 
 // Initialize game
-console.log('Game ready!');
-</script>
+initGame();
 console.log('Game ready!');
