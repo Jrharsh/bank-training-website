@@ -780,227 +780,387 @@
         }
         
         // Generate scenario
-        async function generateScenario() {
-            console.log('Generating new scenario...');
-            showLoading(true);
-            hideMessage();
-            
-            try {
-                const response = await fetch('/api/generate-scenario', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' }
-                });
-                
-                if (!response.ok) {
-                    throw new Error(`Server Error: ${response.status}`);
+        // Replace the generateScenario() function in your game.html with this:
+
+async function generateScenario() {
+    console.log('Generating new scenario...');
+    showLoading(true);
+    hideMessage();
+    
+    try {
+        // Create scenario directly without API call
+        currentScenario = createRandomScenario();
+        currentQuestionIndex = 0;
+        
+        console.log('Scenario created:', currentScenario.questions.length, 'questions');
+        
+        // Show the scenario reference
+        document.getElementById('scenarioTitleRef').textContent = currentScenario.title;
+        document.getElementById('scenarioContentRef').textContent = currentScenario.description;
+        document.getElementById('scenarioReference').classList.remove('hidden');
+        
+        displayCurrentQuestion();
+        
+    } catch (error) {
+        console.error('Error generating scenario:', error);
+        showMessage(`Failed to generate scenario: ${error.message}`, 'error');
+    } finally {
+        showLoading(false);
+    }
+}
+
+// Add this new function to create scenarios
+function createRandomScenario() {
+    const scenarioTemplates = [
+        {
+            type: 'cyberattack',
+            title: 'Ransomware Attack Cripples Banking Systems',
+            description: 'A sophisticated ransomware group has infiltrated the bank\'s network, encrypting critical systems including core banking, loan servicing, and customer databases. The attackers demand $2.5 million in cryptocurrency within 72 hours. Customer online banking is down, ATMs are offline, and branch operations are severely limited. The FBI has been notified. Markets open in 5 hours.',
+            icon: '🔒'
+        },
+        {
+            type: 'natural_disaster',
+            title: 'Category 4 Hurricane Devastates Regional Operations',
+            description: 'Hurricane Marina has made landfall as a Category 4 storm, forcing evacuation of 12 of 18 branches across three states. Widespread power outages affect 450,000 customers. Flooding has damaged two branches and a regional operations center. Storm surge reached 8 feet in coastal areas. The area will be inaccessible for 72-96 hours. Local businesses are shut down with economic impact estimated at $800 million.',
+            icon: '🌪️'
+        },
+        {
+            type: 'disgruntled_employee',
+            title: 'Former IT Employee Sabotages Critical Systems',
+            description: 'A recently terminated IT administrator has used retained access credentials to delete critical databases, corrupt backup systems, and expose sensitive customer data on social media. The employee posted internal emails and customer information online, claiming the bank engages in discriminatory practices. Local news is picking up the story. Customer trust is at risk.',
+            icon: '😡'
+        },
+        {
+            type: 'regulatory_crisis',
+            title: 'Federal Investigation into Fair Lending Violations',
+            description: 'The DOJ and CFPB have launched a joint investigation into alleged discriminatory lending practices. Federal agents are on-site with search warrants, reviewing mortgage and small business loan records from the past three years. A whistleblower complaint alleges systematic bias affecting minority communities. The stock price has dropped 12% in pre-market trading.',
+            icon: '⚖️'
+        },
+        {
+            type: 'economic_collapse',
+            title: 'Regional Economic Crisis Following Major Employer Bankruptcies',
+            description: 'Three major regional employers representing 15,000 jobs have filed bankruptcy within two weeks. Unemployment spiked from 3.2% to 11.8% overnight. Loan delinquency rates jumped from 2.1% to 7.4% in thirty days. Customer deposits are declining as people withdraw savings. Real estate values dropped 15%. Small businesses are requesting emergency loans while defaulting on existing credit.',
+            icon: '📉'
+        },
+        {
+            type: 'data_breach',
+            title: 'Massive Customer Data Breach Exposes Personal Information',
+            description: 'Hackers have breached the customer database, accessing Social Security numbers, account numbers, and transaction histories for 200,000 customers. The breach occurred through a third-party vendor\'s compromised system. Customers are reporting fraudulent transactions. Credit monitoring services are overwhelmed. Regulatory notifications are required within 24 hours.',
+            icon: '🕳️'
+        },
+        {
+            type: 'workplace_violence',
+            title: 'Active Threat Situation at Main Branch',
+            description: 'A former customer who had their home foreclosed has entered the main branch with a weapon, demanding to speak with executives. Police have surrounded the building. Employees and customers are locked down inside. Media is gathering outside. Other branches need immediate security assessments. The situation is being broadcast live on local news.',
+            icon: '🚨'
+        },
+        {
+            type: 'pandemic_response',
+            title: 'Pandemic Forces Immediate Operational Changes',
+            description: 'A new variant of a contagious disease has led to government-mandated business restrictions. 60% of staff must work remotely immediately. Customer-facing services must be limited. Cash handling procedures need revision. Drive-through services are overwhelmed. Digital banking systems are experiencing 300% increased usage. Loan payment deferrals are being requested en masse.',
+            icon: '😷'
+        }
+    ];
+    
+    // Randomly select a scenario type
+    const selectedTemplate = scenarioTemplates[Math.floor(Math.random() * scenarioTemplates.length)];
+    
+    // Create questions for all departments
+    const questions = createDepartmentQuestions(selectedTemplate);
+    
+    return {
+        title: selectedTemplate.title,
+        description: selectedTemplate.description,
+        type: selectedTemplate.type,
+        icon: selectedTemplate.icon,
+        questions: shuffleArray(questions) // Randomize question order
+    };
+}
+
+function createDepartmentQuestions(scenario) {
+    const departments = ['CEO_SVPs', 'IT_Security', 'HR', 'Finance', 'Loans', 'Accounting', 'Deposits'];
+    const questions = [];
+    
+    // Create 3 questions per department (21 total)
+    departments.forEach(dept => {
+        const deptQuestions = generateDepartmentSpecificQuestions(dept, scenario);
+        questions.push(...deptQuestions);
+    });
+    
+    return questions;
+}
+
+function generateDepartmentSpecificQuestions(department, scenario) {
+    const questionSets = {
+        'CEO_SVPs': {
+            'cyberattack': [
+                {
+                    questionText: 'How do you immediately communicate the ransomware attack to stakeholders?',
+                    options: [
+                        { text: 'Issue immediate public statement with full details of the breach', impacts: { 'CEO_SVPs': -20, 'IT_Security': -10, 'HR': -5 } },
+                        { text: 'Coordinate with legal team and issue measured statement after assessment', impacts: { 'CEO_SVPs': 25, 'IT_Security': 10, 'HR': 5 } },
+                        { text: 'Wait until systems are restored before making any public announcements', impacts: { 'CEO_SVPs': -15, 'IT_Security': -5, 'HR': -10 } }
+                    ]
+                },
+                {
+                    questionText: 'What is your decision regarding the $2.5 million ransom demand?',
+                    options: [
+                        { text: 'Pay the ransom immediately to restore operations quickly', impacts: { 'CEO_SVPs': -25, 'IT_Security': -15, 'Finance': -20 } },
+                        { text: 'Refuse to pay and focus all resources on system recovery', impacts: { 'CEO_SVPs': 20, 'IT_Security': 15, 'Finance': 10 } },
+                        { text: 'Negotiate with attackers while pursuing parallel recovery options', impacts: { 'CEO_SVPs': -10, 'IT_Security': 5, 'Finance': -5 } }
+                    ]
+                },
+                {
+                    questionText: 'How do you manage the crisis with markets opening in 5 hours?',
+                    options: [
+                        { text: 'Request trading halt and emergency board meeting', impacts: { 'CEO_SVPs': 22, 'Finance': 15, 'Accounting': 10 } },
+                        { text: 'Issue confidence statement and continue normal trading', impacts: { 'CEO_SVPs': -18, 'Finance': -10, 'Accounting': -5 } },
+                        { text: 'Coordinate with regulators before making any market decisions', impacts: { 'CEO_SVPs': 18, 'Finance': 12, 'Accounting': 8 } }
+                    ]
                 }
-                
-                const scenario = await response.json();
-                console.log('Scenario received:', scenario.questions.length, 'questions');
-                
-                currentScenario = scenario;
-                currentQuestionIndex = 0;
-                
-                // Show the scenario reference
-                document.getElementById('scenarioTitleRef').textContent = scenario.title;
-                document.getElementById('scenarioContentRef').textContent = scenario.description;
-                document.getElementById('scenarioReference').classList.remove('hidden');
-                
-                displayCurrentQuestion();
-                
-            } catch (error) {
-                console.error('Error generating scenario:', error);
-                showMessage(`Failed to generate scenario: ${error.message}`, 'error');
-            } finally {
-                showLoading(false);
-            }
-        }
-        
-        // Display current question
-        function displayCurrentQuestion() {
-            if (!currentScenario || !currentScenario.questions) {
-                showMessage('No scenario data available', 'error');
-                return;
-            }
-            
-            const question = currentScenario.questions[currentQuestionIndex];
-            if (!question) {
-                // Scenario complete
-                currentRound++;
-                document.getElementById('roundNumber').textContent = currentRound;
-                document.getElementById('scenarioPanel').classList.add('hidden');
-                document.getElementById('scenarioReference').classList.add('hidden');
-                showMessage('🎉 Scenario Complete! All 21 questions answered. Generate a new crisis!', 'success');
-                return;
-            }
-            
-            // Check if the current department is eliminated - skip their questions
-            if (departments[question.department] && departments[question.department].eliminated) {
-                console.log(`Skipping question for eliminated department: ${question.department}`);
-                currentQuestionIndex++;
-                displayCurrentQuestion(); // Recursively call to get next question
-                return;
-            }
-            
-            console.log(`Displaying question ${currentQuestionIndex + 1}/21 for ${question.department}`);
-            
-            // Get department color
-            const deptColor = departments[question.department]?.color || '#3498db';
-            
-            // Show department label
-            const departmentLabel = document.getElementById('departmentLabel');
-            departmentLabel.style.backgroundColor = deptColor;
-            departmentLabel.style.borderColor = deptColor;
-            departmentLabel.textContent = `🏢 ${question.department.replace('_', '/')} DEPARTMENT - QUESTION ${currentQuestionIndex + 1}/21`;
-            
-            // Show question text only (scenario is always visible above)
-            document.getElementById('scenarioDescription').innerHTML = `
-                <div style="font-weight: bold; color: #2c3e50; font-size: 1.2em;">
-                    ${question.questionText}
-                </div>
-            `;
-            
-            // Show options
-            const optionsContainer = document.getElementById('optionsContainer');
-            optionsContainer.innerHTML = '';
-            
-            question.options.forEach((option, index) => {
-                const button = document.createElement('button');
-                button.className = 'option-button';
-                button.textContent = option.text;
-                button.onclick = () => selectOption(index, option);
-                optionsContainer.appendChild(button);
-            });
-            
-            document.getElementById('nextQuestionBtn').style.display = 'none';
-            document.getElementById('scenarioPanel').classList.remove('hidden');
-        }
-        
-        // Handle option selection
-        function selectOption(index, option) {
-            console.log('Option selected:', index, option.text);
-            
-            // Get the current question to determine which department is answering
-            const question = currentScenario.questions[currentQuestionIndex];
-            const answeringDept = question.department;
-            const impact = option.impacts[answeringDept] || 0;
-            
-            // Determine if this was a good, neutral, or bad choice
-            let isGoodChoice = impact > 10;
-            let isBadChoice = impact < -10;
-            let isNeutralChoice = impact >= -10 && impact <= 10;
-            
-            console.log(`Impact for ${answeringDept}: ${impact}, Good: ${isGoodChoice}, Bad: ${isBadChoice}, Neutral: ${isNeutralChoice}`);
-            
-            // Disable all option buttons and show feedback
-            const buttons = document.querySelectorAll('.option-button');
-            buttons.forEach(btn => {
-                btn.disabled = true;
-                if (btn.textContent === option.text) {
-                    // Color the selected option based on its impact
-                    if (isGoodChoice) {
-                        btn.style.backgroundColor = '#27ae60'; // Green for good choice
-                        btn.innerHTML = `${option.text} <strong style="color: white;">(+${impact} points - Good choice!)</strong>`;
-                    } else if (isBadChoice) {
-                        btn.style.backgroundColor = '#e74c3c'; // Red for bad choice
-                        btn.innerHTML = `${option.text} <strong style="color: white;">(${impact} points - Poor choice!)</strong>`;
-                    } else {
-                        btn.style.backgroundColor = '#f39c12'; // Orange for neutral
-                        btn.innerHTML = `${option.text} <strong style="color: white;">(${impact} points - Neutral)</strong>`;
-                    }
+            ],
+            'natural_disaster': [
+                {
+                    questionText: 'How do you coordinate the bank\'s response to the hurricane disaster?',
+                    options: [
+                        { text: 'Activate disaster response plan and coordinate with emergency management', impacts: { 'CEO_SVPs': 25, 'HR': 15, 'IT_Security': 10 } },
+                        { text: 'Focus primarily on protecting bank assets and facilities', impacts: { 'CEO_SVPs': -15, 'HR': -20, 'IT_Security': -5 } },
+                        { text: 'Wait for government guidance before taking action', impacts: { 'CEO_SVPs': -20, 'HR': -15, 'IT_Security': -10 } }
+                    ]
+                },
+                {
+                    questionText: 'What is your strategy for supporting affected communities?',
+                    options: [
+                        { text: 'Immediately announce loan payment deferrals and emergency credit programs', impacts: { 'CEO_SVPs': 20, 'Loans': 15, 'HR': 10 } },
+                        { text: 'Maintain normal lending standards to protect bank stability', impacts: { 'CEO_SVPs': -18, 'Loans': -15, 'HR': -10 } },
+                        { text: 'Partner with government agencies for coordinated disaster relief', impacts: { 'CEO_SVPs': 22, 'Loans': 12, 'HR': 8 } }
+                    ]
+                },
+                {
+                    questionText: 'How do you address business continuity with 12 branches closed?',
+                    options: [
+                        { text: 'Deploy mobile banking units and expand digital services immediately', impacts: { 'CEO_SVPs': 23, 'IT_Security': 15, 'Deposits': 12 } },
+                        { text: 'Redirect customers to remaining open branches only', impacts: { 'CEO_SVPs': -12, 'IT_Security': -5, 'Deposits': -15 } },
+                        { text: 'Temporarily suspend services until branches can reopen', impacts: { 'CEO_SVPs': -25, 'IT_Security': -10, 'Deposits': -20 } }
+                    ]
                 }
-            });
-            
-            // Track strikes for bad choices
-            let strikeAdded = false;
-            
-            // Apply score changes (only to answering department)
-            Object.entries(option.impacts).forEach(([deptKey, impact]) => {
-                if (departments[deptKey] && impact !== 0) {
-                    departments[deptKey].score = Math.max(0, Math.min(200, departments[deptKey].score + impact));
-                    
-                    // Add strike for bad decisions (-15 or worse)
-                    if (impact <= -15 && deptKey === answeringDept) {
-                        departments[deptKey].strikes++;
-                        strikeAdded = true;
-                        console.log(`${departments[deptKey].name} received a strike! (${departments[deptKey].strikes}/3)`);
-                        
-                        // Check for department elimination
-                        if (departments[deptKey].strikes >= 3) {
-                            setTimeout(() => {
-                                showStrikesPopup(deptKey, departments[deptKey].strikes, true);
-                            }, 1000);
-                            renderDepartmentScores();
-                            return;
-                        }
-                    }
+            ],
+            'disgruntled_employee': [
+                {
+                    questionText: 'How do you respond to the former employee\'s public data exposure?',
+                    options: [
+                        { text: 'Immediately issue public apology and admit to all allegations', impacts: { 'CEO_SVPs': -25, 'HR': -15, 'IT_Security': -10 } },
+                        { text: 'Issue measured response addressing security while investigating claims', impacts: { 'CEO_SVPs': 20, 'HR': 10, 'IT_Security': 15 } },
+                        { text: 'Deny all allegations and focus solely on legal action', impacts: { 'CEO_SVPs': -15, 'HR': -20, 'IT_Security': -5 } }
+                    ]
+                },
+                {
+                    questionText: 'What is your strategy for managing the media crisis?',
+                    options: [
+                        { text: 'Hold immediate press conference to address all concerns', impacts: { 'CEO_SVPs': 18, 'HR': 12, 'IT_Security': 8 } },
+                        { text: 'Avoid media contact until legal team develops strategy', impacts: { 'CEO_SVPs': -20, 'HR': -10, 'IT_Security': -5 } },
+                        { text: 'Provide written statement only and refer to ongoing investigation', impacts: { 'CEO_SVPs': 15, 'HR': 8, 'IT_Security': 10 } }
+                    ]
+                },
+                {
+                    questionText: 'How do you restore customer confidence after the data breach?',
+                    options: [
+                        { text: 'Offer free credit monitoring and identity protection services', impacts: { 'CEO_SVPs': 22, 'HR': 10, 'Finance': 5 } },
+                        { text: 'Minimize the issue and emphasize bank\'s overall security', impacts: { 'CEO_SVPs': -18, 'HR': -15, 'Finance': -10 } },
+                        { text: 'Launch comprehensive transparency initiative with regular updates', impacts: { 'CEO_SVPs': 25, 'HR': 15, 'Finance': 8 } }
+                    ]
                 }
-            });
-            
-            renderDepartmentScores();
-            
-            // Show elegant strike notification
-            if (strikeAdded) {
-                setTimeout(() => {
-                    showStrikesPopup(answeringDept, departments[answeringDept].strikes, false);
-                }, 800);
-            }
-            
-            // Show next button
-            document.getElementById('nextQuestionBtn').style.display = 'block';
+            ]
+        },
+        'IT_Security': {
+            'cyberattack': [
+                {
+                    questionText: 'What is your immediate response to isolate the ransomware infection?',
+                    options: [
+                        { text: 'Immediately shut down all network connections and systems', impacts: { 'IT_Security': 25, 'CEO_SVPs': 10, 'Deposits': -5 } },
+                        { text: 'Attempt to identify infected systems while maintaining operations', impacts: { 'IT_Security': -20, 'CEO_SVPs': -10, 'Deposits': -15 } },
+                        { text: 'Focus on backing up uninfected data before taking action', impacts: { 'IT_Security': -15, 'CEO_SVPs': -5, 'Deposits': -10 } }
+                    ]
+                },
+                {
+                    questionText: 'How do you prioritize system recovery to restore critical functions?',
+                    options: [
+                        { text: 'Restore core banking systems first, then customer-facing services', impacts: { 'IT_Security': 22, 'Deposits': 15, 'Loans': 10 } },
+                        { text: 'Focus on customer-facing systems to minimize service disruption', impacts: { 'IT_Security': -10, 'Deposits': -5, 'Loans': -8 } },
+                        { text: 'Restore all systems simultaneously using all available resources', impacts: { 'IT_Security': -18, 'Deposits': -10, 'Loans': -12 } }
+                    ]
+                },
+                {
+                    questionText: 'What forensic investigation steps should be taken immediately?',
+                    options: [
+                        { text: 'Preserve all logs and evidence before starting any recovery', impacts: { 'IT_Security': 20, 'CEO_SVPs': 15, 'Accounting': 10 } },
+                        { text: 'Focus on recovery first, investigate after systems are restored', impacts: { 'IT_Security': -15, 'CEO_SVPs': -10, 'Accounting': -5 } },
+                        { text: 'Coordinate with FBI cyber team before taking any action', impacts: { 'IT_Security': 18, 'CEO_SVPs': 12, 'Accounting': 8 } }
+                    ]
+                }
+            ],
+            'natural_disaster': [
+                {
+                    questionText: 'How do you protect critical IT infrastructure from hurricane damage?',
+                    options: [
+                        { text: 'Activate backup data center and ensure all data is replicated', impacts: { 'IT_Security': 25, 'CEO_SVPs': 15, 'Accounting': 10 } },
+                        { text: 'Focus on protecting physical servers at primary location', impacts: { 'IT_Security': -15, 'CEO_SVPs': -10, 'Accounting': -8 } },
+                        { text: 'Wait to see extent of damage before taking protective measures', impacts: { 'IT_Security': -25, 'CEO_SVPs': -20, 'Accounting': -15 } }
+                    ]
+                },
+                {
+                    questionText: 'What backup systems should be activated when primary data centers are threatened?',
+                    options: [
+                        { text: 'Immediately switch to disaster recovery site with full capabilities', impacts: { 'IT_Security': 22, 'Deposits': 15, 'Loans': 12 } },
+                        { text: 'Activate limited backup systems for essential functions only', impacts: { 'IT_Security': 10, 'Deposits': 5, 'Loans': 3 } },
+                        { text: 'Keep primary systems running until actual damage occurs', impacts: { 'IT_Security': -20, 'Deposits': -15, 'Loans': -12 } }
+                    ]
+                },
+                {
+                    questionText: 'How do you ensure network connectivity when telecommunications are damaged?',
+                    options: [
+                        { text: 'Deploy satellite internet and mobile hotspots immediately', impacts: { 'IT_Security': 20, 'HR': 10, 'Deposits': 8 } },
+                        { text: 'Wait for telecom companies to restore primary connections', impacts: { 'IT_Security': -18, 'HR': -12, 'Deposits': -15 } },
+                        { text: 'Use cellular networks as temporary solution', impacts: { 'IT_Security': 15, 'HR': 8, 'Deposits': 10 } }
+                    ]
+                }
+            ],
+            'disgruntled_employee': [
+                {
+                    questionText: 'How do you immediately secure systems after discovering the former employee\'s access?',
+                    options: [
+                        { text: 'Immediately disable all accounts and change all system passwords', impacts: { 'IT_Security': 25, 'HR': 15, 'CEO_SVPs': 10 } },
+                        { text: 'Monitor the employee\'s actions to gather evidence first', impacts: { 'IT_Security': -20, 'HR': -15, 'CEO_SVPs': -10 } },
+                        { text: 'Selectively disable access while maintaining system functionality', impacts: { 'IT_Security': -10, 'HR': -5, 'CEO_SVPs': -8 } }
+                    ]
+                },
+                {
+                    questionText: 'What steps should be taken to assess the extent of data compromise?',
+                    options: [
+                        { text: 'Conduct immediate comprehensive security audit of all systems', impacts: { 'IT_Security': 22, 'Accounting': 15, 'CEO_SVPs': 12 } },
+                        { text: 'Focus audit only on systems the employee had access to', impacts: { 'IT_Security': 10, 'Accounting': 5, 'CEO_SVPs': 3 } },
+                        { text: 'Wait for law enforcement guidance before conducting audit', impacts: { 'IT_Security': -15, 'Accounting': -10, 'CEO_SVPs': -12 } }
+                    ]
+                },
+                {
+                    questionText: 'How do you prevent similar security breaches in the future?',
+                    options: [
+                        { text: 'Implement immediate access revocation procedures and regular audits', impacts: { 'IT_Security': 20, 'HR': 12, 'CEO_SVPs': 8 } },
+                        { text: 'Add additional monitoring without changing current procedures', impacts: { 'IT_Security': -5, 'HR': -3, 'CEO_SVPs': -8 } },
+                        { text: 'Review and strengthen all employee termination security protocols', impacts: { 'IT_Security': 18, 'HR': 15, 'CEO_SVPs': 10 } }
+                    ]
+                }
+            ]
+        },
+        // Add similar question sets for other departments...
+        'HR': {
+            'cyberattack': [
+                {
+                    questionText: 'How do you manage employee communications about the cybersecurity incident?',
+                    options: [
+                        { text: 'Send detailed email explaining the situation and safety measures', impacts: { 'HR': 20, 'CEO_SVPs': 10, 'IT_Security': 8 } },
+                        { text: 'Hold emergency all-hands meeting to address concerns', impacts: { 'HR': 25, 'CEO_SVPs': 15, 'IT_Security': 10 } },
+                        { text: 'Minimize communication to prevent panic and rumors', impacts: { 'HR': -20, 'CEO_SVPs': -15, 'IT_Security': -10 } }
+                    ]
+                },
+                {
+                    questionText: 'What staffing adjustments are needed when digital systems are down?',
+                    options: [
+                        { text: 'Implement manual processes and redeploy staff to critical functions', impacts: { 'HR': 22, 'Deposits': 15, 'Loans': 10 } },
+                        { text: 'Send non-essential employees home until systems are restored', impacts: { 'HR': -15, 'Deposits': -20, 'Loans': -18 } },
+                        { text: 'Maintain normal staffing and wait for IT resolution', impacts: { 'HR': -10, 'Deposits': -12, 'Loans': -8 } }
+                    ]
+                },
+                {
+                    questionText: 'How do you handle employees who may have been phishing email targets?',
+                    options: [
+                        { text: 'Provide immediate security training and counseling support', impacts: { 'HR': 18, 'IT_Security': 12, 'CEO_SVPs': 8 } },
+                        { text: 'Investigate and potentially discipline employees involved', impacts: { 'HR': -20, 'IT_Security': -10, 'CEO_SVPs': -15 } },
+                        { text: 'Focus on system recovery without addressing individual involvement', impacts: { 'HR': -12, 'IT_Security': -8, 'CEO_SVPs': -5 } }
+                    ]
+                }
+            ]
+        },
+        'Finance': {
+            'cyberattack': [
+                {
+                    questionText: 'How do you assess the immediate financial impact of the ransomware attack?',
+                    options: [
+                        { text: 'Calculate direct costs, lost revenue, and recovery expenses immediately', impacts: { 'Finance': 25, 'CEO_SVPs': 15, 'Accounting': 10 } },
+                        { text: 'Wait until systems are restored to assess financial impact', impacts: { 'Finance': -20, 'CEO_SVPs': -15, 'Accounting': -12 } },
+                        { text: 'Focus only on immediate operational costs', impacts: { 'Finance': -10, 'CEO_SVPs': -8, 'Accounting': -5 } }
+                    ]
+                },
+                {
+                    questionText: 'What is your approach to managing the $2.5 million ransom payment decision?',
+                    options: [
+                        { text: 'Analyze cost-benefit of paying ransom versus recovery costs', impacts: { 'Finance': 20, 'CEO_SVPs': 12, 'IT_Security': 8 } },
+                        { text: 'Recommend against payment due to financial and ethical concerns', impacts: { 'Finance': 22, 'CEO_SVPs': 18, 'IT_Security': 15 } },
+                        { text: 'Support immediate payment to minimize financial losses', impacts: { 'Finance': -25, 'CEO_SVPs': -20, 'IT_Security': -15 } }
+                    ]
+                },
+                {
+                    questionText: 'How do you handle cyber insurance claims during this incident?',
+                    options: [
+                        { text: 'Immediately contact insurance providers and begin claims process', impacts: { 'Finance': 25, 'CEO_SVPs': 15, 'Accounting': 10 } },
+                        { text: 'Document all costs first before contacting insurance', impacts: { 'Finance': 15, 'CEO_SVPs': 8, 'Accounting': 12 } },
+                        { text: 'Handle costs internally without involving insurance initially', impacts: { 'Finance': -18, 'CEO_SVPs': -12, 'Accounting': -8 } }
+                    ]
+                }
+            ]
         }
-        
-        // Next question
-        function nextQuestion() {
-            currentQuestionIndex++;
-            displayCurrentQuestion();
+        // Continue with other departments and scenarios...
+    };
+    
+    // Get questions for this department and scenario type, or use generic questions
+    const deptQuestions = questionSets[department]?.[scenario.type] || generateGenericQuestions(department, scenario);
+    
+    return deptQuestions.map((q, index) => ({
+        questionNumber: index + 1,
+        department: department,
+        questionText: q.questionText,
+        options: q.options
+    }));
+}
+
+function generateGenericQuestions(department, scenario) {
+    // Generic fallback questions when specific ones aren't defined
+    return [
+        {
+            questionText: `How should the ${department.replace('_', '/')} department respond to this crisis situation?`,
+            options: [
+                { text: 'Implement emergency procedures and coordinate with other departments', impacts: { [department]: 20 } },
+                { text: 'Continue normal operations while monitoring the situation', impacts: { [department]: -15 } },
+                { text: 'Wait for executive direction before taking action', impacts: { [department]: -10 } }
+            ]
+        },
+        {
+            questionText: `What resources should ${department.replace('_', '/')} prioritize during this crisis?`,
+            options: [
+                { text: 'Focus all resources on crisis response and recovery', impacts: { [department]: 22 } },
+                { text: 'Balance crisis response with maintaining normal operations', impacts: { [department]: 10 } },
+                { text: 'Prioritize protecting departmental assets and staff', impacts: { [department]: -12 } }
+            ]
+        },
+        {
+            questionText: `How should ${department.replace('_', '/')} communicate with stakeholders during this crisis?`,
+            options: [
+                { text: 'Provide frequent, transparent updates about the situation', impacts: { [department]: 18 } },
+                { text: 'Share information only when specifically requested', impacts: { [department]: -8 } },
+                { text: 'Limit communication to avoid causing additional panic', impacts: { [department]: -15 } }
+            ]
         }
-        
-        // Reset game
-        function resetGame() {
-            Object.keys(departments).forEach(key => {
-                departments[key].score = 0;
-                departments[key].strikes = 0;
-                departments[key].eliminated = false; // Reset elimination status
-            });
-            currentRound = 1;
-            currentScenario = null;
-            currentQuestionIndex = 0;
-            
-            initGame();
-            document.getElementById('scenarioPanel').classList.add('hidden');
-            document.getElementById('scenarioReference').classList.add('hidden');
-            hideMessage();
-        }
-        
-        // Utility functions
-        function showLoading(show) {
-            document.getElementById('loadingPanel').classList.toggle('hidden', !show);
-        }
-        
-        function showMessage(message, type = 'error') {
-            const panel = document.getElementById('messagePanel');
-            panel.className = type;
-            panel.textContent = message;
-            panel.classList.remove('hidden');
-        }
-        
-        function hideMessage() {
-            document.getElementById('messagePanel').classList.add('hidden');
-        }
-        
-        // Event listeners
-        document.getElementById('generateBtn').addEventListener('click', generateScenario);
-        document.getElementById('resetBtn').addEventListener('click', resetGame);
-        document.getElementById('nextQuestionBtn').addEventListener('click', nextQuestion);
-        
-        // Close popup when clicking outside of it
-        document.getElementById('strikesOverlay').addEventListener('click', function(e) {
-            if (e.target === this) {
-                closeStrikesPopup();
-            }
-        });
-        
+    ];
+}
+
+function shuffleArray(array) {
+    const shuffled = [...array];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
+}
         // Initialize game
         initGame();
         console.log('Game ready!');
