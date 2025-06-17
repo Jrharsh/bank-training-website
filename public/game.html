@@ -6,172 +6,137 @@
   <title>Crisis Management Game</title>
   <style>
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: sans-serif;
       background: #f4f4f4;
-      margin: 0;
-      padding: 0;
-    }
-    .container {
-      max-width: 1000px;
-      margin: auto;
-      padding: 40px;
+      padding: 20px;
     }
     h1 {
       color: #c0392b;
-      text-align: center;
-    }
-    .intro, .game-section {
-      display: none;
-    }
-    .visible {
-      display: block;
-    }
-    .button-group {
-      text-align: center;
-      margin: 20px 0;
     }
     button {
       padding: 12px 24px;
       font-size: 16px;
-      margin: 5px;
       background: #27ae60;
       color: white;
       border: none;
       border-radius: 5px;
       cursor: pointer;
+      margin-right: 10px;
     }
     button:hover {
       background: #1f8c4d;
     }
-    .question-box {
+    .question-box, .scenario-box {
       background: #fff;
       border: 1px solid #ddd;
       padding: 20px;
       margin-top: 20px;
       border-radius: 8px;
     }
-    .scoreboard {
-      display: flex;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      background: #ecf0f1;
-      padding: 10px;
-      margin-top: 20px;
-      border-radius: 8px;
+    .choice {
+      margin: 8px 0;
     }
-    .score {
-      margin: 5px;
-      background: white;
-      padding: 10px 15px;
-      border-radius: 6px;
-      border: 1px solid #ccc;
+    .choice input {
+      margin-right: 10px;
+    }
+    .scoreboard {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+    .department {
+      background: #fff;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    .department h3 {
+      margin-bottom: 10px;
+    }
+    .strikes {
+      color: #888;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="intro visible">
-      <h1>🧠 SSBTX Crisis Management Game</h1>
-      <div class="button-group">
-        <button id="startBtn">Generate Scenario</button>
-        <button onclick="window.location.href='index.html'">Back to Home</button>
-      </div>
-    </div>
+  <h1>🧠 Crisis Management Game</h1>
+  <button id="generateBtn">Generate New Crisis Scenario</button>
+  <button onclick="location.href='index.html'">Back to Home</button>
+  <button onclick="location.reload()">Reset</button>
 
-    <div class="game-section">
-      <div class="scoreboard" id="scoreboard"></div>
-      <div class="question-box">
-        <h2 id="roundHeader">Round 1</h2>
-        <p id="scenarioText">Click "Generate Scenario" to begin.</p>
-        <h3 id="questionText"></h3>
-        <div id="choices"></div>
-        <div class="button-group">
-          <button id="nextBtn" style="display:none">Next Question</button>
-          <button id="resetBtn">Reset Game</button>
-        </div>
-      </div>
-    </div>
+  <div class="scoreboard" id="scoreboard">
+    <!-- Dynamic departments -->
   </div>
 
-  <script>
-    const departments = ["CEO", "IT", "HR", "Finance", "Loans", "Accounting", "Deposits"];
-    let round = 1;
-    let currentDeptIndex = 0;
-    let scenarioData = null;
-    const scores = {};
-    const strikes = {};
+  <div class="scenario-box" id="scenarioBox"></div>
+  <div class="question-box" id="questionBox"></div>
+  <button id="nextBtn" style="display:none">Next Question</button>
 
-    departments.forEach(dept => {
-      scores[dept] = 0;
-      strikes[dept] = 0;
+  <script>
+    const departments = [
+      'CEO/SVPs', 'IT/Security', 'HR', 'Finance', 'Loans', 'Accounting', 'Deposits'
+    ];
+
+    let scores = {}, strikes = {}, currentQuestion = 0, questions = [];
+
+    departments.forEach(dep => {
+      scores[dep] = 0;
+      strikes[dep] = 0;
     });
 
-    const updateScoreboard = () => {
-      const board = document.getElementById("scoreboard");
-      board.innerHTML = departments.map(dept => `
-        <div class="score">
-          <strong>${dept}</strong><br>
-          Score: ${scores[dept]}<br>
-          Strikes: ${strikes[dept]}
+    function renderScoreboard() {
+      const container = document.getElementById("scoreboard");
+      container.innerHTML = departments.map(dep => `
+        <div class="department">
+          <h3>${dep}</h3>
+          <div>Score: ${scores[dep]}</div>
+          <div class="strikes">${"●".repeat(3 - strikes[dep])}${"○".repeat(strikes[dep])}</div>
         </div>
       `).join("");
-    };
+    }
 
-    document.getElementById("startBtn").addEventListener("click", async () => {
+    function showScenario(desc) {
+      document.getElementById("scenarioBox").innerHTML = `<h2>Scenario</h2><p>${desc}</p>`;
+    }
+
+    function showQuestion(index) {
+      const q = questions[index];
+      if (!q) return;
+      const html = `
+        <h3>(${q.department}) ${q.questionText}</h3>
+        ${q.choices.map(choice => `
+          <div class="choice">
+            <label><input type="radio" name="q${index}" value="${choice}"> ${choice}</label>
+          </div>
+        `).join('')}
+      `;
+      document.getElementById("questionBox").innerHTML = html;
+    }
+
+    document.getElementById("generateBtn").addEventListener("click", async () => {
+      document.getElementById("nextBtn").style.display = 'inline';
+      renderScoreboard();
       try {
-        const res = await fetch("/api/generate-scenario", { method: "POST" });
-        scenarioData = await res.json();
-
-        document.querySelector(".intro").classList.remove("visible");
-        document.querySelector(".game-section").classList.add("visible");
-        document.getElementById("scenarioText").textContent = scenarioData.description;
-
-        updateScoreboard();
-        showNextQuestion();
+        const response = await fetch("/api/generate-scenario", { method: "POST" });
+        const data = await response.json();
+        questions = data.questions.map((q, i) => ({ ...q, department: departments[i % departments.length] }));
+        showScenario(data.description);
+        showQuestion(currentQuestion);
       } catch (err) {
-        alert("Failed to generate scenario");
-        console.error(err);
+        document.getElementById("scenarioBox").textContent = "❌ Error: " + err.message;
       }
     });
 
-    function showNextQuestion() {
-      if (currentDeptIndex >= departments.length) {
-        document.getElementById("questionText").textContent = "✅ Round complete. Start a new scenario to continue.";
-        document.getElementById("choices").innerHTML = "";
-        return;
-      }
-
-      const dept = departments[currentDeptIndex];
-      const question = scenarioData.questions[currentDeptIndex];
-
-      document.getElementById("roundHeader").textContent = `Round ${round} — ${dept} Department`;
-      document.getElementById("questionText").textContent = question.questionText;
-
-      const choicesHtml = question.choices.map(choice => `
-        <div><button onclick="handleChoice('${choice}', '${question.answer}')">${choice}</button></div>
-      `).join("");
-      document.getElementById("choices").innerHTML = choicesHtml;
-    }
-
-    function handleChoice(selected, correct) {
-      const dept = departments[currentDeptIndex];
-      if (selected === correct) {
-        scores[dept]++;
+    document.getElementById("nextBtn").addEventListener("click", () => {
+      currentQuestion++;
+      if (currentQuestion < questions.length) {
+        showQuestion(currentQuestion);
       } else {
-        strikes[dept]++;
+        document.getElementById("questionBox").innerHTML = '<strong>✅ Round Complete!</strong>';
+        document.getElementById("nextBtn").style.display = 'none';
       }
-      updateScoreboard();
-      currentDeptIndex++;
-      showNextQuestion();
-    }
-
-    document.getElementById("resetBtn").addEventListener("click", () => {
-      round = 1;
-      currentDeptIndex = 0;
-      departments.forEach(d => { scores[d] = 0; strikes[d] = 0; });
-      scenarioData = null;
-      document.querySelector(".game-section").classList.remove("visible");
-      document.querySelector(".intro").classList.add("visible");
     });
   </script>
 </body>
