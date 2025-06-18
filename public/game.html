@@ -1,204 +1,70 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Crisis Management Game</title>
-  <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background: #f4f4f4;
-      margin: 0;
-      padding: 20px;
-    }
-    header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 10px 20px;
-      background-color: #fff;
-      border-bottom: 2px solid #ccc;
-    }
-    header img {
-      height: 50px;
-    }
-    h1 {
-      color: #333;
-    }
-    #scoreBoard {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      background: #fff;
-      padding: 15px;
-      margin-top: 10px;
-      border-radius: 8px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    }
-    .dept {
-      flex: 1 0 22%;
-      padding: 10px;
-      border-radius: 6px;
-      margin: 5px;
-      color: #fff;
-    }
-    #scenarioBox, #questionBox {
-      background: #fff;
-      margin-top: 20px;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    }
-    #questionText {
-      font-size: 1.2em;
-      margin-bottom: 15px;
-    }
-    .choice {
-      display: block;
-      margin: 10px 0;
-    }
-    .choice input {
-      margin-right: 8px;
-    }
-    .btn-group {
-      margin-top: 20px;
-    }
-    button {
-      padding: 10px 20px;
-      margin-right: 10px;
-      font-size: 16px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    .green { background: #27ae60; color: white; }
-    .blue { background: #2980b9; color: white; }
-    .red { background: #c0392b; color: white; }
-  </style>
-</head>
-<body>
-  <header>
-    <img src="/images/bank-logo.png" alt="Bank Logo">
-    <h1>🧠 Crisis Management Game</h1>
-  </header>
+export default async function handler(req, res) {
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method not allowed' });
+  }
 
-  <div id="scoreBoard"></div>
+  const apiKey = process.env.OPENAI_API_KEY;
+  if (!apiKey) {
+    return res.status(500).json({ error: 'OpenAI API key not configured' });
+  }
 
-  <div id="scenarioBox">
-    <h2>Scenario</h2>
-    <p id="scenarioText">Click "Generate Scenario" to begin.</p>
-  </div>
+  try {
+    const response = await fetch('https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${apiKey}`
+      },
+      body: JSON.stringify({
+        model: 'gpt-3.5-turbo',
+        messages: [
+          {
+            role: 'user',
+            content: `You are an AI for generating realistic training content for a crisis management simulation at a major financial institution.
 
-  <div id="questionBox" style="display:none">
-    <p id="questionText"></p>
-    <div id="choices"></div>
-    <div class="btn-group">
-      <button id="nextBtn" class="blue">Next</button>
-    </div>
-  </div>
+Create one unique, realistic bank-specific crisis scenario. Examples: cyberattacks, system outages, internal fraud, regulatory breaches, or PR crises. Ensure the scenario is complex enough that each of the following departments must contribute to resolving it:
 
-  <div class="btn-group">
-    <button id="generateBtn" class="green">Generate Scenario</button>
-    <button onclick="location.href='index.html'" class="blue">Back to Home</button>
-    <button onclick="location.reload()" class="red">Reset</button>
-  </div>
+- Operations
+- Legal
+- Compliance
+- IT Security
+- HR
+- Public Relations
+- Executive Leadership
 
-  <script>
-    const departments = [
-      { name: 'Operations', color: '#f39c12' },
-      { name: 'Compliance', color: '#2980b9' },
-      { name: 'IT', color: '#8e44ad' },
-      { name: 'Finance', color: '#16a085' },
-      { name: 'HR', color: '#d35400' },
-      { name: 'Security', color: '#c0392b' },
-      { name: 'Legal', color: '#34495e' }
-    ];
+Then generate exactly 21 questions, grouped as 3 per department. Each question should:
+- Clearly reference the current scenario
+- Be targeted to one department (cycle through all 7)
+- Have 4 distinct answer choices
+- Include the correct answer
 
-    let scenario = null;
-    let currentQuestionIndex = 0;
-    let scores = {};
-    let strikes = {};
-
-    function setupScoreBoard() {
-      const board = document.getElementById('scoreBoard');
-      board.innerHTML = '';
-      departments.forEach(dept => {
-        scores[dept.name] = 0;
-        strikes[dept.name] = 0;
-        const div = document.createElement('div');
-        div.className = 'dept';
-        div.style.background = dept.color;
-        div.id = `dept-${dept.name}`;
-        div.innerHTML = `<strong>${dept.name}</strong><br>Score: 0<br>Strikes: 0`;
-        board.appendChild(div);
-      });
-    }
-
-    async function generateScenario() {
-      document.getElementById('scenarioText').textContent = 'Loading...';
-      const res = await fetch('/api/generate-scenario', { method: 'POST' });
-      scenario = await res.json();
-      document.getElementById('scenarioText').textContent = scenario.description;
-      currentQuestionIndex = 0;
-      showQuestion();
-    }
-
-    function showQuestion() {
-      if (!scenario || currentQuestionIndex >= scenario.questions.length) return;
-
-      const q = scenario.questions[currentQuestionIndex];
-      const dept = departments[currentQuestionIndex % departments.length];
-      const box = document.getElementById('questionBox');
-      const qText = document.getElementById('questionText');
-      const choices = document.getElementById('choices');
-
-      box.style.display = 'block';
-      qText.textContent = q.questionText;
-      qText.style.color = dept.color;
-      choices.innerHTML = '';
-
-      q.choices.forEach(c => {
-        const label = document.createElement('label');
-        label.className = 'choice';
-        const input = document.createElement('input');
-        input.type = 'radio';
-        input.name = 'choice';
-        input.value = c;
-        label.appendChild(input);
-        label.append(c);
-        choices.appendChild(label);
-      });
-    }
-
-    document.getElementById('nextBtn').addEventListener('click', () => {
-      const selected = document.querySelector('input[name="choice"]:checked');
-      if (!selected) return alert('Please select an answer.');
-
-      const dept = departments[currentQuestionIndex % departments.length];
-      const correct = scenario.questions[currentQuestionIndex].answer;
-
-      if (selected.value === correct) {
-        scores[dept.name]++;
-      } else {
-        strikes[dept.name]++;
-      }
-
-      document.getElementById(`dept-${dept.name}`).innerHTML = `<strong>${dept.name}</strong><br>Score: ${scores[dept.name]}<br>Strikes: ${strikes[dept.name]}`;
-
-      currentQuestionIndex++;
-      if (currentQuestionIndex < scenario.questions.length) {
-        showQuestion();
-      } else {
-        document.getElementById('questionText').textContent = '✅ Game Complete!';
-        document.getElementById('choices').innerHTML = '';
-        document.getElementById('nextBtn').style.display = 'none';
-      }
+Output only valid JSON (no markdown, no explanation):
+{
+  "title": "...",
+  "description": "...",
+  "questions": [
+    {
+      "department": "...",
+      "questionText": "...",
+      "choices": ["...", "...", "...", "..."],
+      "answer": "The correct choice text"
+    },
+    ... (21 total)
+  ]
+}`
+          }
+        ],
+        max_tokens: 2500,
+        temperature: 0.85
+      })
     });
 
-    document.getElementById('generateBtn').addEventListener('click', async () => {
-      setupScoreBoard();
-      await generateScenario();
-    });
-  </script>
-</body>
-</html>
+    const data = await response.json();
+    const content = data.choices[0].message.content.trim();
+    const scenario = JSON.parse(content);
+    res.status(200).json(scenario);
+  } catch (err) {
+    console.error('Error generating scenario:', err);
+    res.status(500).json({ error: 'Failed to generate scenario' });
+  }
+}
