@@ -4,8 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Crisis Management Game</title>
+  <link rel="stylesheet" href="/css/style.css" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <div class="header">
@@ -54,8 +54,7 @@
       scores: {},
       questions: [],
       currentIndex: 0,
-      scenario: '',
-      winnerDeclared: false
+      scenario: ''
     };
 
     departments.forEach(dep => (state.scores[dep.name] = { points: 0 }));
@@ -114,8 +113,6 @@
     }
 
     function selectAnswer(btn, choice, correct, department) {
-      if (state.winnerDeclared) return;
-
       const buttons = document.querySelectorAll('.choice-btn');
       buttons.forEach(b => b.disabled = true);
 
@@ -128,18 +125,13 @@
       }
 
       renderScoreboard();
-
-      if (state.scores[department].points >= 100 && !state.winnerDeclared) {
-        state.winnerDeclared = true;
-        showWinnerBanner(department);
-      } else {
-        document.getElementById('nextContainer').classList.remove('hidden');
-      }
+      document.getElementById('nextContainer').classList.remove('hidden');
     }
 
     function nextQuestion() {
       state.currentIndex++;
       if (state.currentIndex >= state.questions.length) {
+        declareWinner();
         document.getElementById('scenarioText').textContent = '✅ Scenario Complete!';
         document.getElementById('questionContainer').innerHTML = '';
         document.getElementById('nextContainer').classList.add('hidden');
@@ -148,29 +140,13 @@
       }
     }
 
-    function resetGame() {
-      state = {
-        scores: {},
-        questions: [],
-        currentIndex: 0,
-        scenario: '',
-        winnerDeclared: false
-      };
-      departments.forEach(dep => (state.scores[dep.name] = { points: 0 }));
-      renderScoreboard();
-      document.getElementById('introBox').classList.remove('hidden');
-      document.getElementById('scenarioBox').classList.add('hidden');
-      document.getElementById('scenarioText').textContent = '';
-      document.getElementById('questionContainer').innerHTML = '';
-      document.getElementById('nextContainer').classList.add('hidden');
+    function declareWinner() {
+      const highest = Math.max(...Object.values(state.scores).map(s => s.points));
+      const winners = Object.entries(state.scores)
+        .filter(([_, s]) => s.points === highest)
+        .map(([dep]) => dep);
 
-      const winnerBanner = document.getElementById('winnerBanner');
-      if (winnerBanner) winnerBanner.remove();
-    }
-
-    function showWinnerBanner(winner) {
       const banner = document.createElement('div');
-      banner.id = 'winnerBanner';
       banner.style.backgroundColor = '#2ecc71';
       banner.style.color = '#fff';
       banner.style.textAlign = 'center';
@@ -179,9 +155,25 @@
       banner.style.borderRadius = '12px';
       banner.style.fontSize = '20px';
       banner.style.fontWeight = 'bold';
-      banner.textContent = `🎉 ${winner} reached 100 points and wins the game!`;
+      banner.textContent = `🎉 ${winners.join(' & ')} won with ${highest} points!`;
 
       document.body.appendChild(banner);
+    }
+
+    function resetGame() {
+      state = {
+        scores: {},
+        questions: [],
+        currentIndex: 0,
+        scenario: ''
+      };
+      departments.forEach(dep => (state.scores[dep.name] = { points: 0 }));
+      renderScoreboard();
+      document.getElementById('introBox').classList.remove('hidden');
+      document.getElementById('scenarioBox').classList.add('hidden');
+      document.getElementById('scenarioText').textContent = '';
+      document.getElementById('questionContainer').innerHTML = '';
+      document.getElementById('nextContainer').classList.add('hidden');
     }
 
     renderScoreboard();
