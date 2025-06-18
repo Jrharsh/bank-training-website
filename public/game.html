@@ -51,8 +51,7 @@
       margin-top: 10px;
     }
     .scenario-box,
-    .question-box,
-    .intro-box {
+    .question-box {
       background: white;
       padding: 24px;
       margin: 20px auto;
@@ -60,7 +59,7 @@
       max-width: 800px;
       box-shadow: 0 0 12px rgba(0, 0, 0, 0.05);
     }
-    .intro-box h2 {
+    .scenario-box h2 {
       margin-bottom: 10px;
     }
     .choices {
@@ -116,6 +115,10 @@
     .hidden {
       display: none;
     }
+    .final-results {
+      margin-top: 30px;
+      text-align: center;
+    }
   </style>
 </head>
 <body>
@@ -126,16 +129,9 @@
 
   <div class="scoreboard" id="scoreboard"></div>
 
-  <div class="intro-box" id="introBox">
-    <h2>Welcome to the SSBTX Crisis Management Simulation</h2>
-    <p>In this collaborative game, each department will respond to a bank-specific crisis. Work together to resolve the scenario.</p>
-    <p>The team with the highest score at the end of the round wins. Good luck!</p>
-    <p><strong>Click "Generate New Crisis Scenario" to begin.</strong></p>
-  </div>
-
-  <div class="scenario-box hidden" id="scenarioBox">
+  <div class="scenario-box">
     <h2>Scenario</h2>
-    <p id="scenarioText"></p>
+    <p id="scenarioText">Click "Generate New Crisis Scenario" to begin.</p>
   </div>
 
   <div class="question-box" id="questionContainer"></div>
@@ -149,6 +145,8 @@
     <button onclick="resetGame()">Reset Game</button>
     <button onclick="window.location.href='index.html'">Back to Home</button>
   </div>
+
+  <div class="final-results hidden" id="finalResults"></div>
 
   <script>
     const departments = [
@@ -186,14 +184,10 @@
       const res = await fetch('/api/generate-scenario', { method: 'POST' });
       const data = await res.json();
       state.scenario = data.description;
-      state.questions = data.questions.map(q => ({
-        ...q,
-        choices: shuffle([...q.choices])
-      }));
+      state.questions = data.questions.map(q => ({ ...q, choices: shuffle([...q.choices]) }));
       state.currentIndex = 0;
-      document.getElementById('introBox').classList.add('hidden');
-      document.getElementById('scenarioBox').classList.remove('hidden');
       document.getElementById('scenarioText').textContent = state.scenario;
+      document.getElementById('finalResults').classList.add('hidden');
       renderScoreboard();
       renderQuestion();
     }
@@ -242,12 +236,31 @@
     function nextQuestion() {
       state.currentIndex++;
       if (state.currentIndex >= state.questions.length) {
-        document.getElementById('scenarioText').textContent = '✅ Scenario Complete!';
-        document.getElementById('questionContainer').innerHTML = '';
-        document.getElementById('nextContainer').classList.add('hidden');
+        showFinalResults();
       } else {
         renderQuestion();
       }
+    }
+
+    function showFinalResults() {
+      document.getElementById('scenarioText').textContent = '✅ Scenario Complete!';
+      document.getElementById('questionContainer').innerHTML = '';
+      document.getElementById('nextContainer').classList.add('hidden');
+
+      const finalResults = document.getElementById('finalResults');
+      finalResults.innerHTML = '<h2>Final Scores</h2>';
+
+      const sorted = Object.entries(state.scores).sort((a, b) => b[1].points - a[1].points);
+      sorted.forEach(([name, score]) => {
+        finalResults.innerHTML += `<p><strong>${name}:</strong> ${score.points} points</p>`;
+      });
+
+      const winner = sorted[0][1].points === sorted[1][1].points
+        ? 'It's a tie!'
+        : `🏆 Winner: ${sorted[0][0]}`;
+      finalResults.innerHTML += `<h3>${winner}</h3>`;
+
+      finalResults.classList.remove('hidden');
     }
 
     function resetGame() {
@@ -259,11 +272,10 @@
       };
       departments.forEach(dep => (state.scores[dep.name] = { points: 0 }));
       renderScoreboard();
-      document.getElementById('introBox').classList.remove('hidden');
-      document.getElementById('scenarioBox').classList.add('hidden');
-      document.getElementById('scenarioText').textContent = '';
+      document.getElementById('scenarioText').textContent = 'Click "Generate New Crisis Scenario" to begin.';
       document.getElementById('questionContainer').innerHTML = '';
       document.getElementById('nextContainer').classList.add('hidden');
+      document.getElementById('finalResults').classList.add('hidden');
     }
 
     renderScoreboard();
