@@ -1,160 +1,204 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Crisis Management Game</title>
   <style>
     body {
-      font-family: sans-serif;
+      font-family: 'Segoe UI', sans-serif;
       background: #f4f4f4;
+      margin: 0;
       padding: 20px;
-      text-align: center;
+    }
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 20px;
+      background-color: #fff;
+      border-bottom: 2px solid #ccc;
+    }
+    header img {
+      height: 50px;
     }
     h1 {
-      color: #c0392b;
+      color: #333;
     }
-    .logo {
-      width: 80px;
+    #scoreBoard {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      background: #fff;
+      padding: 15px;
+      margin-top: 10px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     }
-    .btn {
+    .dept {
+      flex: 1 0 22%;
+      padding: 10px;
+      border-radius: 6px;
+      margin: 5px;
+      color: #fff;
+    }
+    #scenarioBox, #questionBox {
+      background: #fff;
+      margin-top: 20px;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    #questionText {
+      font-size: 1.2em;
+      margin-bottom: 15px;
+    }
+    .choice {
+      display: block;
+      margin: 10px 0;
+    }
+    .choice input {
+      margin-right: 8px;
+    }
+    .btn-group {
+      margin-top: 20px;
+    }
+    button {
       padding: 10px 20px;
+      margin-right: 10px;
       font-size: 16px;
-      margin: 10px;
-      background: #27ae60;
-      color: white;
       border: none;
       border-radius: 5px;
       cursor: pointer;
     }
-    .btn:hover {
-      background: #219150;
-    }
-    .scoreboard {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      margin-bottom: 20px;
-    }
-    .dept-card {
-      width: 130px;
-      padding: 15px;
-      margin: 5px;
-      border-radius: 10px;
-      color: white;
-      font-weight: bold;
-    }
-    .scenario-box, .question-box {
-      background: #fff;
-      margin: 20px auto;
-      padding: 20px;
-      border-radius: 10px;
-      max-width: 600px;
-      text-align: left;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    }
-    .question-box h2 {
-      margin-bottom: 10px;
-    }
-    .choice {
-      margin: 10px 0;
-    }
+    .green { background: #27ae60; color: white; }
+    .blue { background: #2980b9; color: white; }
+    .red { background: #c0392b; color: white; }
   </style>
 </head>
 <body>
-  <img src="images/bank-logo.png" alt="Bank Logo" class="logo" />
-  <h1>Crisis Management Game</h1>
-  <button class="btn" onclick="generateScenario()">Generate New Crisis Scenario</button>
-  <button class="btn" onclick="resetGame()">Reset Game</button>
-  <button class="btn" onclick="location.href='index.html'">Back to Home</button>
+  <header>
+    <img src="/images/bank-logo.png" alt="Bank Logo">
+    <h1>🧠 Crisis Management Game</h1>
+  </header>
 
-  <div class="scoreboard" id="scoreboard"></div>
+  <div id="scoreBoard"></div>
 
-  <div class="scenario-box" id="scenarioBox" style="display:none;">
+  <div id="scenarioBox">
     <h2>Scenario</h2>
-    <p id="scenarioText"></p>
+    <p id="scenarioText">Click "Generate Scenario" to begin.</p>
   </div>
 
-  <div class="question-box" id="questionBox" style="display:none;">
-    <h2 id="questionText"></h2>
+  <div id="questionBox" style="display:none">
+    <p id="questionText"></p>
     <div id="choices"></div>
-    <button class="btn" onclick="nextQuestion()">Next</button>
+    <div class="btn-group">
+      <button id="nextBtn" class="blue">Next</button>
+    </div>
+  </div>
+
+  <div class="btn-group">
+    <button id="generateBtn" class="green">Generate Scenario</button>
+    <button onclick="location.href='index.html'" class="blue">Back to Home</button>
+    <button onclick="location.reload()" class="red">Reset</button>
   </div>
 
   <script>
-    const departments = {
-      "CEO/SVPs": "#9b59b6",
-      "IT/Security": "#e74c3c",
-      "HR": "#2980b9",
-      "Finance": "#27ae60",
-      "Loans": "#f39c12",
-      "Accounting": "#8e44ad",
-      "Deposits": "#2ecc71"
-    };
+    const departments = [
+      { name: 'Operations', color: '#f39c12' },
+      { name: 'Compliance', color: '#2980b9' },
+      { name: 'IT', color: '#8e44ad' },
+      { name: 'Finance', color: '#16a085' },
+      { name: 'HR', color: '#d35400' },
+      { name: 'Security', color: '#c0392b' },
+      { name: 'Legal', color: '#34495e' }
+    ];
 
-    const departmentNames = Object.keys(departments);
-    const scores = {};
-    departmentNames.forEach(dept => scores[dept] = 0);
+    let scenario = null;
+    let currentQuestionIndex = 0;
+    let scores = {};
+    let strikes = {};
 
-    let questions = [], currentQ = 0, scenarioDesc = '';
-
-    function updateScoreboard() {
-      const board = document.getElementById('scoreboard');
-      board.innerHTML = departmentNames.map(dept =>
-        `<div class="dept-card" style="background:${departments[dept]}">
-          ${dept}<br/>${scores[dept]}
-        </div>`
-      ).join('');
+    function setupScoreBoard() {
+      const board = document.getElementById('scoreBoard');
+      board.innerHTML = '';
+      departments.forEach(dept => {
+        scores[dept.name] = 0;
+        strikes[dept.name] = 0;
+        const div = document.createElement('div');
+        div.className = 'dept';
+        div.style.background = dept.color;
+        div.id = `dept-${dept.name}`;
+        div.innerHTML = `<strong>${dept.name}</strong><br>Score: 0<br>Strikes: 0`;
+        board.appendChild(div);
+      });
     }
 
     async function generateScenario() {
+      document.getElementById('scenarioText').textContent = 'Loading...';
       const res = await fetch('/api/generate-scenario', { method: 'POST' });
-      const data = await res.json();
-      scenarioDesc = data.description;
-      questions = data.questions;
-      currentQ = 0;
-
-      document.getElementById('scenarioBox').style.display = 'block';
-      document.getElementById('scenarioText').textContent = scenarioDesc;
-      updateScoreboard();
+      scenario = await res.json();
+      document.getElementById('scenarioText').textContent = scenario.description;
+      currentQuestionIndex = 0;
       showQuestion();
     }
 
     function showQuestion() {
-      const question = questions[currentQ];
-      const dept = departmentNames[currentQ % departmentNames.length];
-      const qBox = document.getElementById('questionBox');
+      if (!scenario || currentQuestionIndex >= scenario.questions.length) return;
+
+      const q = scenario.questions[currentQuestionIndex];
+      const dept = departments[currentQuestionIndex % departments.length];
+      const box = document.getElementById('questionBox');
       const qText = document.getElementById('questionText');
       const choices = document.getElementById('choices');
 
-      qBox.style.display = 'block';
-      qBox.style.border = `3px solid ${departments[dept]}`;
+      box.style.display = 'block';
+      qText.textContent = q.questionText;
+      qText.style.color = dept.color;
+      choices.innerHTML = '';
 
-      qText.textContent = `(${dept}) ${question.questionText}`;
-      choices.innerHTML = question.choices.map((choice, i) =>
-        `<div class="choice">
-          <label><input type="radio" name="choice" value="${choice}" /> ${choice}</label>
-        </div>`).join('');
+      q.choices.forEach(c => {
+        const label = document.createElement('label');
+        label.className = 'choice';
+        const input = document.createElement('input');
+        input.type = 'radio';
+        input.name = 'choice';
+        input.value = c;
+        label.appendChild(input);
+        label.append(c);
+        choices.appendChild(label);
+      });
     }
 
-    function nextQuestion() {
-      currentQ++;
-      if (currentQ < questions.length) {
+    document.getElementById('nextBtn').addEventListener('click', () => {
+      const selected = document.querySelector('input[name="choice"]:checked');
+      if (!selected) return alert('Please select an answer.');
+
+      const dept = departments[currentQuestionIndex % departments.length];
+      const correct = scenario.questions[currentQuestionIndex].answer;
+
+      if (selected.value === correct) {
+        scores[dept.name]++;
+      } else {
+        strikes[dept.name]++;
+      }
+
+      document.getElementById(`dept-${dept.name}`).innerHTML = `<strong>${dept.name}</strong><br>Score: ${scores[dept.name]}<br>Strikes: ${strikes[dept.name]}`;
+
+      currentQuestionIndex++;
+      if (currentQuestionIndex < scenario.questions.length) {
         showQuestion();
       } else {
-        alert("End of scenario. Reset to play again.");
-        document.getElementById('questionBox').style.display = 'none';
+        document.getElementById('questionText').textContent = '✅ Game Complete!';
+        document.getElementById('choices').innerHTML = '';
+        document.getElementById('nextBtn').style.display = 'none';
       }
-    }
+    });
 
-    function resetGame() {
-      departmentNames.forEach(dept => scores[dept] = 0);
-      document.getElementById('scenarioBox').style.display = 'none';
-      document.getElementById('questionBox').style.display = 'none';
-      updateScoreboard();
-    }
-
-    updateScoreboard();
+    document.getElementById('generateBtn').addEventListener('click', async () => {
+      setupScoreBoard();
+      await generateScenario();
+    });
   </script>
 </body>
 </html>
