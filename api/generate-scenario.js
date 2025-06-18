@@ -2,12 +2,10 @@ export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
-
   const apiKey = process.env.OPENAI_API_KEY;
   if (!apiKey) {
     return res.status(500).json({ error: 'OpenAI API key not configured' });
   }
-
   try {
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
@@ -19,45 +17,31 @@ export default async function handler(req, res) {
         model: 'gpt-3.5-turbo',
         messages: [
           {
-            role: 'user',
-            content: `You are an AI for generating realistic training content for a crisis management simulation at a major financial institution.
-
-Create one unique, realistic bank-specific crisis scenario. Examples: cyberattacks, system outages, internal fraud, regulatory breaches, or PR crises. Ensure the scenario is complex enough that each of the following departments must contribute to resolving it:
-
-- CEO/SVPs
-- IT/Security
-- HR
-- Finance
-- Loans
-- Accounting
-- Deposits
-
-Then generate exactly 21 questions, grouped as 3 per department. Each question should:
-- Clearly reference the current scenario
-- Be targeted to one department (cycle through all 7)
-- Have 4 distinct answer choices
-- Include the correct answer
-- Output JSON only (no markdown or explanation):
-
+            role: 'system',
+            content: `You are an AI that generates bank-specific crisis scenarios with MCQ questions and coded scoring.
+Output a JSON object: {"title": "...", "description": "...", "questions": [ ... ]}.
+Each question object:
 {
-  "title": "...",
-  "description": "...",
-  "questions": [
-    {
-      "department": "...",
-      "questionText": "...",
-      "choices": ["...", "...", "...", "..."],
-      "answer": "..."
-    }
+  "department": "...",
+  "questionText": "...",
+  "choices": [
+    {"text": "...", "type": "correct"|"neutral"|"wrong", "explanation": "..."},
+    ...
   ]
-}`
+}
+Rules:
+- Exactly 4 choices per question
+- 1 correct (+10pts), 2 neutral (+5pts each), 1 wrong (–10pts)
+- Randomize order, no "all/none of the above"
+- Include a brief explanation for each choice.
+- Generate questions across departments; stop scenario when a department first reaches 50 points.
+- Output *only* valid JSON with no extra text or markdown.`
           }
         ],
-        max_tokens: 2500,
-        temperature: 0.85
+        temperature: 0.7,
+        max_tokens: 2000
       })
     });
-
     const data = await response.json();
     const content = data.choices[0].message.content.trim();
     const scenario = JSON.parse(content);
