@@ -234,7 +234,7 @@
       `;
     }
 
-    function selectAnswer(btn, choiceText, type, department, explanation) {
+function selectAnswer(btn, choiceText, type, department, explanation) {
   const buttons = document.querySelectorAll('.choice-btn');
   buttons.forEach(b => b.disabled = true);
 
@@ -253,13 +253,22 @@
   renderScoreboard();
   document.getElementById('nextContainer').classList.remove('hidden');
 
+  const explanationBox = document.createElement('div');
+  explanationBox.className = 'explanation-box';
+  explanationBox.innerHTML = `<p style="margin-top:12px;"><strong>Explanation:</strong> ${explanation}</p>`;
+  btn.parentElement.appendChild(explanationBox);
+}
+
+
+  renderScoreboard();
+  document.getElementById('nextContainer').classList.remove('hidden');
+
   // Optional: Show explanation
   const explanationBox = document.createElement('div');
   explanationBox.style.marginTop = "10px";
   explanationBox.style.fontStyle = "italic";
   explanationBox.textContent = explanation;
   btn.parentElement.appendChild(explanationBox);
-}
 
     function nextQuestion() {
       state.currentIndex++;
