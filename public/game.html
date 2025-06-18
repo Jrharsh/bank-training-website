@@ -60,9 +60,6 @@
       max-width: 800px;
       box-shadow: 0 0 12px rgba(0, 0, 0, 0.05);
     }
-    .intro-box h2 {
-      margin-bottom: 10px;
-    }
     .choices {
       display: flex;
       flex-direction: column;
@@ -87,7 +84,7 @@
       color: white;
     }
     .choice-btn.neutral {
-      background-color: #ebc72b;
+      background-color: #f1c40f;
       color: white;
     }
     .choice-btn.incorrect {
@@ -133,7 +130,7 @@
   <div class="intro-box" id="introBox">
     <h2>Welcome to the SSBTX Crisis Management Simulation</h2>
     <p>In this collaborative game, each department will respond to a bank-specific crisis. Work together to resolve the scenario.</p>
-    <p>The team with the highest score at the end of the round wins. Good luck!</p>
+    <p>The first department to reach 100 points wins. Good luck!</p>
     <p><strong>Click "Generate New Crisis Scenario" to begin.</strong></p>
   </div>
 
@@ -235,18 +232,33 @@
         btn.classList.add('correct');
         state.scores[department].points += 10;
       } else {
-        const neutral = state.questions[state.currentIndex].choices.filter(c => c !== correct);
-        if (neutral.slice(0, 2).includes(choice)) {
-          btn.classList.add('neutral');
-          state.scores[department].points += 5;
-        } else {
-          btn.classList.add('incorrect');
-          state.scores[department].points -= 10;
-        }
+        btn.classList.add('incorrect');
+        state.scores[department].points -= 10;
       }
 
       renderScoreboard();
       document.getElementById('nextContainer').classList.remove('hidden');
+
+      if (state.scores[department].points >= 100) {
+        declareWinner(department);
+      }
+    }
+
+    function declareWinner(winner) {
+      const banner = document.createElement('div');
+      banner.style.backgroundColor = '#2ecc71';
+      banner.style.color = '#fff';
+      banner.style.textAlign = 'center';
+      banner.style.padding = '20px';
+      banner.style.marginTop = '30px';
+      banner.style.borderRadius = '12px';
+      banner.style.fontSize = '20px';
+      banner.style.fontWeight = 'bold';
+      banner.textContent = `🎉 ${winner} wins with 100 points!`;
+      document.body.appendChild(banner);
+
+      document.getElementById('questionContainer').innerHTML = '';
+      document.getElementById('nextContainer').classList.add('hidden');
     }
 
     function nextQuestion() {
