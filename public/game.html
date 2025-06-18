@@ -1,173 +1,196 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Crisis Management Game</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background-color: #f4f4f4;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       margin: 0;
       padding: 0;
+      background: #f4f4f4;
+      color: #2c3e50;
     }
-
-    header {
-      background-color: #34495e;
-      color: white;
-      padding: 20px;
-      text-align: center;
+    .scoreboard {
       position: sticky;
       top: 0;
+      background: #fff;
+      border-bottom: 3px solid #ccc;
+      padding: 15px;
+      display: flex;
+      justify-content: space-around;
+      font-size: 14px;
+      font-weight: bold;
       z-index: 1000;
     }
-
-    #logo {
-      width: 60px;
-      vertical-align: middle;
+    .department {
+      padding: 8px 12px;
+      border-radius: 8px;
+      color: #fff;
+      margin: 0 4px;
     }
+    .Operations { background: #2980b9; }
+    .Legal { background: #8e44ad; }
+    .Compliance { background: #16a085; }
+    .ITSecurity { background: #e67e22; }
+    .HR { background: #d35400; }
+    .PublicRelations { background: #c0392b; }
+    .ExecutiveLeadership { background: #2c3e50; }
 
     .container {
       max-width: 900px;
-      margin: auto;
-      padding: 20px;
+      margin: 80px auto 40px;
+      padding: 0 20px;
     }
-
-    .scenario {
-      background: #ffffff;
-      padding: 20px;
-      margin: 20px 0;
-      border-radius: 10px;
-      font-size: 1.2em;
+    .logo {
       text-align: center;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      margin-bottom: 30px;
     }
-
-    .question-box {
-      margin: 20px 0;
+    .logo img {
+      max-height: 80px;
+    }
+    .scenario {
+      background: #fff;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      margin-bottom: 30px;
+    }
+    .scenario h2 {
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+    .question {
+      background: #fff;
       padding: 20px;
       border-radius: 10px;
-      color: white;
-      font-size: 1.1em;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
     }
-
-    .choices {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-top: 15px;
-    }
-
-    .choice-btn {
-      padding: 15px;
-      font-size: 1em;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-
-    .choice-btn.correct { background-color: #2ecc71 !important; color: white; }
-    .choice-btn.incorrect { background-color: #e74c3c !important; color: white; }
-
-    .btn { padding: 10px 20px; font-size: 1em; margin-top: 20px; cursor: pointer; }
-
-    .scoreboard {
-      display: flex;
-      justify-content: space-around;
+    .choice {
+      padding: 12px;
+      margin: 10px 0;
       background: #ecf0f1;
-      padding: 10px;
       border-radius: 8px;
-      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s ease;
     }
-
-    .status {
+    .choice:hover {
+      background: #d0e6f7;
+    }
+    .correct {
+      background: #2ecc71 !important;
+      color: #fff;
+    }
+    .incorrect {
+      background: #e74c3c !important;
+      color: #fff;
+    }
+    .btns {
+      display: flex;
+      justify-content: space-between;
       margin-top: 20px;
-      font-family: monospace;
-      font-size: 1em;
+    }
+    button {
+      padding: 10px 20px;
+      border: none;
+      background: #3498db;
+      color: #fff;
+      font-size: 16px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #2980b9;
     }
   </style>
 </head>
 <body>
-  <header>
-    <img id="logo" src="/images/bank-logo.png" alt="Bank Logo">
-    <h1>SSBTX Crisis Management Game</h1>
-  </header>
+  <div class="scoreboard" id="scoreboard">
+    <span class="department Operations">Operations: 0 pts / ❤️❤️❤️</span>
+    <span class="department Legal">Legal: 0 pts / ❤️❤️❤️</span>
+    <span class="department Compliance">Compliance: 0 pts / ❤️❤️❤️</span>
+    <span class="department ITSecurity">IT Security: 0 pts / ❤️❤️❤️</span>
+    <span class="department HR">HR: 0 pts / ❤️❤️❤️</span>
+    <span class="department PublicRelations">PR: 0 pts / ❤️❤️❤️</span>
+    <span class="department ExecutiveLeadership">Exec: 0 pts / ❤️❤️❤️</span>
+  </div>
 
   <div class="container">
-    <div class="scoreboard" id="scoreboard"></div>
-    <div class="scenario" id="scenarioText">Click below to generate a new crisis scenario.</div>
+    <div class="logo">
+      <img src="/images/bank-logo.png" alt="Bank Logo" />
+    </div>
+    <div class="scenario" id="scenarioBox">
+      <h2>Scenario</h2>
+      <p id="scenarioText">Click below to begin generating your crisis scenario...</p>
+    </div>
 
-    <div class="question-box" id="questionBox" style="display:none;"></div>
-    <div class="status" id="status"></div>
+    <div class="question" id="questionBox">
+      <h3 id="questionText"></h3>
+      <div id="choices"></div>
+    </div>
 
-    <button class="btn" id="nextBtn" style="display:none;">Next Question</button>
-    <button class="btn" id="generateBtn">Generate Scenario</button>
+    <div class="btns">
+      <button onclick="location.href='/'">🏠 Back</button>
+      <button id="nextBtn" disabled>Next Question</button>
+      <button onclick="location.reload()">🔁 Reset</button>
+    </div>
   </div>
 
   <script>
-    const departmentColors = {
-      'Operations': '#2980b9',
-      'Legal': '#8e44ad',
-      'Compliance': '#16a085',
-      'IT Security': '#d35400',
-      'HR': '#f39c12',
-      'Public Relations': '#c0392b',
-      'Executive Leadership': '#27ae60'
-    };
+    let scenarioData = null;
+    let questionIndex = 0;
 
-    let currentQuestions = [];
-    let currentIndex = 0;
+    async function loadScenario() {
+      const res = await fetch('/api/generate-scenario', { method: 'POST' });
+      const data = await res.json();
+      scenarioData = data;
 
-    document.getElementById('generateBtn').addEventListener('click', async () => {
-      document.getElementById('status').textContent = 'Generating...';
-      try {
-        const res = await fetch('/api/generate-scenario', { method: 'POST' });
-        const data = await res.json();
-        document.getElementById('scenarioText').textContent = data.description;
-        currentQuestions = data.questions;
-        currentIndex = 0;
-        showQuestion();
-        document.getElementById('generateBtn').style.display = 'none';
-        document.getElementById('nextBtn').style.display = 'inline-block';
-      } catch (err) {
-        document.getElementById('status').textContent = 'Error: ' + err.message;
-      }
-    });
+      document.getElementById('scenarioText').textContent = data.description;
+      questionIndex = 0;
+      showQuestion();
+    }
 
     function showQuestion() {
-      const q = currentQuestions[currentIndex];
-      const box = document.getElementById('questionBox');
-      box.style.backgroundColor = departmentColors[q.department] || '#7f8c8d';
-      box.style.display = 'block';
-      box.innerHTML = `<h3>${q.department} Department</h3><p>${q.questionText}</p><div class="choices">${q.choices.map(c => `<button class='choice-btn'>${c}</button>`).join('')}</div>`;
+      const q = scenarioData.questions[questionIndex];
+      const questionEl = document.getElementById('questionText');
+      const choicesEl = document.getElementById('choices');
 
-      const buttons = box.querySelectorAll('.choice-btn');
-      buttons.forEach(btn => {
-        btn.addEventListener('click', () => {
-          buttons.forEach(b => b.disabled = true);
-          if (btn.textContent === q.answer) {
-            btn.classList.add('correct');
+      const deptClass = q.department.replace(/\s+/g, '');
+      document.getElementById('questionBox').className = `question ${deptClass}`;
+
+      questionEl.textContent = `${q.department} - ${q.questionText}`;
+      choicesEl.innerHTML = '';
+
+      q.choices.forEach(choice => {
+        const div = document.createElement('div');
+        div.className = 'choice';
+        div.textContent = choice;
+        div.onclick = () => {
+          if (choice === q.answer) {
+            div.classList.add('correct');
           } else {
-            btn.classList.add('incorrect');
-            buttons.forEach(b => {
-              if (b.textContent === q.answer) b.classList.add('correct');
-            });
+            div.classList.add('incorrect');
           }
-        });
+          document.querySelectorAll('.choice').forEach(c => c.onclick = null);
+          document.getElementById('nextBtn').disabled = false;
+        };
+        choicesEl.appendChild(div);
       });
     }
 
     document.getElementById('nextBtn').addEventListener('click', () => {
-      currentIndex++;
-      if (currentIndex < currentQuestions.length) {
+      questionIndex++;
+      document.getElementById('nextBtn').disabled = true;
+      if (questionIndex < scenarioData.questions.length) {
         showQuestion();
       } else {
-        document.getElementById('questionBox').innerHTML = '<h3>🎉 Scenario Complete!</h3>';
-        document.getElementById('nextBtn').style.display = 'none';
-        document.getElementById('generateBtn').style.display = 'inline-block';
+        alert('✅ Game complete! Displaying final score coming soon...');
       }
     });
+
+    window.onload = loadScenario;
   </script>
 </body>
 </html>
