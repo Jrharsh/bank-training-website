@@ -1,194 +1,173 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Crisis Management Game</title>
   <style>
     body {
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #f9f9f9;
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
       margin: 0;
       padding: 0;
-      text-align: center;
     }
 
     header {
-      background: #fff;
+      background-color: #34495e;
+      color: white;
       padding: 20px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
     }
 
-    .logo {
-      height: 60px;
+    #logo {
+      width: 60px;
+      vertical-align: middle;
     }
 
-    h1 {
-      color: #c0392b;
-      margin-top: 10px;
+    .container {
+      max-width: 900px;
+      margin: auto;
+      padding: 20px;
     }
+
+    .scenario {
+      background: #ffffff;
+      padding: 20px;
+      margin: 20px 0;
+      border-radius: 10px;
+      font-size: 1.2em;
+      text-align: center;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .question-box {
+      margin: 20px 0;
+      padding: 20px;
+      border-radius: 10px;
+      color: white;
+      font-size: 1.1em;
+    }
+
+    .choices {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    .choice-btn {
+      padding: 15px;
+      font-size: 1em;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .choice-btn.correct { background-color: #2ecc71 !important; color: white; }
+    .choice-btn.incorrect { background-color: #e74c3c !important; color: white; }
+
+    .btn { padding: 10px 20px; font-size: 1em; margin-top: 20px; cursor: pointer; }
 
     .scoreboard {
       display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      margin: 20px auto;
-      max-width: 800px;
+      justify-content: space-around;
+      background: #ecf0f1;
+      padding: 10px;
+      border-radius: 8px;
+      font-weight: bold;
     }
 
-    .dept-box {
-      flex: 1 1 200px;
-      margin: 10px;
-      padding: 20px;
-      color: white;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    }
-
-    .dept-box.purple { background: #8e44ad; }
-    .dept-box.red { background: #e74c3c; }
-    .dept-box.blue { background: #2980b9; }
-    .dept-box.green { background: #27ae60; }
-    .dept-box.orange { background: #f39c12; }
-    .dept-box.violet { background: #9b59b6; }
-    .dept-box.teal { background: #1abc9c; }
-
-    .scenario-box, .question-box {
-      max-width: 800px;
-      background: white;
-      margin: 20px auto;
-      padding: 25px;
-      border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    }
-
-    .scenario-box p {
-      font-size: 18px;
-      line-height: 1.6;
-    }
-
-    .question-box h2 {
-      font-size: 22px;
-    }
-
-    .choice {
-      margin: 10px 0;
-      font-size: 18px;
-    }
-
-    button {
-      margin: 20px 5px;
-      padding: 12px 24px;
-      font-size: 16px;
-      border: none;
-      border-radius: 5px;
-      background: #2ecc71;
-      color: white;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background: #27ae60;
+    .status {
+      margin-top: 20px;
+      font-family: monospace;
+      font-size: 1em;
     }
   </style>
 </head>
 <body>
   <header>
-    <img src="/images/bank-logo.png" class="logo" alt="SSBTX Bank Logo" />
-    <h1>Crisis Management Game</h1>
-    <button onclick="startGame()">Generate New Crisis Scenario</button>
-    <button onclick="resetGame()">Reset Game</button>
-    <button onclick="window.location.href='/'">Back to Home</button>
+    <img id="logo" src="/images/bank-logo.png" alt="Bank Logo">
+    <h1>SSBTX Crisis Management Game</h1>
   </header>
 
-  <div class="scoreboard" id="scoreboard"></div>
-  <div class="scenario-box" id="scenario"></div>
-  <div class="question-box" id="question"></div>
+  <div class="container">
+    <div class="scoreboard" id="scoreboard"></div>
+    <div class="scenario" id="scenarioText">Click below to generate a new crisis scenario.</div>
+
+    <div class="question-box" id="questionBox" style="display:none;"></div>
+    <div class="status" id="status"></div>
+
+    <button class="btn" id="nextBtn" style="display:none;">Next Question</button>
+    <button class="btn" id="generateBtn">Generate Scenario</button>
+  </div>
 
   <script>
-    const departments = [
-      { name: 'CEO/SVPs', color: 'purple' },
-      { name: 'IT/Security', color: 'red' },
-      { name: 'HR', color: 'blue' },
-      { name: 'Finance', color: 'green' },
-      { name: 'Loans', color: 'orange' },
-      { name: 'Accounting', color: 'violet' },
-      { name: 'Deposits', color: 'teal' }
-    ];
+    const departmentColors = {
+      'Operations': '#2980b9',
+      'Legal': '#8e44ad',
+      'Compliance': '#16a085',
+      'IT Security': '#d35400',
+      'HR': '#f39c12',
+      'Public Relations': '#c0392b',
+      'Executive Leadership': '#27ae60'
+    };
 
-    let scenarioData = null;
-    let currentQuestion = 0;
-    let scores = {}, strikes = {}, round = 1;
+    let currentQuestions = [];
+    let currentIndex = 0;
 
-    function initScoreboard() {
-      const board = document.getElementById('scoreboard');
-      board.innerHTML = '';
-      departments.forEach(dept => {
-        scores[dept.name] = 0;
-        strikes[dept.name] = 0;
-        board.innerHTML += `
-          <div class="dept-box ${dept.color}">
-            <div><strong>${dept.name}</strong></div>
-            <div id="score-${dept.name}">${scores[dept.name]}</div>
-            <div>⚠️⚠️⚠️</div>
-          </div>`;
+    document.getElementById('generateBtn').addEventListener('click', async () => {
+      document.getElementById('status').textContent = 'Generating...';
+      try {
+        const res = await fetch('/api/generate-scenario', { method: 'POST' });
+        const data = await res.json();
+        document.getElementById('scenarioText').textContent = data.description;
+        currentQuestions = data.questions;
+        currentIndex = 0;
+        showQuestion();
+        document.getElementById('generateBtn').style.display = 'none';
+        document.getElementById('nextBtn').style.display = 'inline-block';
+      } catch (err) {
+        document.getElementById('status').textContent = 'Error: ' + err.message;
+      }
+    });
+
+    function showQuestion() {
+      const q = currentQuestions[currentIndex];
+      const box = document.getElementById('questionBox');
+      box.style.backgroundColor = departmentColors[q.department] || '#7f8c8d';
+      box.style.display = 'block';
+      box.innerHTML = `<h3>${q.department} Department</h3><p>${q.questionText}</p><div class="choices">${q.choices.map(c => `<button class='choice-btn'>${c}</button>`).join('')}</div>`;
+
+      const buttons = box.querySelectorAll('.choice-btn');
+      buttons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          buttons.forEach(b => b.disabled = true);
+          if (btn.textContent === q.answer) {
+            btn.classList.add('correct');
+          } else {
+            btn.classList.add('incorrect');
+            buttons.forEach(b => {
+              if (b.textContent === q.answer) b.classList.add('correct');
+            });
+          }
+        });
       });
     }
 
-    function startGame() {
-      fetch('/api/generate-scenario', { method: 'POST' })
-        .then(res => res.json())
-        .then(data => {
-          scenarioData = data;
-          currentQuestion = 0;
-          document.getElementById('scenario').innerHTML = `<h2>Scenario</h2><p>${data.description}</p>`;
-          showQuestion();
-        });
-    }
-
-    function showQuestion() {
-      if (!scenarioData || currentQuestion >= scenarioData.questions.length) {
-        document.getElementById('question').innerHTML = `<h2>Game Over!</h2><p>Thanks for playing.</p>`;
-        return;
+    document.getElementById('nextBtn').addEventListener('click', () => {
+      currentIndex++;
+      if (currentIndex < currentQuestions.length) {
+        showQuestion();
+      } else {
+        document.getElementById('questionBox').innerHTML = '<h3>🎉 Scenario Complete!</h3>';
+        document.getElementById('nextBtn').style.display = 'none';
+        document.getElementById('generateBtn').style.display = 'inline-block';
       }
-
-      const q = scenarioData.questions[currentQuestion];
-      const dept = departments.find(d => d.name.includes(q.department)) || departments[currentQuestion % 7];
-      const color = dept.color;
-
-      document.getElementById('question').style.borderTop = `5px solid ${dept.color}`;
-      document.getElementById('question').innerHTML = `
-        <h2 style="color:${color}">${q.department} Department</h2>
-        <p><strong>${q.questionText}</strong></p>
-        ${q.choices.map((choice, i) => `<div class="choice"><input type="radio" name="ans" value="${choice}" id="opt${i}"><label for="opt${i}"> ${choice}</label></div>`).join('')}
-        <button onclick="submitAnswer('${q.answer}')">Submit</button>
-      `;
-    }
-
-    function submitAnswer(correct) {
-      const selected = document.querySelector('input[name=ans]:checked');
-      if (!selected) return alert('Please select an answer');
-
-      const dept = scenarioData.questions[currentQuestion].department;
-      if (selected.value === correct) scores[dept] += 5;
-      else strikes[dept] += 1;
-
-      document.getElementById(`score-${dept}`).textContent = scores[dept];
-
-      currentQuestion++;
-      showQuestion();
-    }
-
-    function resetGame() {
-      scenarioData = null;
-      currentQuestion = 0;
-      round = 1;
-      initScoreboard();
-      document.getElementById('scenario').innerHTML = '';
-      document.getElementById('question').innerHTML = '';
-    }
-
-    window.onload = initScoreboard;
+    });
   </script>
 </body>
 </html>
