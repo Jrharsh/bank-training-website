@@ -226,33 +226,40 @@
         <h3 style="color:${depColor};">${q.department}</h3>
         <h2>${q.questionText}</h2>
         <div class="choices">
-          ${q.choices.map(choice => `<button class="choice-btn" onclick="selectAnswer(this, '${choice}', '${q.answer}', '${q.department}')">${choice}</button>`).join('')}
+          ${q.choices.map(choice => 
+  `<button class="choice-btn" onclick='selectAnswer(this, "${choice.text}", "${choice.type}", "${q.department}", "${choice.explanation}")'>
+    ${choice.text}
+  </button>`).join('')}
         </div>
       `;
     }
 
-    function selectAnswer(btn, choice, correct, department) {
-      const buttons = document.querySelectorAll('.choice-btn');
-      buttons.forEach(b => b.disabled = true);
+    function selectAnswer(btn, choiceText, type, department, explanation) {
+  const buttons = document.querySelectorAll('.choice-btn');
+  buttons.forEach(b => b.disabled = true);
 
-      if (choice === correct) {
-        btn.classList.add('correct');
-        state.scores[department].points += 10;
-      } else {
-        btn.classList.add('incorrect');
-        state.scores[department].points -= 10;
-      }
+  if (type === "correct") {
+    btn.classList.add('correct');
+    state.scores[department].points += 10;
+  } else if (type === "neutral") {
+    btn.style.backgroundColor = "#f1c40f";
+    btn.style.color = "#fff";
+    state.scores[department].points += 5;
+  } else {
+    btn.classList.add('incorrect');
+    state.scores[department].points -= 10;
+  }
 
-      renderScoreboard();
+  renderScoreboard();
+  document.getElementById('nextContainer').classList.remove('hidden');
 
-      if (state.scores[department].points >= 50) {
-        launchConfetti();
-        declareWinner(department);
-        return;
-      }
-
-      document.getElementById('nextContainer').classList.remove('hidden');
-    }
+  // Optional: Show explanation
+  const explanationBox = document.createElement('div');
+  explanationBox.style.marginTop = "10px";
+  explanationBox.style.fontStyle = "italic";
+  explanationBox.textContent = explanation;
+  btn.parentElement.appendChild(explanationBox);
+}
 
     function nextQuestion() {
       state.currentIndex++;
