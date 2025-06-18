@@ -178,13 +178,10 @@
       const res = await fetch('/api/generate-scenario', { method: 'POST' });
       const data = await res.json();
       state.scenario = data.description;
-      state.questions = data.questions.map(q => {
-        const shuffled = shuffle([...q.choices]);
-        return {
-          ...q,
-          choices: shuffled
-        };
-      });
+      state.questions = data.questions.map(q => ({
+        ...q,
+        choices: shuffle([...q.choices])
+      }));
       state.currentIndex = 0;
       document.getElementById('scenarioText').textContent = state.scenario;
       renderScoreboard();
