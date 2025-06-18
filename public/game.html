@@ -142,6 +142,26 @@
 
   <div class="next-button hidden" id="nextContainer">
     <button onclick="nextQuestion()">Next Question</button>
+    function declareWinner() {
+  const highest = Math.max(...Object.values(state.scores).map(s => s.points));
+  const winners = Object.entries(state.scores)
+    .filter(([_, s]) => s.points === highest)
+    .map(([dep]) => dep);
+
+  const banner = document.createElement('div');
+  banner.style.backgroundColor = '#2ecc71';
+  banner.style.color = '#fff';
+  banner.style.textAlign = 'center';
+  banner.style.padding = '20px';
+  banner.style.marginTop = '30px';
+  banner.style.borderRadius = '12px';
+  banner.style.fontSize = '20px';
+  banner.style.fontWeight = 'bold';
+  banner.textContent = `🎉 ${winners.join(' & ')} won with ${highest} points!`;
+
+  document.body.appendChild(banner);
+}
+
   </div>
 
   <div class="controls">
