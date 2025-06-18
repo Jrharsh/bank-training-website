@@ -17,37 +17,49 @@ export default async function handler(req, res) {
       },
       body: JSON.stringify({
         model: 'gpt-3.5-turbo',
-        messages: [{
-          role: 'user',
-          content: `You are generating training data for a banking crisis management game. Create one scenario with the following format in strict JSON (no additional text or explanation):
+        messages: [
+          {
+            role: 'user',
+            content: `You are an AI for generating realistic training content for a crisis management simulation at a major financial institution.
+
+Create one unique, realistic bank-specific crisis scenario. Examples: cyberattacks, system outages, internal fraud, regulatory breaches, or PR crises. Ensure the scenario is complex enough that each of the following departments must contribute to resolving it:
+
+- CEO/SVPs
+- IT/Security
+- HR
+- Finance
+- Loans
+- Accounting
+- Deposits
+
+Then generate exactly 21 questions, grouped as 3 per department. Each question should:
+- Clearly reference the current scenario
+- Be targeted to one department (cycle through all 7)
+- Have 4 distinct answer choices
+- Include the correct answer
+- Output JSON only (no markdown or explanation):
 
 {
   "title": "...",
   "description": "...",
   "questions": [
     {
+      "department": "...",
       "questionText": "...",
-      "choices": ["A", "B", "C", "D"],
-      "answer": "The correct choice text"
+      "choices": ["...", "...", "...", "..."],
+      "answer": "..."
     }
   ]
-}
-
-Rules:
-- Generate 5 questions.
-- Each question must have exactly 4 choices.
-- Choices must be distinct, realistic, and plausible.
-- Only output the JSON object. Do not include any explanation, markdown, or commentary.`
-        }],
-        max_tokens: 1500,
-        temperature: 0.8
+}`
+          }
+        ],
+        max_tokens: 2500,
+        temperature: 0.85
       })
     });
 
     const data = await response.json();
     const content = data.choices[0].message.content.trim();
-
-    // Try parsing only if it's valid JSON
     const scenario = JSON.parse(content);
     res.status(200).json(scenario);
   } catch (err) {
