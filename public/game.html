@@ -47,7 +47,7 @@
       font-weight: bold;
     }
     .department .score {
-      font-size: 24px;
+      font-size: 18px;
       margin-top: 10px;
     }
     .scenario-box,
@@ -155,12 +155,16 @@
 
     let state = {
       scores: {},
+      strikes: {},
       questions: [],
       currentIndex: 0,
       scenario: ''
     };
 
-    departments.forEach(dep => (state.scores[dep.name] = { points: 0 }));
+    departments.forEach(dep => {
+      state.scores[dep.name] = { points: 0 };
+      state.strikes[dep.name] = 0;
+    });
 
     function renderScoreboard() {
       const sb = document.getElementById('scoreboard');
@@ -169,7 +173,7 @@
         const div = document.createElement('div');
         div.className = 'department';
         div.style.backgroundColor = dep.color;
-        div.innerHTML = `<div>${dep.name}</div><div class="score">${state.scores[dep.name].points}</div>`;
+        div.innerHTML = `<div>${dep.name}</div><div class="score">${state.scores[dep.name].points} pts<br>🚫 ${state.strikes[dep.name]}</div>`;
         sb.appendChild(div);
       });
     }
@@ -208,11 +212,13 @@
 
       if (choice === correct) {
         btn.classList.add('correct');
-        state.scores[department].points += 5;
+        state.scores[department].points += 10;
       } else {
         btn.classList.add('incorrect');
         const correctBtn = Array.from(buttons).find(b => b.textContent === correct);
         if (correctBtn) correctBtn.classList.add('correct');
+        state.strikes[department]++;
+        state.scores[department].points -= 10;
       }
 
       renderScoreboard();
@@ -220,6 +226,13 @@
     }
 
     function nextQuestion() {
+      if (Object.values(state.strikes).every(strike => strike >= 3)) {
+        document.getElementById('scenarioText').textContent = '💥 Game Over: All departments struck out.';
+        document.getElementById('questionContainer').innerHTML = '';
+        document.getElementById('nextContainer').classList.add('hidden');
+        return;
+      }
+
       state.currentIndex++;
       if (state.currentIndex >= state.questions.length) {
         document.getElementById('scenarioText').textContent = '✅ Scenario Complete!';
@@ -233,11 +246,15 @@
     function resetGame() {
       state = {
         scores: {},
+        strikes: {},
         questions: [],
         currentIndex: 0,
         scenario: ''
       };
-      departments.forEach(dep => (state.scores[dep.name] = { points: 0 }));
+      departments.forEach(dep => {
+        state.scores[dep.name] = { points: 0 };
+        state.strikes[dep.name] = 0;
+      });
       renderScoreboard();
       document.getElementById('scenarioText').textContent = 'Click "Generate New Crisis Scenario" to begin.';
       document.getElementById('questionContainer').innerHTML = '';
