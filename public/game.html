@@ -86,6 +86,10 @@
       background-color: #2ecc71;
       color: white;
     }
+    .choice-btn.neutral {
+      background-color: #95a5a6;
+      color: white;
+    }
     .choice-btn.incorrect {
       background-color: #e74c3c;
       color: white;
@@ -231,8 +235,14 @@
         btn.classList.add('correct');
         state.scores[department].points += 10;
       } else {
-        btn.classList.add('incorrect');
-        state.scores[department].points -= 10;
+        const neutral = state.questions[state.currentIndex].choices.filter(c => c !== correct);
+        if (neutral.slice(0, 2).includes(choice)) {
+          btn.classList.add('neutral');
+          state.scores[department].points += 5;
+        } else {
+          btn.classList.add('incorrect');
+          state.scores[department].points -= 10;
+        }
       }
 
       renderScoreboard();
@@ -245,30 +255,9 @@
         document.getElementById('scenarioText').textContent = '✅ Scenario Complete!';
         document.getElementById('questionContainer').innerHTML = '';
         document.getElementById('nextContainer').classList.add('hidden');
-        declareWinner();
       } else {
         renderQuestion();
       }
-    }
-
-    function declareWinner() {
-      const highest = Math.max(...Object.values(state.scores).map(s => s.points));
-      const winners = Object.entries(state.scores)
-        .filter(([_, s]) => s.points === highest)
-        .map(([dep]) => dep);
-
-      const banner = document.createElement('div');
-      banner.style.backgroundColor = '#2ecc71';
-      banner.style.color = '#fff';
-      banner.style.textAlign = 'center';
-      banner.style.padding = '20px';
-      banner.style.marginTop = '30px';
-      banner.style.borderRadius = '12px';
-      banner.style.fontSize = '20px';
-      banner.style.fontWeight = 'bold';
-      banner.textContent = `🎉 ${winners.join(' & ')} won with ${highest} points!`;
-
-      document.body.appendChild(banner);
     }
 
     function resetGame() {
