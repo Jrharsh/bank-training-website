@@ -77,7 +77,7 @@ async function generateScenario() {
   const data = await res.json();
   state.scenario = data.description;
   state.questions = (data.questions || [])
-  .filter(q => q && q.department && Array.isArray(q.choices)) // prevent undefined entries
+  .filter(q => q && q.department && q.questionText && Array.isArray(q.choices)) // Added q.questionText check
   .map(q => ({ ...q, choices: shuffle([...q.choices]) }));
 
   state.currentIndex = 0;
@@ -91,7 +91,7 @@ async function generateScenario() {
 function shuffle(array) {
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
+    [array[i], array[2]] = [array[j], array[i]];
   }
   return array;
 }
@@ -101,9 +101,19 @@ function renderQuestion() {
   container.innerHTML = '';
   document.getElementById('nextContainer').classList.add('hidden');
 
-  const q = state.questions[state.currentIndex];
-  const depColor = q.department ? (departments.find(d => d.name === q.department)?.color || '#ccc') : '#ccc';
+  // Check if we have valid questions first
+  if (!state.questions || state.currentIndex >= state.questions.length) {
+    return;
+  }
 
+  const q = state.questions[state.currentIndex];
+  
+  // Check if question exists and has required properties
+  if (!q || !q.department || !q.questionText) {
+    return;
+  }
+
+  const depColor = q.department ? (departments.find(d => d.name === q.department)?.color || '#ccc') : '#ccc';
 
   container.innerHTML = `
     <h3 style="color:${depColor};">${q.department}</h3>
