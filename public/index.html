@@ -256,7 +256,8 @@
                                     ${q.choices.map((c, i) => `
                                       <li>
                                         <label>
-                                          <input type="radio" name="q-${q.department}-${i}" />
+                                          <input type="radio" nname="q-${q.department}-${q.questionText.replace(/\\s+/g, '-')}"
+" />
                                           ${c.text} <em>(${c.type})</em> – ${c.explanation}
                                         </label>
                                       </li>
