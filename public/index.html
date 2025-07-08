@@ -4,176 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Financial Institution Training Hub</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 15px;
-            padding: 40px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 50px;
-        }
-
-        .bank-logo {
-            width: 120px;
-            height: 120px;
-            margin: 0 auto 30px;
-            background: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-            border: 3px solid #f8f9fa;
-            font-size: 2.5rem;
-            color: #667eea;
-        }
-
-        .header h1 {
-            color: #2c3e50;
-            font-size: 3em;
-            margin: 0;
-            font-weight: 300;
-        }
-
-        .header p {
-            color: #7f8c8d;
-            font-size: 1.2em;
-            line-height: 1.6;
-            max-width: 600px;
-            margin: 20px auto 0;
-        }
-
-        .options-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 30px;
-            margin-top: 40px;
-        }
-
-        .option-card {
-            background: #f8f9fa;
-            border-radius: 15px;
-            padding: 30px;
-            text-align: center;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            border: 2px solid transparent;
-            cursor: pointer;
-        }
-
-        .option-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
-            border-color: #3498db;
-        }
-
-        .option-icon {
-            font-size: 4em;
-            margin-bottom: 20px;
-            display: block;
-        }
-
-        .option-title {
-            font-size: 1.8em;
-            color: #2c3e50;
-            margin-bottom: 15px;
-            font-weight: bold;
-        }
-
-        .option-description {
-            color: #7f8c8d;
-            line-height: 1.6;
-            margin-bottom: 25px;
-            font-size: 1.1em;
-        }
-
-        .option-features {
-            text-align: left;
-            margin-bottom: 25px;
-        }
-
-        .option-features li {
-            padding: 5px 0 5px 20px;
-            color: #34495e;
-            position: relative;
-            list-style: none;
-        }
-
-        .option-features li:before {
-            content: "\2713";
-            color: #27ae60;
-            font-weight: bold;
-            position: absolute;
-            left: 0;
-        }
-
-        .option-button {
-            background: #3498db;
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            border-radius: 8px;
-            font-size: 1.1em;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background 0.3s ease;
-            width: 100%;
-        }
-
-        .option-button:hover {
-            background: #2980b9;
-        }
-
-        .footer {
-            text-align: center;
-            margin-top: 50px;
-            padding-top: 30px;
-            border-top: 1px solid #ecf0f1;
-            color: #95a5a6;
-        }
-
-        .status-indicator {
-            background: #e3f2fd;
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            text-align: center;
-            border-left: 4px solid #2196f3;
-        }
-
-        #loading-indicator {
-            display: none;
-            text-align: center;
-            margin-top: 20px;
-            font-weight: bold;
-            color: #555;
-            animation: pulse 1s infinite;
-        }
-
-        @keyframes pulse {
-            0% { opacity: 0.3; }
-            50% { opacity: 1; }
-            100% { opacity: 0.3; }
-        }
-    </style>
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
     <div class="container">
@@ -212,78 +43,18 @@
             </div>
         </div>
 
-        <div style="margin-top: 50px;">
-            <div id="scenario-content" class="status-indicator">
-                Click “Next Scenario” to begin.
-            </div>
-            <button id="next-btn" class="option-button" style="width: auto; margin: 0 auto; display: block;">
-                Next Scenario
-            </button>
-            <div id="loading-indicator">🔄 Generating scenario...</div>
-        </div>
-
         <div class="footer">
             <p>© 2025 Financial Institution Training Hub | Powered by AI-Generated Scenarios</p>
         </div>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            document.getElementById('next-btn').addEventListener('click', async () => {
-                const btn = document.getElementById('next-btn');
-                const content = document.getElementById('scenario-content');
-                const loader = document.getElementById('loading-indicator');
-
-                btn.disabled = true;
-                loader.style.display = 'block';
-                content.innerHTML = '';
-
-                try {
-                    const res = await fetch('/api/generate-scenario', { method: 'POST' });
-                    const data = await res.json();
-
-                    if (data.error) {
-                        content.innerText = data.error;
-                    } else {
-                        content.innerHTML = `
-                            <h2>${data.title}</h2>
-                            <p>${data.description}</p>
-                            <ul>
-                              ${data.questions.map(q => `
-                                <li>
-                                  <strong>${q.department}:</strong> ${q.questionText}
-                                  <ul>
-                                    ${q.choices.map((c, i) => `
-                                      <li>
-                                        <label>
-                                          <input type="radio" nname="q-${q.department}-${q.questionText.replace(/\\s+/g, '-')}"
-" />
-                                          ${c.text} <em>(${c.type})</em> – ${c.explanation}
-                                        </label>
-                                      </li>
-                                    `).join('')}
-                                  </ul>
-                                </li>
-                              `).join('')}
-                            </ul>
-                        `;
-                    }
-                } catch (err) {
-                    content.innerText = 'Failed to load scenario.';
-                }
-
-                loader.style.display = 'none';
-                btn.disabled = false;
-                btn.scrollIntoView({ behavior: 'smooth' });
-            });
-        });
-
         function goToGame() {
-            window.location.href = '/game';
+            window.location.href = '/game.html';
         }
 
         function goToDiscussion() {
-            window.location.href = '/discussion';
+            window.location.href = '/discussion.html';
         }
     </script>
 </body>
