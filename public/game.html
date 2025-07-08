@@ -76,7 +76,10 @@ async function generateScenario() {
   const res = await fetch('/api/generate-scenario', { method: 'POST' });
   const data = await res.json();
   state.scenario = data.description;
-  state.questions = data.questions.map(q => ({ ...q, choices: shuffle([...q.choices]) }));
+  state.questions = (data.questions || [])
+  .filter(q => q && q.department && Array.isArray(q.choices)) // prevent undefined entries
+  .map(q => ({ ...q, choices: shuffle([...q.choices]) }));
+
   state.currentIndex = 0;
   document.getElementById('introBox').classList.add('hidden');
   document.getElementById('scenarioBox').classList.remove('hidden');
