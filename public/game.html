@@ -3,77 +3,188 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Department Discussion Tool</title>
+  <title>Crisis Management Game</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/css/style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 </head>
 <body>
   <div class="header">
     <img src="/images/bank-logo.png" alt="SSBTX Logo" />
-    <div class="title">Department Discussion Tool</div>
+    <div class="title">Crisis Management Game</div>
   </div>
 
+  <div class="scoreboard" id="scoreboard"></div>
+
   <div class="intro-box" id="introBox">
-    <h2>Welcome to the Department Scenario Generator</h2>
-    <p>Select a department to generate a discussion-based scenario with 4 complexity levels.</p>
+    <h2>Welcome to the SSBTX Crisis Management Simulation</h2>
+    <p>In this collaborative game, each department will respond to a bank-specific crisis. Work together to resolve the scenario.</p>
+    <p>The first department to reach 50 points wins. Good luck!</p>
+    <p><strong>Click "Generate New Crisis Scenario" to begin.</strong></p>
+  </div>
+
+  <div class="scenario-box hidden" id="scenarioBox">
+    <h2>Scenario</h2>
+    <p id="scenarioText"></p>
+  </div>
+
+  <div class="question-box" id="questionContainer"></div>
+
+  <div class="next-button hidden" id="nextContainer">
+    <button onclick="nextQuestion()">Next Question</button>
   </div>
 
   <div class="controls">
-    <label for="departmentSelect"><strong>Select Department:</strong></label>
-    <select id="departmentSelect">
-      <option value="">-- Choose a department --</option>
-      <option value="CEO/SVPs">CEO/SVPs</option>
-      <option value="IT/Security">IT/Security</option>
-      <option value="HR">HR</option>
-      <option value="Finance">Finance</option>
-      <option value="Loans">Loans</option>
-      <option value="Accounting">Accounting</option>
-      <option value="Deposits">Deposits</option>
-    </select>
-    <button onclick="generateDiscussionScenario()">Generate Discussion Scenario</button>
+    <button onclick="generateScenario()">Generate New Crisis Scenario</button>
+    <button onclick="resetGame()">Reset Game</button>
     <button onclick="window.location.href='index.html'">Back to Home</button>
   </div>
 
-  <div id="discussionBox" class="scenario-box hidden">
-    <h2 id="discussionTitle"></h2>
-    <p id="discussionDescription"></p>
-    <ul id="discussionQuestions"></ul>
-  </div>
+<script>
+const departments = [
+  { name: 'CEO/SVPs', color: '#8e44ad' },
+  { name: 'IT/Security', color: '#e74c3c' },
+  { name: 'HR', color: '#2980b9' },
+  { name: 'Finance', color: '#27ae60' },
+  { name: 'Loans', color: '#f39c12' },
+  { name: 'Accounting', color: '#9b59b6' },
+  { name: 'Deposits', color: '#2ecc71' }
+];
 
-  <script>
-    async function generateDiscussionScenario() {
-      const dept = document.getElementById('departmentSelect').value;
-      if (!dept) return alert('Please select a department first.');
+let state = {
+  scores: {},
+  questions: [],
+  currentIndex: 0,
+  scenario: ''
+};
 
-      const res = await fetch('/api/generate-scenario', { method: 'POST' });
-      const data = await res.json();
+departments.forEach(dep => (state.scores[dep.name] = { points: 0 }));
 
-      if (!data || !Array.isArray(data.questions)) {
-        alert('Failed to load scenario.');
-        return;
-      }
+function renderScoreboard() {
+  const sb = document.getElementById('scoreboard');
+  sb.innerHTML = '';
+  departments.forEach(dep => {
+    const div = document.createElement('div');
+    div.className = 'department';
+    div.style.backgroundColor = dep.color;
+    div.innerHTML = `<div>${dep.name}</div><div class="score">${state.scores[dep.name].points}</div>`;
+    sb.appendChild(div);
+  });
+}
 
-      // Filter questions for selected department
-      const questions = data.questions.filter(q => q.department === dept);
-      if (questions.length === 0) {
-        alert('No questions returned for this department. Try again.');
-        return;
-      }
+async function generateScenario() {
+  const res = await fetch('/api/generate-scenario', { method: 'POST' });
+  const data = await res.json();
+  state.scenario = data.description;
+  state.questions = data.questions.map(q => ({ ...q, choices: shuffle([...q.choices]) }));
+  state.currentIndex = 0;
+  document.getElementById('introBox').classList.add('hidden');
+  document.getElementById('scenarioBox').classList.remove('hidden');
+  document.getElementById('scenarioText').textContent = state.scenario;
+  renderScoreboard();
+  renderQuestion();
+}
 
-      document.getElementById('introBox').classList.add('hidden');
-      document.getElementById('discussionBox').classList.remove('hidden');
-      document.getElementById('discussionTitle').textContent = data.title;
-      document.getElementById('discussionDescription').textContent = data.description;
+function shuffle(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
 
-      const list = document.getElementById('discussionQuestions');
-      list.innerHTML = '';
-      questions.forEach(q => {
-        const li = document.createElement('li');
-        li.innerHTML = `<strong>${q.questionText}</strong><ul>$
-          {q.choices.map(c => `<li>${c.text} – <em>${c.explanation}</em></li>`).join('')}</ul>`;
-        list.appendChild(li);
-      });
-    }
-  </script>
+function renderQuestion() {
+  const container = document.getElementById('questionContainer');
+  container.innerHTML = '';
+  document.getElementById('nextContainer').classList.add('hidden');
+
+  const q = state.questions[state.currentIndex];
+  const depColor = departments.find(d => d.name === q.department)?.color || '#ccc';
+
+  container.innerHTML = `
+    <h3 style="color:${depColor};">${q.department}</h3>
+    <h2>${q.questionText}</h2>
+    <div class="choices">
+      ${q.choices.map(choice => `
+        <button class="choice-btn" onclick='selectAnswer(this, "${choice.text}", "${choice.type}", "${q.department}", \`${choice.explanation}\`)'>
+          ${choice.text}
+        </button>`).join('')}
+    </div>
+  `;
+}
+
+function selectAnswer(btn, text, type, department, explanation) {
+  const buttons = document.querySelectorAll('.choice-btn');
+  buttons.forEach(b => b.disabled = true);
+
+  if (type === "correct") {
+    btn.classList.add('correct');
+    state.scores[department].points += 10;
+  } else if (type === "neutral") {
+    btn.style.backgroundColor = "#f1c40f";
+    btn.style.color = "#fff";
+    state.scores[department].points += 5;
+  } else {
+    btn.classList.add('incorrect');
+    state.scores[department].points -= 10;
+  }
+
+  const expl = document.createElement('div');
+  expl.className = 'explanation-box';
+  expl.innerHTML = `<p style="margin-top:12px;"><strong>Explanation:</strong> ${explanation}</p>`;
+  btn.parentElement.appendChild(expl);
+
+  renderScoreboard();
+
+  if (state.scores[department].points >= 50) {
+    declareWinner(department);
+    launchConfetti();
+  } else {
+    document.getElementById('nextContainer').classList.remove('hidden');
+  }
+}
+
+function nextQuestion() {
+  state.currentIndex++;
+  if (state.currentIndex >= state.questions.length) {
+    document.getElementById('scenarioText').textContent = '✅ Scenario Complete!';
+    document.getElementById('questionContainer').innerHTML = '';
+    document.getElementById('nextContainer').classList.add('hidden');
+  } else {
+    renderQuestion();
+  }
+}
+
+function resetGame() {
+  state = { scores: {}, questions: [], currentIndex: 0, scenario: '' };
+  departments.forEach(dep => (state.scores[dep.name] = { points: 0 }));
+  renderScoreboard();
+  document.getElementById('introBox').classList.remove('hidden');
+  document.getElementById('scenarioBox').classList.add('hidden');
+  document.getElementById('scenarioText').textContent = '';
+  document.getElementById('questionContainer').innerHTML = '';
+  document.getElementById('nextContainer').classList.add('hidden');
+}
+
+function declareWinner(winner) {
+  const banner = document.createElement('div');
+  banner.style.backgroundColor = '#2ecc71';
+  banner.style.color = '#fff';
+  banner.style.textAlign = 'center';
+  banner.style.padding = '20px';
+  banner.style.marginTop = '30px';
+  banner.style.borderRadius = '12px';
+  banner.style.fontSize = '20px';
+  banner.style.fontWeight = 'bold';
+  banner.textContent = `🎉 ${winner} wins the game with 50 points!`;
+  document.body.appendChild(banner);
+}
+
+function launchConfetti() {
+  confetti({ particleCount: 200, spread: 160, origin: { y: 0.6 } });
+}
+
+renderScoreboard();
+</script>
 </body>
 </html>
