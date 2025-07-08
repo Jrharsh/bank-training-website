@@ -52,16 +52,18 @@ Rules:
     let scenario;
     try {
       scenario = JSON.parse(content);
-      const allowedDepartments = {
+
+// Normalize department names
+const allowedDepartments = {
   'CEO': 'CEO/SVPs',
   'SVPs': 'CEO/SVPs',
   'IT': 'IT/Security',
   'Security': 'IT/Security',
-  'HR': 'HR',
   'Human Resources': 'HR',
+  'HR': 'HR',
+  'Accounting': 'Accounting',
   'Finance': 'Finance',
   'Loans': 'Loans',
-  'Accounting': 'Accounting',
   'Deposits': 'Deposits'
 };
 
