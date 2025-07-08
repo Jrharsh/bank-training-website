@@ -10,14 +10,14 @@
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             padding: 20px;
         }
-        
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -26,12 +26,12 @@
             padding: 40px;
             box-shadow: 0 20px 40px rgba(0,0,0,0.1);
         }
-        
+
         .header {
             text-align: center;
             margin-bottom: 50px;
         }
-        
+
         .bank-logo {
             width: 120px;
             height: 120px;
@@ -46,27 +46,14 @@
             font-size: 2.5rem;
             color: #667eea;
         }
-        
-        .header-icon-text {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-        
-        .header-icon {
-            font-size: 3rem;
-            color: #667eea;
-        }
-        
+
         .header h1 {
             color: #2c3e50;
             font-size: 3em;
             margin: 0;
             font-weight: 300;
         }
-        
+
         .header p {
             color: #7f8c8d;
             font-size: 1.2em;
@@ -74,14 +61,14 @@
             max-width: 600px;
             margin: 20px auto 0;
         }
-        
+
         .options-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
             gap: 30px;
             margin-top: 40px;
         }
-        
+
         .option-card {
             background: #f8f9fa;
             border-radius: 15px;
@@ -91,58 +78,53 @@
             border: 2px solid transparent;
             cursor: pointer;
         }
-        
+
         .option-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 15px 30px rgba(0,0,0,0.15);
             border-color: #3498db;
         }
-        
+
         .option-icon {
             font-size: 4em;
             margin-bottom: 20px;
             display: block;
         }
-        
+
         .option-title {
             font-size: 1.8em;
             color: #2c3e50;
             margin-bottom: 15px;
             font-weight: bold;
         }
-        
+
         .option-description {
             color: #7f8c8d;
             line-height: 1.6;
             margin-bottom: 25px;
             font-size: 1.1em;
         }
-        
+
         .option-features {
             text-align: left;
             margin-bottom: 25px;
         }
-        
-        .option-features ul {
-            list-style: none;
-            padding: 0;
-        }
-        
+
         .option-features li {
-            padding: 5px 0;
+            padding: 5px 0 5px 20px;
             color: #34495e;
             position: relative;
-            padding-left: 20px;
+            list-style: none;
         }
-        
+
         .option-features li:before {
-            content: "✓";
+            content: "\2713";
             color: #27ae60;
             font-weight: bold;
             position: absolute;
             left: 0;
         }
-        
+
         .option-button {
             background: #3498db;
             color: white;
@@ -155,27 +137,11 @@
             transition: background 0.3s ease;
             width: 100%;
         }
-        
+
         .option-button:hover {
             background: #2980b9;
         }
-        
-        .game-card {
-            border-left: 5px solid #e74c3c;
-        }
-        
-        .game-card .option-icon {
-            color: #e74c3c;
-        }
-        
-        .discussion-card {
-            border-left: 5px solid #27ae60;
-        }
-        
-        .discussion-card .option-icon {
-            color: #27ae60;
-        }
-        
+
         .footer {
             text-align: center;
             margin-top: 50px;
@@ -193,115 +159,131 @@
             border-left: 4px solid #2196f3;
         }
 
-        .status-indicator.success {
-            background: #d4edda;
-            border-left-color: #28a745;
+        #loading-indicator {
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+            font-weight: bold;
+            color: #555;
+            animation: pulse 1s infinite;
         }
 
-        .status-indicator.error {
-            background: #f8d7da;
-            border-left-color: #dc3545;
+        @keyframes pulse {
+            0% { opacity: 0.3; }
+            50% { opacity: 1; }
+            100% { opacity: 0.3; }
         }
     </style>
 </head>
 <body>
     <div class="container">
-     <div class="header">
-    <div class="bank-logo">
-        <img src="/images/bank-logo.png" alt="SSBTX Bank Logo" style="width: 80px; height: 80px; object-fit: contain;">
-    </div>
-    <h1>SSBTX Table-Top Training Hub</h1>
-    <p>Choose your training experience: Competitive crisis management simulation or collaborative department discussions</p>
-</div>
+        <div class="header">
+            <div class="bank-logo">
+                <img src="/images/bank-logo.png" alt="SSBTX Bank Logo" style="width: 80px; height: 80px; object-fit: contain;">
+            </div>
+            <h1>SSBTX Table-Top Training Hub</h1>
+            <p>Choose your training experience: Competitive crisis management simulation or collaborative department discussions</p>
+        </div>
 
-        
-        
         <div class="options-grid">
-            <!-- Crisis Management Game -->
             <div class="option-card game-card" onclick="goToGame()">
                 <span class="option-icon">🎮</span>
                 <h2 class="option-title">Crisis Management Game</h2>
-                <p class="option-description">
-                    Interactive simulation where all departments work together to navigate a crisis through 21 challenging decisions.
-                </p>
+                <p class="option-description">Interactive simulation where all departments work together to navigate a crisis.</p>
                 <div class="option-features">
                     <ul>
                         <li>21 questions per scenario</li>
-                        <li>All 7 departments participate</li>
                         <li>Scoring and strike system</li>
-                        <li>Competitive team dynamics</li>
-                        <li>AI-generated crisis scenarios</li>
-                        <li>Progress tracking across rounds</li>
                     </ul>
                 </div>
                 <button class="option-button">Start Crisis Simulation</button>
             </div>
-            
-            <!-- Department Discussion Tool -->
             <div class="option-card discussion-card" onclick="goToDiscussion()">
                 <span class="option-icon">💬</span>
                 <h2 class="option-title">Department Discussion Tool</h2>
-                <p class="option-description">
-                    Department-specific scenario generator for focused discussions and training sessions.
-                </p>
+                <p class="option-description">Department-specific scenario generator for focused training sessions.</p>
                 <div class="option-features">
                     <ul>
-                        <li>Choose from 10 departments</li>
-                        <li>Targeted scenarios per department</li>
-                        <li>Discussion-focused format</li>
-                        <li>No scoring or competition</li>
+                        <li>10 departments</li>
                         <li>Collaborative learning</li>
-                        <li>4 complexity levels</li>
                     </ul>
                 </div>
                 <button class="option-button">Start Department Discussion</button>
             </div>
         </div>
-        
+
+        <div style="margin-top: 50px;">
+            <div id="scenario-content" class="status-indicator">
+                Click “Next Scenario” to begin.
+            </div>
+            <button id="next-btn" class="option-button" style="width: auto; margin: 0 auto; display: block;">
+                Next Scenario
+            </button>
+            <div id="loading-indicator">🔄 Generating scenario...</div>
+        </div>
+
         <div class="footer">
             <p>© 2025 Financial Institution Training Hub | Powered by AI-Generated Scenarios</p>
         </div>
     </div>
 
     <script>
-        console.log('Training Hub Homepage Loaded');
-        
-        // Test backend connection
-        async function testConnection() {
-            try {
-                const response = await fetch('/api/test');
-                const data = await response.json();
-                document.getElementById('statusText').textContent = '✅ Backend connected successfully';
-                document.getElementById('statusIndicator').className = 'status-indicator success';
-            } catch (error) {
-                document.getElementById('statusText').textContent = '❌ Backend connection failed - some features may not work';
-                document.getElementById('statusIndicator').className = 'status-indicator error';
-            }
-        }
-        
-        function goToGame() {
-            console.log('Navigating to Crisis Management Game');
-            window.location.href = '/game';
-        }
-        
-        function goToDiscussion() {
-            console.log('Navigating to Department Discussion Tool');
-            window.location.href = '/discussion';
-        }
-        
-        // Add hover effects
-        document.querySelectorAll('.option-card').forEach(card => {
-            card.addEventListener('mouseenter', function() {
-                this.style.background = '#ffffff';
-            });
-            
-            card.addEventListener('mouseleave', function() {
-                this.style.background = '#f8f9fa';
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('next-btn').addEventListener('click', async () => {
+                const btn = document.getElementById('next-btn');
+                const content = document.getElementById('scenario-content');
+                const loader = document.getElementById('loading-indicator');
+
+                btn.disabled = true;
+                loader.style.display = 'block';
+                content.innerHTML = '';
+
+                try {
+                    const res = await fetch('/api/generate-scenario', { method: 'POST' });
+                    const data = await res.json();
+
+                    if (data.error) {
+                        content.innerText = data.error;
+                    } else {
+                        content.innerHTML = `
+                            <h2>${data.title}</h2>
+                            <p>${data.description}</p>
+                            <ul>
+                              ${data.questions.map(q => `
+                                <li>
+                                  <strong>${q.department}:</strong> ${q.questionText}
+                                  <ul>
+                                    ${q.choices.map((c, i) => `
+                                      <li>
+                                        <label>
+                                          <input type="radio" name="q-${q.department}-${i}" />
+                                          ${c.text} <em>(${c.type})</em> – ${c.explanation}
+                                        </label>
+                                      </li>
+                                    `).join('')}
+                                  </ul>
+                                </li>
+                              `).join('')}
+                            </ul>
+                        `;
+                    }
+                } catch (err) {
+                    content.innerText = 'Failed to load scenario.';
+                }
+
+                loader.style.display = 'none';
+                btn.disabled = false;
+                btn.scrollIntoView({ behavior: 'smooth' });
             });
         });
 
-        // Test connection when page loads
-        document.addEventListener('DOMContentLoaded', testConnection);
+        function goToGame() {
+            window.location.href = '/game';
+        }
+
+        function goToDiscussion() {
+            window.location.href = '/discussion';
+        }
     </script>
 </body>
 </html>

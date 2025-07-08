@@ -43,8 +43,19 @@ Rules:
       })
     });
     const data = await response.json();
-    const content = data.choices[0].message.content.trim();
-    const scenario = JSON.parse(content);
+    if (!data.choices || !data.choices[0] || !data.choices[0].message) {
+      return res.status(500).json({ error: 'Invalid response from OpenAI API', data });
+    }
+    // Remove code block markers if present
+    let content = data.choices[0].message.content.trim();
+    content = content.replace(/```json/g, '').replace(/```/g, '').trim();
+    let scenario;
+    try {
+      scenario = JSON.parse(content);
+    } catch (parseError) {
+      console.error('Error parsing scenario JSON:', parseError, content);
+      return res.status(500).json({ error: 'Failed to parse scenario JSON', content });
+    }
     res.status(200).json(scenario);
   } catch (err) {
     console.error('Error generating scenario:', err);

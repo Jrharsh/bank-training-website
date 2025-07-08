@@ -29,8 +29,20 @@ export default async function handler(req, res) {
     });
 
     const data = await response.json();
+    console.log('OpenAI API response:', data);
+
+    if (!data.choices || !data.choices[0] || !data.choices[0].message) {
+      return res.status(500).json({ error: 'Invalid response from OpenAI API', data });
+    }
+
     const content = data.choices[0].message.content.trim().replace(/```json/g, '').replace(/```/g, '');
-    const scenario = JSON.parse(content);
+    let scenario;
+    try {
+      scenario = JSON.parse(content);
+    } catch (parseError) {
+      console.error('Error parsing scenario JSON:', parseError, content);
+      return res.status(500).json({ error: 'Failed to parse scenario JSON', content });
+    }
 
     res.status(200).json(scenario);
   } catch (error) {
