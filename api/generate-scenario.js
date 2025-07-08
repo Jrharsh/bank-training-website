@@ -52,6 +52,24 @@ Rules:
     let scenario;
     try {
       scenario = JSON.parse(content);
+      const allowedDepartments = {
+  'CEO': 'CEO/SVPs',
+  'SVPs': 'CEO/SVPs',
+  'IT': 'IT/Security',
+  'Security': 'IT/Security',
+  'HR': 'HR',
+  'Human Resources': 'HR',
+  'Finance': 'Finance',
+  'Loans': 'Loans',
+  'Accounting': 'Accounting',
+  'Deposits': 'Deposits'
+};
+
+scenario.questions = scenario.questions.map(q => {
+  const normalized = allowedDepartments[q.department.trim()] || q.department.trim();
+  return { ...q, department: normalized };
+}).filter(q => Object.values(allowedDepartments).includes(q.department));
+
     } catch (parseError) {
       console.error('Error parsing scenario JSON:', parseError, content);
       return res.status(500).json({ error: 'Failed to parse scenario JSON', content });
