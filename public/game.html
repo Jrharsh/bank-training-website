@@ -75,10 +75,17 @@ function renderScoreboard() {
 async function generateScenario() {
   const res = await fetch('/api/generate-scenario', { method: 'POST' });
   const data = await res.json();
+  
+  console.log('API Response:', data);
+  console.log('Raw questions:', data.questions);
+  
   state.scenario = data.description;
   state.questions = (data.questions || [])
-  .filter(q => q && q.department && q.questionText && Array.isArray(q.choices)) // Added q.questionText check
+  .filter(q => q && q.department && q.questionText && Array.isArray(q.choices))
   .map(q => ({ ...q, choices: shuffle([...q.choices]) }));
+
+  console.log('Filtered questions:', state.questions);
+  console.log('Number of questions:', state.questions.length);
 
   state.currentIndex = 0;
   document.getElementById('introBox').classList.add('hidden');
@@ -91,7 +98,7 @@ async function generateScenario() {
 function shuffle(array) {
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[2]] = [array[j], array[i]];
+    [array[i], array[j]] = [array[j], array[i]];
   }
   return array;
 }
