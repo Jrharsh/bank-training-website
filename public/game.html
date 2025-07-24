@@ -84,12 +84,17 @@ async function generateScenario() {
     });
 
     const data = await res.json();
+    state.scenario = data.description;
+
     console.log('API Response:', data);
 
-    state.scenario = data.description;
-    state.questions = (data.questions || [])
-      .filter(q => q && q.department && q.questionText && Array.isArray(q.choices))
-      .map(q => ({ ...q, choices: shuffle([...q.choices]) }));
+    state.questions = Array.isArray(data.questions)
+  ? data.questions.map(q => ({
+      ...q,
+      choices: shuffle([...q.choices])
+    }))
+  : [];
+
 
     console.log('Filtered questions:', state.questions);
     console.log('Number of questions:', state.questions.length);
