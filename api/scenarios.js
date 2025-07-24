@@ -101,5 +101,6 @@ export default async function handler(req, res) {
   res.setHeader('Expires', '-1');
   res.setHeader('X-Content-Type-Options', 'nosniff');
 
-  res.status(200).json(response);
+  console.log('Generated questions:', questions);
+res.status(200).json(response);
 }
