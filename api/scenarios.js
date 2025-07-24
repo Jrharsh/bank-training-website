@@ -101,6 +101,11 @@ export default async function handler(req, res) {
   res.setHeader('Expires', '-1');
   res.setHeader('X-Content-Type-Options', 'nosniff');
 
-  console.log('Generated questions:', questions);
+console.log('Selected Scenario:', selectedScenario.title);
+console.log('Generated Questions:', questions.map(q => ({
+  department: q.department,
+  text: q.questionText
+})));
+
 res.status(200).json(response);
 }
