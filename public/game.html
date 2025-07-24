@@ -73,26 +73,37 @@ function renderScoreboard() {
 }
 
 async function generateScenario() {
-  const res = await fetch('/api/scenarios?...');
-  const data = await res.json();
-  
-  console.log('API Response:', data);
-  console.log('Raw questions:', data.questions);
-  
-  state.scenario = data.description;
-  state.questions = (data.questions || [])
-  .filter(q => q && q.department && q.questionText && Array.isArray(q.choices))
-  .map(q => ({ ...q, choices: shuffle([...q.choices]) }));
+  const timestamp = Date.now();
+  const randomParam = Math.random();
 
-  console.log('Filtered questions:', state.questions);
-  console.log('Number of questions:', state.questions.length);
+  try {
+    const res = await fetch(`/api/scenarios?t=${timestamp}&r=${randomParam}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ timestamp, entropy: Math.random() })
+    });
 
-  state.currentIndex = 0;
-  document.getElementById('introBox').classList.add('hidden');
-  document.getElementById('scenarioBox').classList.remove('hidden');
-  document.getElementById('scenarioText').textContent = state.scenario;
-  renderScoreboard();
-  renderQuestion();
+    const data = await res.json();
+    console.log('API Response:', data);
+
+    state.scenario = data.description;
+    state.questions = (data.questions || [])
+      .filter(q => q && q.department && q.questionText && Array.isArray(q.choices))
+      .map(q => ({ ...q, choices: shuffle([...q.choices]) }));
+
+    console.log('Filtered questions:', state.questions);
+    console.log('Number of questions:', state.questions.length);
+
+    state.currentIndex = 0;
+    document.getElementById('introBox').classList.add('hidden');
+    document.getElementById('scenarioBox').classList.remove('hidden');
+    document.getElementById('scenarioText').textContent = state.scenario;
+    renderScoreboard();
+    renderQuestion();
+  } catch (err) {
+    console.error('Error fetching scenario:', err);
+    alert('Failed to load scenario.');
+  }
 }
 
 function shuffle(array) {
@@ -108,19 +119,12 @@ function renderQuestion() {
   container.innerHTML = '';
   document.getElementById('nextContainer').classList.add('hidden');
 
-  // Check if we have valid questions first
-  if (!state.questions || state.currentIndex >= state.questions.length) {
-    return;
-  }
+  if (!state.questions || state.currentIndex >= state.questions.length) return;
 
   const q = state.questions[state.currentIndex];
-  
-  // Check if question exists and has required properties
-  if (!q || !q.department || !q.questionText) {
-    return;
-  }
+  if (!q || !q.department || !q.questionText) return;
 
-  const depColor = q.department ? (departments.find(d => d.name === q.department)?.color || '#ccc') : '#ccc';
+  const depColor = departments.find(d => d.name === q.department)?.color || '#ccc';
 
   container.innerHTML = `
     <h3 style="color:${depColor};">${q.department}</h3>
@@ -135,8 +139,7 @@ function renderQuestion() {
 }
 
 function selectAnswer(btn, text, type, department, explanation) {
-  const buttons = document.querySelectorAll('.choice-btn');
-  buttons.forEach(b => b.disabled = true);
+  document.querySelectorAll('.choice-btn').forEach(b => b.disabled = true);
 
   if (type === "correct") {
     btn.classList.add('correct');
