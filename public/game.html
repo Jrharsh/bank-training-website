@@ -88,12 +88,14 @@ async function generateScenario() {
 
     console.log('API Response:', data);
 
-    state.questions = Array.isArray(data.questions)
+  state.questions = Array.isArray(data.questions)
   ? data.questions.map(q => ({
-      ...q,
+      department: q.department,
+      questionText: q.questionText,
       choices: shuffle([...q.choices])
     }))
   : [];
+
 
 
     console.log('Filtered questions:', state.questions);
