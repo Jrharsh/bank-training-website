@@ -73,7 +73,7 @@ function renderScoreboard() {
 }
 
 async function generateScenario() {
-  const res = await fetch('/api/generate-scenarios', { method: 'POST' });
+  const res = await fetch('/api/scenarios?...');
   const data = await res.json();
   
   console.log('API Response:', data);
