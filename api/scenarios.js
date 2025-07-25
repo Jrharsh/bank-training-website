@@ -1,88 +1,69 @@
-// /pages/api/scenarios.js
-import { Configuration, OpenAIApi } from 'openai';
+import { OpenAI } from 'openai';
 
-const configuration = new Configuration({
-  apiKey: process.env.OPENAI_API_KEY,
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY
 });
-const openai = new OpenAIApi(configuration);
-
-const departments = [
-  'CEO/SVPs',
-  'IT/Security',
-  'HR',
-  'Finance',
-  'Loans',
-  'Accounting',
-  'Deposits'
-];
-
-const promptBuilder = (scenario) => `
-You are a crisis response training AI for banks. A scenario is presented to 7 different departments. Your job is to generate a total of 7 unique, department-specific multiple-choice questions.
-
-Crisis Scenario: ${scenario}
-
-For each department, write:
-- A question relevant to their role in this crisis
-- 4 answer choices:
-  - One clearly best (type: "correct")
-  - One neutral (type: "neutral")
-  - Two incorrect (type: "wrong")
-- Each choice must have a brief explanation
-
-Return format:
-[
-  {
-    department: "CEO/SVPs",
-    questionText: "Your question here...",
-    choices: [
-      { text: "Option A", type: "correct", explanation: "Why it's correct" },
-      { text: "Option B", type: "neutral", explanation: "Why it's neutral" },
-      { text: "Option C", type: "wrong", explanation: "Why it's wrong" },
-      { text: "Option D", type: "wrong", explanation: "Why it's wrong" }
-    ]
-  },
-  ...
-]
-`;
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const scenarioList = [
-    "A ransomware group has encrypted the bank's core systems. Online banking, payroll, and internal networks are offline. Attackers demand $1 million or they will leak customer data.",
-    "A flash flood has destroyed the main branch and physical data center. Customer records and hardware are lost.",
-    "An employee in the wire department embezzled $2.3 million. The fraud lasted 6 months before detection."
-  ];
+  const systemPrompt = `
+You are a banking crisis simulation AI.
 
-  const randomScenario = scenarioList[Math.floor(Math.random() * scenarioList.length)];
+Your task:
+1. Generate one realistic crisis scenario (title + 1–3 sentences description).
+2. Then generate 7 unique questions, one per department:
+   - CEO/SVPs
+   - IT/Security
+   - HR
+   - Finance
+   - Loans
+   - Accounting
+   - Deposits
+
+Each question must include:
+- questionText relevant to both the scenario and department’s responsibilities.
+- An array of choices with exactly 4 elements, each object containing:
+  - text: Answer text.
+  - type: One of "correct", "neutral", "wrong" (1 correct, 1 neutral, 2 wrong).
+  - explanation: Brief rationale.
+
+Return only valid JSON in this exact structure:
+
+{
+  "title": "Your scenario title",
+  "description": "Your scenario description",
+  "questions": [
+    {
+      "department": "CEO/SVPs",
+      "questionText": "...",
+      "choices": [
+        { "text": "...", "type": "correct", "explanation": "..." },
+        { "text": "...", "type": "neutral", "explanation": "..." },
+        { "text": "...", "type": "wrong", "explanation": "..." },
+        { "text": "...", "type": "wrong", "explanation": "..." }
+      ]
+    }
+  ]
+}
+`;
 
   try {
-    const completion = await openai.createChatCompletion({
+    const completion = await openai.chat.completions.create({
       model: 'gpt-4',
       messages: [
-        {
-          role: 'system',
-          content: 'You are an AI that generates crisis management questions for bank departments.'
-        },
-        {
-          role: 'user',
-          content: promptBuilder(randomScenario)
-        }
+        { role: 'system', content: systemPrompt },
+        { role: 'user', content: 'Generate one crisis scenario with seven department‑specific questions.' }
       ],
-      temperature: 0.7
+      temperature: 0.8
     });
 
-    const parsed = JSON.parse(completion.data.choices[0].message.content);
-
-    res.status(200).json({
-      title: "Bank Crisis: " + randomScenario.slice(0, 50) + '...',
-      description: randomScenario,
-      questions: parsed
-    });
+    const json = JSON.parse(completion.choices[0].message.content);
+    res.status(200).json(json);
   } catch (error) {
-    console.error('OpenAI error:', error?.response?.data || error.message);
-    res.status(500).json({ error: 'AI generation failed.' });
+    console.error('OpenAI error:', error.message);
+    res.status(500).json({ error: 'Scenario generation failed.' });
   }
 }
