@@ -57,34 +57,32 @@ export default async function handler(req, res) {
 
   const selectedScenario = scenarioTemplates[Math.floor(Math.random() * scenarioTemplates.length)];
 
-  const questions = departments.map(dep => {
-    return {
-      department: dep,
-      questionText: selectedScenario.prompts[dep],
-      choices: [
-        {
-          text: "Take proactive action based on department best practice",
-          type: "correct",
-          explanation: "This reflects industry best practices under pressure."
-        },
-        {
-          text: "Wait and escalate to next level",
-          type: "neutral",
-          explanation: "Not incorrect, but delays key decision-making."
-        },
-        {
-          text: "Take minimal action to avoid risk",
-          type: "wrong",
-          explanation: "Fails to address the urgency and may worsen impact."
-        },
-        {
-          text: "Ignore and let other departments handle it",
-          type: "wrong",
-          explanation: "Lack of engagement can lead to further damage."
-        }
-      ]
-    };
-  });
+  const questions = departments.map(dep => ({
+    department: dep,
+    questionText: selectedScenario.prompts[dep],
+    choices: [
+      {
+        text: "Take proactive action based on department best practice",
+        type: "correct",
+        explanation: "This reflects industry best practices under pressure."
+      },
+      {
+        text: "Wait and escalate to next level",
+        type: "neutral",
+        explanation: "Not incorrect, but delays key decision-making."
+      },
+      {
+        text: "Take minimal action to avoid risk",
+        type: "wrong",
+        explanation: "Fails to address the urgency and may worsen impact."
+      },
+      {
+        text: "Ignore and let other departments handle it",
+        type: "wrong",
+        explanation: "Lack of engagement can lead to further damage."
+      }
+    ]
+  }));
 
   const response = {
     title: selectedScenario.title,
@@ -96,16 +94,13 @@ export default async function handler(req, res) {
     }
   };
 
-  res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, private');
+  res.setHeader('Cache-Control', 'no-store');
   res.setHeader('Pragma', 'no-cache');
   res.setHeader('Expires', '-1');
   res.setHeader('X-Content-Type-Options', 'nosniff');
 
-console.log('Selected Scenario:', selectedScenario.title);
-console.log('Generated Questions:', questions.map(q => ({
-  department: q.department,
-  text: q.questionText
-})));
+  console.log("Scenario:", response.title);
+  console.log("Department Prompts:", questions.map(q => `${q.department}: ${q.questionText}`));
 
-res.status(200).json(response);
+  res.status(200).json(response);
 }
