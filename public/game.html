@@ -86,20 +86,13 @@ async function generateScenario() {
     const data = await res.json();
     state.scenario = data.description;
 
-    console.log('API Response:', data);
-
-  state.questions = Array.isArray(data.questions)
-  ? data.questions.map(q => ({
-      department: q.department,
-      questionText: q.questionText,
-      choices: shuffle([...q.choices])
-    }))
-  : [];
-
-
-
-    console.log('Filtered questions:', state.questions);
-    console.log('Number of questions:', state.questions.length);
+    state.questions = Array.isArray(data.questions)
+      ? data.questions.map(q => ({
+          department: q.department,
+          questionText: q.questionText,
+          choices: shuffle([...q.choices])
+        }))
+      : [];
 
     state.currentIndex = 0;
     document.getElementById('introBox').classList.add('hidden');
@@ -138,7 +131,7 @@ function renderQuestion() {
     <h2>${q.questionText}</h2>
     <div class="choices">
       ${q.choices.map(choice => `
-        <button class="choice-btn" onclick='selectAnswer(this, "${choice.text}", "${choice.type}", "${q.department}", \`${choice.explanation}\`)'>
+        <button class="choice-btn" onclick='selectAnswer(this, "${choice.text}", "${choice.type}", "${q.department}", \`${choice.explanation}\`)' >
           ${choice.text}
         </button>`).join('')}
     </div>
@@ -178,12 +171,22 @@ function selectAnswer(btn, text, type, department, explanation) {
 function nextQuestion() {
   state.currentIndex++;
   if (state.currentIndex >= state.questions.length) {
-    document.getElementById('scenarioText').textContent = '✅ Scenario Complete!';
-    document.getElementById('questionContainer').innerHTML = '';
-    document.getElementById('nextContainer').classList.add('hidden');
+    if (!checkWinner()) {
+      generateScenario();
+    }
   } else {
     renderQuestion();
   }
+}
+
+function checkWinner() {
+  const winner = departments.find(dep => state.scores[dep.name].points >= 50);
+  if (winner) {
+    declareWinner(winner.name);
+    launchConfetti();
+    return true;
+  }
+  return false;
 }
 
 function resetGame() {
