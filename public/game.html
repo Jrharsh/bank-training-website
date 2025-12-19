@@ -83,7 +83,17 @@ async function generateScenario() {
       body: JSON.stringify({ timestamp, entropy: Math.random() })
     });
 
-    const data = await res.json();
+    let data;
+    try {
+      data = await res.json();
+    } catch (_) {
+      data = null;
+    }
+
+    if (!res.ok || !data || !Array.isArray(data.questions)) {
+      const fallback = await fetch(`/api/static-random?t=${timestamp}&r=${randomParam}`);
+      data = await fallback.json();
+    }
     state.scenario = data.description;
 
     state.questions = Array.isArray(data.questions)
@@ -102,7 +112,20 @@ async function generateScenario() {
     renderQuestion();
   } catch (err) {
     console.error('Error fetching scenario:', err);
-    alert('Failed to load scenario.');
+    try {
+      const fb = await fetch('/api/static-random');
+      const data = await fb.json();
+      state.scenario = data.description;
+      state.questions = Array.isArray(data.questions) ? data.questions.map(q => ({ department: q.department, questionText: q.questionText, choices: shuffle([...q.choices]) })) : [];
+      state.currentIndex = 0;
+      document.getElementById('introBox').classList.add('hidden');
+      document.getElementById('scenarioBox').classList.remove('hidden');
+      document.getElementById('scenarioText').textContent = state.scenario;
+      renderScoreboard();
+      renderQuestion();
+    } catch (e2) {
+      alert('Failed to load scenario.');
+    }
   }
 }
 
