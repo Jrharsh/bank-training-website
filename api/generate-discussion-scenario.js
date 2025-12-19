@@ -1,52 +1,25 @@
+import { getRandomScenario } from "./static-scenarios.js";
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const { department, complexity } = req.body;
-  const apiKey = process.env.OPENAI_API_KEY;
-
-  if (!apiKey) {
-    return res.status(500).json({ error: 'OpenAI API key not configured' });
-  }
-
   try {
-    const response = await fetch('https://api.openai.com/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${apiKey}`
-      },
-      body: JSON.stringify({
-        model: 'gpt-3.5-turbo',
-        messages: [{
-          role: 'user',
-          content: `Create a realistic ${complexity} level banking scenario for the ${department} department. Include specific details and 4-5 discussion questions. Return as JSON: {"title": "...", "description": "...", "discussionPoints": [...]}`
-        }],
-        max_tokens: 1500,
-        temperature: 0.8
-      })
-    });
+    const { department = 'General', complexity = 'intermediate' } = req.body || {};
 
-    const data = await response.json();
-    console.log('OpenAI API response:', data);
+    // Use local static scenarios and adapt for discussion view
+    const base = getRandomScenario();
+    const title = `${base.title} — ${department}`;
+    const description = base.description;
+    const discussionPoints = (base.questions || [])
+      .map(q => (q && q.questionText) ? q.questionText : null)
+      .filter(Boolean)
+      .slice(0, 5);
 
-    if (!data.choices || !data.choices[0] || !data.choices[0].message) {
-      return res.status(500).json({ error: 'Invalid response from OpenAI API', data });
-    }
-
-    const content = data.choices[0].message.content.trim().replace(/```json/g, '').replace(/```/g, '');
-    let scenario;
-    try {
-      scenario = JSON.parse(content);
-    } catch (parseError) {
-      console.error('Error parsing scenario JSON:', parseError, content);
-      return res.status(500).json({ error: 'Failed to parse scenario JSON', content });
-    }
-
-    res.status(200).json(scenario);
+    return res.status(200).json({ title, description, discussionPoints, complexity, department });
   } catch (error) {
-    console.error('Error generating discussion scenario:', error);
-    res.status(500).json({ error: 'Failed to generate scenario' });
+    console.error('Static discussion scenario error:', error);
+    return res.status(500).json({ error: 'Failed to generate scenario from static data' });
   }
 }
