@@ -45,282 +45,38 @@ const departments = [
   { name: 'CEO/SVPs', color: '#8e44ad' },
   { name: 'IT/Security', color: '#e74c3c' },
   { name: 'HR', color: '#2980b9' },
-  { name: 'Finance', color: '#27ae60' },
-  { name: 'Loans', color: '#f39c12' },
-  { name: 'Accounting', color: '#9b59b6' },
-  { name: 'Deposits', color: '#2ecc71' }
-];
-
-let state = {
-  scores: {},
-  questions: [],
-  currentIndex: 0,
-  scenario: ''
-};
-
-departments.forEach(dep => (state.scores[dep.name] = { points: 0 }));
-
-function renderScoreboard() {
-  const sb = document.getElementById('scoreboard');
-  sb.innerHTML = '';
-  departments.forEach(dep => {
-    const div = document.createElement('div');
-    div.className = 'department';
-    div.style.backgroundColor = dep.color;
-    div.innerHTML = `<div>${dep.name}</div><div class="score">${state.scores[dep.name].points}</div>`;
-    sb.appendChild(div);
-  });
-}
-
-async function generateScenario() {
-  // Under Construction: show a friendly message and skip questions
-  const qc = document.getElementById('questionContainer');
-  document.getElementById('introBox').classList.add('hidden');
-  document.getElementById('scenarioBox').classList.remove('hidden');
-  document.getElementById('nextContainer').classList.add('hidden');
-  try { document.getElementById('genBtn').disabled = true; } catch {}
-  state = { scores: {}, questions: [], currentIndex: 0, scenario: '' };
-  departments.forEach(dep => (state.scores[dep.name] = { points: 0 }));
-  renderScoreboard();
-
-  // Pull message from API (optional) to remain consistent with deployment
-  try {
-    const res = await fetch('/api/scenarios', { method: 'POST' });
-    const data = await res.json();
-    state.scenario = data?.description || 'We are rebuilding this training.';
-  } catch (_) {
-    state.scenario = 'We are rebuilding this training.';
-  }
-
-  document.getElementById('scenarioText').textContent = state.scenario;
-  qc.innerHTML = `
-    <div class="uc-box">
-      <h3>Under Construction</h3>
-      <p>The Crisis Management Game content is being rebuilt. Please check back soon.</p>
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Crisis Management Game — Under Construction</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+  <body>
+    <div class="header">
+      <img src="/images/bank-logo.png" alt="SSBTX Logo" />
+      <div class="title">Crisis Management Game <span style="font-size:12px;background:#ffe08a;color:#6b5d15;padding:2px 6px;border-radius:6px;margin-left:8px;">UC-Static</span></div>
     </div>
-  `;
-}
 
-function shuffle(array) {
-  for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
-  }
-  return array;
-}
+    <div class="scenario-box" style="text-align:center;">
+      <h2>Scenario</h2>
+      <p>We are rebuilding this training. No scenarios will load right now.</p>
+    </div>
 
-function renderQuestion() {
-  const container = document.getElementById('questionContainer');
-  container.innerHTML = '';
-  document.getElementById('nextContainer').classList.add('hidden');
-
-  if (!state.questions || state.questions.length === 0) {
-    container.innerHTML = `
+    <div class="question-box">
       <div class="uc-box">
         <h3>Under Construction</h3>
-        <p>No questions are available yet.</p>
-      </div>`;
-    return;
-  }
-
-  if (state.currentIndex >= state.questions.length) return;
-
-  const q = state.questions[state.currentIndex];
-  if (!q || !q.department || !q.questionText) return;
-
-  const depColor = departments.find(d => d.name === q.department)?.color || '#ccc';
-  const current = state.currentIndex + 1;
-  const total = state.questions.length || 21;
-
-  container.innerHTML = `
-    <div class="q-progress">Question ${current} of ${total}</div>
-    <h3 style="color:${depColor};">${q.department}</h3>
-    <h2>${q.questionText}</h2>
-    <div class="choices">
-      ${q.choices.map(choice => `
-        <button class="choice-btn" 
-          data-text="${escapeAttr(choice.text)}" 
-          data-type="${escapeAttr(choice.type)}" 
-          data-dep="${escapeAttr(q.department)}" 
-          data-expl="${encodeURIComponent(choice.explanation)}">
-          ${choice.text}
-        </button>`).join('')}
+        <p>The Crisis Management Game content is being rebuilt. Please check back soon.</p>
+      </div>
     </div>
-  `;
-  attachChoiceHandlers();
-  if (!q.choices || q.choices.length === 0) {
-    const nb = document.getElementById('nextBtn');
-    nb.textContent = current >= total ? 'Finish Scenario' : `Next Prompt (${current}/${total})`;
-    document.getElementById('nextContainer').classList.remove('hidden');
-  }
-}
 
-function selectAnswer(btn, text, type, department, explanation) {
-  document.querySelectorAll('.choice-btn').forEach(b => b.disabled = true);
+    <div class="controls">
+      <button disabled>Generate New Crisis Scenario</button>
+      <button onclick="window.location.href='index.html'">Back to Home</button>
+    </div>
 
-  if (type === "correct") {
-    btn.classList.add('correct');
-    state.scores[department].points += 10;
-  } else if (type === "neutral") {
-    btn.style.backgroundColor = "#f1c40f";
-    btn.style.color = "#fff";
-    state.scores[department].points += 5;
-  } else {
-    btn.classList.add('incorrect');
-    state.scores[department].points -= 10;
-  }
-
-  const expl = document.createElement('div');
-  expl.className = 'explanation-box';
-  expl.innerHTML = `<p style="margin-top:12px;"><strong>Explanation:</strong> ${explanation}</p>`;
-  btn.parentElement.appendChild(expl);
-
-  renderScoreboard();
-  const nb = document.getElementById('nextBtn');
-  const current = state.currentIndex + 1;
-  const total = state.questions.length || 21;
-  nb.textContent = current >= total ? 'Finish & Announce Winner' : `Next Question (${current}/${total})`;
-  document.getElementById('nextContainer').classList.remove('hidden');
-}
-
-function attachChoiceHandlers() {
-  const buttons = document.querySelectorAll('.choice-btn');
-  buttons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const text = btn.getAttribute('data-text') || '';
-      const type = btn.getAttribute('data-type') || 'neutral';
-      const dep = btn.getAttribute('data-dep') || '';
-      const expl = decodeURIComponent(btn.getAttribute('data-expl') || '');
-      selectAnswer(btn, text, type, dep, expl);
-    });
-  });
-}
-
-function escapeAttr(str) {
-  return String(str)
-    .replace(/&/g, '&amp;')
-    .replace(/"/g, '&quot;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;');
-}
-
-function rebalanceQuestions(questions) {
-  const deps = departments.map(d => d.name);
-  const byDep = new Map();
-  deps.forEach(dep => byDep.set(dep, []));
-  for (const q of questions) {
-    if (byDep.has(q.department)) byDep.get(q.department).push(q);
-  }
-  const balanced = [];
-  for (const dep of deps) {
-    const list = byDep.get(dep);
-    if (!list || list.length < 3) {
-      // If insufficient, try to supplement by cloning with slight text tweak to maintain flow
-      // Prefer resilience: duplicate distinct questions to hit exactly 3
-      const src = list || [];
-      const needed = 3 - src.length;
-      for (let i = 0; i < needed; i++) {
-        const pickIdx = i % (src.length || 1);
-        const base = src.length ? src[pickIdx] : {
-          department: dep,
-          questionText: `Confirm controls and communication for ${dep}?`,
-          choices: [
-            { text: 'Follow playbook and communicate clearly', type: 'correct', explanation: 'Consistency and control.' },
-            { text: 'Delay actions briefly', type: 'neutral', explanation: 'Limited benefit; watch risk.' },
-            { text: 'Ignore procedures', type: 'wrong', explanation: 'Creates risk and confusion.' },
-            { text: 'Delegate broadly without ownership', type: 'wrong', explanation: 'Fragmented decision-making.' }
-          ]
-        };
-        const clone = {
-          department: dep,
-          questionText: `${base.questionText} (variant ${i+1})`,
-          choices: Array.isArray(base.choices) ? shuffle([...base.choices]) : []
-        };
-        src.push(clone);
-      }
-      byDep.set(dep, src);
-    }
-    // Take exactly 3
-    balanced.push(...byDep.get(dep).slice(0,3));
-  }
-  // Ensure total 21
-  return balanced.slice(0, 21);
-}
-
-function nextQuestion() {
-  state.currentIndex++;
-  if (state.currentIndex >= state.questions.length) {
-    // Scenario complete; if scores equal (e.g., prompt-only), just show completion
-    if (areAllScoresEqual()) {
-      declareCompletion();
-    } else {
-      const winner = getHighestScoreDepartment();
-      declareWinner(winner.name, winner.points);
-      launchConfetti();
-    }
-    document.getElementById('nextContainer').classList.add('hidden');
-  } else {
-    renderQuestion();
-  }
-}
-
-function getHighestScoreDepartment() {
-  let best = { name: '', points: -Infinity };
-  departments.forEach(dep => {
-    const p = state.scores[dep.name].points || 0;
-    if (p > best.points) best = { name: dep.name, points: p };
-  });
-  return best;
-}
-
-function resetGame() {
+  </body>
+  </html>
   state = { scores: {}, questions: [], currentIndex: 0, scenario: '' };
-  departments.forEach(dep => (state.scores[dep.name] = { points: 0 }));
-  renderScoreboard();
-  document.getElementById('introBox').classList.remove('hidden');
-  document.getElementById('scenarioBox').classList.add('hidden');
-  document.getElementById('scenarioText').textContent = '';
-  document.getElementById('questionContainer').innerHTML = '';
-  document.getElementById('nextContainer').classList.add('hidden');
-}
-
-function declareWinner(winner, points) {
-  const container = document.getElementById('questionContainer');
-  const overlay = document.createElement('div');
-  overlay.className = 'winner-overlay';
-  overlay.innerHTML = `
-    <h1>🎉 ${winner} Wins!</h1>
-    <p>Highest score: ${points} points</p>
-  `;
-  container.appendChild(overlay);
-}
-
-function declareCompletion() {
-  const container = document.getElementById('questionContainer');
-  const overlay = document.createElement('div');
-  overlay.className = 'winner-overlay';
-  overlay.innerHTML = `
-    <h1>Scenario Complete</h1>
-    <p>Discussion prompts finished. No winner declared.</p>
-  `;
-  container.appendChild(overlay);
-}
-
-function areAllScoresEqual() {
-  const points = departments.map(d => state.scores[d.name].points || 0);
-  return points.every(p => p === points[0]);
-}
-
-function launchConfetti() {
-  confetti({ particleCount: 200, spread: 160, origin: { y: 0.6 } });
-}
-
-renderScoreboard();
-
-// Build tag to confirm fresh assets are loaded
-window.__BUILD = 'UC-20251222.2';
-try { document.getElementById('buildTag').textContent = window.__BUILD; } catch {}
-console.log('[BUILD]', window.__BUILD);
-</script>
-</body>
-</html>
