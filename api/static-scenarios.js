@@ -32,6 +32,7 @@ const crisisTypes = [
   'Check Fraud Spike',
   'SMS Spoofing Campaign',
   'Disgruntled Employee Incident'
+  , 'Account Takeover Campaign'
 ];
 
 const severities = ['Low', 'Moderate', 'High', 'Critical'];
