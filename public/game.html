@@ -114,6 +114,9 @@ async function generateScenario() {
         }))
       : [];
 
+    // Randomize question order across all departments and cap at 21
+    state.questions = shuffle([...state.questions]).slice(0, 21);
+
     console.log('[Game] Loaded scenario, questions:', state.questions.length);
 
     state.currentIndex = 0;
@@ -212,34 +215,29 @@ function selectAnswer(btn, text, type, department, explanation) {
   btn.parentElement.appendChild(expl);
 
   renderScoreboard();
-
-  if (state.scores[department].points >= 50) {
-    declareWinner(department);
-    launchConfetti();
-  } else {
-    document.getElementById('nextContainer').classList.remove('hidden');
-  }
+  document.getElementById('nextContainer').classList.remove('hidden');
 }
 
 function nextQuestion() {
   state.currentIndex++;
   if (state.currentIndex >= state.questions.length) {
-    if (!checkWinner()) {
-      generateScenario();
-    }
+    // Game over after 21 questions: highest score wins
+    const winner = getHighestScoreDepartment();
+    declareWinner(winner.name, winner.points);
+    launchConfetti();
+    document.getElementById('nextContainer').classList.add('hidden');
   } else {
     renderQuestion();
   }
 }
 
-function checkWinner() {
-  const winner = departments.find(dep => state.scores[dep.name].points >= 50);
-  if (winner) {
-    declareWinner(winner.name);
-    launchConfetti();
-    return true;
-  }
-  return false;
+function getHighestScoreDepartment() {
+  let best = { name: '', points: -Infinity };
+  departments.forEach(dep => {
+    const p = state.scores[dep.name].points || 0;
+    if (p > best.points) best = { name: dep.name, points: p };
+  });
+  return best;
 }
 
 function resetGame() {
@@ -253,7 +251,7 @@ function resetGame() {
   document.getElementById('nextContainer').classList.add('hidden');
 }
 
-function declareWinner(winner) {
+function declareWinner(winner, points) {
   const banner = document.createElement('div');
   banner.style.backgroundColor = '#2ecc71';
   banner.style.color = '#fff';
@@ -263,7 +261,7 @@ function declareWinner(winner) {
   banner.style.borderRadius = '12px';
   banner.style.fontSize = '20px';
   banner.style.fontWeight = 'bold';
-  banner.textContent = `🎉 ${winner} wins the game with 50 points!`;
+  banner.textContent = `🎉 ${winner} wins the game with ${points} points!`;
   document.body.appendChild(banner);
 }
 
