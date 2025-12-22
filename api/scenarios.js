@@ -9,7 +9,23 @@ export default async function handler(req, res) {
 
   try {
     const key = req.query?.key || req.body?.key;
-    const scenario = getScenarioByKey(key) || getRandomScenario();
+    let scenario = getScenarioByKey(key) || getRandomScenario();
+    // Ensure we always deliver 21 questions
+    if (!Array.isArray(scenario.questions)) scenario.questions = [];
+    const target = 21;
+    if (scenario.questions.length !== target) {
+      const merged = [...scenario.questions];
+      while (merged.length < target) {
+        const extra = getRandomScenario().questions || [];
+        for (const q of extra) {
+          merged.push(q);
+          if (merged.length >= target) break;
+        }
+        if (extra.length === 0) break; // safety
+      }
+      scenario.questions = merged.slice(0, target);
+    }
+    console.log('[API] Scenario key:', key || 'random', 'questions:', scenario.questions.length);
     res.set('Cache-Control', 'no-store');
     return res.status(200).json(scenario);
   } catch (e) {
