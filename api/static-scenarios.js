@@ -30,7 +30,8 @@ const crisisTypes = [
   'Deposit Run Rumor',
   'OFAC Screening Failure',
   'Check Fraud Spike',
-  'SMS Spoofing Campaign'
+  'SMS Spoofing Campaign',
+  'Disgruntled Employee Incident'
 ];
 
 const severities = ['Low', 'Moderate', 'High', 'Critical'];
@@ -44,7 +45,8 @@ const impacted = [
   'Branches',
   'ATMs',
   'CRM',
-  'Data Warehouse'
+  'Data Warehouse',
+  'Identity & Access Management'
 ];
 
 function pick(arr, idx) {
