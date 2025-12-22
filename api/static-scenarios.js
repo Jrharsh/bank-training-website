@@ -573,7 +573,11 @@ function buildHighDollarOutageScenario() {
 }
 
 export function getSpecialScenarios() {
-  return [buildHighDollarOutageScenario(), buildInternalDataBreachScenario()];
+  return [
+    buildHighDollarOutageScenario(),
+    buildInternalDataBreachScenario(),
+    buildRegulatoryAuditScenario()
+  ];
 }
 
 function buildInternalDataBreachScenario() {
@@ -804,6 +808,244 @@ function buildInternalDataBreachScenario() {
       'Only when fixed', 'Insufficient transparency.',
       'Continuous unvetted updates', 'Noise and confusion.',
       'Internal updates only', 'Customers left uninformed.'
+    )
+  });
+
+  return {
+    title,
+    description,
+    questions: q
+  };
+}
+
+function buildRegulatoryAuditScenario() {
+  const title = 'Regulatory Audit With Short Notice';
+  const description = 'Regulators announce an audit starting in 72 hours. Teams must rapidly prepare evidence, confirm controls, and decide whether to remediate immediately or transparently disclose weaknesses.';
+  const impactedSystems = ['Core System', 'Data Warehouse', 'Identity & Access Management'];
+
+  const q = [];
+
+  // CEO/SVPs
+  q.push({
+    department: 'CEO/SVPs',
+    questionText: 'What overall audit strategy should leadership set?',
+    choices: buildChoices(
+      'Transparent readiness plan with prioritized fixes', 'Builds trust and focuses effort.',
+      'Fix everything immediately without triage', 'Unrealistic; risks incomplete work.',
+      'Disclose nothing and hope for best', 'Damaging; non-compliant.',
+      'Delegate entirely to departments', 'Lacks coordinated governance.'
+    )
+  });
+  q.push({
+    department: 'CEO/SVPs',
+    questionText: 'How should communications with regulators be handled?',
+    choices: buildChoices(
+      'Assign liaison; provide schedule and artifacts list', 'Shows control and cooperation.',
+      'Ad-hoc emails from managers', 'Fragmented and inconsistent.',
+      'No communication until day one', 'Appears disorganized.',
+      'Overpromise full remediation', 'Creates commitments risk.'
+    )
+  });
+  q.push({
+    department: 'CEO/SVPs',
+    questionText: 'What governance should coordinate the audit?',
+    choices: buildChoices(
+      'Audit command center with daily checkpoints', 'Ensures progress and alignment.',
+      'Informal chat group only', 'Poor tracking and accountability.',
+      'Vendor-led only', 'Misses bank-specific controls.',
+      'Executive-only huddle', 'Too high-level; misses details.'
+    )
+  });
+
+  // IT/Security
+  q.push({
+    department: 'IT/Security',
+    questionText: 'What access/log preparations are essential?',
+    choices: buildChoices(
+      'Confirm IAM, MFA, and central log retention', 'Demonstrates effective controls.',
+      'Disable logging to improve performance', 'Evidence lost; non-compliant.',
+      'Share raw logs broadly', 'Privacy/security issues.',
+      'Ignore stale access lists', 'Findings likely.'
+    )
+  });
+  q.push({
+    department: 'IT/Security',
+    questionText: 'How should evidence be organized for regulators?',
+    choices: buildChoices(
+      'Curate artifacts in a secured portal with index', 'Efficient and auditable.',
+      'Dump files via email attachments', 'Uncontrolled and messy.',
+      'Provide screenshots only', 'Insufficient evidence.',
+      'Delay evidence until questions arise', 'Appears unprepared.'
+    )
+  });
+  q.push({
+    department: 'IT/Security',
+    questionText: 'How to handle known control gaps?',
+    choices: buildChoices(
+      'Document and begin remediation with timelines', 'Shows ownership and progress.',
+      'Hide gaps from the scope', 'Risk of significant findings.',
+      'Patch without change control', 'Introduces new risk.',
+      'Ignore gaps until after audit', 'Likely negative findings.'
+    )
+  });
+
+  // HR
+  q.push({
+    department: 'HR',
+    questionText: 'What training evidence should be prepared?',
+    choices: buildChoices(
+      'Policy attestations and recent training records', 'Demonstrates compliance.',
+      'Verbal confirmation from managers', 'Insufficient documentation.',
+      'Future training plan only', 'Does not show past compliance.',
+      'No records due to privacy', 'Non-compliant; incomplete.'
+    )
+  });
+  q.push({
+    department: 'HR',
+    questionText: 'How to manage staff availability during the audit?',
+    choices: buildChoices(
+      'Schedule SMEs with backup coverage', 'Ensures continuity and access.',
+      'Require all staff to be on call', 'Inefficient and disruptive.',
+      'No scheduling—respond ad hoc', 'Misses key people; delays.',
+      'Disallow overtime entirely', 'Reduces responsiveness.'
+    )
+  });
+  q.push({
+    department: 'HR',
+    questionText: 'What policy communication should be issued?',
+    choices: buildChoices(
+      'Remind code of conduct and data handling rules', 'Reduces audit-day errors.',
+      'Ask staff to improvise', 'Inconsistency and risk.',
+      'Silence to avoid panic', 'Confusion likely.',
+      'Loosen policies temporarily', 'Creates compliance risk.'
+    )
+  });
+
+  // Finance
+  q.push({
+    department: 'Finance',
+    questionText: 'How to validate capital and liquidity reporting?',
+    choices: buildChoices(
+      'Reconcile ratios and source data with evidence', 'Accuracy and traceability.',
+      'Publish unaudited numbers', 'Accuracy risk.',
+      'Delay reports until after audit', 'Non-compliance risk.',
+      'Adjust figures to look better', 'Misstatement; fraud risk.'
+    )
+  });
+  q.push({
+    department: 'Finance',
+    questionText: 'Which vendor invoices should be prioritized?',
+    choices: buildChoices(
+      'Audit-related and critical operations vendors', 'Supports audit and continuity.',
+      'Pause all vendor payments', 'Breaks essential services.',
+      'Pay lowest invoices first', 'Misaligned prioritization.',
+      'Pay without approvals', 'Control failure.'
+    )
+  });
+  q.push({
+    department: 'Finance',
+    questionText: 'How to approach known reporting weaknesses?',
+    choices: buildChoices(
+      'Document weaknesses with remediation plan', 'Transparent and constructive.',
+      'Hide weaknesses from regulators', 'High risk if discovered.',
+      'Fix quietly without evidence', 'No audit trail of improvement.',
+      'Blame vendors broadly', 'Avoids ownership; weak response.'
+    )
+  });
+
+  // Loans
+  q.push({
+    department: 'Loans',
+    questionText: 'What documentation prep is needed for underwriting?',
+    choices: buildChoices(
+      'Sampling with checklists and secure access', 'Shows process control.',
+      'Provide random files unreviewed', 'Findings likely.',
+      'Verbal explanations only', 'Insufficient evidence.',
+      'Email borrower PII to auditors', 'Privacy/compliance breach.'
+    )
+  });
+  q.push({
+    department: 'Loans',
+    questionText: 'How to handle exceptions found in samples?',
+    choices: buildChoices(
+      'Record and remediate with approvals', 'Demonstrates control.',
+      'Ignore minor exceptions', 'Pattern risk.',
+      'Alter documents post-fact', 'Fraud risk.',
+      'Remove files from sample', 'Manipulation risk.'
+    )
+  });
+  q.push({
+    department: 'Loans',
+    questionText: 'What is the access model for auditors?',
+    choices: buildChoices(
+      'Scoped, read-only access via audit portal', 'Security and traceability.',
+      'Full write access for speed', 'High risk.',
+      'Shared credentials', 'Non-compliant.',
+      'USB copies of files', 'Uncontrolled media risk.'
+    )
+  });
+
+  // Accounting
+  q.push({
+    department: 'Accounting',
+    questionText: 'How to prepare financial statements for the audit?',
+    choices: buildChoices(
+      'Tie-outs with reconciliations and evidence index', 'Shows control and accuracy.',
+      'Estimated numbers to save time', 'Findings and restatements risk.',
+      'Manual overrides without logs', 'No audit trail.',
+      'Exclude complex areas from scope', 'Not acceptable.'
+    )
+  });
+  q.push({
+    department: 'Accounting',
+    questionText: 'Which controls should be demonstrated?',
+    choices: buildChoices(
+      'Approvals, segregation of duties, and logs', 'Core control set.',
+      'Manager sign-off only', 'Weak control environment.',
+      'Shared admin rights', 'Segregation failure.',
+      'Unlogged spreadsheet changes', 'Evidence gap.'
+    )
+  });
+  q.push({
+    department: 'Accounting',
+    questionText: 'How to record audit-related adjustments?',
+    choices: buildChoices(
+      'Documented journal entries with approvals', 'Transparent and controlled.',
+      'Post entries after audit quietly', 'Timing/accuracy issues.',
+      'Net out adjustments to hide impact', 'Misstatement risk.',
+      'No entries; present as-is', 'Potentially misleading.'
+    )
+  });
+
+  // Deposits
+  q.push({
+    department: 'Deposits',
+    questionText: 'What evidence is needed for account handling?',
+    choices: buildChoices(
+      'Policies, disclosures, and sampled account reviews', 'Demonstrates control and compliance.',
+      'Verbal process description only', 'Insufficient evidence.',
+      'Provide customer PII broadly for speed', 'Privacy breach.',
+      'Exclude difficult cases from sample', 'Bias; risk of findings.'
+    )
+  });
+  q.push({
+    department: 'Deposits',
+    questionText: 'How should disclosures be validated?',
+    choices: buildChoices(
+      'Confirm current forms and delivery logs', 'Traceable and compliant.',
+      'Assume disclosures are fine', 'Risk of gaps.',
+      'Update forms without approvals', 'Control failure.',
+      'Ignore historical changes', 'Evidence gaps.'
+    )
+  });
+  q.push({
+    department: 'Deposits',
+    questionText: 'How to communicate with customers during the audit?',
+    choices: buildChoices(
+      'Provide routine service updates if impacted', 'Maintains trust.',
+      'Silence to avoid attention', 'Rumors and complaints.',
+      'Mass blast about audit details', 'Unnecessary noise.',
+      'Branch-only verbal guidance', 'Inconsistent; untracked.'
     )
   });
 
