@@ -573,5 +573,243 @@ function buildHighDollarOutageScenario() {
 }
 
 export function getSpecialScenarios() {
-  return [buildHighDollarOutageScenario()];
+  return [buildHighDollarOutageScenario(), buildInternalDataBreachScenario()];
+}
+
+function buildInternalDataBreachScenario() {
+  const title = 'Suspected Internal Data Breach';
+  const description = 'Unusual access logs suggest employee credentials may have been misused. Leadership must balance transparency with containment while teams investigate scope, protect customer data, and address privacy and regulatory obligations.';
+  const impactedSystems = ['Identity & Access Management', 'Customer PII', 'Collaboration Platform'];
+
+  const q = [];
+
+  // CEO/SVPs
+  q.push({
+    department: 'CEO/SVPs',
+    questionText: 'What public stance should leadership take initially?',
+    choices: buildChoices(
+      'Acknowledge investigation with facts and cadence', 'Builds trust while avoiding speculation.',
+      'Issue a minimal holding statement only', 'Provides limited clarity; ok short-term.',
+      'Deny issues until proven', 'Erodes credibility; risky.',
+      'Blame a single employee publicly', 'Premature and legally risky.'
+    )
+  });
+  q.push({
+    department: 'CEO/SVPs',
+    questionText: 'How should regulatory notifications be handled?',
+    choices: buildChoices(
+      'Coordinate with Legal/Compliance and notify per rules', 'Timely, compliant disclosures.',
+      'Wait 24 hours for more facts', 'Short delay may be acceptable but risky.',
+      'Notify only after full fix', 'Too late; may breach requirements.',
+      'Skip notification due to uncertainty', 'Non-compliant; high risk.'
+    )
+  });
+  q.push({
+    department: 'CEO/SVPs',
+    questionText: 'What communication cadence should be set?',
+    choices: buildChoices(
+      'Scheduled, factual updates via status page', 'Consistent and trustworthy.',
+      'Ad‑hoc executive posts', 'Inconsistent; confusing.',
+      'Silence until resolution', 'Rumors and distrust rise.',
+      'Employee social media posts', 'Unvetted information risk.'
+    )
+  });
+
+  // IT/Security
+  q.push({
+    department: 'IT/Security',
+    questionText: 'What is the first containment step?',
+    choices: buildChoices(
+      'Isolate accounts/rotate creds; enforce MFA', 'Limits further misuse quickly.',
+      'Increase monitoring only', 'Insufficient; exposure continues.',
+      'Disable logging to reduce load', 'Destroys forensic evidence.',
+      'Reboot production broadly', 'Disruptive; not targeted.'
+    )
+  });
+  q.push({
+    department: 'IT/Security',
+    questionText: 'How should scope be investigated?',
+    choices: buildChoices(
+      'Centralize logs; map access; verify anomalies', 'Determines true impact.',
+      'Sample a few logs', 'May miss key activity.',
+      'Purge logs to start fresh', 'Evidence loss; non-compliant.',
+      'Share raw logs to all staff', 'Privacy/security issues.'
+    )
+  });
+  q.push({
+    department: 'IT/Security',
+    questionText: 'How to assess potential data exposure?',
+    choices: buildChoices(
+      'Identify accessed PII/systems and preserve artifacts', 'Supports remediation and notices.',
+      'Assume minimal exposure', 'Underestimates risk.',
+      'Assume no exposure', 'Not evidence-based.',
+      'Guess based on past incidents', 'Unreliable approach.'
+    )
+  });
+
+  // HR
+  q.push({
+    department: 'HR',
+    questionText: 'How should HR address privacy and discipline?',
+    choices: buildChoices(
+      'Follow policy; preserve evidence; due process', 'Fair and defensible.',
+      'Manager discretion case-by-case', 'Inconsistent outcomes.',
+      'Name/shame publicly', 'Violates privacy; legal risk.',
+      'Immediate termination without review', 'Unfair; risk of challenge.'
+    )
+  });
+  q.push({
+    department: 'HR',
+    questionText: 'What guidance should staff receive now?',
+    choices: buildChoices(
+      'Remind data handling, phishing, reporting channels', 'Reduces error and risk.',
+      'No guidance to avoid panic', 'Rumors and mistakes grow.',
+      'Allow personal storage for speed', 'Data leakage risk.',
+      'Ask staff to monitor coworkers', 'Creates hostility; not compliant.'
+    )
+  });
+  q.push({
+    department: 'HR',
+    questionText: 'How should investigation comms to employees occur?',
+    choices: buildChoices(
+      'Confidential notice with expectations', 'Balances transparency/privacy.',
+      'Generic memo only', 'Limited clarity; ok short-term.',
+      'Publish suspect list internally', 'Privacy breach; defamation risk.',
+      'No notice at all', 'Confusion and rumor spread.'
+    )
+  });
+
+  // Finance
+  q.push({
+    department: 'Finance',
+    questionText: 'How to track remediation costs?',
+    choices: buildChoices(
+      'Incident budget with approvals and tracking', 'Enables transparency.',
+      'Estimate later when done', 'Poor control; surprises.',
+      'Ignore small invoices', 'Understates true cost.',
+      'Spend without controls', 'Fraud/waste risk.'
+    )
+  });
+  q.push({
+    department: 'Finance',
+    questionText: 'Should a provisional reserve for fines be recorded?',
+    choices: buildChoices(
+      'Consult Legal/Risk; record provisional reserve', 'Prudent and transparent.',
+      'Wait for regulator confirmation', 'Delays may misstate exposure.',
+      'No reserve is needed', 'Potential under-reporting.',
+      'Hide potential fines', 'Misleading accounting.'
+    )
+  });
+  q.push({
+    department: 'Finance',
+    questionText: 'Which vendor costs should be prioritized?',
+    choices: buildChoices(
+      'Security/forensics and IAM services', 'Supports containment and truth-finding.',
+      'Cut all vendor spend', 'Breaks critical services.',
+      'Delay paying vendors broadly', 'Service disruption risk.',
+      'Pay without approvals', 'Control failure.'
+    )
+  });
+
+  // Loans
+  q.push({
+    department: 'Loans',
+    questionText: 'How to handle potential exposure of borrower data?',
+    choices: buildChoices(
+      'Restrict access; assess loan files for exposure', 'Reduces risk and supports notices.',
+      'Assume files are safe', 'May miss compromised items.',
+      'Email files to verify quickly', 'Creates new exposure.',
+      'Continue normal processing unchanged', 'Ignores active risk.'
+    )
+  });
+  q.push({
+    department: 'Loans',
+    questionText: 'What manual processing controls apply now?',
+    choices: buildChoices(
+      'Checklists + dual controls + secure storage', 'Maintains integrity.',
+      'Expedite without full checks', 'Error/fraud risk.',
+      'Skip formal approvals', 'Control failure.',
+      'Share PII via email for speed', 'Privacy/compliance risk.'
+    )
+  });
+  q.push({
+    department: 'Loans',
+    questionText: 'How should borrower notifications be managed?',
+    choices: buildChoices(
+      'Coordinated notices for impacted borrowers', 'Compliant and targeted.',
+      'Verbal branch guidance only', 'Inconsistent; untracked.',
+      'No notices to avoid panic', 'Non-compliant if impacted.',
+      'Publish list of borrowers', 'Severe privacy breach.'
+    )
+  });
+
+  // Accounting
+  q.push({
+    department: 'Accounting',
+    questionText: 'How should audit trail integrity be preserved?',
+    choices: buildChoices(
+      'Lock logs; track changes centrally', 'Supports review/regulatory needs.',
+      'Preserve later after resolution', 'Evidence may be lost.',
+      'Disable logging for speed', 'Evidence destroyed.',
+      'Share credentials across staff', 'Security and traceability risk.'
+    )
+  });
+  q.push({
+    department: 'Accounting',
+    questionText: 'Which reconciliations should be prioritized?',
+    choices: buildChoices(
+      'Customer balances, GL impacts, inter‑system breaks', 'Ensures core accuracy.',
+      'Cosmetic reports only', 'Misses material issues.',
+      'Delay until stable', 'Compounds errors.',
+      'Manual overrides without logs', 'No audit trail.'
+    )
+  });
+  q.push({
+    department: 'Accounting',
+    questionText: 'How should incident-related expenses be recorded?',
+    choices: buildChoices(
+      'Record provisional expenses with documentation', 'Transparency and control.',
+      'Record later as a batch', 'Timing/accuracy issues.',
+      'Hide expenses in misc accounts', 'Misstatement risk.',
+      'Fabricate offsets to smooth impact', 'Fraud risk.'
+    )
+  });
+
+  // Deposits
+  q.push({
+    department: 'Deposits',
+    questionText: 'How should customer notifications be handled?',
+    choices: buildChoices(
+      'Notify impacted customers with facts and steps', 'Trust and compliance.',
+      'Wait for full confirmation', 'May delay required notices.',
+      'Generic mass notice to all', 'Creates confusion; not targeted.',
+      'No customer notice', 'Non-compliant if exposure occurred.'
+    )
+  });
+  q.push({
+    department: 'Deposits',
+    questionText: 'What immediate account security steps apply?',
+    choices: buildChoices(
+      'Force resets and encourage MFA enrollment', 'Reduces takeover risk.',
+      'Optional resets for some', 'Incomplete protection.',
+      'Share security tips only', 'Insufficient action.',
+      'No changes to accounts', 'Continued exposure risk.'
+    )
+  });
+  q.push({
+    department: 'Deposits',
+    questionText: 'How often should the public status page be updated?',
+    choices: buildChoices(
+      'Regular cadence with concrete progress', 'Builds confidence.',
+      'Only when fixed', 'Insufficient transparency.',
+      'Continuous unvetted updates', 'Noise and confusion.',
+      'Internal updates only', 'Customers left uninformed.'
+    )
+  });
+
+  return {
+    title,
+    description,
+    questions: q
+  };
 }
