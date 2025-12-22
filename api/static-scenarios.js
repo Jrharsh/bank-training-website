@@ -580,6 +580,23 @@ export function getSpecialScenarios() {
   ];
 }
 
+export function getScenarioByKey(key) {
+  if (!key) return null;
+  switch (String(key).toLowerCase()) {
+    case 'high-dollar-outage':
+    case 'outage-high-dollar':
+      return buildHighDollarOutageScenario();
+    case 'internal-breach':
+    case 'suspected-internal-breach':
+      return buildInternalDataBreachScenario();
+    case 'reg-audit':
+    case 'regulatory-audit':
+      return buildRegulatoryAuditScenario();
+    default:
+      return null;
+  }
+}
+
 function buildInternalDataBreachScenario() {
   const title = 'Suspected Internal Data Breach';
   const description = 'Unusual access logs suggest employee credentials may have been misused. Leadership must balance transparency with containment while teams investigate scope, protect customer data, and address privacy and regulatory obligations.';

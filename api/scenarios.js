@@ -1,5 +1,5 @@
 export const maxDuration = 30;
-import { getRandomScenario } from './static-scenarios.js';
+import { getRandomScenario, getScenarioByKey } from './static-scenarios.js';
 
 // Purely static scenario generator: no AI calls
 export default async function handler(req, res) {
@@ -8,7 +8,9 @@ export default async function handler(req, res) {
   }
 
   try {
-    const scenario = getRandomScenario();
+    const key = req.query?.key || req.body?.key;
+    const scenario = getScenarioByKey(key) || getRandomScenario();
+    res.set('Cache-Control', 'no-store');
     return res.status(200).json(scenario);
   } catch (e) {
     console.error('Static scenario error:', e);
