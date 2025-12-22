@@ -326,8 +326,252 @@ export function getScenarios(total = 60) {
 }
 
 export function getRandomScenario() {
-  const list = getScenarios();
+  const list = [...getScenarios(), ...getSpecialScenarios()];
   return list[Math.floor(Math.random() * list.length)];
 }
 
 export default getRandomScenario;
+
+// ---- Special, hand-authored scenarios ----
+
+function buildHighDollarOutageScenario() {
+  const title = 'Major System Outage During High-Dollar Transactions';
+  const description = 'During peak business hours, core banking systems go down while multiple high-value ACH and wire transactions are mid-process. Customer access is degraded; risk of partial postings and duplicate/failed transactions is high. Leadership must balance rapid resumption with error/financial exposure.';
+  const impactedSystems = ['Core System', 'ACH', 'Wire'];
+
+  const q = [];
+
+  // CEO/SVPs
+  q.push({
+    department: 'CEO/SVPs',
+    questionText: 'Should the bank halt all high-dollar transactions until stability is confirmed?',
+    choices: buildChoices(
+      'Pause and communicate clearly to stakeholders', 'Reduces exposure; sets controlled cadence.',
+      'Allow limited manual exceptions', 'Helps critical cases but needs controls.',
+      'Continue operations as usual', 'High risk of mispostings/errors.',
+      'Delegate decisions to each team', 'Fragmented, inconsistent risk-taking.'
+    )
+  });
+  q.push({
+    department: 'CEO/SVPs',
+    questionText: 'What should leadership communicate publicly during the outage?',
+    choices: buildChoices(
+      'Transparent status with scheduled updates', 'Builds trust and reduces speculation.',
+      'Minimal info until fixed', 'Insufficient clarity for customers.',
+      'Blame vendor without details', 'Damages accountability and trust.',
+      'Silence until resolution', 'Increases complaints and rumor risk.'
+    )
+  });
+  q.push({
+    department: 'CEO/SVPs',
+    questionText: 'Which governance structure should lead triage?',
+    choices: buildChoices(
+      'Crisis command center with named leads', 'Coordinates cross-functional response.',
+      'Ad-hoc meetings by team', 'Slow and inconsistent.',
+      'Executive-only huddle', 'Misses operational detail.',
+      'Vendor-only coordination', 'Lacks bank-specific priorities.'
+    )
+  });
+
+  // IT/Security
+  q.push({
+    department: 'IT/Security',
+    questionText: 'What is the first containment step for the core outage?',
+    choices: buildChoices(
+      'Isolate affected components and validate health checks', 'Limits spread and provides signal.',
+      'Increase monitoring only', 'Does not restore service.',
+      'Disable logging to reduce load', 'Destroys forensic evidence.',
+      'Hot reboot production broadly', 'Risk of data loss/corruption.'
+    )
+  });
+  q.push({
+    department: 'IT/Security',
+    questionText: 'How should in-flight ACH/wire tasks be handled?',
+    choices: buildChoices(
+      'Quarantine queues and reconcile before restart', 'Prevents duplicates and misposts.',
+      'Force-send queued items', 'High chance of duplications.',
+      'Discard queues to clear load', 'Loses transaction records.',
+      'Bypass change controls to patch', 'Introduces new risks.'
+    )
+  });
+  q.push({
+    department: 'IT/Security',
+    questionText: 'What validation is needed before restoring services?',
+    choices: buildChoices(
+      'Integrity checks + canary release + rollback plan', 'Safe, controlled recovery.',
+      'Full-scale restart immediately', 'Unverified state may break again.',
+      'Patch everything at once', 'May misdiagnose root cause.',
+      'Skip DR drills and validations', 'Increases recovery risk.'
+    )
+  });
+
+  // HR
+  q.push({
+    department: 'HR',
+    questionText: 'How should HR support staff under outage stress?',
+    choices: buildChoices(
+      'Provide guidance, breaks, and overtime policy', 'Reduces burnout and mistakes.',
+      'Ask managers to improvise', 'Inconsistent support.',
+      'No formal comms to staff', 'Rumor and anxiety rise.',
+      'Mandate extended shifts without support', 'Morale and error risk increase.'
+    )
+  });
+  q.push({
+    department: 'HR',
+    questionText: 'Which communication cadence should HR set?',
+    choices: buildChoices(
+      'Scheduled updates via approved channels', 'Consistency and clarity.',
+      'Manager texts only', 'Untracked and fragmented.',
+      'Public social posts by employees', 'Unvetted information risk.',
+      'Silence until resolution', 'Confusion and frustration.'
+    )
+  });
+  q.push({
+    department: 'HR',
+    questionText: 'What remote-work guidance applies if branches are overwhelmed?',
+    choices: buildChoices(
+      'Enable remote-work per playbook with secure VPN', 'Maintains productivity securely.',
+      'Office-only mandate', 'Reduces flexibility.',
+      'Allow personal file sharing', 'Data leakage risk.',
+      'Suspend all work', 'Unnecessary disruption.'
+    )
+  });
+
+  // Finance
+  q.push({
+    department: 'Finance',
+    questionText: 'How should liquidity be managed during partial postings?',
+    choices: buildChoices(
+      'Activate contingency funding and monitor exposures', 'Preserves stability.',
+      'Freeze all payments', 'Disrupts critical services.',
+      'Ignore capital triggers', 'Breaches policy.',
+      'Delay vendor payments broadly', 'Operational impact increases.'
+    )
+  });
+  q.push({
+    department: 'Finance',
+    questionText: 'What is the prioritization for high-dollar transactions?',
+    choices: buildChoices(
+      'Critical customers with validated data first', 'Balances risk and service.',
+      'First-in first-out only', 'Ignores urgency and exposure.',
+      'Executive requests only', 'Bias issues.',
+      'Random order', 'Inefficient.'
+    )
+  });
+  q.push({
+    department: 'Finance',
+    questionText: 'How should external disclosures be handled?',
+    choices: buildChoices(
+      'Coordinate with Risk/Regulatory for timely updates', 'Transparency and compliance.',
+      'Share internally only', 'Stakeholders uninformed.',
+      'Publish unaudited numbers', 'Accuracy risk.',
+      'Delay all disclosures', 'Regulatory risk.'
+    )
+  });
+
+  // Loans
+  q.push({
+    department: 'Loans',
+    questionText: 'How should incomplete loan disbursements be handled?',
+    choices: buildChoices(
+      'Manual processing checklist + dual review', 'Reduces errors and fraud.',
+      'Pause all disbursements', 'Service impact; may be necessary.',
+      'Proceed without documentation', 'Compliance risk.',
+      'Cancel pending disbursements broadly', 'Reputation damage.'
+    )
+  });
+  q.push({
+    department: 'Loans',
+    questionText: 'What documentation controls apply during outage?',
+    choices: buildChoices(
+      'Secure storage + approvals + audit trail', 'Maintains integrity.',
+      'Accept verbal approvals only', 'Insufficient evidence.',
+      'Email PII between staff', 'Privacy issues.',
+      'Skip checklists', 'Higher error rate.'
+    )
+  });
+  q.push({
+    department: 'Loans',
+    questionText: 'How should prioritization be set for pending loans?',
+    choices: buildChoices(
+      'Critical/time‑sensitive customers first', 'Optimizes impact.',
+      'FIFO only', 'Ignores urgency.',
+      'Executive requests only', 'Bias issues.',
+      'Random order', 'Inefficient.'
+    )
+  });
+
+  // Accounting
+  q.push({
+    department: 'Accounting',
+    questionText: 'What is the accounting approach for partial postings?',
+    choices: buildChoices(
+      'Provisional close with enhanced reconciliations', 'Transparency with control.',
+      'Delay close indefinitely', 'Uncertainty increases.',
+      'Skip reconciliations', 'Misstatements likely.',
+      'Alter entries to smooth impact', 'Fraud risk.'
+    )
+  });
+  q.push({
+    department: 'Accounting',
+    questionText: 'Which reconciliations are prioritized?',
+    choices: buildChoices(
+      'Cash, high-value items, and inter‑system breaks', 'Ensures core accuracy.',
+      'Cosmetic reports only', 'Misses material issues.',
+      'Skip until stable', 'Compounds errors.',
+      'Manual overrides without logs', 'No audit trail.'
+    )
+  });
+  q.push({
+    department: 'Accounting',
+    questionText: 'How should audit trail integrity be preserved?',
+    choices: buildChoices(
+      'Log approvals/changes centrally', 'Supports review needs.',
+      'Allow edits without approvals', 'Control failure.',
+      'Disable logging to speed work', 'Evidence lost.',
+      'Share credentials', 'Security risk.'
+    )
+  });
+
+  // Deposits
+  q.push({
+    department: 'Deposits',
+    questionText: 'How should Deposits preserve customer access during outage?',
+    choices: buildChoices(
+      'Branches/ATMs with limits + status page', 'Maintains access and trust.',
+      'ATM only', 'Partial access; comms needed.',
+      'Shut all channels', 'Triggers panic.',
+      'Provide no updates', 'Creates confusion.'
+    )
+  });
+  q.push({
+    department: 'Deposits',
+    questionText: 'What is the branch/ATM strategy for high-demand hours?',
+    choices: buildChoices(
+      'Maintain core services with withdrawal limits', 'Balances demand and supply.',
+      'Unlimited withdrawals', 'Liquidity risk.',
+      'Close all branches', 'Disrupts access.',
+      'No staff guidance', 'Inconsistency risk.'
+    )
+  });
+  q.push({
+    department: 'Deposits',
+    questionText: 'How often should the public status page be updated?',
+    choices: buildChoices(
+      'Regular cadence with concrete progress', 'Builds confidence.',
+      'Only when fixed', 'Insufficient transparency.',
+      'Continuous unvetted updates', 'Noise and confusion.',
+      'Internal updates only', 'Customers left uninformed.'
+    )
+  });
+
+  return {
+    title,
+    description,
+    questions: q
+  };
+}
+
+export function getSpecialScenarios() {
+  return [buildHighDollarOutageScenario()];
+}
