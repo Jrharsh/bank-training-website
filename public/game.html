@@ -3,93 +3,45 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Crisis Management Game</title>
+  <title>Crisis Management Game — Under Construction</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/css/style.css" />
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 </head>
 <body>
   <div class="header">
     <img src="/images/bank-logo.png" alt="SSBTX Logo" />
-    <div class="title">Crisis Management Game <span id="buildTag" style="font-size:12px;background:#ffe08a;color:#6b5d15;padding:2px 6px;border-radius:6px;margin-left:8px;vertical-align:middle;">UC-unknown</span></div>
+    <div class="title">Crisis Management Game <span style="font-size:12px;background:#ffe08a;color:#6b5d15;padding:2px 6px;border-radius:6px;margin-left:8px;">UC-Static</span></div>
   </div>
 
-  <div class="scoreboard" id="scoreboard"></div>
-
-  <div class="intro-box" id="introBox">
-    <h2>Welcome to the SSBTX Crisis Management Simulation</h2>
-    <p>In this collaborative game, each department will respond to a bank-specific crisis. Work together to resolve the scenario.</p>
-    <p>You will answer 21 questions (3 per department). The highest score is announced only after all 21 questions. Good luck!</p>
-    <p><strong>Click "Generate New Crisis Scenario" to begin.</strong></p>
-  </div>
-
-  <div class="scenario-box hidden" id="scenarioBox">
+  <div class="scenario-box" style="text-align:center;">
     <h2>Scenario</h2>
-    <p id="scenarioText"></p>
+    <p>We are rebuilding this training. No scenarios will load right now.</p>
   </div>
 
-  <div class="question-box" id="questionContainer"></div>
-
-  <div class="next-button hidden" id="nextContainer">
-    <button id="nextBtn" onclick="nextQuestion()">Next Question</button>
+  <div class="question-box" id="questionBox">
+    <div class="uc-box">
+      <h3>Under Construction</h3>
+      <p>The Crisis Management Game content is being rebuilt. Please check back soon.</p>
+    </div>
   </div>
 
   <div class="controls">
-    <button onclick="generateScenario()" id="genBtn">Generate New Crisis Scenario</button>
-    <button onclick="resetGame()">Reset Game</button>
+    <button id="genBtn">Generate New Crisis Scenario</button>
     <button onclick="window.location.href='index.html'">Back to Home</button>
   </div>
 
-<script>
-const departments = [
-  { name: 'CEO/SVPs', color: '#8e44ad' },
-  { name: 'IT/Security', color: '#e74c3c' },
-  { name: 'HR', color: '#2980b9' },
-  <!DOCTYPE html>
-  <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Crisis Management Game — Under Construction</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="/css/style.css" />
-  </head>
-  <body>
-    <div class="header">
-      <img src="/images/bank-logo.png" alt="SSBTX Logo" />
-      <div class="title">Crisis Management Game <span style="font-size:12px;background:#ffe08a;color:#6b5d15;padding:2px 6px;border-radius:6px;margin-left:8px;">UC-Static</span></div>
-    </div>
+  <script>
+    // Keep the Generate flow, but never load scenarios.
+    document.getElementById('genBtn').addEventListener('click', () => {
+      const box = document.getElementById('questionBox');
+      box.innerHTML = `
+        <div class="uc-box">
+          <h3>Under Construction</h3>
+          <p>No scenarios are available. We are starting fresh and rebuilding this training.</p>
+        </div>
+      `;
+    });
+  </script>
 
-    <div class="scenario-box" style="text-align:center;">
-      <h2>Scenario</h2>
-      <p>We are rebuilding this training. No scenarios will load right now.</p>
-    </div>
-
-    <div class="question-box" id="questionBox">
-      <div class="uc-box">
-        <h3>Under Construction</h3>
-        <p>The Crisis Management Game content is being rebuilt. Please check back soon.</p>
-      </div>
-    </div>
-
-    <div class="controls">
-      <button id="genBtn">Generate New Crisis Scenario</button>
-      <button onclick="window.location.href='index.html'">Back to Home</button>
-    </div>
-
-    <script>
-      // Keep the Generate flow, but never load scenarios.
-      document.getElementById('genBtn').addEventListener('click', () => {
-        const box = document.getElementById('questionBox');
-        box.innerHTML = `
-          <div class="uc-box">
-            <h3>Under Construction</h3>
-            <p>No scenarios are available. We are starting fresh and rebuilding this training.</p>
-          </div>
-        `;
-      });
-    </script>
-
-  </body>
-  </html>
-  state = { scores: {}, questions: [], currentIndex: 0, scenario: '' };
+</body>
+</html>
