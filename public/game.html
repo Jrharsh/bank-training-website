@@ -65,7 +65,7 @@ const departments = [
       <p>We are rebuilding this training. No scenarios will load right now.</p>
     </div>
 
-    <div class="question-box">
+    <div class="question-box" id="questionBox">
       <div class="uc-box">
         <h3>Under Construction</h3>
         <p>The Crisis Management Game content is being rebuilt. Please check back soon.</p>
@@ -73,9 +73,22 @@ const departments = [
     </div>
 
     <div class="controls">
-      <button disabled>Generate New Crisis Scenario</button>
+      <button id="genBtn">Generate New Crisis Scenario</button>
       <button onclick="window.location.href='index.html'">Back to Home</button>
     </div>
+
+    <script>
+      // Keep the Generate flow, but never load scenarios.
+      document.getElementById('genBtn').addEventListener('click', () => {
+        const box = document.getElementById('questionBox');
+        box.innerHTML = `
+          <div class="uc-box">
+            <h3>Under Construction</h3>
+            <p>No scenarios are available. We are starting fresh and rebuilding this training.</p>
+          </div>
+        `;
+      });
+    </script>
 
   </body>
   </html>
