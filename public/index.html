@@ -195,7 +195,9 @@
 
     <script>
         function goToGame() {
-            window.location.href = '/game.html';
+            // Cache-bust to ensure the latest UC-only game page loads
+            const v = 'uc6';
+            window.location.href = `/game.html?v=${v}`;
         }
 
         function goToDiscussion() {
