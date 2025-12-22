@@ -33,6 +33,7 @@ const crisisTypes = [
   'SMS Spoofing Campaign',
   'Disgruntled Employee Incident'
   , 'Account Takeover Campaign'
+  , 'Catastrophic Core Failure'
 ];
 
 const severities = ['Low', 'Moderate', 'High', 'Critical'];
@@ -48,6 +49,7 @@ const impacted = [
   'CRM',
   'Data Warehouse',
   'Identity & Access Management'
+  , 'Disaster Recovery Site'
 ];
 
 function pick(arr, idx) {
