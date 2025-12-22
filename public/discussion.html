@@ -342,9 +342,8 @@
         <a href="/" class="back-btn">← Back to Main Menu</a>
         
         <div class="header">
-            <h1>🤖 AI-Powered Tabletop Scenario Generator</h1>
-            <p>Generate unique, realistic training scenarios using artificial intelligence</p>
-            <div class="ai-badge">Powered by OpenAI GPT</div>
+            <h1>Tabletop Scenario Generator</h1>
+            <p>Generate realistic, bank-specific training scenarios from built-in templates</p>
         </div>
 
         <div class="status-indicator" id="statusIndicator">
@@ -386,7 +385,7 @@
             <div class="generate-section">
                 <button class="generate-btn" id="generateBtn" disabled>
                     <span class="loading-spinner"></span>
-                    <span id="generateBtnText">🤖 Generate AI Scenario</span>
+                    <span id="generateBtnText">Generate Scenario</span>
                 </button>
             </div>
         </div>
@@ -398,7 +397,7 @@
                     <h3 id="scenarioTitle">Scenario Title</h3>
                     <p id="scenarioDepartment">Department Name</p>
                 </div>
-                <button class="refresh-btn" onclick="generateAIScenario()">🔄 Generate New</button>
+                <button class="refresh-btn" onclick="generateScenario()">🔄 Generate New</button>
             </div>
 
             <div class="scenario-content" id="scenarioContent">
@@ -500,7 +499,7 @@ function updateGenerateButton() {
     generateBtn.disabled = !selectedDepartment;
 }
 
-async function generateAIScenario() {
+async function generateScenario() {
     if (!selectedDepartment) {
         updateStatus('Please select a department first', true);
         return;
@@ -512,8 +511,8 @@ async function generateAIScenario() {
     // Show loading state
     generateBtn.classList.add('loading');
     generateBtn.disabled = true;
-    generateBtnText.textContent = 'AI is generating scenario...';
-    updateStatus('Contacting OpenAI to generate scenario...');
+    generateBtnText.textContent = 'Generating scenario...';
+    updateStatus('Generating scenario from templates...');
 
     console.log(`[DEBUG] Starting generation: ${selectedDepartment} - ${selectedComplexity}`);
 
@@ -549,7 +548,7 @@ async function generateAIScenario() {
         }
 
         displayScenario(data);
-        updateStatus('AI scenario generated successfully!');
+        updateStatus('Scenario generated successfully.');
 
     } catch (error) {
         console.error('[DEBUG] Error:', error);
@@ -559,7 +558,7 @@ async function generateAIScenario() {
         // Reset button state
         generateBtn.classList.remove('loading');
         generateBtn.disabled = false;
-        generateBtnText.textContent = '🤖 Generate AI Scenario';
+        generateBtnText.textContent = 'Generate Scenario';
     }
 }
 
@@ -653,9 +652,9 @@ document.addEventListener('DOMContentLoaded', function() {
     setupComplexitySelector();
     
     // Add click handler to generate button
-    document.getElementById('generateBtn').addEventListener('click', generateAIScenario);
+    document.getElementById('generateBtn').addEventListener('click', generateScenario);
     
-    updateStatus('Ready to generate AI-powered scenarios');
+    updateStatus('Ready to generate scenarios');
     console.log('[DEBUG] Initialization complete');
 });
     </script>
