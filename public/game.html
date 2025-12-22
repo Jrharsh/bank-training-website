@@ -252,17 +252,14 @@ function resetGame() {
 }
 
 function declareWinner(winner, points) {
-  const banner = document.createElement('div');
-  banner.style.backgroundColor = '#2ecc71';
-  banner.style.color = '#fff';
-  banner.style.textAlign = 'center';
-  banner.style.padding = '20px';
-  banner.style.marginTop = '30px';
-  banner.style.borderRadius = '12px';
-  banner.style.fontSize = '20px';
-  banner.style.fontWeight = 'bold';
-  banner.textContent = `🎉 ${winner} wins the game with ${points} points!`;
-  document.body.appendChild(banner);
+  const container = document.getElementById('questionContainer');
+  const overlay = document.createElement('div');
+  overlay.className = 'winner-overlay';
+  overlay.innerHTML = `
+    <h1>🎉 ${winner} Wins!</h1>
+    <p>Highest score: ${points} points</p>
+  `;
+  container.appendChild(overlay);
 }
 
 function launchConfetti() {

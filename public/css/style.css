@@ -52,6 +52,7 @@ body {
   max-width: 800px;
   box-shadow: 0 0 12px rgba(0, 0, 0, 0.05);
   text-align: center;
+  position: relative; /* allow overlays */
 }
 .intro-box h2 {
   margin-bottom: 10px;
@@ -132,4 +133,27 @@ body {
 @keyframes spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
+}
+
+/* Winner overlay shown above the questions */
+.winner-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(46, 204, 113, 0.95);
+  color: #fff;
+  padding: 40px 24px;
+  border-radius: 12px;
+  backdrop-filter: blur(2px);
+}
+.winner-overlay h1 {
+  font-size: 44px;
+  margin: 0 0 10px 0;
+}
+.winner-overlay p {
+  font-size: 18px;
+  opacity: 0.95;
 }
