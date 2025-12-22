@@ -4,6 +4,8 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 
 import scenariosHandler from './api/scenarios.js';
+import staticRandomHandler from './api/static-random.js';
+import discussionHandler from './api/generate-discussion-scenario.js';
 
 const app = express();
 app.use(cors());
@@ -17,6 +19,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // API routes
 app.post('/api/scenarios', (req, res) => scenariosHandler(req, res));
+// Fallback static scenarios for the game
+app.get('/api/static-random', (req, res) => staticRandomHandler(req, res));
+// Discussion page generator
+app.post('/api/generate-discussion-scenario', (req, res) => discussionHandler(req, res));
 
 // HTML routes (optional convenience)
 app.get('/', (req, res) => {

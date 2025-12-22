@@ -110,9 +110,11 @@ async function generateScenario() {
       ? data.questions.map(q => ({
           department: q.department,
           questionText: q.questionText,
-          choices: shuffle([...q.choices])
+          choices: Array.isArray(q.choices) ? shuffle([...q.choices]) : []
         }))
       : [];
+
+    console.log('[Game] Loaded scenario, questions:', state.questions.length);
 
     state.currentIndex = 0;
     document.getElementById('introBox').classList.add('hidden');
@@ -126,12 +128,15 @@ async function generateScenario() {
       const fb = await fetch('/api/static-random');
       const data = await fb.json();
       state.scenario = data.description;
-      state.questions = Array.isArray(data.questions) ? data.questions.map(q => ({ department: q.department, questionText: q.questionText, choices: shuffle([...q.choices]) })) : [];
+      state.questions = Array.isArray(data.questions)
+        ? data.questions.map(q => ({ department: q.department, questionText: q.questionText, choices: Array.isArray(q.choices) ? shuffle([...q.choices]) : [] }))
+        : [];
       state.currentIndex = 0;
       document.getElementById('introBox').classList.add('hidden');
       document.getElementById('scenarioBox').classList.remove('hidden');
       document.getElementById('scenarioText').textContent = state.scenario;
       renderScoreboard();
+      console.log('[Game] Fallback scenario, questions:', state.questions.length);
       renderQuestion();
     } catch (e2) {
       // Replace alert with inline error message in the question area
@@ -159,7 +164,15 @@ function renderQuestion() {
   container.innerHTML = '';
   document.getElementById('nextContainer').classList.add('hidden');
 
-  if (!state.questions || state.currentIndex >= state.questions.length) return;
+  if (!state.questions || state.questions.length === 0) {
+    container.innerHTML = `
+      <div class="loader">
+        <div style="color:#666;">No questions available for this scenario.</div>
+      </div>`;
+    return;
+  }
+
+  if (state.currentIndex >= state.questions.length) return;
 
   const q = state.questions[state.currentIndex];
   if (!q || !q.department || !q.questionText) return;
