@@ -107,6 +107,11 @@ body {
   justify-content: center;
   margin-top: 20px;
 }
+.q-progress {
+  font-weight: 600;
+  color: #555;
+  margin-bottom: 8px;
+}
 .hidden {
   display: none;
 }
@@ -157,3 +162,16 @@ body {
   font-size: 18px;
   opacity: 0.95;
 }
+
+/* Under construction message box */
+.uc-box {
+  background: #fffceb;
+  border: 1px solid #f5e6a7;
+  color: #6b5d15;
+  border-radius: 12px;
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+.uc-box h3 { margin: 0 0 8px 0; }
+.uc-box p { margin: 0; }

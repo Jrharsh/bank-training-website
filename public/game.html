@@ -11,7 +11,7 @@
 <body>
   <div class="header">
     <img src="/images/bank-logo.png" alt="SSBTX Logo" />
-    <div class="title">Crisis Management Game</div>
+    <div class="title">Crisis Management Game <span id="buildTag" style="font-size:12px;background:#ffe08a;color:#6b5d15;padding:2px 6px;border-radius:6px;margin-left:8px;vertical-align:middle;">UC-unknown</span></div>
   </div>
 
   <div class="scoreboard" id="scoreboard"></div>
@@ -19,7 +19,7 @@
   <div class="intro-box" id="introBox">
     <h2>Welcome to the SSBTX Crisis Management Simulation</h2>
     <p>In this collaborative game, each department will respond to a bank-specific crisis. Work together to resolve the scenario.</p>
-    <p>The first department to reach 50 points wins. Good luck!</p>
+    <p>You will answer 21 questions (3 per department). The highest score is announced only after all 21 questions. Good luck!</p>
     <p><strong>Click "Generate New Crisis Scenario" to begin.</strong></p>
   </div>
 
@@ -31,11 +31,11 @@
   <div class="question-box" id="questionContainer"></div>
 
   <div class="next-button hidden" id="nextContainer">
-    <button onclick="nextQuestion()">Next Question</button>
+    <button id="nextBtn" onclick="nextQuestion()">Next Question</button>
   </div>
 
   <div class="controls">
-    <button onclick="generateScenario()">Generate New Crisis Scenario</button>
+    <button onclick="generateScenario()" id="genBtn">Generate New Crisis Scenario</button>
     <button onclick="resetGame()">Reset Game</button>
     <button onclick="window.location.href='index.html'">Back to Home</button>
   </div>
@@ -73,85 +73,32 @@ function renderScoreboard() {
 }
 
 async function generateScenario() {
-  const timestamp = Date.now();
-  const randomParam = Math.random();
+  // Under Construction: show a friendly message and skip questions
+  const qc = document.getElementById('questionContainer');
+  document.getElementById('introBox').classList.add('hidden');
+  document.getElementById('scenarioBox').classList.remove('hidden');
+  document.getElementById('nextContainer').classList.add('hidden');
+  try { document.getElementById('genBtn').disabled = true; } catch {}
+  state = { scores: {}, questions: [], currentIndex: 0, scenario: '' };
+  departments.forEach(dep => (state.scores[dep.name] = { points: 0 }));
+  renderScoreboard();
 
+  // Pull message from API (optional) to remain consistent with deployment
   try {
-    // Show loading graphic in the question area while fetching
-    const qc = document.getElementById('questionContainer');
-    qc.innerHTML = `
-      <div class="loader" aria-live="polite" aria-busy="true">
-        <div class="spinner" role="status" aria-label="Loading"></div>
-        <div>Loading questions…</div>
-      </div>
-    `;
-    document.getElementById('nextContainer').classList.add('hidden');
-
-    const res = await fetch(`/api/scenarios?t=${timestamp}&r=${randomParam}`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ timestamp, entropy: Math.random() })
-    });
-
-    let data;
-    try {
-      data = await res.json();
-    } catch (_) {
-      data = null;
-    }
-
-    if (!res.ok || !data || !Array.isArray(data.questions)) {
-      const fallback = await fetch(`/api/static-random?t=${timestamp}&r=${randomParam}`);
-      data = await fallback.json();
-    }
-    state.scenario = data.description;
-
-    state.questions = Array.isArray(data.questions)
-      ? data.questions.map(q => ({
-          department: q.department,
-          questionText: q.questionText,
-          choices: Array.isArray(q.choices) ? shuffle([...q.choices]) : []
-        }))
-      : [];
-
-    // Randomize question order across all departments and cap at 21
-    state.questions = shuffle([...state.questions]).slice(0, 21);
-
-    console.log('[Game] Loaded scenario, questions:', state.questions.length);
-
-    state.currentIndex = 0;
-    document.getElementById('introBox').classList.add('hidden');
-    document.getElementById('scenarioBox').classList.remove('hidden');
-    document.getElementById('scenarioText').textContent = state.scenario;
-    renderScoreboard();
-    renderQuestion();
-  } catch (err) {
-    console.error('Error fetching scenario:', err);
-    try {
-      const fb = await fetch('/api/static-random');
-      const data = await fb.json();
-      state.scenario = data.description;
-      state.questions = Array.isArray(data.questions)
-        ? data.questions.map(q => ({ department: q.department, questionText: q.questionText, choices: Array.isArray(q.choices) ? shuffle([...q.choices]) : [] }))
-        : [];
-      state.currentIndex = 0;
-      document.getElementById('introBox').classList.add('hidden');
-      document.getElementById('scenarioBox').classList.remove('hidden');
-      document.getElementById('scenarioText').textContent = state.scenario;
-      renderScoreboard();
-      console.log('[Game] Fallback scenario, questions:', state.questions.length);
-      renderQuestion();
-    } catch (e2) {
-      // Replace alert with inline error message in the question area
-      const qc = document.getElementById('questionContainer');
-      qc.innerHTML = `
-        <div class="loader" aria-live="polite">
-          <div style="color:#e74c3c;font-weight:600;">Failed to load scenario.</div>
-          <div style="font-size:14px;color:#888;">Please try again or check your connection.</div>
-        </div>
-      `;
-    }
+    const res = await fetch('/api/scenarios', { method: 'POST' });
+    const data = await res.json();
+    state.scenario = data?.description || 'We are rebuilding this training.';
+  } catch (_) {
+    state.scenario = 'We are rebuilding this training.';
   }
+
+  document.getElementById('scenarioText').textContent = state.scenario;
+  qc.innerHTML = `
+    <div class="uc-box">
+      <h3>Under Construction</h3>
+      <p>The Crisis Management Game content is being rebuilt. Please check back soon.</p>
+    </div>
+  `;
 }
 
 function shuffle(array) {
@@ -169,8 +116,9 @@ function renderQuestion() {
 
   if (!state.questions || state.questions.length === 0) {
     container.innerHTML = `
-      <div class="loader">
-        <div style="color:#666;">No questions available for this scenario.</div>
+      <div class="uc-box">
+        <h3>Under Construction</h3>
+        <p>No questions are available yet.</p>
       </div>`;
     return;
   }
@@ -181,17 +129,30 @@ function renderQuestion() {
   if (!q || !q.department || !q.questionText) return;
 
   const depColor = departments.find(d => d.name === q.department)?.color || '#ccc';
+  const current = state.currentIndex + 1;
+  const total = state.questions.length || 21;
 
   container.innerHTML = `
+    <div class="q-progress">Question ${current} of ${total}</div>
     <h3 style="color:${depColor};">${q.department}</h3>
     <h2>${q.questionText}</h2>
     <div class="choices">
       ${q.choices.map(choice => `
-        <button class="choice-btn" onclick='selectAnswer(this, "${choice.text}", "${choice.type}", "${q.department}", \`${choice.explanation}\`)' >
+        <button class="choice-btn" 
+          data-text="${escapeAttr(choice.text)}" 
+          data-type="${escapeAttr(choice.type)}" 
+          data-dep="${escapeAttr(q.department)}" 
+          data-expl="${encodeURIComponent(choice.explanation)}">
           ${choice.text}
         </button>`).join('')}
     </div>
   `;
+  attachChoiceHandlers();
+  if (!q.choices || q.choices.length === 0) {
+    const nb = document.getElementById('nextBtn');
+    nb.textContent = current >= total ? 'Finish Scenario' : `Next Prompt (${current}/${total})`;
+    document.getElementById('nextContainer').classList.remove('hidden');
+  }
 }
 
 function selectAnswer(btn, text, type, department, explanation) {
@@ -215,16 +176,88 @@ function selectAnswer(btn, text, type, department, explanation) {
   btn.parentElement.appendChild(expl);
 
   renderScoreboard();
+  const nb = document.getElementById('nextBtn');
+  const current = state.currentIndex + 1;
+  const total = state.questions.length || 21;
+  nb.textContent = current >= total ? 'Finish & Announce Winner' : `Next Question (${current}/${total})`;
   document.getElementById('nextContainer').classList.remove('hidden');
+}
+
+function attachChoiceHandlers() {
+  const buttons = document.querySelectorAll('.choice-btn');
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const text = btn.getAttribute('data-text') || '';
+      const type = btn.getAttribute('data-type') || 'neutral';
+      const dep = btn.getAttribute('data-dep') || '';
+      const expl = decodeURIComponent(btn.getAttribute('data-expl') || '');
+      selectAnswer(btn, text, type, dep, expl);
+    });
+  });
+}
+
+function escapeAttr(str) {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/"/g, '&quot;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+}
+
+function rebalanceQuestions(questions) {
+  const deps = departments.map(d => d.name);
+  const byDep = new Map();
+  deps.forEach(dep => byDep.set(dep, []));
+  for (const q of questions) {
+    if (byDep.has(q.department)) byDep.get(q.department).push(q);
+  }
+  const balanced = [];
+  for (const dep of deps) {
+    const list = byDep.get(dep);
+    if (!list || list.length < 3) {
+      // If insufficient, try to supplement by cloning with slight text tweak to maintain flow
+      // Prefer resilience: duplicate distinct questions to hit exactly 3
+      const src = list || [];
+      const needed = 3 - src.length;
+      for (let i = 0; i < needed; i++) {
+        const pickIdx = i % (src.length || 1);
+        const base = src.length ? src[pickIdx] : {
+          department: dep,
+          questionText: `Confirm controls and communication for ${dep}?`,
+          choices: [
+            { text: 'Follow playbook and communicate clearly', type: 'correct', explanation: 'Consistency and control.' },
+            { text: 'Delay actions briefly', type: 'neutral', explanation: 'Limited benefit; watch risk.' },
+            { text: 'Ignore procedures', type: 'wrong', explanation: 'Creates risk and confusion.' },
+            { text: 'Delegate broadly without ownership', type: 'wrong', explanation: 'Fragmented decision-making.' }
+          ]
+        };
+        const clone = {
+          department: dep,
+          questionText: `${base.questionText} (variant ${i+1})`,
+          choices: Array.isArray(base.choices) ? shuffle([...base.choices]) : []
+        };
+        src.push(clone);
+      }
+      byDep.set(dep, src);
+    }
+    // Take exactly 3
+    balanced.push(...byDep.get(dep).slice(0,3));
+  }
+  // Ensure total 21
+  return balanced.slice(0, 21);
 }
 
 function nextQuestion() {
   state.currentIndex++;
   if (state.currentIndex >= state.questions.length) {
-    // Game over after 21 questions: highest score wins
-    const winner = getHighestScoreDepartment();
-    declareWinner(winner.name, winner.points);
-    launchConfetti();
+    // Scenario complete; if scores equal (e.g., prompt-only), just show completion
+    if (areAllScoresEqual()) {
+      declareCompletion();
+    } else {
+      const winner = getHighestScoreDepartment();
+      declareWinner(winner.name, winner.points);
+      launchConfetti();
+    }
     document.getElementById('nextContainer').classList.add('hidden');
   } else {
     renderQuestion();
@@ -262,11 +295,32 @@ function declareWinner(winner, points) {
   container.appendChild(overlay);
 }
 
+function declareCompletion() {
+  const container = document.getElementById('questionContainer');
+  const overlay = document.createElement('div');
+  overlay.className = 'winner-overlay';
+  overlay.innerHTML = `
+    <h1>Scenario Complete</h1>
+    <p>Discussion prompts finished. No winner declared.</p>
+  `;
+  container.appendChild(overlay);
+}
+
+function areAllScoresEqual() {
+  const points = departments.map(d => state.scores[d.name].points || 0);
+  return points.every(p => p === points[0]);
+}
+
 function launchConfetti() {
   confetti({ particleCount: 200, spread: 160, origin: { y: 0.6 } });
 }
 
 renderScoreboard();
+
+// Build tag to confirm fresh assets are loaded
+window.__BUILD = 'UC-20251222.2';
+try { document.getElementById('buildTag').textContent = window.__BUILD; } catch {}
+console.log('[BUILD]', window.__BUILD);
 </script>
 </body>
 </html>

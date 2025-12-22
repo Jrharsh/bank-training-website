@@ -1,228 +1,170 @@
-// Generates 60+ deterministic bank crisis scenarios with 7 department questions each.
+// Single scenario (21 questions total, 3 per department)
 
-const departments = [
-  'CEO/SVPs',
-  'IT/Security',
-  'HR',
-  'Finance',
-  'Loans',
-  'Accounting',
-  'Deposits'
-];
+function buildHighValueDisruptionScenario() {
+  const title = 'High-Value Transaction Disruption with Potential Data Exposure';
+  const description = [
+    'During peak business hours, the institution experiences a partial system outage affecting transaction processing.',
+    'Several high-value transactions are stuck mid-process, and internal alerts indicate unusual system access patterns around the same time.',
+    'Customers are already calling, and leadership must decide how to proceed while facts are still unclear.',
+    '',
+    'No breach is confirmed. No fraud is confirmed.',
+    'But inaction, delay, or the wrong call could escalate the situation quickly.'
+  ].join(' ');
 
-const crisisTypes = [
-  'Ransomware Attack',
-  'Core Banking Outage',
-  'Payment Network Disruption',
-  'Data Breach',
-  'Phishing Campaign',
-  'Branch Network Outage',
-  'ATM Cash Shortage',
-  'DDoS Attack',
-  'Wire Fraud Attempt',
-  'Regulatory Audit Finding',
-  'Vendor Cloud Outage',
-  'Natural Disaster Impact',
-  'Insider Threat',
-  'Misdirected ACH',
-  'Card Skimming Incident',
-  'Mortgage Processing Backlog',
-  'Deposit Run Rumor',
-  'OFAC Screening Failure',
-  'Check Fraud Spike',
-  'SMS Spoofing Campaign',
-  'Disgruntled Employee Incident'
-  , 'Account Takeover Campaign'
-  , 'Catastrophic Core Failure'
-  , 'Employee Data Disclosure'
-];
+  const q = [];
+  const mkChoices = (c, ce, n, ne, w1, w1e, w2, w2e) => ([
+    { text: c, type: 'correct', explanation: ce },
+    { text: n, type: 'neutral', explanation: ne },
+    { text: w1, type: 'wrong', explanation: w1e },
+    { text: w2, type: 'wrong', explanation: w2e }
+  ]);
+  // CEO/SVPs (3)
+  q.push({ department: 'CEO/SVPs', questionText: 'Do you halt all affected operations immediately, or allow limited processing to continue?', choices: mkChoices(
+    'Pause affected operations; allow limited, controlled exceptions', 'Reduces exposure while serving critical needs under strict controls.',
+    'Maintain limited processing without formal controls', 'Helps throughput but increases uncontrolled risk.',
+    'Proceed as normal to avoid delays', 'High risk of misposts and compounding errors.',
+    'Delegate decision entirely to each team', 'Fragmented decisions increase operational and risk inconsistency.'
+  ) });
+  q.push({ department: 'CEO/SVPs', questionText: 'What level of risk is acceptable before escalating this externally (regulators, board, media)?', choices: mkChoices(
+    'Escalate when material exposure or customer impact is likely', 'Aligns with policy and transparency obligations.',
+    'Wait for full confirmation of impacts', 'May be too slow; risk of non-compliance.',
+    'Do not escalate unless there is severe media attention', 'Reactive; undermines governance.',
+    'Let vendors decide when to escalate', 'Lacks bank-specific accountability and context.'
+  ) });
+  q.push({ department: 'CEO/SVPs', questionText: 'Who has final authority if departments disagree on the severity of the situation?', choices: mkChoices(
+    'Crisis command lead with CEO/SVP oversight', 'Provides clear decision-making and accountability.',
+    'Majority vote among department heads', 'Democratic but slow and inconsistent.',
+    'Vendor incident manager', 'External party lacks governance authority.',
+    'Whoever is loudest on the call', 'Poor governance; encourages bias.'
+  ) });
 
-const severities = ['Low', 'Moderate', 'High', 'Critical'];
-const impacted = [
-  'Online Banking',
-  'Core System',
-  'ACH',
-  'Wire',
-  'Cards',
-  'Phone Banking',
-  'Branches',
-  'ATMs',
-  'CRM',
-  'Data Warehouse',
-  'Identity & Access Management'
-  , 'Disaster Recovery Site'
-  , 'Customer PII'
-  , 'Collaboration Platform'
-];
+  // IT/Security (3)
+  q.push({ department: 'IT/Security', questionText: 'Do you isolate systems immediately, knowing it will worsen customer impact?', choices: mkChoices(
+    'Isolate affected components and limit blast radius', 'Containment protects integrity and reduces further harm.',
+    'Increase monitoring only and keep systems open', 'Visibility helps but leaves systems exposed.',
+    'Disable logging to improve performance', 'Destroys forensic evidence and auditability.',
+    'Hot reboot all production systems', 'High risk of data loss and corruption.'
+  ) });
+  q.push({ department: 'IT/Security', questionText: 'How confident must you be before declaring this not a security incident?', choices: mkChoices(
+    'Evidence-based verification across logs, IAM, and access patterns', 'Demonstrable evidence avoids premature conclusions.',
+    'Anecdotal assurances from engineers', 'Helpful but insufficient for declaration.',
+    'Silence unless regulators ask', 'Non-transparent and risky.',
+    'Assume no incident after brief stability', 'Premature; ignores latent indicators.'
+  ) });
+  q.push({ department: 'IT/Security', questionText: 'Do you share incomplete technical findings with leadership, or wait for confirmation?', choices: mkChoices(
+    'Share qualified updates with confidence levels and timeboxes', 'Provides timely context while avoiding overstatements.',
+    'Share raw logs widely for transparency', 'Privacy and security risks; lacks curation.',
+    'Wait until everything is confirmed', 'May delay critical decisions and comms.',
+    'Provide no updates until resolution', 'Increases uncertainty and rumor risk.'
+  ) });
 
-function pick(arr, idx) {
-  return arr[idx % arr.length];
+  // HR (3)
+  q.push({ department: 'HR', questionText: 'How do you manage staff stress and decision fatigue during prolonged uncertainty?', choices: mkChoices(
+    'Set rotations, breaks, and support resources', 'Reduces burnout and error rates under pressure.',
+    'Allow unlimited overtime for all', 'Unsustainable; increases mistakes.',
+    'Leave managers to improvise support', 'Inconsistent; lacks fairness and control.',
+    'Silence to prevent panic', 'Backfires; increases anxiety and rumors.'
+  ) });
+  q.push({ department: 'HR', questionText: 'If human error may be involved, when do you begin formal documentation?', choices: mkChoices(
+    'Begin confidential documentation per policy immediately', 'Protects due process and evidence integrity.',
+    'Document only after all systems are stable', 'Delays can lose evidence and clarity.',
+    'Crowdsource notes in public channels', 'Privacy/compliance risk; non-confidential.',
+    'Skip documentation to focus on speed', 'Creates audit gaps and fairness issues.'
+  ) });
+  q.push({ department: 'HR', questionText: 'Do you remind employees about policy compliance now, or wait until facts are clear?', choices: mkChoices(
+    'Issue targeted reminders on data handling and comms', 'Reduces inadvertent violations and data leaks.',
+    'Wait until investigations conclude', 'Missed opportunity to prevent errors now.',
+    'Encourage use of personal tools for speed', 'High privacy and compliance risk.',
+    'Allow ad-hoc sharing without controls', 'Creates exposure and audit issues.'
+  ) });
+
+  // Finance (3)
+  q.push({ department: 'Finance', questionText: 'What is the estimated financial exposure if transactions must be reversed?', choices: mkChoices(
+    'Model reversals, fees, and liquidity impacts', 'Transparent estimate supports planning and disclosures.',
+    'Rely on rough verbal estimates', 'Unreliable; hard to justify.',
+    'Ignore exposure until month-end', 'Delays understanding and control.',
+    'Exclude high-value items to look better', 'Misleading; control failure.'
+  ) });
+  q.push({ department: 'Finance', questionText: 'Do you prioritize liquidity protection or customer remediation?', choices: mkChoices(
+    'Balance both via contingency funding and remediation plan', 'Preserves stability while addressing customer impact.',
+    'Liquidity only; remediation later', 'Can harm reputation and trust.',
+    'Remediation only; ignore liquidity', 'Risk of broader financial stress.',
+    'Pause all payments broadly', 'Breaks essential services; overreaction.'
+  ) });
+  q.push({ department: 'Finance', questionText: 'At what point does financial risk outweigh reputational risk?', choices: mkChoices(
+    'When material losses or capital triggers are likely', 'Aligns with defined risk appetite and governance.',
+    'Only if regulators contact the bank', 'Reactive and late.',
+    'When social media sentiment dips', 'Not a sound risk threshold.',
+    'Never prioritize financial risk over reputation', 'Ignores prudential obligations.'
+  ) });
+
+  // Loans (3)
+  q.push({ department: 'Loans', questionText: 'Do you pause loan disbursements tied to affected systems?', choices: mkChoices(
+    'Pause affected disbursements; manual controls for critical cases', 'Limits errors while serving urgent borrowers safely.',
+    'Continue all disbursements to avoid delays', 'High error and compliance risk.',
+    'Cancel disbursements broadly', 'Reputation harm; may be unnecessary.',
+    'Let each branch decide ad hoc', 'Inconsistent and risky outcomes.'
+  ) });
+  q.push({ department: 'Loans', questionText: 'How do you handle borrowers whose funding is delayed but contractually time-sensitive?', choices: mkChoices(
+    'Prioritize time-sensitive cases with documented exceptions', 'Balances customer needs with control and evidence.',
+    'Serve whoever complains the loudest', 'Unfair and non-compliant prioritization.',
+    'Delay all equally for simplicity', 'Ignores urgency and contractual obligations.',
+    'Release funds without checks to catch up', 'High error/fraud risk.'
+  ) });
+  q.push({ department: 'Loans', questionText: 'If loan data integrity is uncertain, do you assume worst-case or wait for verification?', choices: mkChoices(
+    'Hold processing; verify with dual checks and audit trail', 'Prudent; protects integrity and customer outcomes.',
+    'Assume minimal impact and proceed', 'Optimistic; risk of compounding issues.',
+    'Guess based on past incidents', 'Unreliable; non-evidence-based.',
+    'Discard records to start fresh', 'Data loss and compliance failures.'
+  ) });
+
+  // Accounting (3)
+  q.push({ department: 'Accounting', questionText: 'Do you reconcile transactions in real time or wait until systems stabilize?', choices: mkChoices(
+    'Perform targeted reconciliations with provisional close', 'Maintains transparency and control during disruption.',
+    'Wait for stability with no reconciliations', 'Gaps and errors may grow unchecked.',
+    'Adjust entries to smooth variances', 'Creates misstatement and fraud risk.',
+    'Skip reconciliations until month-end', 'Backlog and audit issues likely.'
+  ) });
+  q.push({ department: 'Accounting', questionText: 'How do you document discrepancies that may later be scrutinized?', choices: mkChoices(
+    'Centralized logs, approvals, and evidence index', 'Provides traceability for audit and review.',
+    'Email notes between staff', 'Unstructured; hard to audit.',
+    'Verbal acknowledgements only', 'Insufficient documentation.',
+    'Delete interim records to avoid confusion', 'Evidence loss; non-compliant.'
+  ) });
+  q.push({ department: 'Accounting', questionText: 'If records don’t align, which system is considered the source of truth?', choices: mkChoices(
+    'Define and use the governed system of record', 'Ensures consistency and control adherence.',
+    'Pick whichever shows better performance', 'Manipulative; control failure.',
+    'Use spreadsheets as temporary truth', 'Uncontrolled; error-prone.',
+    'Accept any system that matches expectations', 'Biased and unreliable.'
+  ) });
+
+  // Deposits (3)
+  q.push({ department: 'Deposits', questionText: 'What do frontline staff tell customers while facts are still unclear?', choices: mkChoices(
+    'Provide factual status and expected cadence', 'Builds trust and reduces rumor risk.',
+    'Offer guesses to calm customers', 'Can mislead and backfire.',
+    'Say nothing until fixed', 'Increases confusion and complaints.',
+    'Blame external vendors publicly', 'Damages accountability and trust.'
+  ) });
+  q.push({ department: 'Deposits', questionText: 'Do you proactively notify customers whose accounts might be affected?', choices: mkChoices(
+    'Notify potentially impacted customers with steps and support', 'Transparent and customer-centric; limits harm.',
+    'Notify all customers broadly', 'Creates unnecessary alarm and confusion.',
+    'Avoid notices to prevent panic', 'Non-transparent; may breach obligations.',
+    'Hand off to vendors to notify', 'Misses bank-specific responsibilities.'
+  ) });
+  q.push({ department: 'Deposits', questionText: 'How much transparency is appropriate before leadership decisions are finalized?', choices: mkChoices(
+    'Share factual, qualified updates without speculation', 'Balances transparency and accuracy before decisions finalize.',
+    'Share detailed speculation to show activity', 'Confusing; undermines credibility.',
+    'Remain silent until full resolution', 'Prolongs uncertainty and rumor risk.',
+    'Let branches choose messaging', 'Inconsistent, risk of misinformation.'
+  ) });
+
+  return { title, description, questions: q };
 }
-
-// Random helpers for variety
-function randPick(arr) {
-  return arr[Math.floor(Math.random() * arr.length)];
-}
-function sample(arr, n) {
-  const copy = [...arr];
-  const out = [];
-  while (copy.length && out.length < n) {
-    out.push(copy.splice(Math.floor(Math.random() * copy.length), 1)[0]);
-  }
-  return out;
-}
-
-function buildChoices(correctText, correctExplanation, neutralText, neutralExplanation, wrongA, wrongAExp, wrongB, wrongBExp) {
-  return [
-    { text: correctText, type: 'correct', explanation: correctExplanation },
-    { text: neutralText, type: 'neutral', explanation: neutralExplanation },
-    { text: wrongA, type: 'wrong', explanation: wrongAExp },
-    { text: wrongB, type: 'wrong', explanation: wrongBExp }
-  ];
-}
-
-// Build choices with phrasing variety
-function buildChoicesVar(cTexts, cExpls, nTexts, nExpls, wATexts, wAExpls, wBTexts, wBExpls) {
-  return buildChoices(
-    randPick(cTexts), randPick(cExpls),
-    randPick(nTexts), randPick(nExpls),
-    randPick(wATexts), randPick(wAExpls),
-    randPick(wBTexts), randPick(wBExpls)
-  );
-}
-
-function buildQuestions(kind, sev, systems, seed) {
-  const k = kind;
-  const s = sev;
-  const sys = systems.join(', ');
-
-  // Template pools per department
-  const templates = {
-    'CEO/SVPs': [
-      () => ({
-        department: 'CEO/SVPs',
-        questionText: `What executive stance should be taken during the ${k} (${s}) affecting ${sys}?`,
-        choices: buildChoicesVar(
-          [
-            'Activate crisis communications and designate a spokesperson',
-            'Stand up a command center with a single voice'
-          ],
-          ['Sets tone and avoids confusion.', 'Clear ownership reduces mixed messaging.'],
-          ['Issue a brief holding statement', 'Short-term clarity while details firm up.'],
-          ['Buys time for fuller details.', 'Avoids speculation temporarily.'],
-          ['Stay silent until resolved', 'Silence fuels speculation.'],
-          ['Creates uncertainty and rumor risk.'],
-          ['Assign comms to multiple leaders', 'Mixed messaging increases risk.'],
-          ['Fragmented communications cause confusion.']
-        )
-      }),
-      () => ({
-        department: 'CEO/SVPs',
-        questionText: `Which channels should leadership use first for stakeholder updates?`,
-        choices: buildChoicesVar(
-          ['Internal alert + status page + customer email', 'Status page + branch scripts + customer email'],
-          ['Coordinated, multi‑channel clarity.', 'Consistent messaging across audiences.'],
-          ['Executive-only chat room', 'Leads to narrow visibility.'],
-          ['Too narrow; misses staff/customers.'],
-          ['Social media only', 'Uncontrolled and incomplete.'],
-          ['High risk of misinterpretation.'],
-          ['Vendor press release', 'Lacks bank‑specific details.'],
-          ['Misses context customers need.']
-        )
-      }),
-      () => ({
-        department: 'CEO/SVPs',
-        questionText: `What public update cadence should be set for the ${k}?`,
-        choices: buildChoicesVar(
-          ['Hourly factual updates with progress and next steps', 'Regular scheduled updates with concrete milestones'],
-          ['Builds trust; avoids speculation.', 'Predictable cadence reduces anxiety.'],
-          ['Only at resolution', 'Too late; rumors fill the gap.'],
-          ['Infrequent updates increase uncertainty.'],
-          ['Continuous ad‑hoc posts', 'Inconsistent and confusing.'],
-          ['Noise without clarity.'],
-          ['Delegate to all managers', 'Fragmented messaging risk.'],
-          ['Inconsistent statements undermine trust.']
-        )
-      }),
-      () => ({
-        department: 'CEO/SVPs',
-        questionText: `What governance structure should lead triage for ${k}?`,
-        choices: buildChoicesVar(
-          ['Crisis command center with named leads', 'Cross-functional incident bridge with roles'],
-          ['Coordinates cross-functional response.', 'Improves accountability and speed.'],
-          ['Executive-only huddle', 'Lacks operational detail.'],
-          ['Too high-level to drive execution.'],
-          ['Vendor-only coordination', 'Misses bank-specific priorities.'],
-          ['External-only focus lacks context.'],
-          ['Ad-hoc meetings by team', 'Slow and inconsistent.'],
-          ['No single source of truth.']
-        )
-      })
-    ],
-
-    'IT/Security': [
-      () => ({
-        department: 'IT/Security',
-        questionText: `What is the first technical action for ${k} (${s})?`,
-        choices: buildChoicesVar(
-          ['Isolate affected systems and begin triage', 'Block risky traffic; isolate components; start triage'],
-          ['Containment limits further impact.', 'Reduces blast radius quickly.'],
-          ['Increase monitoring only', 'May help but impact continues.'],
-          ['Observation without action is insufficient.'],
-          ['Disable all logging', 'Destroys forensic evidence.'],
-          ['Eliminates audit trail.'],
-          ['Reboot production indiscriminately', 'May worsen outage/lose data.'],
-          ['Risk of corruption and extended downtime.']
-        )
-      }),
-      () => ({
-        department: 'IT/Security',
-        questionText: `How should forensic logging be handled during ${k}?`,
-        choices: buildChoicesVar(
-          ['Preserve and centralize logs with restricted access', 'Ship logs to secure central store with access controls'],
-          ['Supports investigation and legal needs.', 'Enables accurate timeline reconstruction.'],
-          ['Delete old logs to save space', 'Destroys evidence and traceability.'],
-          ['Evidence loss harms investigation.'],
-          ['Share raw logs to all staff', 'Privacy/security risks.'],
-          ['Excess access increases leakage risk.'],
-          ['Turn off audit trails', 'Blocks incident reconstruction.'],
-          ['No visibility into changes.']
-        )
-      }),
-      () => ({
-        department: 'IT/Security',
-        questionText: `What recovery approach is appropriate for impacted ${sys}?`,
-        choices: buildChoicesVar(
-          ['Restore from known‑good backups after validation', 'Canary release from validated backups'],
-          ['Safe recovery with integrity.', 'Reduces chance of reintroducing issues.'],
-          ['Hot‑swap to untested images', 'Risk of repeating failure.'],
-          ['Unvalidated images may break again.'],
-          ['Bypass change controls', 'Introduces new risks.'],
-          ['Compliance and stability issues.'],
-          ['Patch everything immediately', 'May misdiagnose root cause.'],
-          ['Broad changes without analysis add risk.']
-        )
-      }),
-      () => ({
-        department: 'IT/Security',
-        questionText: `How should in‑flight jobs be handled on ${sys}?`,
-        choices: buildChoicesVar(
-          ['Quarantine queues and reconcile before restart', 'Hold queues; validate and replay once safe'],
-          ['Prevents duplicates and misposts.', 'Controls integrity of transactions.'],
-          ['Force-send queued items', 'High chance of duplications.'],
-          ['Creates double-post risk.'],
-          ['Discard queues to clear load', 'Loses transaction records.'],
-          ['Data loss and customer impact.'],
-          ['Bypass change controls to patch', 'Introduces new risks.'],
-          ['Uncontrolled fixes increase instability.']
-        )
-      })
-    ],
-
-    'HR': [
-      () => ({
-        department: 'HR',
-        questionText: `How should HR guide staff during the ${k}?`,
+export function getScenarios() { return [buildHighValueDisruptionScenario()]; }
+export function getSpecialScenarios() { return []; }
+export function getRandomScenario() { return buildHighValueDisruptionScenario(); }
+export function getScenarioByKey(key) { return buildHighValueDisruptionScenario(); }
+export default getRandomScenario;
         choices: buildChoicesVar(
           ['Issue safety, remote‑work, and phishing reminders', 'Publish outage guidance and phishing reminders'],
           ['Protects staff and reduces errors.', 'Reduces mistakes under stress.'],
@@ -725,6 +667,21 @@ function buildHighDollarOutageScenario() {
     questions: q
   };
 }
+
+// --- Under Construction mode: return a single placeholder scenario ---
+function buildUnderConstruction() {
+  return {
+    title: 'Crisis Management Game — Under Construction',
+    description: 'We are rebuilding this training. Scenario content will appear here soon. Please check back shortly.',
+    questions: []
+  };
+}
+
+export function getScenarios() { return [buildUnderConstruction()]; }
+export function getSpecialScenarios() { return []; }
+export function getRandomScenario() { return buildUnderConstruction(); }
+export function getScenarioByKey(key) { return buildUnderConstruction(); }
+export default getRandomScenario;
 
 export function getSpecialScenarios() {
   return [
