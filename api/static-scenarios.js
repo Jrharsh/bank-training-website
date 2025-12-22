@@ -34,6 +34,7 @@ const crisisTypes = [
   'Disgruntled Employee Incident'
   , 'Account Takeover Campaign'
   , 'Catastrophic Core Failure'
+  , 'Employee Data Disclosure'
 ];
 
 const severities = ['Low', 'Moderate', 'High', 'Critical'];
@@ -50,6 +51,8 @@ const impacted = [
   'Data Warehouse',
   'Identity & Access Management'
   , 'Disaster Recovery Site'
+  , 'Customer PII'
+  , 'Collaboration Platform'
 ];
 
 function pick(arr, idx) {
