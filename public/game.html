@@ -77,6 +77,16 @@ async function generateScenario() {
   const randomParam = Math.random();
 
   try {
+    // Show loading graphic in the question area while fetching
+    const qc = document.getElementById('questionContainer');
+    qc.innerHTML = `
+      <div class="loader" aria-live="polite" aria-busy="true">
+        <div class="spinner" role="status" aria-label="Loading"></div>
+        <div>Loading questions…</div>
+      </div>
+    `;
+    document.getElementById('nextContainer').classList.add('hidden');
+
     const res = await fetch(`/api/scenarios?t=${timestamp}&r=${randomParam}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -124,7 +134,14 @@ async function generateScenario() {
       renderScoreboard();
       renderQuestion();
     } catch (e2) {
-      alert('Failed to load scenario.');
+      // Replace alert with inline error message in the question area
+      const qc = document.getElementById('questionContainer');
+      qc.innerHTML = `
+        <div class="loader" aria-live="polite">
+          <div style="color:#e74c3c;font-weight:600;">Failed to load scenario.</div>
+          <div style="font-size:14px;color:#888;">Please try again or check your connection.</div>
+        </div>
+      `;
     }
   }
 }
