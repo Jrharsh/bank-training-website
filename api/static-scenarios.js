@@ -59,6 +59,19 @@ function pick(arr, idx) {
   return arr[idx % arr.length];
 }
 
+// Random helpers for variety
+function randPick(arr) {
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+function sample(arr, n) {
+  const copy = [...arr];
+  const out = [];
+  while (copy.length && out.length < n) {
+    out.push(copy.splice(Math.floor(Math.random() * copy.length), 1)[0]);
+  }
+  return out;
+}
+
 function buildChoices(correctText, correctExplanation, neutralText, neutralExplanation, wrongA, wrongAExp, wrongB, wrongBExp) {
   return [
     { text: correctText, type: 'correct', explanation: correctExplanation },
@@ -68,236 +81,377 @@ function buildChoices(correctText, correctExplanation, neutralText, neutralExpla
   ];
 }
 
+// Build choices with phrasing variety
+function buildChoicesVar(cTexts, cExpls, nTexts, nExpls, wATexts, wAExpls, wBTexts, wBExpls) {
+  return buildChoices(
+    randPick(cTexts), randPick(cExpls),
+    randPick(nTexts), randPick(nExpls),
+    randPick(wATexts), randPick(wAExpls),
+    randPick(wBTexts), randPick(wBExpls)
+  );
+}
+
 function buildQuestions(kind, sev, systems, seed) {
   const k = kind;
   const s = sev;
   const sys = systems.join(', ');
 
-  return [
-    // CEO/SVPs (3)
-    {
-      department: 'CEO/SVPs',
-      questionText: `What is the immediate executive stance to the ${k} (${s}) impacting ${sys}?`,
-      choices: buildChoices(
-        'Activate crisis comms and designate spokesperson', 'Sets tone and avoids confusion.',
-        'Issue a brief holding statement', 'Buys time for fuller details.',
-        'Stay silent until resolved', 'Silence fuels speculation.',
-        'Assign comms to multiple leaders', 'Mixed messaging increases risk.'
-      )
-    },
-    {
-      department: 'CEO/SVPs',
-      questionText: `Which channels should leadership use first for stakeholder communications during ${k}?`,
-      choices: buildChoices(
-        'Internal alert + status page + customer email', 'Coordinated, multi‑channel clarity.',
-        'Executive-only chat room', 'Too narrow; misses staff/customers.',
-        'Social media only', 'Uncontrolled and incomplete.',
-        'Vendor press release', 'Lacks bank‑specific details.'
-      )
-    },
-    {
-      department: 'CEO/SVPs',
-      questionText: `How often should leadership provide public updates during a ${k} (${s})?`,
-      choices: buildChoices(
-        'Regular scheduled updates (e.g., hourly) with facts', 'Builds trust; avoids speculation.',
-        'Only at resolution', 'Too late; rumors fill the gap.',
-        'Continuous ad‑hoc posts', 'Inconsistent and confusing.',
-        'Delegate to all managers', 'Fragmented messaging risk.'
-      )
-    },
+  // Template pools per department
+  const templates = {
+    'CEO/SVPs': [
+      () => ({
+        department: 'CEO/SVPs',
+        questionText: `What executive stance should be taken during the ${k} (${s}) affecting ${sys}?`,
+        choices: buildChoicesVar(
+          [
+            'Activate crisis communications and designate a spokesperson',
+            'Stand up a command center with a single voice'
+          ],
+          ['Sets tone and avoids confusion.', 'Clear ownership reduces mixed messaging.'],
+          ['Issue a brief holding statement', 'Short-term clarity while details firm up.'],
+          ['Buys time for fuller details.', 'Avoids speculation temporarily.'],
+          ['Stay silent until resolved', 'Silence fuels speculation.'],
+          ['Creates uncertainty and rumor risk.'],
+          ['Assign comms to multiple leaders', 'Mixed messaging increases risk.'],
+          ['Fragmented communications cause confusion.']
+        )
+      }),
+      () => ({
+        department: 'CEO/SVPs',
+        questionText: `Which channels should leadership use first for stakeholder updates?`,
+        choices: buildChoicesVar(
+          ['Internal alert + status page + customer email', 'Status page + branch scripts + customer email'],
+          ['Coordinated, multi‑channel clarity.', 'Consistent messaging across audiences.'],
+          ['Executive-only chat room', 'Leads to narrow visibility.'],
+          ['Too narrow; misses staff/customers.'],
+          ['Social media only', 'Uncontrolled and incomplete.'],
+          ['High risk of misinterpretation.'],
+          ['Vendor press release', 'Lacks bank‑specific details.'],
+          ['Misses context customers need.']
+        )
+      }),
+      () => ({
+        department: 'CEO/SVPs',
+        questionText: `What public update cadence should be set for the ${k}?`,
+        choices: buildChoicesVar(
+          ['Hourly factual updates with progress and next steps', 'Regular scheduled updates with concrete milestones'],
+          ['Builds trust; avoids speculation.', 'Predictable cadence reduces anxiety.'],
+          ['Only at resolution', 'Too late; rumors fill the gap.'],
+          ['Infrequent updates increase uncertainty.'],
+          ['Continuous ad‑hoc posts', 'Inconsistent and confusing.'],
+          ['Noise without clarity.'],
+          ['Delegate to all managers', 'Fragmented messaging risk.'],
+          ['Inconsistent statements undermine trust.']
+        )
+      }),
+      () => ({
+        department: 'CEO/SVPs',
+        questionText: `What governance structure should lead triage for ${k}?`,
+        choices: buildChoicesVar(
+          ['Crisis command center with named leads', 'Cross-functional incident bridge with roles'],
+          ['Coordinates cross-functional response.', 'Improves accountability and speed.'],
+          ['Executive-only huddle', 'Lacks operational detail.'],
+          ['Too high-level to drive execution.'],
+          ['Vendor-only coordination', 'Misses bank-specific priorities.'],
+          ['External-only focus lacks context.'],
+          ['Ad-hoc meetings by team', 'Slow and inconsistent.'],
+          ['No single source of truth.']
+        )
+      })
+    ],
 
-    // IT/Security (3)
-    {
-      department: 'IT/Security',
-      questionText: `What is the first technical action for ${k} (${s})?`,
-      choices: buildChoices(
-        'Isolate affected systems and begin triage', 'Containment limits further impact.',
-        'Increase monitoring only', 'May help but impact continues.',
-        'Disable all logging', 'Destroys forensic evidence.',
-        'Reboot production indiscriminately', 'May worsen outage/lose data.'
-      )
-    },
-    {
-      department: 'IT/Security',
-      questionText: `How should forensic logging be handled during ${k}?`,
-      choices: buildChoices(
-        'Preserve and centralize logs with restricted access', 'Supports investigation and legal needs.',
-        'Delete old logs to save space', 'Destroys evidence and traceability.',
-        'Share raw logs to all staff', 'Privacy/security risks.',
-        'Turn off audit trails', 'Blocks incident reconstruction.'
-      )
-    },
-    {
-      department: 'IT/Security',
-      questionText: `What recovery approach is appropriate for impacted ${sys}?`,
-      choices: buildChoices(
-        'Restore from known‑good backups after validation', 'Safe recovery with integrity.',
-        'Hot‑swap to untested images', 'Risk of repeating failure.',
-        'Bypass change controls', 'Introduces new risks.',
-        'Patch everything immediately', 'May misdiagnose root cause.'
-      )
-    },
+    'IT/Security': [
+      () => ({
+        department: 'IT/Security',
+        questionText: `What is the first technical action for ${k} (${s})?`,
+        choices: buildChoicesVar(
+          ['Isolate affected systems and begin triage', 'Block risky traffic; isolate components; start triage'],
+          ['Containment limits further impact.', 'Reduces blast radius quickly.'],
+          ['Increase monitoring only', 'May help but impact continues.'],
+          ['Observation without action is insufficient.'],
+          ['Disable all logging', 'Destroys forensic evidence.'],
+          ['Eliminates audit trail.'],
+          ['Reboot production indiscriminately', 'May worsen outage/lose data.'],
+          ['Risk of corruption and extended downtime.']
+        )
+      }),
+      () => ({
+        department: 'IT/Security',
+        questionText: `How should forensic logging be handled during ${k}?`,
+        choices: buildChoicesVar(
+          ['Preserve and centralize logs with restricted access', 'Ship logs to secure central store with access controls'],
+          ['Supports investigation and legal needs.', 'Enables accurate timeline reconstruction.'],
+          ['Delete old logs to save space', 'Destroys evidence and traceability.'],
+          ['Evidence loss harms investigation.'],
+          ['Share raw logs to all staff', 'Privacy/security risks.'],
+          ['Excess access increases leakage risk.'],
+          ['Turn off audit trails', 'Blocks incident reconstruction.'],
+          ['No visibility into changes.']
+        )
+      }),
+      () => ({
+        department: 'IT/Security',
+        questionText: `What recovery approach is appropriate for impacted ${sys}?`,
+        choices: buildChoicesVar(
+          ['Restore from known‑good backups after validation', 'Canary release from validated backups'],
+          ['Safe recovery with integrity.', 'Reduces chance of reintroducing issues.'],
+          ['Hot‑swap to untested images', 'Risk of repeating failure.'],
+          ['Unvalidated images may break again.'],
+          ['Bypass change controls', 'Introduces new risks.'],
+          ['Compliance and stability issues.'],
+          ['Patch everything immediately', 'May misdiagnose root cause.'],
+          ['Broad changes without analysis add risk.']
+        )
+      }),
+      () => ({
+        department: 'IT/Security',
+        questionText: `How should in‑flight jobs be handled on ${sys}?`,
+        choices: buildChoicesVar(
+          ['Quarantine queues and reconcile before restart', 'Hold queues; validate and replay once safe'],
+          ['Prevents duplicates and misposts.', 'Controls integrity of transactions.'],
+          ['Force-send queued items', 'High chance of duplications.'],
+          ['Creates double-post risk.'],
+          ['Discard queues to clear load', 'Loses transaction records.'],
+          ['Data loss and customer impact.'],
+          ['Bypass change controls to patch', 'Introduces new risks.'],
+          ['Uncontrolled fixes increase instability.']
+        )
+      })
+    ],
 
-    // HR (3)
-    {
-      department: 'HR',
-      questionText: `How should HR guide staff during the ${k}?`,
-      choices: buildChoices(
-        'Issue safety, remote‑work, and phishing reminders', 'Protects staff and reduces errors.',
-        'Ask managers to handle ad‑hoc', 'Inconsistent guidance across teams.',
-        'Share impacted customer PII internally', 'Unnecessary exposure risk.',
-        'Warn only executives', 'Leaves workforce uninformed.'
-      )
-    },
-    {
-      department: 'HR',
-      questionText: `What is the remote‑work policy when ${sys} are degraded?`,
-      choices: buildChoices(
-        'Enable remote‑work per playbook with secure VPN', 'Maintains productivity securely.',
-        'Mandate office‑only operations', 'Reduces flexibility, may hinder response.',
-        'Allow personal email for files', 'Data leakage risk.',
-        'Suspend all work', 'Unnecessary disruption.'
-      )
-    },
-    {
-      department: 'HR',
-      questionText: `What staff comms cadence should HR set for ${k}?`,
-      choices: buildChoices(
-        'Scheduled updates via approved channels', 'Consistency reduces anxiety.',
-        'Manager texts only', 'Fragmented and untracked.',
-        'No updates until fix', 'Rumors and confusion.',
-        'Public social posts', 'Unvetted information risk.'
-      )
-    },
+    'HR': [
+      () => ({
+        department: 'HR',
+        questionText: `How should HR guide staff during the ${k}?`,
+        choices: buildChoicesVar(
+          ['Issue safety, remote‑work, and phishing reminders', 'Publish outage guidance and phishing reminders'],
+          ['Protects staff and reduces errors.', 'Reduces mistakes under stress.'],
+          ['Ask managers to handle ad‑hoc', 'Inconsistent guidance across teams.'],
+          ['Different messages cause confusion.'],
+          ['Share impacted customer PII internally', 'Unnecessary exposure risk.'],
+          ['Privacy breach potential.'],
+          ['Warn only executives', 'Leaves workforce uninformed.'],
+          ['Insufficient reach to staff.']
+        )
+      }),
+      () => ({
+        department: 'HR',
+        questionText: `What is the remote‑work policy when ${sys} are degraded?`,
+        choices: buildChoicesVar(
+          ['Enable remote‑work per playbook with secure VPN', 'Allow remote‑work with MFA and VPN per policy'],
+          ['Maintains productivity securely.', 'Keeps operations moving securely.'],
+          ['Mandate office‑only operations', 'Reduces flexibility, may hinder response.'],
+          ['Can slow incident recovery.'],
+          ['Allow personal email for files', 'Data leakage risk.'],
+          ['Privacy/compliance issues.'],
+          ['Suspend all work', 'Unnecessary disruption.'],
+          ['Halts productivity without need.']
+        )
+      }),
+      () => ({
+        department: 'HR',
+        questionText: `What staff comms cadence should HR set for ${k}?`,
+        choices: buildChoicesVar(
+          ['Scheduled updates via approved channels', 'Regular updates via official channels'],
+          ['Consistency reduces anxiety.', 'Predictable communication helps staff.'],
+          ['Manager texts only', 'Fragmented and untracked.'],
+          ['No system of record for comms.'],
+          ['No updates until fix', 'Rumors and confusion.'],
+          ['Creates uncertainty.'],
+          ['Public social posts', 'Unvetted information risk.'],
+          ['Potential disclosure issues.']
+        )
+      })
+    ],
 
-    // Finance (3)
-    {
-      department: 'Finance',
-      questionText: `What liquidity/capital step is prudent under ${k} (${s})?`,
-      choices: buildChoices(
-        'Activate contingency funding and monitor ratios', 'Preserves stability and compliance.',
-        'Reduce discretionary spend only', 'Helps but insufficient in crises.',
-        'Ignore capital triggers temporarily', 'Breaches risk policy.',
-        'Freeze all vendor payments', 'Can disrupt critical services.'
-      )
-    },
-    {
-      department: 'Finance',
-      questionText: `How should critical vendor payments be prioritized during ${k}?`,
-      choices: buildChoices(
-        'Pay security/infra vendors per continuity plan', 'Keeps core operations viable.',
-        'Stop all payments immediately', 'Breaks essential services.',
-        'Pay lowest invoices first', 'Misaligned with criticality.',
-        'Delegate to each team', 'Inconsistent prioritization.'
-      )
-    },
-    {
-      department: 'Finance',
-      questionText: `How should capital ratio changes be communicated?`,
-      choices: buildChoices(
-        'Coordinate with Risk/Regulatory for timely disclosures', 'Transparency and compliance.',
-        'Delay reporting until month‑end', 'Potential non‑compliance.',
-        'Share internally only', 'Stakeholders uninformed.',
-        'Publish unaudited numbers widely', 'Accuracy risk.'
-      )
-    },
+    'Finance': [
+      () => ({
+        department: 'Finance',
+        questionText: `What liquidity/capital step is prudent under ${k} (${s})?`,
+        choices: buildChoicesVar(
+          ['Activate contingency funding and monitor ratios', 'Activate contingency lines and monitor capital'],
+          ['Preserves stability and compliance.', 'Supports resilience under stress.'],
+          ['Reduce discretionary spend only', 'Helps but insufficient in crises.'],
+          ['Minor cuts rarely solve exposure.'],
+          ['Ignore capital triggers temporarily', 'Breaches risk policy.'],
+          ['Could violate governance rules.'],
+          ['Freeze all vendor payments', 'Can disrupt critical services.'],
+          ['Breaks essential operations.']
+        )
+      }),
+      () => ({
+        department: 'Finance',
+        questionText: `How should critical vendor payments be prioritized during ${k}?`,
+        choices: buildChoicesVar(
+          ['Pay security/infra vendors per continuity plan', 'Prioritize critical ops and security vendors'],
+          ['Keeps core operations viable.', 'Supports stability during incident.'],
+          ['Stop all payments immediately', 'Breaks essential services.'],
+          ['Service outages likely.'],
+          ['Pay lowest invoices first', 'Misaligned with criticality.'],
+          ['Weak prioritization strategy.'],
+          ['Delegate to each team', 'Inconsistent prioritization.'],
+          ['Fragmented decisions raise risk.']
+        )
+      }),
+      () => ({
+        department: 'Finance',
+        questionText: `How should capital ratio changes be communicated?`,
+        choices: buildChoicesVar(
+          ['Coordinate with Risk/Regulatory for timely disclosures', 'Work with Compliance to disclose changes'],
+          ['Transparency and compliance.', 'Meets regulatory expectations.'],
+          ['Delay reporting until month‑end', 'Potential non‑compliance.'],
+          ['Risk of findings or penalties.'],
+          ['Share internally only', 'Stakeholders uninformed.'],
+          ['External trust suffers.'],
+          ['Publish unaudited numbers widely', 'Accuracy risk.'],
+          ['Confusion and potential restatements.']
+        )
+      })
+    ],
 
-    // Loans (3)
-    {
-      department: 'Loans',
-      questionText: `How should Loans maintain continuity if ${sys} are degraded?`,
-      choices: buildChoices(
-        'Use manual processing playbook and prioritize critical loans', 'Maintains service with controls.',
-        'Pause all new applications', 'Avoids complexity but harms customers.',
-        'Cancel active applications', 'Damages reputation and revenue.',
-        'Proceed without documentation', 'Creates compliance risk.'
-      )
-    },
-    {
-      department: 'Loans',
-      questionText: `What documentation controls apply to manual processing?`,
-      choices: buildChoices(
-        'Dual review + checklist + secure storage', 'Reduces errors and fraud.',
-        'Accept verbal approvals only', 'Insufficient evidence.',
-        'Skip checklists', 'Higher error rate.',
-        'Email PII between staff', 'Privacy/compliance issues.'
-      )
-    },
-    {
-      department: 'Loans',
-      questionText: `How should prioritization be set for pending loans during ${k}?`,
-      choices: buildChoices(
-        'Critical customers and time‑sensitive cases first', 'Optimizes impact.',
-        'First‑in first‑out only', 'Ignores urgency.',
-        'Executive requests only', 'Bias and fairness issues.',
-        'Random order', 'Inefficient response.'
-      )
-    },
+    'Loans': [
+      () => ({
+        department: 'Loans',
+        questionText: `How should Loans maintain continuity if ${sys} are degraded?`,
+        choices: buildChoicesVar(
+          ['Use manual processing playbook and prioritize critical loans', 'Manual processing playbook for critical loans'],
+          ['Maintains service with controls.', 'Keeps pipeline moving safely.'],
+          ['Pause all new applications', 'Avoids complexity but harms customers.'],
+          ['Impacts growth and service.'],
+          ['Cancel active applications', 'Damages reputation and revenue.'],
+          ['Harms customer relationships.'],
+          ['Proceed without documentation', 'Creates compliance risk.'],
+          ['Audit issues likely.']
+        )
+      }),
+      () => ({
+        department: 'Loans',
+        questionText: `What documentation controls apply to manual processing?`,
+        choices: buildChoicesVar(
+          ['Dual review + checklist + secure storage', 'Dual controls, checklists, secure file handling'],
+          ['Reduces errors and fraud.', 'Maintains integrity under stress.'],
+          ['Accept verbal approvals only', 'Insufficient evidence.'],
+          ['Weak audit trail.'],
+          ['Skip checklists', 'Higher error rate.'],
+          ['Increases defects and rework.'],
+          ['Email PII between staff', 'Privacy/compliance issues.'],
+          ['Creates data leakage risk.']
+        )
+      }),
+      () => ({
+        department: 'Loans',
+        questionText: `How should prioritization be set for pending loans during ${k}?`,
+        choices: buildChoicesVar(
+          ['Critical customers and time‑sensitive cases first', 'Prioritize critical/time‑sensitive customers'],
+          ['Optimizes impact.', 'Best use of limited capacity.'],
+          ['First‑in first‑out only', 'Ignores urgency.'],
+          ['Fairness but poor impact.'],
+          ['Executive requests only', 'Bias and fairness issues.'],
+          ['Can distort priorities.'],
+          ['Random order', 'Inefficient response.'],
+          ['Wastes time; poor outcomes.']
+        )
+      })
+    ],
 
-    // Accounting (3)
-    {
-      department: 'Accounting',
-      questionText: `What is the accounting approach during ${k}?`,
-      choices: buildChoices(
-        'Provisional close with enhanced reconciliations', 'Transparency while controlling risk.',
-        'Delay close indefinitely', 'Adds uncertainty.',
-        'Skip reconciliations', 'Leads to misstatements.',
-        'Alter entries to smooth impact', 'Creates fraud risk.'
-      )
-    },
-    {
-      department: 'Accounting',
-      questionText: `Which reconciliations should be prioritized if ${sys} are affected?`,
-      choices: buildChoices(
-        'Cash, customer balances, and inter‑system breaks', 'Ensures core accuracy.',
-        'Only cosmetic reports', 'Misses material issues.',
-        'Skip until systems stable', 'Compounds errors.',
-        'Manual overrides without logs', 'No audit trail.'
-      )
-    },
-    {
-      department: 'Accounting',
-      questionText: `How should audit trail integrity be preserved during ${k}?`,
-      choices: buildChoices(
-        'Log approvals and changes centrally', 'Supports review/regulatory needs.',
-        'Allow edits without approvals', 'Control failure risk.',
-        'Disable logging to speed work', 'Evidence lost.',
-        'Share credentials', 'Security and traceability risk.'
-      )
-    },
+    'Accounting': [
+      () => ({
+        department: 'Accounting',
+        questionText: `What is the accounting approach during ${k}?`,
+        choices: buildChoicesVar(
+          ['Provisional close with enhanced reconciliations', 'Provisional close with targeted reconciliations'],
+          ['Transparency while controlling risk.', 'Shows control amid disruption.'],
+          ['Delay close indefinitely', 'Adds uncertainty.'],
+          ['Stakeholders lack clarity.'],
+          ['Skip reconciliations', 'Leads to misstatements.'],
+          ['Accuracy and control issues.'],
+          ['Alter entries to smooth impact', 'Creates fraud risk.'],
+          ['Misrepresentation risk.']
+        )
+      }),
+      () => ({
+        department: 'Accounting',
+        questionText: `Which reconciliations should be prioritized if ${sys} are affected?`,
+        choices: buildChoicesVar(
+          ['Cash, customer balances, and inter‑system breaks', 'Cash, GL ties, inter‑system breaks'],
+          ['Ensures core accuracy.', 'Focuses on material items.'],
+          ['Only cosmetic reports', 'Misses material issues.'],
+          ['Superficial work hides problems.'],
+          ['Skip until systems stable', 'Compounds errors.'],
+          ['Backlog and misstatements grow.'],
+          ['Manual overrides without logs', 'No audit trail.'],
+          ['Untraceable changes create findings.']
+        )
+      }),
+      () => ({
+        department: 'Accounting',
+        questionText: `How should audit trail integrity be preserved during ${k}?`,
+        choices: buildChoicesVar(
+          ['Log approvals and changes centrally', 'Centralized approval logs and change tracking'],
+          ['Supports review/regulatory needs.', 'Provides evidence of control.'],
+          ['Allow edits without approvals', 'Control failure risk.'],
+          ['Weakens governance.'],
+          ['Disable logging to speed work', 'Evidence lost.'],
+          ['No traceability under pressure.'],
+          ['Share credentials', 'Security and traceability risk.'],
+          ['Breaks segregation of duties.']
+        )
+      })
+    ],
 
-    // Deposits (3)
-    {
-      department: 'Deposits',
-      questionText: `How should Deposits preserve customer access amid ${k}?`,
-      choices: buildChoices(
-        'Branches/ATMs with limits + status page', 'Maintains access and trust.',
-        'ATM only', 'Partial access, comms still needed.',
-        'Shut all channels', 'Triggers customer panic.',
-        'Provide no updates', 'Creates confusion and complaints.'
-      )
-    },
-    {
-      department: 'Deposits',
-      questionText: `What is the ATM/branch strategy during ${k} (${s})?`,
-      choices: buildChoices(
-        'Maintain core services with withdrawal limits', 'Balances demand and supply.',
-        'Unlimited withdrawals', 'Liquidity risk.',
-        'Close all branches', 'Disrupts access.',
-        'No staff guidance', 'Creates inconsistency.'
-      )
-    },
-    {
-      department: 'Deposits',
-      questionText: `How often should the public status page be updated?`,
-      choices: buildChoices(
-        'At a regular cadence with concrete progress', 'Builds confidence.',
-        'Only when fixed', 'Insufficient transparency.',
-        'Continuous unvetted updates', 'Noise and confusion.',
-        'Update internally only', 'Customers left uninformed.'
-      )
-    }
-  ];
+    'Deposits': [
+      () => ({
+        department: 'Deposits',
+        questionText: `How should Deposits preserve customer access amid ${k}?`,
+        choices: buildChoicesVar(
+          ['Branches/ATMs with limits + status page', 'Branch scripts + ATM limits + status page'],
+          ['Maintains access and trust.', 'Balances service with stability.'],
+          ['ATM only', 'Partial access, comms still needed.'],
+          ['Limited channels frustrate customers.'],
+          ['Shut all channels', 'Triggers customer panic.'],
+          ['Severe reputation impact.'],
+          ['Provide no updates', 'Creates confusion and complaints.'],
+          ['Silence increases call volume.']
+        )
+      }),
+      () => ({
+        department: 'Deposits',
+        questionText: `What is the ATM/branch strategy during ${k} (${s})?`,
+        choices: buildChoicesVar(
+          ['Maintain core services with withdrawal limits', 'Branch core services; set withdrawal limits'],
+          ['Balances demand and supply.', 'Controls cash usage responsibly.'],
+          ['Unlimited withdrawals', 'Liquidity risk.'],
+          ['Can cause shortages.'],
+          ['Close all branches', 'Disrupts access.'],
+          ['Customer access collapses.'],
+          ['No staff guidance', 'Creates inconsistency.'],
+          ['Different answers per branch.']
+        )
+      }),
+      () => ({
+        department: 'Deposits',
+        questionText: `How often should the public status page be updated?`,
+        choices: buildChoicesVar(
+          ['At a regular cadence with concrete progress', 'Regular factual updates with progress'],
+          ['Builds confidence.', 'Trust via transparency.'],
+          ['Only when fixed', 'Insufficient transparency.'],
+          ['Long gaps fuel speculation.'],
+          ['Continuous unvetted updates', 'Noise and confusion.'],
+          ['Too much chatter without facts.'],
+          ['Update internally only', 'Customers left uninformed.'],
+          ['External trust erodes.']
+        )
+      })
+    ]
+  };
+
+  // Assemble 3 random questions per department
+  const out = [];
+  Object.keys(templates).forEach(dep => {
+    const selected = sample(templates[dep], 3);
+    selected.forEach(fn => out.push(fn()));
+  });
+  return out;
 }
 
 function buildScenario(index) {
