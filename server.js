@@ -4,10 +4,9 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 
 import scenariosHandler from './api/scenarios.js';
-import staticRandomHandler from './api/static-random.js';
 import discussionHandler from './api/generate-discussion-scenario.js';
 import fs from 'fs';
-import { getRandomScenario } from './api/static-scenarios.js';
+// Removed legacy static scenarios; keep server independent of that file
 
 const app = express();
 app.use(cors());
@@ -31,15 +30,12 @@ app.use(express.static(path.join(__dirname, 'public'), {
 
 // API routes
 app.post('/api/scenarios', (req, res) => scenariosHandler(req, res));
-// Fallback static scenarios for the game
-app.get('/api/static-random', (req, res) => staticRandomHandler(req, res));
 // Discussion page generator
 app.post('/api/generate-discussion-scenario', (req, res) => discussionHandler(req, res));
 
 // Diagnostics endpoint to verify active code and file mtimes
 app.get('/api/__debug', (req, res) => {
   try {
-    const scenario = getRandomScenario();
     const stat = (rel) => {
       try {
         const full = path.join(__dirname, rel);
@@ -52,8 +48,8 @@ app.get('/api/__debug', (req, res) => {
     res.set('Cache-Control', 'no-store');
     res.json({
       cwd: __dirname,
-      scenarioTitle: scenario?.title || null,
-      questionCount: Array.isArray(scenario?.questions) ? scenario.questions.length : 0,
+      scenarioTitle: null,
+      questionCount: 0,
       files: {
         'api/static-scenarios.js': stat('api/static-scenarios.js'),
         'api/scenarios.js': stat('api/scenarios.js'),
