@@ -1,13 +1,12 @@
-export const maxDuration = 30;
-import { getRandomScenario, getScenarioByKey } from './static-scenarios.js';
+// Under Construction: return an empty scenario list without importing legacy data
 
-// Purely static scenario generator: no AI calls
-export default async function handler(req, res) {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
-  }
-  // Under Construction: always return a placeholder scenario with no questions
-  const scenario = getRandomScenario();
-  res.set('Cache-Control', 'no-store');
-  return res.status(200).json(scenario);
+const EMPTY_SCENARIO = {
+  key: 'empty',
+  title: 'Crisis Management Game',
+  description: 'Scenarios are currently being rebuilt. No legacy scenarios are loaded.',
+  questions: []
+};
+
+export default function handler(req, res) {
+  res.status(200).json([EMPTY_SCENARIO]);
 }
