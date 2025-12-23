@@ -790,7 +790,21 @@ export function getRandomScenario() {
   // Only pick scenarios that have a full 21 questions
   const valid = SCENARIOS.filter(s => Array.isArray(s.questions) && s.questions.length === 21);
   const pool = valid.length ? valid : SCENARIOS;
-  return pool[Math.floor(Math.random() * pool.length)];
+
+  // Pick a base scenario
+  const base = pool[Math.floor(Math.random() * pool.length)];
+
+  // Shuffle question order (Fisher–Yates) so it’s not grouped by department
+  const questions = Array.isArray(base.questions) ? [...base.questions] : [];
+  for (let j = questions.length - 1; j > 0; j--) {
+    const k = Math.floor(Math.random() * (j + 1));
+    const tmp = questions[j];
+    questions[j] = questions[k];
+    questions[k] = tmp;
+  }
+
+  // Return a scenario copy with shuffled questions
+  return { ...base, questions };
 }
 
 export function getSpecialScenarios() {
