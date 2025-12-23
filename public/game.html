@@ -1,129 +1,231 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Crisis Management Game</title>
+<script>
+  const DEPARTMENTS = [
+    "CEO/SVPs",
+    "IT/Security",
+    "HR",
+    "Finance",
+    "Loans",
+    "Accounting",
+    "Deposits"
+  ];
 
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/css/style.css" />
-</head>
+  const DEPT_COLORS = {
+    "CEO/SVPs": "#7b2cbf",
+    "IT/Security": "#e74c3c",
+    "HR": "#1f77b4",
+    "Finance": "#27ae60",
+    "Loans": "#f39c12",
+    "Accounting": "#9b59b6",
+    "Deposits": "#2ecc71"
+  };
 
-<body>
-  <!-- HEADER -->
-  <div class="header">
-    <img src="/images/bank-logo.png" alt="SSBTX Logo" />
-    <div class="title">
-      Crisis Management Game
-      <span style="font-size:12px;background:#d3f9d8;color:#2b8a3e;padding:2px 6px;border-radius:6px;margin-left:8px;">
-        Live
-      </span>
-    </div>
-  </div>
+  let scenario = null;
+  let qIndex = 0;
+  let scores = {};
+  let answered = false;
 
-  <!-- SCENARIO -->
-  <div class="scenario-box">
-    <h2 id="scenarioTitle">Scenario</h2>
-    <p id="scenarioText">Loading scenario…</p>
-  </div>
+  const scenarioTitleEl = document.getElementById("scenarioTitle");
+  const scenarioTextEl  = document.getElementById("scenarioText");
+  const questionBoxEl   = document.getElementById("questionBox");
+  const genBtn          = document.getElementById("genBtn");
+  const scoreboardEl    = document.getElementById("scoreboard");
 
-  <!-- QUESTIONS -->
-  <div class="question-box" id="questionBox">
-    <div class="uc-box">
-      <h3>Loading…</h3>
-      <p>Fetching scenario from server.</p>
-    </div>
-  </div>
+  function escapeHtml(s) {
+    return String(s ?? "").replace(/[&<>"']/g, m => ({
+      "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+    }[m]));
+  }
 
-  <!-- CONTROLS -->
-  <div class="controls">
-    <button id="genBtn">Generate New Crisis Scenario</button>
-    <button onclick="window.location.href='index.html'">Back to Home</button>
-  </div>
+  function initScores() {
+    scores = {};
+    for (const d of DEPARTMENTS) scores[d] = 0;
+  }
 
-  <!-- SCRIPT -->
-  <script>
-    async function fetchScenario() {
-      const titleEl = document.getElementById('scenarioTitle');
-      const textEl = document.getElementById('scenarioText');
-      const box = document.getElementById('questionBox');
+  function renderScoreboard() {
+    scoreboardEl.innerHTML = DEPARTMENTS.map(d => `
+      <div class="department" style="background:${DEPT_COLORS[d] || "#444"}">
+        <div class="label">${escapeHtml(d)}</div>
+        <div class="score">${scores[d] ?? 0}</div>
+      </div>
+    `).join("");
+  }
 
-      titleEl.textContent = 'Scenario';
-      textEl.textContent = 'Loading scenario…';
-      box.innerHTML = `
+  function getQuestions() {
+    return Array.isArray(scenario?.questions) ? scenario.questions : [];
+  }
+
+  function setScenarioHeader() {
+    scenarioTitleEl.textContent = scenario?.title || "Scenario";
+    scenarioTextEl.textContent  = scenario?.description || "(No description)";
+  }
+
+  function scoreLabel(score) {
+    // +10 correct, +5 partial, -5 wrong (or any negative)
+    if (score >= 10) return { cls: "correct", text: "Correct (+10)" };
+    if (score > 0)   return { cls: "correct", text: "Partially correct (+5)" };
+    return { cls: "incorrect", text: "Incorrect (-5)" };
+  }
+
+  function renderCurrentQuestion() {
+    const questions = getQuestions();
+
+    if (!scenario || !questions.length) {
+      questionBoxEl.innerHTML = `
         <div class="uc-box">
-          <h3>Loading…</h3>
-          <p>Fetching scenario from server.</p>
+          <h3>No Questions Returned</h3>
+          <p>Your API returned a scenario with 0 questions. Check <code>api/static-scenarios.js</code>.</p>
         </div>
       `;
-
-      try {
-        const res = await fetch('/api/scenarios', { method: 'POST' });
-        if (!res.ok) throw new Error('HTTP ' + res.status);
-
-        const scenario = await res.json();
-        console.log('[Game] Scenario loaded:', scenario);
-
-        titleEl.textContent = scenario.title || 'Scenario';
-        textEl.textContent = scenario.description || '(No description provided)';
-
-        renderQuestions(scenario);
-      } catch (err) {
-        console.error('[Game] Scenario load failed:', err);
-        textEl.textContent = 'Failed to load scenario.';
-        box.innerHTML = `
-          <div class="uc-box">
-            <h3>Error</h3>
-            <p>${escapeHtml(err.message)}</p>
-          </div>
-        `;
-      }
+      return;
     }
 
-    function renderQuestions(scenario) {
-      const box = document.getElementById('questionBox');
-      const questions = Array.isArray(scenario.questions) ? scenario.questions : [];
+    if (qIndex >= questions.length) {
+      renderEnd();
+      return;
+    }
 
-      if (!questions.length) {
-        box.innerHTML = `
-          <div class="uc-box">
-            <h3>No Questions Returned</h3>
-            <p>The API returned a scenario with <strong>0 questions</strong>.</p>
-            <p>Check <code>api/static-scenarios.js</code>.</p>
-          </div>
-        `;
-        return;
-      }
+    answered = false;
 
-      box.innerHTML = questions.map((q, idx) => `
-        <div class="question-card">
-          <div class="department-label">${escapeHtml(q.department)}</div>
-          <h3 class="question-title">${escapeHtml(q.questionText)}</h3>
-          <div class="choices">
-            ${q.choices.map(c => `
-              <button class="choice-btn" data-score="${c.score}">
-                ${escapeHtml(c.text)}
-              </button>
-            `).join('')}
-          </div>
+    const q = questions[qIndex];
+    const dept = q.department || "Department";
+    const choices = Array.isArray(q.choices) ? q.choices : [];
+
+    questionBoxEl.innerHTML = `
+      <div class="q-progress">Question ${qIndex + 1} of ${questions.length}</div>
+
+      <div class="department-label" style="font-weight:600; margin-bottom:8px;">
+        ${escapeHtml(dept)}
+      </div>
+
+      <h2 style="margin: 0;">${escapeHtml(q.questionText || `Question ${qIndex + 1}`)}</h2>
+
+      <div class="choices" id="choicesWrap">
+        ${choices.map((c, i) => `
+          <button class="choice-btn" type="button"
+            data-idx="${i}"
+            data-score="${Number(c.score ?? 0)}"
+            data-reason="${escapeHtml(c.reason || "")}">
+            ${escapeHtml(c.text || "Choice")}
+          </button>
+        `).join("")}
+      </div>
+
+      <div id="reasonBox" style="margin-top:16px;"></div>
+
+      <div class="next-button">
+        <button id="nextBtn" disabled style="padding: 12px 24px; font-size: 16px; border: none; border-radius: 8px; background: #27ae60; color: white; cursor: pointer;">
+          Next Question
+        </button>
+      </div>
+    `;
+
+    document.querySelectorAll(".choice-btn").forEach(btn => {
+      btn.addEventListener("click", () => handleChoice(btn, dept));
+    });
+
+    document.getElementById("nextBtn").addEventListener("click", () => {
+      qIndex++;
+      renderCurrentQuestion();
+    });
+  }
+
+  function handleChoice(btn, dept) {
+    if (answered) return;
+    answered = true;
+
+    const score = Number(btn.dataset.score || 0);
+    const reason = btn.dataset.reason || "";
+
+    // disable all choices
+    document.querySelectorAll(".choice-btn").forEach(b => {
+      b.disabled = true;
+      b.classList.remove("correct", "incorrect");
+    });
+
+    // mark selected
+    const meta = scoreLabel(score);
+    btn.classList.add(meta.cls);
+
+    // update score
+    if (scores[dept] === undefined) scores[dept] = 0;
+    scores[dept] += score;
+    renderScoreboard();
+
+    // show reason
+    document.getElementById("reasonBox").innerHTML = `
+      <div class="uc-box" style="text-align:left;">
+        <h3 style="margin:0 0 6px 0;">${meta.text}</h3>
+        <p style="margin:0;">${reason ? reason : "(No reason provided yet.)"}</p>
+      </div>
+    `;
+
+    // enable next
+    document.getElementById("nextBtn").disabled = false;
+  }
+
+  function renderEnd() {
+    const total = DEPARTMENTS.reduce((sum, d) => sum + (scores[d] || 0), 0);
+
+    questionBoxEl.innerHTML = `
+      <div class="intro-box">
+        <h2>Round Complete</h2>
+        <p style="font-size:18px;">Final Total: <strong>${total}</strong></p>
+        <div style="max-width:520px; margin:18px auto; text-align:left;">
+          ${DEPARTMENTS.map(d => `
+            <div style="display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid #eee;">
+              <div><strong>${escapeHtml(d)}</strong></div>
+              <div>${scores[d] || 0}</div>
+            </div>
+          `).join("")}
         </div>
-      `).join('');
+
+        <div class="controls" style="margin-top:20px;">
+          <button id="playAgainBtn">New Scenario</button>
+          <button onclick="window.location.href='index.html'">Back to Home</button>
+        </div>
+      </div>
+    `;
+
+    document.getElementById("playAgainBtn").addEventListener("click", fetchScenario);
+  }
+
+  async function fetchScenario() {
+    scenarioTitleEl.textContent = "Scenario";
+    scenarioTextEl.textContent  = "Loading scenario...";
+    questionBoxEl.innerHTML = `
+      <div class="loader">
+        <div class="spinner"></div>
+        <div>Fetching a scenario...</div>
+      </div>
+    `;
+
+    try {
+      const r = await fetch("/api/scenarios", { method: "POST" });
+      if (!r.ok) throw new Error(`HTTP ${r.status}`);
+      scenario = await r.json();
+
+      initScores();
+      renderScoreboard();
+
+      qIndex = 0;
+      setScenarioHeader();
+      renderCurrentQuestion();
+    } catch (e) {
+      console.error("[Game] Failed to load scenario:", e);
+      scenarioTextEl.textContent = "Failed to load scenario.";
+      questionBoxEl.innerHTML = `
+        <div class="uc-box">
+          <h3>Error</h3>
+          <p>${escapeHtml(e.message || e)}</p>
+        </div>
+      `;
     }
+  }
 
-    function escapeHtml(str) {
-      return String(str ?? '').replace(/[&<>"']/g, m => ({
-        '&':'&amp;',
-        '<':'&lt;',
-        '>':'&gt;',
-        '"':'&quot;',
-        "'":'&#39;'
-      }[m]));
-    }
+  genBtn.addEventListener("click", fetchScenario);
 
-    document.getElementById('genBtn').addEventListener('click', fetchScenario);
-
-    // Load one immediately
-    fetchScenario();
-  </script>
-</body>
-</html>
+  // boot
+  initScores();
+  renderScoreboard();
+  fetchScenario();
+</script>

@@ -2,14 +2,21 @@
 // 5 static tabletop scenarios.
 // Each scenario: 21 questions (3 per department).
 
-function buildChoices(aText, aImpact, bText, bImpact, cText, cImpact, dText, dImpact) {
+function buildChoices(aText, aReason, bText, bReason, cText, cReason, dText, dReason) {
+  // Standard scoring for every question:
+  // A = correct (+10)
+  // B = partial (+5)
+  // C = wrong (-5)
+  // D = wrong (-5)
   return [
-    { text: aText, impact: aImpact, score: 2 },
-    { text: bText, impact: bImpact, score: 1 },
-    { text: cText, impact: cImpact, score: -1 },
-    { text: dText, impact: dImpact, score: -2 }
+    { text: aText, reason: aReason, score: 10 },
+    { text: bText, reason: bReason, score: 5 },
+    { text: cText, reason: cReason, score: -5 },
+    { text: dText, reason: dReason, score: -5 }
   ];
 }
+
+
 
 function q(department, questionText, choices) {
   return { department, questionText, choices };
