@@ -3,27 +3,22 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Crisis Management Game — Under Construction</title>
+  <title>Crisis Management Game</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/css/style.css" />
 </head>
 <body>
   <div class="header">
     <img src="/images/bank-logo.png" alt="SSBTX Logo" />
-    <div class="title">Crisis Management Game <span style="font-size:12px;background:#ffe08a;color:#6b5d15;padding:2px 6px;border-radius:6px;margin-left:8px;">UC-Static</span></div>
+    <div class="title">Crisis Management Game <span style="font-size:12px;background:#d3f9d8;color:#2b8a3e;padding:2px 6px;border-radius:6px;margin-left:8px;">Live</span></div>
   </div>
 
-  <div class="scenario-box" style="text-align:center;">
-    <h2>Scenario</h2>
-    <p>We are rebuilding this training. No scenarios will load right now.</p>
+  <div class="scenario-box">
+    <h2 id="scenarioTitle">Scenario</h2>
+    <p id="scenarioText">Click Generate to load a scenario.</p>
   </div>
 
-  <div class="question-box" id="questionBox">
-    <div class="uc-box">
-      <h3>Under Construction</h3>
-      <p>The Crisis Management Game content is being rebuilt. Please check back soon.</p>
-    </div>
-  </div>
+  <div class="question-box" id="questionBox"></div>
 
   <div class="controls">
     <button id="genBtn">Generate New Crisis Scenario</button>
@@ -31,17 +26,73 @@
   </div>
 
   <script>
-    // Keep the Generate flow, but never load scenarios.
-    document.getElementById('genBtn').addEventListener('click', () => {
+    async function fetchScenario() {
+      const scenarioTitle = document.getElementById('scenarioTitle');
+      const scenarioText = document.getElementById('scenarioText');
       const box = document.getElementById('questionBox');
-      box.innerHTML = `
-        <div class="uc-box">
-          <h3>Under Construction</h3>
-          <p>No scenarios are available. We are starting fresh and rebuilding this training.</p>
-        </div>
-      `;
-    });
-  </script>
 
+      scenarioTitle.textContent = 'Scenario';
+      scenarioText.textContent = 'Loading scenario...';
+      box.innerHTML = `<div class="uc-box"><h3>Loading...</h3><p>Fetching a scenario from the server.</p></div>`;
+
+      try {
+        const r = await fetch('/api/scenarios', { method: 'POST' });
+        if (!r.ok) throw new Error(`HTTP ${r.status}`);
+        const scenario = await r.json();
+
+        const qLen = Array.isArray(scenario?.questions) ? scenario.questions.length : 0;
+        console.log('[Game] Loaded scenario:', scenario?.key, 'questions:', qLen);
+
+        scenarioTitle.textContent = scenario.title || 'Scenario';
+        scenarioText.textContent = scenario.description || '(No description)';
+        renderQuestions(scenario, box);
+      } catch (e) {
+        console.error('[Game] Failed to load scenario:', e);
+        scenarioText.textContent = 'Failed to load scenario.';
+        box.innerHTML = `<div class="uc-box"><h3>Error</h3><p>${String(e.message || e)}</p></div>`;
+      }
+    }
+
+    function renderQuestions(scenario, box) {
+      const questions = Array.isArray(scenario.questions) ? scenario.questions : [];
+
+      if (!questions.length) {
+        box.innerHTML = `
+          <div class="uc-box">
+            <h3>No Questions Returned</h3>
+            <p>Your API returned a scenario with 0 questions. Check <span>api/static-scenarios.js</span>.</p>
+          </div>
+        `;
+        return;
+      }
+
+      box.innerHTML = questions.map((q, idx) => {
+        const choices = Array.isArray(q.choices) ? q.choices : [];
+        return `
+          <div class="question-card">
+            <div class="department-label">${escapeHtml(q.department || 'Department')}</div>
+            <h2 class="question-title">${escapeHtml(q.questionText || `Question ${idx + 1}`)}</h2>
+            <div class="choices">
+              ${choices.map((c) => `
+                <button class="choice-btn" type="button" data-score="${c.score ?? 0}">
+                  ${escapeHtml(c.text || 'Choice')}
+                </button>
+              `).join('')}
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function escapeHtml(s) {
+      return String(s ?? '').replace(/[&<>"']/g, m => ({
+        '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;'
+      }[m]));
+    }
+
+    document.getElementById('genBtn').addEventListener('click', fetchScenario);
+    // Load one immediately on page load
+    fetchScenario();
+  </script>
 </body>
 </html>
