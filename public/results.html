@@ -76,6 +76,13 @@
         return;
       }
       const winner = data.standings[0];
+      const topScore = winner[1];
+      const topTies = data.standings.filter(s => s[1] === topScore);
+      const winnerTitle = data.wasTiebreaker ? 'Tiebreaker Round Complete' : 'Round Complete';
+      const winnerLabel = topTies.length > 1
+        ? `<strong>Winners:</strong> ${topTies.map(t => t[0]).join(', ')} (${topScore} pts)`
+        : `<strong>Winner:</strong> ${winner[0]} (${winner[1]} pts)`;
+
       const rows = data.standings.map((s, i) => `
         <div class="result-row ${i===0 ? 'top' : ''}">
           <div class="result-left">
@@ -94,8 +101,8 @@
           <div class="winner-card">
             <div class="winner-hero">
               <div class="trophy">🏆</div>
-              <h1>Round Complete</h1>
-              <p><strong>Winner:</strong> ${winner[0]} (${winner[1]} pts)</p>
+              <h1>${winnerTitle}</h1>
+              <p>${winnerLabel}</p>
             </div>
             <div class="winner-body">
               <div class="winner-pill"><span class="badge">1st</span> Congratulations, ${winner[0]}!</div>

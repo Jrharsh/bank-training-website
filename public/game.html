@@ -53,7 +53,9 @@ const state = {
   scenario: null,
   index: 0,
   answered: false,
-  scores: {}
+  scores: {},
+  tiebreaker: false,
+  tiedDepts: []
 };
 
 DEPARTMENTS.forEach(d => state.scores[d] = 0);
@@ -237,10 +239,10 @@ function pickAnswer(btn, dept) {
 /* ================================
    NEXT QUESTION
 ================================ */
-function nextQuestion() {
+async function nextQuestion() {
   state.index++;
   if (state.index >= state.scenario.questions.length) {
-    endGame();
+    await checkTiebreakerOrEnd();
   } else {
     renderQuestion();
   }
@@ -249,12 +251,53 @@ function nextQuestion() {
 /* ================================
    END GAME
 ================================ */
-function endGame() {
+async function checkTiebreakerOrEnd() {
   const standings = Object.entries(state.scores).sort((a,b)=>b[1]-a[1]);
+  const topScore = standings[0]?.[1] ?? 0;
+  const atThirty = standings.filter(([_,score]) => score === 30).map(([dept]) => dept);
+
+  if (!state.tiebreaker && topScore === 30 && atThirty.length > 1) {
+    state.tiebreaker = true;
+    state.tiedDepts = atThirty;
+    await startTiebreakerRound(atThirty);
+  } else {
+    endGame(standings);
+  }
+}
+
+async function startTiebreakerRound(depts) {
+  const mod = await import('/js/static-scenarios.js');
+  const scenarios = mod.getScenarios();
+
+  const pickForDept = (dept) => {
+    const pool = [];
+    scenarios.forEach(s => {
+      (s.questions||[]).forEach(q => { if (q.department === dept) pool.push(q); });
+    });
+    const q = pool[Math.floor(Math.random()*pool.length)];
+    const choices = Array.isArray(q?.choices) ? shuffle(q.choices) : [];
+    return { ...q, choices };
+  };
+
+  const tQuestions = depts.map(d => pickForDept(d));
+  const ordered = shuffle(tQuestions);
+
+  $("scenarioTitle").textContent = "Tiebreaker Round";
+  $("scenarioText").textContent = "Multiple groups are tied at 30 points. Each tied group gets one extra question.";
+
+  state.scenario = { title: "Tiebreaker Round", description: "", questions: ordered };
+  state.index = 0;
+
+  renderQuestion();
+}
+
+function endGame(standings) {
   const payload = {
     scenarioTitle: state.scenario?.title || "",
-    standings,
-    scores: state.scores
+    standings: standings || Object.entries(state.scores).sort((a,b)=>b[1]-a[1]),
+    scores: state.scores,
+    wasTiebreaker: state.tiebreaker,
+    tiedDepts: state.tiedDepts
   };
   try {
     sessionStorage.setItem('cmgResults', JSON.stringify(payload));
