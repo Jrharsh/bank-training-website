@@ -468,6 +468,155 @@ const SCENARIO_INSIDER_FRAUD = {
   ]
 };
 
+/* ------------------------- SCENARIO 9 ------------------------- */
+const SCENARIO_ACH_FAILURE = {
+  key: "failed-ach-file-fed",
+  title: "Failed ACH File Sent to Federal Reserve",
+  description:
+    "An incorrect ACH file is transmitted, impacting hundreds of customers. Funds may have posted incorrectly; reversals are time-sensitive; trust is at risk; and regulatory notifications may be required. Rapid error correction, customer remediation, accounting reconciliation, and root cause analysis are essential.",
+  questions: [
+    // CEO/SVPs (3)
+    q("CEO/SVPs", "What is leadership’s immediate posture in the first hour?", buildChoices(
+      "Activate incident governance with Payments Ops lead, Legal/Compliance, and Comms", "Aligns decisions, ensures regulatory and customer actions proceed in sync.", 10,
+      "Let Operations fix it quietly; avoid formal activation to reduce attention", "Slows cross-functional coordination and increases risk.", 5,
+      "Publicly blame a vendor before confirming details", "Premature and risky.", -5,
+      "Wait for customers to complain before acting", "Reactive and harmful to trust.", -5
+    )),
+    q("CEO/SVPs", "What should initial customer messaging emphasize?", buildChoices(
+      "What happened in plain language, what’s impacted, expected timing, and where to get updates", "Builds trust and reduces volume.", 10,
+      "Promise exact reversal times before confirming with the Fed and counterparties", "Overpromising risks credibility.", 5,
+      "Say \"all accounts are safe\" with no specifics", "Looks evasive and frustrates customers.", -5,
+      "Share individual account details publicly to demonstrate transparency", "Privacy and legal risk.", -5
+    )),
+    q("CEO/SVPs", "How do you handle regulatory notification thresholds?", buildChoices(
+      "Assess materiality and customer impact with Compliance and counsel; notify per thresholds", "Defensible and timely.", 10,
+      "Notify everyone immediately regardless of criteria", "Can be premature and create noise.", 5,
+      "Rely on the Fed to notify regulators on your behalf", "You own the obligation.", -5,
+      "Ignore thresholds until the next exam", "Governance failure.", -5
+    )),
+
+    // IT/Security (3)
+    q("IT/Security", "What technical step protects integrity during correction?", buildChoices(
+      "Freeze additional outbound ACH batches; preserve logs; enable enhanced monitoring", "Prevents compounding errors and preserves evidence.", 10,
+      "Purge logs to improve performance while reconciling", "Destroys forensics.", 5,
+      "Share admin credentials to accelerate access for all teams", "Segregation failure.", -5,
+      "Disable monitoring alerts to reduce noise", "Removes visibility during a critical period.", -5
+    )),
+    q("IT/Security", "How should files and interfaces be handled with the Fed and processors?", buildChoices(
+      "Open a real-time bridge with counterparties; validate file hashes/IDs; align on reversal windows", "Reduces rework and timing risk.", 10,
+      "Email updates periodically and wait for responses", "Too slow for a time-bound correction.", 5,
+      "Resend corrected files without coordination", "Duplicate/contradictory postings risk.", -5,
+      "Allow branches to upload corrected files directly", "Uncontrolled and risky.", -5
+    )),
+    q("IT/Security", "How do you prevent repeat errors while investigating?", buildChoices(
+      "Implement a temporary two-person review for export jobs and parameter changes", "Adds control while root cause is determined.", 10,
+      "Trust the scheduled jobs and focus only on the bad file", "Misses systemic issues.", 5,
+      "Disable change management to move faster", "Introduces new errors.", -5,
+      "Turn off file validations so jobs don’t fail", "Removes safeguards.", -5
+    )),
+
+    // HR (3)
+    q("HR", "What guidance supports staff dealing with upset customers?", buildChoices(
+      "Scripts, de-escalation tips, and break scheduling; route complex cases to specialists", "Improves safety and consistency.", 10,
+      "Let each branch decide how to explain the issue", "Inconsistent and risky.", 5,
+      "Disallow any discussion; refer customers to the Fed", "Unhelpful and inaccurate.", -5,
+      "Encourage staff to post explanations on social media", "Reputational risk.", -5
+    )),
+    q("HR", "What staffing posture fits a time-sensitive correction window?", buildChoices(
+      "Documented shifts with surge coverage for Payments Ops and Contact Center", "Sustains performance without burnout.", 10,
+      "Ask for volunteers to stay late with no plan", "Uneven and unreliable.", 5,
+      "Mandatory overtime for all departments", "Burnout and errors.", -5,
+      "No overtime regardless of volume", "Backlog grows and trust erodes.", -5
+    )),
+    q("HR", "What is the appropriate approach with implicated individuals (if any)?", buildChoices(
+      "Admin leave pending investigation; asset return and access revocation with IT", "Protects integrity and safety.", 10,
+      "Public reprimand while they continue working", "Culture and legal risk.", 5,
+      "Ignore until root cause is final", "Leaves risk window open.", -5,
+      "Share their name in staff channels for transparency", "Privacy/legal risk.", -5
+    )),
+
+    // Finance (3)
+    q("Finance", "What must Finance track from the outset?", buildChoices(
+      "Customer exposure, provisional entries, fees/credits, and incident costs", "Accurate governance and recovery.", 10,
+      "Only vendor invoices; reconcile later", "Partial view; misses true impact.", 5,
+      "Do not track to avoid panic", "Non-compliant and risky.", -5,
+      "Hide costs in miscellaneous accounts", "Integrity risk.", -5
+    )),
+    q("Finance", "How should fee waivers/credits be handled?", buildChoices(
+      "Criteria-based policy with approvals and evidence per case", "Fair and defensible.", 10,
+      "Grant everything universally", "Unsustainable and invites abuse.", 5,
+      "Deny all credits to protect revenue", "Trust and complaint risk.", -5,
+      "Leave to branch discretion with no logs", "Inconsistent and risky.", -5
+    )),
+    q("Finance", "What payment/vendor prioritization supports recovery?", buildChoices(
+      "Critical ops (processors, comms tools, logistics) first with approvals", "Aligns spend to incident needs.", 10,
+      "FIFO only", "Ignores impact.", 5,
+      "Pay smallest invoices first", "Not aligned to criticality.", -5,
+      "Stop all payments until resolved", "Service disruption risk.", -5
+    )),
+
+    // Loans (3)
+    q("Loans", "How should automatic loan ACH debits be handled today?", buildChoices(
+      "Pause new pulls where appropriate; verify previous postings and communicate proactively", "Prevents compounding errors and complaints.", 10,
+      "Continue as normal; fix later if needed", "Creates more reversals and confusion.", 5,
+      "Accept borrower emails as proof to skip pulls permanently", "Control weakness and risk.", -5,
+      "Bypass controls for VIPs", "Inconsistent and risky.", -5
+    )),
+    q("Loans", "What verification applies to borrower account change requests during this event?", buildChoices(
+      "Out-of-band verification using known contacts and document evidence", "Prevents misdirection or fraud.", 10,
+      "Callback to the number provided in the request email", "Weak control.", 5,
+      "Accept emailed instructions from familiar addresses", "Spoof risk.", -5,
+      "Skip checks to reduce backlog", "Loss risk.", -5
+    )),
+    q("Loans", "What should lenders communicate to borrowers impacted by mis-posted ACH?", buildChoices(
+      "Use scripts with factual status, timing expectations, and escalation path", "Consistency reduces complaints.", 10,
+      "Promise resolution by end of day for all", "Overpromise risk.", 5,
+      "Avoid communicating to reduce noise", "Confusion and churn.", -5,
+      "Share internal notes on reversal files", "Inappropriate and risky.", -5
+    )),
+
+    // Accounting (3)
+    q("Accounting", "How should mis-posted transactions be reflected immediately?", buildChoices(
+      "Provisional entries with clear documentation; separate accounts for adjustments", "Transparent and auditable.", 10,
+      "Hold all entries until final correction is known", "Late/inaccurate reporting.", 5,
+      "Net differences to hide impact", "Misstatement risk.", -5,
+      "Allow manual overrides with no logs", "Audit trail failure.", -5
+    )),
+    q("Accounting", "What reconciliations are top priority after reversal batches?", buildChoices(
+      "Cash, suspense, and inter-system tie-outs focusing on ACH settlements", "Targets material risk early.", 10,
+      "Cash only; others next week", "Partial visibility.", 5,
+      "Skip reconciliations to move faster", "Findings likely.", -5,
+      "Adjust balances to match expectations", "Manipulation risk.", -5
+    )),
+    q("Accounting", "What evidence preservation supports examiners and recovery?", buildChoices(
+      "Central evidence index linking files, approvals, timestamps, and counterpart confirmations", "Defensible and efficient.", 10,
+      "Email threads only, organized later", "Messy and incomplete.", 5,
+      "Verbal approvals", "Weak evidence.", -5,
+      "Delete drafts once the panic passes", "Regulatory risk.", -5
+    )),
+
+    // Deposits (3)
+    q("Deposits", "What should frontline staff tell customers about incorrect postings?", buildChoices(
+      "Explain the issue plainly, next steps, and where/when to check status", "Reduces confusion and repeat calls.", 10,
+      "Say balances are fine without explanation", "Credibility risk.", 5,
+      "Share internal reversal file names for proof", "Inappropriate.", -5,
+      "Refer customers to the Fed for help", "Not how it works and frustrates customers.", -5
+    )),
+    q("Deposits", "How should holds/fees be managed during correction?", buildChoices(
+      "Temporary policy with criteria and escalation path; document waivers", "Fair and controlled.", 10,
+      "Waive everything for everyone", "Unsustainable and inconsistent.", 5,
+      "No waivers under any condition", "Customer harm and complaints.", -5,
+      "Different rules per branch", "Inconsistent and risky.", -5
+    )),
+    q("Deposits", "What update cadence reduces call volume most?", buildChoices(
+      "Predictable cadence with confirmed progress and verified timing windows", "Trust-building and practical.", 10,
+      "Only post when there is a milestone", "Less predictable; more calls.", 5,
+      "Constant unvetted updates by many staff", "Noise and errors.", -5,
+      "Internal-only updates", "Customers remain uninformed.", -5
+    )),
+  ]
+};
+
 /* ------------------------- SCENARIO 2 ------------------------- */
 const SCENARIO_LIQUIDITY = {
   key: "liquidity-run-rumor",
@@ -1224,6 +1373,7 @@ const SCENARIOS = [
   SCENARIO_INSIDER,
   SCENARIO_VENDOR_OUTAGE,
   SCENARIO_INSIDER_FRAUD
+  SCENARIO_ACH_FAILURE
 ];
 
 export function getScenarios() {
