@@ -99,23 +99,42 @@ function renderScoreboard() {
    LOAD SCENARIO
 ================================ */
 async function loadScenario() {
-  $("scenarioText").textContent = "Loading scenario...";
-  $("questionBox").innerHTML = `<div class="loader"><div class="spinner"></div></div>`;
+  const scenarioEl = $("scenarioText");
+  const box = $("questionBox");
+  scenarioEl.textContent = "Loading scenario...";
+  box.innerHTML = `<div class="loader"><div class="spinner"></div></div>`;
 
-  const res = await fetch("/api/scenarios", { method: "POST" });
-  const scenario = await res.json();
+  try {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 12000);
+    const res = await fetch("/api/scenarios", { method: "POST", signal: controller.signal });
+    clearTimeout(timeout);
+    if (!res.ok) throw new Error(`API error ${res.status}`);
+    const scenario = await res.json();
 
-  state.scenario = scenario;
-  state.index = 0;
-  state.answered = false;
-  DEPARTMENTS.forEach(d => state.scores[d] = 0);
+    state.scenario = scenario;
+    state.index = 0;
+    state.answered = false;
+    DEPARTMENTS.forEach(d => state.scores[d] = 0);
 
-  renderScoreboard();
+    renderScoreboard();
 
-  $("scenarioTitle").textContent = scenario.title;
-  $("scenarioText").textContent = scenario.description;
+    $("scenarioTitle").textContent = scenario.title || "Scenario";
+    $("scenarioText").textContent = scenario.description || "";
 
-  renderQuestion();
+    renderQuestion();
+  } catch (err) {
+    const msg = (err?.name === 'AbortError') ? 'Request timed out.' : (err?.message || 'Failed to load scenario.');
+    box.innerHTML = `
+      <div class="uc-box">
+        <h3>Couldn\'t load a scenario</h3>
+        <p>${msg}</p>
+        <div style="margin-top:12px">
+          <button onclick="loadScenario()">Try Again</button>
+        </div>
+      </div>
+    `;
+  }
 }
 
 /* ================================
