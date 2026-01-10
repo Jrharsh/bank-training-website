@@ -202,47 +202,15 @@ function nextQuestion() {
 ================================ */
 function endGame() {
   const standings = Object.entries(state.scores).sort((a,b)=>b[1]-a[1]);
-  const winner = standings[0];
-
-  const rows = standings.map((s, i) => `
-    <div class="result-row ${i===0 ? 'top' : ''}">
-      <div class="result-left">
-        <div class="rank">${i+1}</div>
-        <div>
-          <div class="dept-name">${s[0]}</div>
-          <div class="dept-sub">Final score</div>
-        </div>
-      </div>
-      <div class="result-score">${s[1]} pts</div>
-    </div>
-  `).join("");
-
-  const qb = $("questionBox");
-  qb.style.minHeight = "70vh";
-  qb.style.position = "relative";
-  qb.innerHTML = `
-    <div class="winner-overlay">
-      <div class="winner-card">
-        <div class="winner-hero">
-          <div class="trophy">🏆</div>
-          <h1>Round Complete</h1>
-          <p><strong>Winner:</strong> ${winner[0]} (${winner[1]} pts)</p>
-        </div>
-        <div class="winner-body">
-          <div class="winner-pill"><span class="badge">1st</span> Congratulations, ${winner[0]}!</div>
-          <div class="results-title">Final Standings</div>
-          <div class="results-grid">${rows}</div>
-          <div class="winner-actions">
-            <button class="primary" onclick="loadScenario()">Play Again</button>
-            <button class="secondary" onclick="window.location.href='index.html'">Back to Home</button>
-          </div>
-        </div>
-      </div>
-      <canvas id="confettiCanvas" class="confetti-canvas"></canvas>
-    </div>
-  `;
-
-  launchConfetti(3000);
+  const payload = {
+    scenarioTitle: state.scenario?.title || "",
+    standings,
+    scores: state.scores
+  };
+  try {
+    sessionStorage.setItem('cmgResults', JSON.stringify(payload));
+  } catch (_) {}
+  window.location.href = 'results.html';
 }
 
 // Simple confetti animation

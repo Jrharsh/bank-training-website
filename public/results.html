@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Results</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    body { background: #0b1220; color: #eef2ff; }
+    .results-page { position: relative; min-height: 100vh; }
+  </style>
+</head>
+<body>
+  <div class="results-page">
+    <div id="resultsRoot"></div>
+  </div>
+
+  <script>
+    function launchConfetti(duration = 2500) {
+      const canvas = document.getElementById('confettiCanvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const rect = document.body.getBoundingClientRect();
+      canvas.width = rect.width;
+      canvas.height = rect.height;
+      const colors = ['#ff6b6b','#feca57','#1dd1a1','#54a0ff','#5f27cd'];
+      const particles = Array.from({ length: 160 }, () => ({
+        x: Math.random()*canvas.width,
+        y: -20 - Math.random()*100,
+        vx: (Math.random()-0.5)*2,
+        vy: 2 + Math.random()*3,
+        size: 2 + Math.random()*4,
+        rot: Math.random()*Math.PI,
+        vr: (Math.random()-0.5)*0.2,
+        color: colors[Math.floor(Math.random()*colors.length)]
+      }));
+      let start = null;
+      function frame(ts) {
+        if (!start) start = ts;
+        const elapsed = ts - start;
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        particles.forEach(p => {
+          p.x += p.vx; p.y += p.vy; p.rot += p.vr;
+          if (p.y > canvas.height + 20) { p.y = -20; p.x = Math.random()*canvas.width; }
+          ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.rot);
+          ctx.fillStyle = p.color; ctx.fillRect(-p.size, -p.size/2, p.size*2, p.size);
+          ctx.restore();
+        });
+        if (elapsed < duration) requestAnimationFrame(frame);
+        else { let alpha = 1; const fade = () => { alpha -= 0.08; ctx.globalAlpha = Math.max(alpha, 0); ctx.clearRect(0,0,canvas.width,canvas.height); if (alpha > 0) requestAnimationFrame(fade); else ctx.globalAlpha = 1; }; requestAnimationFrame(fade); }
+      }
+      requestAnimationFrame(frame);
+    }
+
+    function renderResults() {
+      let data = null;
+      try { data = JSON.parse(sessionStorage.getItem('cmgResults') || 'null'); } catch (_) {}
+      const root = document.getElementById('resultsRoot');
+      if (!data || !Array.isArray(data.standings)) {
+        root.innerHTML = `
+          <div class="winner-overlay" style="position: fixed; inset: 0;">
+            <div class="winner-card">
+              <div class="winner-hero">
+                <h1>Results Unavailable</h1>
+                <p>Start a game to see standings.</p>
+              </div>
+              <div class="winner-body">
+                <div class="winner-actions">
+                  <button class="primary" onclick="window.location.href='game.html'">Play Game</button>
+                  <button class="secondary" onclick="window.location.href='index.html'">Back to Home</button>
+                </div>
+              </div>
+            </div>
+          </div>`;
+        return;
+      }
+      const winner = data.standings[0];
+      const rows = data.standings.map((s, i) => `
+        <div class="result-row ${i===0 ? 'top' : ''}">
+          <div class="result-left">
+            <div class="rank">${i+1}</div>
+            <div>
+              <div class="dept-name">${s[0]}</div>
+              <div class="dept-sub">Final score</div>
+            </div>
+          </div>
+          <div class="result-score">${s[1]} pts</div>
+        </div>
+      `).join('');
+
+      root.innerHTML = `
+        <div class="winner-overlay" style="position: fixed; inset: 0;">
+          <div class="winner-card">
+            <div class="winner-hero">
+              <div class="trophy">🏆</div>
+              <h1>Round Complete</h1>
+              <p><strong>Winner:</strong> ${winner[0]} (${winner[1]} pts)</p>
+            </div>
+            <div class="winner-body">
+              <div class="winner-pill"><span class="badge">1st</span> Congratulations, ${winner[0]}!</div>
+              <div class="results-title">Final Standings</div>
+              <div class="results-grid">${rows}</div>
+              <div class="winner-actions">
+                <button class="primary" onclick="window.location.href='game.html'">Play Again</button>
+                <button class="secondary" onclick="window.location.href='index.html'">Back to Home</button>
+              </div>
+            </div>
+          </div>
+          <canvas id="confettiCanvas" class="confetti-canvas"></canvas>
+        </div>`;
+
+      launchConfetti(3000);
+    }
+
+    renderResults();
+  </script>
+</body>
+</html>
