@@ -139,6 +139,7 @@ function renderQuestion() {
           <button class="choice-btn"
             data-score="${c.score}"
             data-reason="${escapeHtml(c.reason)}"
+            title="${escapeHtml(c.text)}"
             onclick="pickAnswer(this,'${q.department}')">
             ${escapeHtml(c.text)}
           </button>

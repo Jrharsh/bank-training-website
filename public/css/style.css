@@ -73,6 +73,12 @@ body {
   background: #ecf0f1;
   transition: background 0.3s;
   text-align: left;
+  /* Hide length differences: clamp to 2 lines with ellipsis */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  white-space: normal;
 }
 .choice-btn:hover {
   background: #d0d7de;
