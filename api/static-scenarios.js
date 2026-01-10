@@ -319,6 +319,155 @@ const SCENARIO_VENDOR_OUTAGE = {
   ]
 };
 
+/* ------------------------- SCENARIO 8 ------------------------- */
+const SCENARIO_INSIDER_FRAUD = {
+  key: "insider-fraud-operations",
+  title: "Insider Fraud Discovered in Operations",
+  description:
+    "Internal audit flags suspicious adjustments tied to a single employee with cross-department access. Losses are unknown, potential customer harm exists, and law enforcement may be involved. Immediate access revocation, evidence preservation, HR/legal coordination, and careful disclosure choices are required.",
+  questions: [
+    // CEO/SVPs (3)
+    q("CEO/SVPs", "What is leadership’s first decision when insider fraud is flagged?", buildChoices(
+      "Activate incident governance with Legal/HR and define a preservation-first posture", "Ensures coordinated, defensible actions and preserves evidence.", 10,
+      "Quietly let audit handle it and wait for a report", "Too slow; evidence and losses can grow.", 5,
+      "Suspend all customer communications until month-end", "Delays can harm customers and trust.", -5,
+      "Ask the employee to explain publicly before acting", "Prejudicial and risky; can taint evidence.", -5
+    )),
+    q("CEO/SVPs", "What disclosure approach is appropriate on day one?", buildChoices(
+      "Internal need-to-know only with prepared scripts; external comms only if customers are impacted", "Balances transparency and integrity of investigation.", 10,
+      "Public press release naming the employee", "Legal/privacy risk.", 5,
+      "Tell branches to improvise answers when asked", "Inconsistent and risky.", -5,
+      "Share raw audit workpapers widely", "Uncontrolled and risky.", -5
+    )),
+    q("CEO/SVPs", "How should leadership engage with law enforcement?", buildChoices(
+      "Consult counsel, preserve evidence chain, and coordinate if thresholds met", "Defensible coordination without compromising investigation.", 10,
+      "Call local police immediately with partial information", "May compromise evidence handling.", 5,
+      "Avoid law enforcement entirely", "Misses recovery/deterrence opportunities.", -5,
+      "Let the implicated employee choose whether to involve law enforcement", "Conflict and governance failure.", -5
+    )),
+
+    // IT/Security (3)
+    q("IT/Security", "What immediate access action is required?", buildChoices(
+      "Disable implicated accounts, revoke tokens/keys, and review privileged access paths", "Reduces further loss and closes exposure.", 10,
+      "Increase monitoring but leave access active to watch behavior", "Leaves risk window open.", 5,
+      "Share admin credentials so teams can move faster", "Segregation failure.", -5,
+      "Disable logging to reduce noise", "Destroys forensics.", -5
+    )),
+    q("IT/Security", "How do you preserve technical evidence?", buildChoices(
+      "Snapshot systems, collect relevant logs, and store with chain-of-custody", "Supports legal and recovery steps.", 10,
+      "Save screenshots to a shared drive", "Partial but weak forensics.", 5,
+      "Delete unneeded logs to save space", "Loss of evidence.", -5,
+      "Let staff export data locally for convenience", "Privacy/integrity risk.", -5
+    )),
+    q("IT/Security", "What controls reduce spread if the employee had cross-department access?", buildChoices(
+      "Immediate access review across integrated apps; rotate secrets; validate vendor integrations", "Closes lateral paths quickly.", 10,
+      "Focus only on the primary app they used", "Misses other access vectors.", 5,
+      "Trust vendor logs to catch everything later", "Over-reliance; delays containment.", -5,
+      "Turn off monitoring tools so systems run faster", "Removes visibility.", -5
+    )),
+
+    // HR (3)
+    q("HR", "What HR step should happen first with the implicated employee?", buildChoices(
+      "Admin leave pending investigation; collect assets with Legal/IT present", "Reduces interference and preserves evidence.", 10,
+      "Immediate termination without documentation", "May complicate investigation and recovery.", 5,
+      "Public shaming to make an example", "Culture and legal risk.", -5,
+      "Do nothing until audit proves loss amount", "Delays containment and safety.", -5
+    )),
+    q("HR", "What guidance goes to staff?", buildChoices(
+      "Report concerns via official channel; do not speculate; preserve evidence", "Encourages reporting and consistency.", 10,
+      "Encourage discussion in group chats to surface leads", "Uncontrolled and risky.", 5,
+      "Threaten discipline for any mention of the case", "Chills reporting.", -5,
+      "Share the employee name and rumors for transparency", "Privacy and legal risk.", -5
+    )),
+    q("HR", "How do you manage safety and coverage?", buildChoices(
+      "Coordinate schedules and backups; offer remote options if needed", "Reduces burnout and maintains service.", 10,
+      "Keep all normal schedules regardless of incident", "May slow response.", 5,
+      "Suspend all operations for the week", "Overreaction and customer harm.", -5,
+      "Let teams self-organize with no oversight", "Inconsistent and risky.", -5
+    )),
+
+    // Finance (3)
+    q("Finance", "How should potential losses be tracked?", buildChoices(
+      "Create incident cost center and exposure ledger with approvals", "Accurate and audit-ready.", 10,
+      "Estimate later once law enforcement is engaged", "Late and inaccurate.", 5,
+      "Record losses in misc expense categories", "Lack of transparency.", -5,
+      "Avoid tracking until customers complain", "Reactive and risky.", -5
+    )),
+    q("Finance", "What spend gets priority during investigation?", buildChoices(
+      "Forensics, monitoring, and recovery work aligned to response", "Reduces future loss and speeds clarity.", 10,
+      "Freeze all spend to avoid criticism", "Slows investigation and recovery.", 5,
+      "Cut security tooling to save money", "Increases risk.", -5,
+      "Pay without approvals to be fast", "Control failure.", -5
+    )),
+    q("Finance", "How do you approach potential restitution or credits?", buildChoices(
+      "Document criteria for customer remediation with Legal; track cases centrally", "Fair and defensible.", 10,
+      "Handle refunds ad-hoc at branch discretion", "Inconsistent and risky.", 5,
+      "Deny all claims until final report", "Trust and reputation risk.", -5,
+      "Refund everyone universally immediately", "Encourages abuse and misstatements.", -5
+    )),
+
+    // Loans (3)
+    q("Loans", "What should Loans do if loan files were accessed?", buildChoices(
+      "Restrict access, validate integrity, and log exceptions with dual review", "Protects privacy and audit trail.", 10,
+      "Continue normal processing until issues arise", "Reactive and risky.", 5,
+      "Allow personal email for backup copies", "Privacy/policy breach.", -5,
+      "Share credentials to speed verification", "Segregation failure.", -5
+    )),
+    q("Loans", "How do you verify changes to borrower payout instructions?", buildChoices(
+      "Out-of-band verification using known contacts with evidence", "Prevents misdirection fraud.", 10,
+      "Callback to number provided in a recent email", "Weak control; can be attacker-controlled.", 5,
+      "Accept emailed instructions from familiar addresses", "Spoofing risk.", -5,
+      "Skip checks to move faster", "Loss risk.", -5
+    )),
+    q("Loans", "What messaging is appropriate to impacted borrowers?", buildChoices(
+      "Standard scripts with factual updates and escalation path", "Consistent and defensible.", 10,
+      "Let lenders craft custom narratives per case", "Inconsistent and risky.", 5,
+      "Promise accelerated approvals as compensation", "Credibility risk.", -5,
+      "Avoid communication to reduce noise", "Confusion and churn.", -5
+    )),
+
+    // Accounting (3)
+    q("Accounting", "How do you handle suspicious adjustments in the GL?", buildChoices(
+      "Identify impacted accounts, reverse/segregate entries, and document approvals", "Transparent and auditable.", 10,
+      "Net changes to simplify presentation", "Misstatement risk.", 5,
+      "Delay entries until the investigation ends", "Late/inaccurate reporting.", -5,
+      "Permit manual overrides with no logs", "Audit trail failure.", -5
+    )),
+    q("Accounting", "Which reconciliations come first after fraud is suspected?", buildChoices(
+      "Cash, suspense, and inter-system tie-outs where adjustments occurred", "Targets highest material risk.", 10,
+      "Cash only; revisit others next month", "Partial visibility.", 5,
+      "Skip reconciliations to avoid attention", "Findings likely.", -5,
+      "Adjust entries to match expectations", "Manipulation risk.", -5
+    )),
+    q("Accounting", "How do you preserve evidence for examiners?", buildChoices(
+      "Central evidence index with approvals, timestamps, and artifact links", "Defensible for audit/regulators.", 10,
+      "Email threads archived loosely", "Messy and incomplete.", 5,
+      "Verbal approvals only", "Weak evidence.", -5,
+      "Delete drafts later to reduce storage", "Regulatory risk.", -5
+    )),
+
+    // Deposits (3)
+    q("Deposits", "How should suspicious customer-impacting activity be handled?", buildChoices(
+      "Place holds per policy, escalate cases, and document thoroughly", "Balances protection and fairness.", 10,
+      "Allow all activity to avoid complaints", "Loss and compliance risk.", 5,
+      "Let branches decide ad-hoc without scripts", "Inconsistent and risky.", -5,
+      "Disclose employee identity to explain delays", "Privacy/legal risk.", -5
+    )),
+    q("Deposits", "What should frontline scripts emphasize?", buildChoices(
+      "Verification steps, factual updates, and where customers can get help", "Reduces confusion and escalations.", 10,
+      "Tell customers everything is fine without details", "Credibility risk.", 5,
+      "Share internal investigation notes if asked", "Inappropriate and risky.", -5,
+      "Encourage customers to post online for updates", "Uncontrolled messaging.", -5
+    )),
+    q("Deposits", "How often should external status be updated if customers are affected?", buildChoices(
+      "Regular cadence with confirmed facts and next steps", "Predictable and trust-building.", 10,
+      "Only if there is breaking news", "Unpredictable; more calls.", 5,
+      "Constant updates with speculation to show action", "Noise and mistakes.", -5,
+      "Internal-only updates", "Customers remain uninformed.", -5
+    )),
+  ]
+};
+
 /* ------------------------- SCENARIO 2 ------------------------- */
 const SCENARIO_LIQUIDITY = {
   key: "liquidity-run-rumor",
@@ -1073,7 +1222,8 @@ const SCENARIOS = [
   SCENARIO_REG_EXAM,
   SCENARIO_WEATHER,
   SCENARIO_INSIDER,
-  SCENARIO_VENDOR_OUTAGE
+  SCENARIO_VENDOR_OUTAGE,
+  SCENARIO_INSIDER_FRAUD
 ];
 
 export function getScenarios() {
