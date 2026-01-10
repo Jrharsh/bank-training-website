@@ -81,6 +81,25 @@ function shuffle(arr) {
   return a;
 }
 
+function formatPoints(score) {
+  const s = Number(score) || 0;
+  return (s > 0 ? "+" + s : String(s)) + " pts";
+}
+
+function scoreClass(score) {
+  const s = Number(score) || 0;
+  if (s >= 10) return "good";
+  if (s > 0) return "ok";
+  return "bad";
+}
+
+function scoreTagline(score) {
+  const s = Number(score) || 0;
+  if (s >= 10) return "Strong, defensible action that best supports incident goals.";
+  if (s > 0) return "Reasonable choice with some trade-offs; improves the situation.";
+  return "Risky or non-compliant action—may worsen impact or create issues.";
+}
+
 // Create a fair, round-robin order of questions where
 // each department appears at most once per round until its
 // questions are exhausted. Order inside each round is randomized.
@@ -224,14 +243,27 @@ function pickAnswer(btn, dept) {
 
   const score = Number(btn.dataset.score);
   const reason = btn.dataset.reason;
-  // Neutral feedback: do not colorize the chosen button
+  // Show points on the selected answer with a subtle badge
+  const badge = document.createElement('span');
+  badge.className = `point-badge ${scoreClass(score)}`;
+  badge.textContent = formatPoints(score);
+  btn.appendChild(badge);
 
   state.scores[dept] += score;
   $(`score-${dept}`).textContent = state.scores[dept];
 
   const rb = $("reasonBox");
   rb.classList.remove("hidden");
-  rb.innerHTML = `<p>${reason}</p>`;
+  rb.innerHTML = `
+    <div class="explain-box">
+      <div class="explain-top">
+        <span class="point-badge ${scoreClass(score)}">${formatPoints(score)}</span>
+        <span class="explain-dept">${dept}</span>
+      </div>
+      <div class="explain-text">${reason}</div>
+      <div class="explain-tagline">${scoreTagline(score)}</div>
+    </div>
+  `;
 
   $("nextBtn").classList.remove("hidden");
 }
