@@ -768,12 +768,162 @@ const SCENARIO_WEATHER = {
 
 /* ------------------------- EXPORTS ------------------------- */
 
+/* ------------------------- SCENARIO 6 ------------------------- */
+const SCENARIO_INSIDER = {
+  key: "insider-threat-terminated-employee",
+  title: "Terminated Employee Causes Insider Disruption",
+  description:
+    "A disgruntled employee is terminated and retaliates. Suspicious changes appear in systems, files are deleted from shared drives, and threatening messages are sent to staff. Immediate access revocation, evidence preservation, and coordinated communications are required.",
+  questions: [
+    // CEO/SVPs (3)
+    q("CEO/SVPs", "What is leadership’s first move in the first hour?", buildChoices(
+      "Activate incident command, assign a single spokesperson, and set update cadence", "Fast alignment and consistent messaging reduces chaos.", 10,
+      "Hold an informal huddle and let departments coordinate independently", "Some coordination, but decisions drift and slow containment.", 5,
+      "Let IT handle it without executive involvement", "Misses governance and cross-functional needs.", -5,
+      "Publicly blame the ex-employee immediately", "Premature and risky legally.", -5
+    )),
+    q("CEO/SVPs", "How should external communications be handled today?", buildChoices(
+      "Provide a factual statement focused on continuity and security steps", "Builds trust without sharing sensitive details.", 10,
+      "Say nothing until everything is fixed", "Creates a vacuum; rumors grow.", 5,
+      "Share investigation details including the person’s name", "Legal/privacy risk.", -5,
+      "Downplay the event as trivial", "Backfires if customers are affected.", -5
+    )),
+    q("CEO/SVPs", "What policy decision is most important now?", buildChoices(
+      "Engage counsel and law enforcement; document all actions", "Defensible response and proper chain of custody.", 10,
+      "Handle internally without legal until later", "Delays can harm outcomes.", 5,
+      "Let a vendor run everything", "Loss of control and accountability.", -5,
+      "Ignore it unless losses occur", "Risk grows and credibility drops.", -5
+    )),
+
+    // IT/Security (3)
+    q("IT/Security", "What is the immediate technical containment?", buildChoices(
+      "Disable accounts, revoke tokens/SSH keys, rotate credentials, and review privileged access", "Closes access paths quickly.", 10,
+      "Increase monitoring and wait for more indicators", "Helpful, but leaves a larger window.", 5,
+      "Disable logging to reduce load", "Destroys forensics.", -5,
+      "Share admin passwords widely so teams can act faster", "Major control failure.", -5
+    )),
+    q("IT/Security", "How should evidence be preserved?", buildChoices(
+      "Snapshot impacted systems, collect logs, and store with chain-of-custody", "Supports investigation and potential legal action.", 10,
+      "Save a few screenshots and continue work", "Some evidence but weak for forensic needs.", 5,
+      "Delete noisy logs to clean up", "Loses crucial evidence.", -5,
+      "Allow staff to export data locally without controls", "Privacy and integrity risk.", -5
+    )),
+    q("IT/Security", "What is the approach for vendor/integrations access?", buildChoices(
+      "Audit all third-party access; revoke unnecessary tokens; validate webhooks", "Prevents additional misuse through integrations.", 10,
+      "Ask vendors to check later and report if they see anything", "Some help but slow and inconsistent.", 5,
+      "Assume vendors are fine and focus only internally", "Misses common attack paths.", -5,
+      "Share logs broadly with all vendors", "Uncontrolled data sharing risk.", -5
+    )),
+
+    // HR (3)
+    q("HR", "What offboarding control matters most in this scenario?", buildChoices(
+      "Documented checklist: access revocation, asset return, exit interview notes", "Reduces residual access and preserves context.", 10,
+      "Collect badge and laptop only", "Partial; leaves access/token paths open.", 5,
+      "Skip documentation to move quickly", "Evidence and control gaps.", -5,
+      "Let managers handle offboarding ad-hoc", "Inconsistent and risky.", -5
+    )),
+    q("HR", "What guidance should go to staff receiving threatening messages?", buildChoices(
+      "Report via official channel; do not engage; preserve evidence; safety plan available", "Consistent and defensible.", 10,
+      "Ignore messages unless they escalate", "Delays reporting and increases risk.", 5,
+      "Respond firmly to shut it down", "Can inflame and creates evidence issues.", -5,
+      "Post screenshots in group chats", "Privacy and investigation risk.", -5
+    )),
+    q("HR", "How should HR support safety and staffing today?", buildChoices(
+      "Coordinate security/law enforcement, offer remote work if needed, schedule coverage", "Reduces risk and burnout.", 10,
+      "Ask managers to sort it out", "Uneven, can miss safety needs.", 5,
+      "Force normal operations regardless", "Safety/liability risk.", -5,
+      "Suspend all work for everyone", "Unnecessary disruption.", -5
+    )),
+
+    // Finance (3)
+    q("Finance", "What is the first finance control to protect systems/data?", buildChoices(
+      "Freeze risky changes; require approvals; monitor for unusual postings", "Prevents manipulation and supports audit.", 10,
+      "Keep normal operations and review later", "Some continuity but risk persists.", 5,
+      "Share admin credentials with more staff for speed", "Segregation failure.", -5,
+      "Disable logging to reduce noise", "Evidence loss.", -5
+    )),
+    q("Finance", "How should potential incident costs be tracked?", buildChoices(
+      "Create incident cost center with documented approvals and invoices", "Accurate, audit-ready tracking.", 10,
+      "Track major vendor costs only", "Partial view.", 5,
+      "Estimate later from memory", "Inaccurate and weak evidence.", -5,
+      "Hide costs in miscellaneous categories", "Reporting integrity risk.", -5
+    )),
+    q("Finance", "How should vendor communications be handled?", buildChoices(
+      "Inform continuity-critical vendors of restricted changes and validation steps", "Aligns priorities and reduces risk.", 10,
+      "Let vendors operate normally", "Misses coordination during active incident.", 5,
+      "Pause all payments without criteria", "Service disruption risk.", -5,
+      "Share sensitive details freely with every vendor", "Security/privacy risk.", -5
+    )),
+
+    // Loans (3)
+    q("Loans", "How should loan operations respond to suspicious change requests?", buildChoices(
+      "Require out-of-band verification using known contacts and document evidence", "Strong fraud prevention.", 10,
+      "Callback to the number in the email and proceed", "Better than nothing but weak control.", 5,
+      "Accept emailed instructions from familiar addresses", "Easy to spoof.", -5,
+      "Bypass controls to avoid delays", "Compliance and loss risk.", -5
+    )),
+    q("Loans", "How do you protect loan documents and PII during the incident?", buildChoices(
+      "Secure storage, role-based access, and logging with dual review on exceptions", "Preserves audit trail and privacy.", 10,
+      "Restrict access loosely and fix later", "Some control but risky.", 5,
+      "Allow broad downloads to avoid disruption", "Privacy/chain-of-custody risk.", -5,
+      "Share via personal email accounts temporarily", "Policy and security failure.", -5
+    )),
+    q("Loans", "What borrower messaging is appropriate if communications were tampered?", buildChoices(
+      "Use standard scripts with factual updates and escalation path", "Consistency reduces complaints.", 10,
+      "Let lenders improvise messages case-by-case", "Inconsistent and risky.", 5,
+      "Promise accelerated approvals to calm them", "Credibility risk.", -5,
+      "Avoid any communication until resolved", "Confusion and churn.", -5
+    )),
+
+    // Accounting (3)
+    q("Accounting", "What reconciliation step matters first after suspected manipulation?", buildChoices(
+      "Validate critical GL accounts, review audit logs, and document exceptions", "Catches material breaks quickly.", 10,
+      "Check cash only and review other accounts later", "Partial coverage.", 5,
+      "Skip reconciliations to avoid delay", "Misstatements likely.", -5,
+      "Allow unlogged manual overrides", "Audit trail failure.", -5
+    )),
+    q("Accounting", "How should adjustments related to the incident be recorded?", buildChoices(
+      "Documented entries with approvals and linked evidence", "Defensible and transparent.", 10,
+      "Record in a spreadsheet and post later without approvals", "Some trail but weak control.", 5,
+      "Net out changes to hide impact", "Misstatement risk.", -5,
+      "Delay entries until it’s all over", "Late/inaccurate reporting.", -5
+    )),
+    q("Accounting", "What access control is appropriate during the incident?", buildChoices(
+      "Least privilege with dual control for sensitive actions and logging", "Prevents misuse and supports audit.", 10,
+      "Manager approval only for sensitive actions", "Better than none but weaker segregation.", 5,
+      "Shared admin credentials for speed", "Segregation failure.", -5,
+      "No changes to access", "Exposure persists.", -5
+    )),
+
+    // Deposits (3)
+    q("Deposits", "How should you handle suspicious customer account activity tied to the insider?", buildChoices(
+      "Increase monitoring, place holds per policy, and escalate with documentation", "Balances protection and fairness.", 10,
+      "Monitor only very large transactions", "Partial coverage.", 5,
+      "Allow transactions to continue to avoid complaints", "Loss and compliance risk.", -5,
+      "Let branches decide individually", "Inconsistent and risky.", -5
+    )),
+    q("Deposits", "What guidance goes to branches if customers receive odd messages?", buildChoices(
+      "Use scripts: verify identity out-of-band; do not act on emailed instructions; escalate", "Reduces fraud and confusion.", 10,
+      "Suggest customers visit branches for answers without scripts", "Some reassurance but inconsistent.", 5,
+      "Tell customers everything is fine and to ignore it", "Credibility risk.", -5,
+      "Share details about the terminated employee", "Legal/privacy risk.", -5
+    )),
+    q("Deposits", "How often should the public status page be updated?", buildChoices(
+      "Regular cadence with factual progress and available services", "Trust-building and practical.", 10,
+      "Update only when major milestones occur", "Better than silence but less predictable.", 5,
+      "No updates until full resolution", "Speculation grows.", -5,
+      "Constant unvetted updates by multiple staff", "Noise and mistakes.", -5
+    )),
+  ]
+};
+
 const SCENARIOS = [
   SCENARIO_RANSOMWARE,
   SCENARIO_LIQUIDITY,
   SCENARIO_BEC_WIRE,
   SCENARIO_REG_EXAM,
-  SCENARIO_WEATHER
+  SCENARIO_WEATHER,
+  SCENARIO_INSIDER
 ];
 
 export function getScenarios() {
@@ -794,8 +944,22 @@ export function getRandomScenario() {
   // Pick a base scenario
   const base = pool[Math.floor(Math.random() * pool.length)];
 
+  // Build a deep-copied questions array and shuffle choices within each question
+  const questions = Array.isArray(base.questions)
+    ? base.questions.map(q => {
+        const choices = Array.isArray(q.choices) ? [...q.choices] : [];
+        // Fisher–Yates shuffle for choices so correct isn’t always first
+        for (let i = choices.length - 1; i > 0; i--) {
+          const r = Math.floor(Math.random() * (i + 1));
+          const t = choices[i];
+          choices[i] = choices[r];
+          choices[r] = t;
+        }
+        return { ...q, choices };
+      })
+    : [];
+
   // Shuffle question order (Fisher–Yates) so it’s not grouped by department
-  const questions = Array.isArray(base.questions) ? [...base.questions] : [];
   for (let j = questions.length - 1; j > 0; j--) {
     const k = Math.floor(Math.random() * (j + 1));
     const tmp = questions[j];
@@ -803,7 +967,7 @@ export function getRandomScenario() {
     questions[k] = tmp;
   }
 
-  // Return a scenario copy with shuffled questions
+  // Return a scenario copy with shuffled questions and choices
   return { ...base, questions };
 }
 

@@ -66,36 +66,8 @@ app.get('/api/__debug', (req, res) => {
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
-app.get('/game.html', (req, res) => {
-  // Serve a minimal Under-Construction shell to avoid any stale cached JS
-  res.set('Cache-Control', 'no-store');
-  res.type('html').send(`<!DOCTYPE html>
-  <html lang="en"><head><meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Crisis Management Game — Under Construction</title>
-  <link rel="stylesheet" href="/css/style.css?v=uc" />
-  </head><body>
-    <div class="header">
-      <img src="/images/bank-logo.png" alt="SSBTX Logo" />
-      <div class="title">Crisis Management Game <span style="font-size:12px;background:#ffe08a;color:#6b5d15;padding:2px 6px;border-radius:6px;margin-left:8px;">UC-Server</span></div>
-    </div>
-    <div class="scenario-box" style="text-align:center;">
-      <h2>Scenario</h2>
-      <p>We are rebuilding this training. No scenarios will load right now.</p>
-    </div>
-    <div class="question-box">
-      <div class="uc-box">
-        <h3>Under Construction</h3>
-        <p>The Crisis Management Game content is being rebuilt. Please check back soon.</p>
-      </div>
-    </div>
-    <div class="controls">
-      <button disabled>Generate New Crisis Scenario</button>
-      <button onclick="location.href='/'">Back to Home</button>
-    </div>
-    <script>console.log('[BUILD] UC-Server Shell');</script>
-  </body></html>`);
-});
+// Serve static game page from /public
+// Removing the UC shell so the updated game loads correctly
 app.get('/discussion.html', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'discussion.html'));
 });

@@ -68,6 +68,16 @@ function escapeHtml(s) {
   );
 }
 
+// Fisher–Yates shuffle to randomize choice order each render
+function shuffle(arr) {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
 /* ================================
    SCOREBOARD
 ================================ */
@@ -125,7 +135,7 @@ function renderQuestion() {
       <h2 class="question-title">${escapeHtml(q.questionText)}</h2>
 
       <div class="choices">
-        ${q.choices.map((c,i) => `
+        ${shuffle(q.choices).map((c,i) => `
           <button class="choice-btn"
             data-score="${c.score}"
             data-reason="${escapeHtml(c.reason)}"
@@ -206,7 +216,10 @@ function endGame() {
     </div>
   `).join("");
 
-  $("questionBox").innerHTML = `
+  const qb = $("questionBox");
+  qb.style.minHeight = "70vh";
+  qb.style.position = "relative";
+  qb.innerHTML = `
     <div class="winner-overlay">
       <div class="winner-card">
         <div class="winner-hero">
@@ -224,7 +237,7 @@ function endGame() {
           </div>
         </div>
       </div>
-      <canvas id="confettiCanvas" style="position:absolute;inset:0;pointer-events:none"></canvas>
+      <canvas id="confettiCanvas" class="confetti-canvas"></canvas>
     </div>
   `;
 

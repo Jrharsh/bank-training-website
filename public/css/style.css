@@ -54,6 +54,7 @@ body {
   text-align: center;
   position: relative; /* allow overlays */
 }
+.question-box { min-height: 70vh; }
 .intro-box h2 {
   margin-bottom: 10px;
 }
@@ -153,6 +154,7 @@ body {
               rgba(0,0,0,0.72);
   backdrop-filter: blur(8px);
   overflow: hidden;
+  z-index: 3;
 }
 
 /* subtle animated light sweep */
@@ -174,6 +176,7 @@ body {
 
 .winner-card {
   position: relative;
+  z-index: 2; /* ensure above confetti canvas */
   width: 100%;
   max-width: 820px;
   border-radius: 20px;
@@ -412,7 +415,7 @@ body {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  z-index: 2;
+  z-index: 1; /* keep below winner card */
 }
 
 
