@@ -79,6 +79,39 @@ function shuffle(arr) {
   return a;
 }
 
+// Create a fair, round-robin order of questions where
+// each department appears at most once per round until its
+// questions are exhausted. Order inside each round is randomized.
+function roundRobinOrder(questions) {
+  const byDept = new Map();
+  (questions || []).forEach(q => {
+    const d = q.department || 'Unknown';
+    if (!byDept.has(d)) byDept.set(d, []);
+    byDept.get(d).push(q);
+  });
+
+  // Shuffle questions within each department
+  for (const [dept, list] of byDept.entries()) {
+    byDept.set(dept, shuffle(list));
+  }
+
+  const depts = Array.from(byDept.keys());
+  const rounds = Math.max(0, ...Array.from(byDept.values()).map(v => v.length));
+  const ordered = [];
+
+  for (let r = 0; r < rounds; r++) {
+    const thisRound = [];
+    for (const d of depts) {
+      const list = byDept.get(d);
+      if (r < list.length) thisRound.push(list[r]);
+    }
+    // Randomize order within the round
+    ordered.push(...shuffle(thisRound));
+  }
+
+  return ordered;
+}
+
 /* ================================
    SCOREBOARD
 ================================ */
@@ -109,6 +142,12 @@ async function loadScenario() {
     // Load locally without API
     const mod = await import('/js/static-scenarios.js');
     const scenario = mod.getRandomScenario();
+
+    // Enforce fair round-robin ordering so each group
+    // gets one question before any group gets a second.
+    if (Array.isArray(scenario?.questions)) {
+      scenario.questions = roundRobinOrder(scenario.questions);
+    }
 
     state.scenario = scenario;
     state.index = 0;
