@@ -36,6 +36,7 @@
   <!-- CONTROLS -->
   <div class="controls">
     <button id="genBtn">Generate New Crisis Scenario</button>
+    <button id="modeBtn" title="Hard mode: pick two plausible actions">Hard Mode: Off</button>
     <button onclick="window.location.href='index.html'">Back to Home</button>
   </div>
 
@@ -52,7 +53,9 @@ const state = {
   scenario: null,
   index: 0,
   answered: false,
-  scores: {}
+  scores: {},
+  hardMode: false,
+  selected: []
 };
 
 DEPARTMENTS.forEach(d => state.scores[d] = 0);
@@ -124,6 +127,7 @@ async function loadScenario() {
 function renderQuestion() {
   const q = state.scenario.questions[state.index];
   state.answered = false;
+  state.selected = [];
 
   $("questionBox").innerHTML = `
     <div class="q-progress">
@@ -140,7 +144,7 @@ function renderQuestion() {
             data-score="${c.score}"
             data-reason="${escapeHtml(c.reason)}"
             title="${escapeHtml(c.text)}"
-            onclick="pickAnswer(this,'${q.department}')">
+            onclick="${state.hardMode ? 'toggleChoice(this)' : `pickAnswer(this,'${q.department}')`}">
             ${escapeHtml(c.text)}
           </button>
         `).join("")}
@@ -149,7 +153,9 @@ function renderQuestion() {
       <div id="reasonBox" class="uc-box hidden"></div>
 
       <div class="next-button">
-        <button id="nextBtn" class="hidden" onclick="nextQuestion()">Next Question</button>
+        ${state.hardMode
+          ? '<button id="confirmBtn" class="hidden" onclick="confirmHardAnswer(\'' + q.department + '\')">Confirm Choices</button>'
+          : '<button id="nextBtn" class="hidden" onclick="nextQuestion()">Next Question</button>'}
       </div>
     </div>
   `;
@@ -183,6 +189,54 @@ function pickAnswer(btn, dept) {
   rb.innerHTML = `<h3>${label}</h3><p>${reason}</p>`;
 
   $("nextBtn").classList.remove("hidden");
+}
+
+// Hard Mode: allow up to two choices, then confirm to score
+function toggleChoice(btn) {
+  if (state.answered) return;
+  const idx = state.selected.indexOf(btn);
+  if (idx >= 0) {
+    state.selected.splice(idx,1);
+    btn.classList.remove('selected');
+  } else {
+    if (state.selected.length >= 2) return;
+    state.selected.push(btn);
+    btn.classList.add('selected');
+  }
+  const confirmBtn = document.getElementById('confirmBtn');
+  if (confirmBtn) {
+    if (state.selected.length === 2) confirmBtn.classList.remove('hidden');
+    else confirmBtn.classList.add('hidden');
+  }
+}
+
+function confirmHardAnswer(dept) {
+  if (state.answered) return;
+  if (state.selected.length !== 2) return;
+  state.answered = true;
+
+  // Disable further interaction
+  document.querySelectorAll('.choice-btn').forEach(b => b.disabled = true);
+
+  // Scale scores slightly for hard mode to avoid runaway totals
+  const scale = s => (s >= 10 ? 6 : s > 0 ? 4 : -4);
+  const total = state.selected.reduce((sum, b) => sum + scale(Number(b.dataset.score)), 0);
+  state.scores[dept] += total;
+  $(`score-${dept}`).textContent = state.scores[dept];
+
+  // Show combined reasoning without revealing correctness colors
+  const reasons = state.selected.map(b => `<li>${b.title}: ${b.dataset.reason}</li>`).join('');
+  const rb = $("reasonBox");
+  rb.classList.remove("hidden");
+  rb.innerHTML = `<h3>Selections scored: ${total >= 0 ? '+'+total : total} pts</h3><ul>${reasons}</ul>`;
+
+  // Reveal next
+  const nextBtn = document.createElement('button');
+  nextBtn.textContent = 'Next Question';
+  nextBtn.onclick = nextQuestion;
+  const container = document.querySelector('.next-button');
+  container.innerHTML = '';
+  container.appendChild(nextBtn);
 }
 
 /* ================================
@@ -280,6 +334,10 @@ function launchConfetti(duration = 2000) {
    BOOT
 ================================ */
 document.getElementById("genBtn").addEventListener("click", loadScenario);
+document.getElementById("modeBtn").addEventListener("click", () => {
+  state.hardMode = !state.hardMode;
+  document.getElementById('modeBtn').textContent = `Hard Mode: ${state.hardMode ? 'On' : 'Off'}`;
+});
 loadScenario();
 </script>
 
