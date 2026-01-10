@@ -170,6 +170,155 @@ const SCENARIO_RANSOMWARE = {
   ]
 };
 
+/* ------------------------- SCENARIO 7 ------------------------- */
+const SCENARIO_VENDOR_OUTAGE = {
+  key: "third-party-core-vendor-outage",
+  title: "Third-Party Core Vendor Outage",
+  description:
+    "A nationwide outage at your core processing vendor occurs during business hours. Transactions post late, branches cannot open accounts, and ACH/wires are delayed. Vendor ETAs are vague. Strong customer communications, regulatory thresholds, manual controls, and vendor escalation are required.",
+  questions: [
+    // CEO/SVPs (3)
+    q("CEO/SVPs", "What posture should leadership set in the first hour?", buildChoices(
+      "Activate incident command, escalate vendor at exec level, and assign a single spokesperson", "Aligns decisions, speeds vendor response, and keeps messaging consistent.", 10,
+      "Wait for vendor’s next ETA before organizing internally", "Delays coordination and confuses staff.", 5,
+      "Let vendor lead your response entirely", "Loss of control and accountability.", -5,
+      "Publish a public blame statement immediately", "Premature and risky; worsens vendor cooperation.", -5
+    )),
+    q("CEO/SVPs", "What should customer-facing communications emphasize today?", buildChoices(
+      "Transparent status (what’s impacted), workarounds, and predictable update cadence", "Builds trust and reduces call volume.", 10,
+      "Promise specific restoration times from the vendor", "Overpromising risks credibility if missed.", 5,
+      "Minimize the issue as \"minor\" without details", "Looks evasive and increases confusion.", -5,
+      "Share detailed vendor contracts publicly", "Not appropriate; legal and reputational risks.", -5
+    )),
+    q("CEO/SVPs", "How do you approach regulatory notification thresholds?", buildChoices(
+      "Assess materiality (channels, duration, customers) and consult counsel to trigger thresholds", "Defensible governance; avoids late or unnecessary filings.", 10,
+      "Notify all regulators immediately for any outage", "May be premature and create noise.", 5,
+      "Ignore thresholds until customers complain widely", "Reactive and risky.", -5,
+      "Let vendor notify regulators on your behalf", "You own the relationship and obligations.", -5
+    )),
+
+    // IT/Security (3)
+    q("IT/Security", "What is the first technical continuity action?", buildChoices(
+      "Enable read-only/limited modes, confirm failovers, and post status banners", "Preserves access where possible and sets expectations.", 10,
+      "Turn off all digital channels to reduce pressure", "Harms access unnecessarily.", 5,
+      "Disable logging to reduce system load", "Destroys evidence and observability.", -5,
+      "Share admin credentials for faster triage", "Major control failure.", -5
+    )),
+    q("IT/Security", "How should you work with the vendor’s technical teams?", buildChoices(
+      "Establish real-time comms bridge, request telemetry, and align on rollback/restore steps", "Improves coordination and reduces surprises.", 10,
+      "Send occasional emails and wait for updates", "Too slow for an active incident.", 5,
+      "Publish vendor IOCs/details broadly to all staff", "Unnecessary exposure and confusion.", -5,
+      "Route all tech inquiries through branches", "Inefficient and noisy.", -5
+    )),
+    q("IT/Security", "How do you protect data integrity during backlog posting?", buildChoices(
+      "Stage recovery with canary validation and reconciliations before full catch-up", "Reduces error and duplicate posting risk.", 10,
+      "Post everything at once and fix later", "High risk of breaks and customer impact.", 5,
+      "Let branches manually enter transactions to help", "Inconsistent and risky; audit issues.", -5,
+      "Silence alerts during backlog so dashboards look green", "Masks risk and delays detection.", -5
+    )),
+
+    // HR (3)
+    q("HR", "How do you support front-line staffing during the outage?", buildChoices(
+      "Surge staffing/rotation, de-escalation scripts, and scheduled breaks", "Improves safety and service quality.", 10,
+      "Keep normal staffing and hope traffic subsides", "Burnout and longer lines.", 5,
+      "Forbid breaks during the outage", "Unsafe and counterproductive.", -5,
+      "Send staff home to reduce friction", "Service failure and longer recovery.", -5
+    )),
+    q("HR", "What internal guidance should staff receive about discussing the vendor?", buildChoices(
+      "Use approved scripts; avoid speculation; refer questions to official status updates", "Consistent, defensible comms.", 10,
+      "Allow staff to explain technical details if they think they know", "Inconsistent and risky.", 5,
+      "Encourage venting about the vendor online", "Reputational risk.", -5,
+      "Disallow any conversation with customers", "Unrealistic and harmful to service.", -5
+    )),
+    q("HR", "What work posture helps back-office operations?", buildChoices(
+      "Enable approved remote work for backlog processing with access controls", "Preserves productivity with security.", 10,
+      "Allow personal tools to speed work until normal", "Policy and data risk.", 5,
+      "Require in-office only regardless of conditions", "May slow response and morale.", -5,
+      "No guidance; let teams decide ad-hoc", "Inconsistent outcomes.", -5
+    )),
+
+    // Finance (3)
+    q("Finance", "What should Finance monitor first?", buildChoices(
+      "Liquidity, settlement exposure, and cash logistics with increased cadence", "Avoids surprises and supports decisions.", 10,
+      "Maintain normal reporting cadence only", "Too slow for an outage.", 5,
+      "Stop cash orders to save costs", "Harms service and access.", -5,
+      "Ignore exposure until restoration", "Governance failure.", -5
+    )),
+    q("Finance", "How do you handle incident spend and credits?", buildChoices(
+      "Create incident cost center; track vendor credits/SLA claims with documentation", "Audit-ready and recovers value.", 10,
+      "Track major invoices only; revisit credits later", "Partial and risks missed recoveries.", 5,
+      "Pause all vendor payments universally", "May disrupt critical services.", -5,
+      "Hide costs across misc categories", "Reporting integrity risk.", -5
+    )),
+    q("Finance", "What is the payment prioritization during the outage?", buildChoices(
+      "Critical ops, communications, and logistics supporting continuity first", "Aligns spend to stability.", 10,
+      "FIFO by invoice date", "Ignores operational criticality.", 5,
+      "Pay smallest invoices first", "Not aligned to impact.", -5,
+      "Stop all payments until issue resolves", "Service disruption risk.", -5
+    )),
+
+    // Loans (3)
+    q("Loans", "How do you handle time-sensitive loan disbursements if core is degraded?", buildChoices(
+      "Use manual playbook with dual control and evidence until systems return", "Balances service and control.", 10,
+      "Pause all disbursements broadly", "Customer harm and reputational impact.", 5,
+      "Proceed via email-only approvals", "Weak evidence and fraud risk.", -5,
+      "Let lenders bypass controls case-by-case", "Compliance failure.", -5
+    )),
+    q("Loans", "How should rate-lock/closing timelines be managed?", buildChoices(
+      "Proactively communicate impacts with alternatives and document exceptions", "Reduces complaints and preserves trust.", 10,
+      "Promise on-time closings regardless", "Sets unrealistic expectations.", 5,
+      "Avoid discussing delays to reduce panic", "Backfires when delays occur.", -5,
+      "Ask borrowers to sign blank forms to finish later", "High compliance risk.", -5
+    )),
+    q("Loans", "What control applies to document handling during manual work?", buildChoices(
+      "Secure storage, role-based access, and exception logging", "Preserves privacy and audit trail.", 10,
+      "Allow personal email for speed", "Privacy and policy breach.", 5,
+      "Share credentials to keep work moving", "Segregation failure.", -5,
+      "Disable logging temporarily", "Evidence loss.", -5
+    )),
+
+    // Accounting (3)
+    q("Accounting", "How should posting delays be reflected in reporting?", buildChoices(
+      "Provisional reporting with enhanced reconciliations and documentation", "Transparent and controlled.", 10,
+      "Report estimates without notes to avoid questions", "Misleading to stakeholders.", 5,
+      "Skip reconciliations until month-end", "Breaks and misstatements likely.", -5,
+      "Smooth entries to hide outage impact", "Ethics and audit risk.", -5
+    )),
+    q("Accounting", "What reconciliations are top priority after restoration?", buildChoices(
+      "Cash, suspense accounts, and inter-system breaks from backlog posting", "Targets material risk first.", 10,
+      "Cash only; do others later", "Partial coverage.", 5,
+      "None; assume vendor caught everything", "Risk of undetected breaks.", -5,
+      "Manual overrides with no logs", "Audit trail failure.", -5
+    )),
+    q("Accounting", "How do you preserve evidence during manual processing?", buildChoices(
+      "Central log of approvals/changes with links to artifacts", "Defensible and consistent.", 10,
+      "Email threads collected later", "Messy and incomplete.", 5,
+      "Verbal approvals only", "Weak evidence.", -5,
+      "Delete drafts and notes to reduce clutter", "Regulatory risk.", -5
+    )),
+
+    // Deposits (3)
+    q("Deposits", "What should branches tell customers about delayed postings?", buildChoices(
+      "Use scripts: what’s impacted, what customers can do, and where to check status", "Consistent and practical guidance.", 10,
+      "Say \"everything is fine\" to avoid panic", "Credibility risk when delays are visible.", 5,
+      "Blame vendor staff by name", "Unprofessional and risky.", -5,
+      "Share internal emails as proof", "Inappropriate and risky.", -5
+    )),
+    q("Deposits", "How should holds/fees be handled fairly during the outage?", buildChoices(
+      "Temporary policy with clear criteria and escalation path", "Balances fairness and control.", 10,
+      "Waive everything universally", "Unsustainable and may create abuse.", 5,
+      "No waivers under any condition", "Customer harm and complaints.", -5,
+      "Different rules per branch", "Inconsistent and risky.", -5
+    )),
+    q("Deposits", "What update cadence reduces call volume most effectively?", buildChoices(
+      "Regular status cadence with factual progress and ETAs when verified", "Predictable and trust-building.", 10,
+      "Update only when there’s big news", "Less predictable; more calls.", 5,
+      "Constant unvetted updates from multiple staff", "Noise and errors.", -5,
+      "Internal-only updates", "Customers remain uninformed.", -5
+    )),
+  ]
+};
+
 /* ------------------------- SCENARIO 2 ------------------------- */
 const SCENARIO_LIQUIDITY = {
   key: "liquidity-run-rumor",
@@ -923,7 +1072,8 @@ const SCENARIOS = [
   SCENARIO_BEC_WIRE,
   SCENARIO_REG_EXAM,
   SCENARIO_WEATHER,
-  SCENARIO_INSIDER
+  SCENARIO_INSIDER,
+  SCENARIO_VENDOR_OUTAGE
 ];
 
 export function getScenarios() {
