@@ -7,6 +7,7 @@
 
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/css/style.css">
+  <script type="module" src="/js/static-scenarios.js"></script>
 </head>
 <body>
 
@@ -105,12 +106,9 @@ async function loadScenario() {
   box.innerHTML = `<div class="loader"><div class="spinner"></div></div>`;
 
   try {
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 12000);
-    const res = await fetch("/api/scenarios", { method: "POST", signal: controller.signal });
-    clearTimeout(timeout);
-    if (!res.ok) throw new Error(`API error ${res.status}`);
-    const scenario = await res.json();
+    // Load locally without API
+    const mod = await import('/js/static-scenarios.js');
+    const scenario = mod.getRandomScenario();
 
     state.scenario = scenario;
     state.index = 0;
@@ -124,7 +122,7 @@ async function loadScenario() {
 
     renderQuestion();
   } catch (err) {
-    const msg = (err?.name === 'AbortError') ? 'Request timed out.' : (err?.message || 'Failed to load scenario.');
+    const msg = err?.message || 'Failed to load scenario.';
     box.innerHTML = `
       <div class="uc-box">
         <h3>Couldn\'t load a scenario</h3>
