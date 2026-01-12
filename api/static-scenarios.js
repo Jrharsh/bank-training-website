@@ -798,10 +798,10 @@ const SCENARIO_BEC_WIRE = {
       "No communications until investigation ends", "Rumors fill the vacuum.", -5
     )),
     q("CEO/SVPs", "What priority should be set for customer remediation?", buildChoices(
-      "Protect customers quickly with a documented, consistent process", "Trust-preserving and defensible.", 10,
-      "Help customers quickly but decide case-by-case without a standard", "Good intent, but inconsistent outcomes and risk.", 5,
-      "Delay help until the investigation is complete", "Customer harm grows; complaints increase.", -5,
-      "Ignore smaller cases", "Patterns expand and become findings.", -5
+      "Reach out to affected customers, provide guidance, and set up escalation.", "Trust-preserving and defensible.", 10,
+      "Wait for all facts before contacting customers.", "Good intent, but inconsistent outcomes and risk.", 5,
+      "Let customers discover issues on their own.", "Customer harm grows; complaints increase.", -5,
+      "Blame customers for falling for fraud.", "Patterns expand and become findings.", -5
     )),
 
     // IT/Security (3)
