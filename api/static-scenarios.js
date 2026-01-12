@@ -3,18 +3,29 @@
 // Each scenario: 21 questions (3 per department).
 // Scoring per choice: correct = 10, partial = 5, wrong = -5, wrong = -5
 
+
+// Shuffle array utility
+function shuffle(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
+
 function buildChoices(
   aText, aReason, aScore,
   bText, bReason, bScore,
   cText, cReason, cScore,
   dText, dReason, dScore
 ) {
-  return [
+  const choices = [
     { text: aText, score: aScore, reason: aReason },
     { text: bText, score: bScore, reason: bReason },
     { text: cText, score: cScore, reason: cReason },
     { text: dText, score: dScore, reason: dReason },
   ];
+  return shuffle(choices);
 }
 
 function q(department, questionText, choices) {
