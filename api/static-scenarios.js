@@ -637,22 +637,22 @@ const SCENARIO_LIQUIDITY = {
   questions: [
     // CEO/SVPs (3)
     q("CEO/SVPs", "What is the immediate leadership communication strategy?", buildChoices(
-      "Issue calm factual statement with update cadence and channels", "Controls narrative and reduces panic.", 10,
-      "Release a brief holding statement and schedule a follow-up", "Better than silence, but less effective without cadence detail.", 5,
-      "Threaten legal action publicly first", "Often inflames situation and distracts from reassurance.", -5,
-      "Say nothing and close comments", "Looks evasive; rumors grow.", -5
+      "Share a calm, factual statement with update schedule and contact info.", "Controls narrative and reduces panic.", 10,
+      "Release a short holding statement and plan a follow-up message.", "Better than silence, but less effective without cadence detail.", 5,
+      "Announce legal action as the first response to rumors.", "Often inflames situation and distracts from reassurance.", -5,
+      "Stay silent and close comments to avoid attention.", "Looks evasive; rumors grow.", -5
     )),
     q("CEO/SVPs", "How should leadership coordinate governance today?", buildChoices(
-      "Activate crisis command with cross-functional leads and checkpoints", "Fast alignment and consistent decisions.", 10,
-      "Have daily exec updates but let departments run independently", "Some coordination, but decisions can conflict.", 5,
-      "Executive-only huddle with no operational leads", "Misses branch/call center realities.", -5,
-      "Vendor-led communications", "Loss of control and misaligned priorities.", -5
+      "Start a crisis command group with leads and regular checkpoints.", "Fast alignment and consistent decisions.", 10,
+      "Hold daily executive updates but let departments act independently.", "Some coordination, but decisions can conflict.", 5,
+      "Meet with executives only, without operational leads involved.", "Misses branch/call center realities.", -5,
+      "Let vendors lead all communications and decisions.", "Loss of control and misaligned priorities.", -5
     )),
     q("CEO/SVPs", "Do you adjust branch cash policy immediately?", buildChoices(
-      "Yes—set temporary limits with escalation path and scripts", "Consistency protects liquidity and service.", 10,
-      "Adjust only for unusually large withdrawals", "Helps but may still create inconsistency.", 5,
-      "Close branches to reduce cash demand", "Worsens panic and rumor.", -5,
-      "Let each branch decide", "Inconsistent; escalations rise.", -5
+      "Set temporary limits, provide scripts, and define escalation steps.", "Consistency protects liquidity and service.", 10,
+      "Adjust policy only for very large withdrawals as needed.", "Helps but may still create inconsistency.", 5,
+      "Close branches to reduce cash demand right away.", "Worsens panic and rumor.", -5,
+      "Let each branch set its own policy for withdrawals.", "Inconsistent; escalations rise.", -5
     )),
 
     // IT/Security (3)
