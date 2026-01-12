@@ -32,152 +32,468 @@ function q(department, questionText, choices) {
   return { department, questionText, choices };
 }
 
-/* ------------------------- SCENARIO 1 ------------------------- */
+/* ------------------------- SCENARIO 1 (REWRITTEN – HARDER) ------------------------- */
 const SCENARIO_RANSOMWARE = {
   key: "ransomware-core-ach",
   title: "Ransomware Disrupts Core + Online Banking + ACH",
   description:
-    "A ransomware event encrypts key servers supporting core processing and online banking. ACH files are delayed and customers report failed logins. Incident Command is activated.",
+    "A ransomware event encrypts systems supporting core processing, online banking, and ACH operations. Customer access is degraded, transaction files are delayed, and incident command is activated amid incomplete technical clarity.",
   questions: [
-    // CEO/SVPs (3)
-    q("CEO/SVPs", "What is leadership’s first move in the first 30 minutes?", buildChoices(
-      "Form a response group, assign a spokesperson, and send an initial staff update.", "Ensures rapid alignment, clear ownership, and reduces confusion from the outset.", 10,
-      "Meet with senior leaders to discuss and consider next steps before formalizing a response.", "May help coordination, but delays structure and can create uncertainty.", 5,
-      "Wait for IT to finish their assessment before making announcements or activating a plan.", "Creates a vacuum, increases rumors, and slows response.", -5,
-      "Let outside partners coordinate communications and manage the response process.", "Loss of control, inconsistent messaging, and potential legal exposure.", -5
-    )),
-    q("CEO/SVPs", "How should leadership decide about ransom payment if restoration is slow?", buildChoices(
-      "Decline to pay, focus on restoring systems, and coordinate with legal and regulators.", "Most defensible; avoids funding criminals and maintains regulatory trust.", 10,
-      "Consider payment as a last resort after all restoration options and legal input.", "Keeps options open, but introduces significant risk and must be tightly governed.", 5,
-      "Approve payment right away to restore service, regardless of legal advice.", "No guarantee of recovery; sets a dangerous precedent and invites repeat targeting.", -5,
-      "Wait and see if the issue resolves without intervention.", "Worsens operational and reputational damage, and may violate reporting obligations.", -5
-    )),
-    q("CEO/SVPs", "What should leadership communicate to customers today?", buildChoices(
-      "Acknowledge the impact, share current facts, outline next steps, and set an update schedule.", "Builds trust, reduces speculation, and manages expectations.", 10,
-      "Release a short statement promising updates, but avoid details until more is known.", "Better than silence, but less helpful without detail or cadence.", 5,
-      "Blame a vendor or third party for the disruption in public statements.", "Legal and reputational risk; often premature and can backfire.", -5,
-      "Tell customers that everything is normal and there is no cause for concern.", "If inaccurate, credibility collapses and trust is lost.", -5
-    )),
 
-    // IT/Security (3)
-    q("IT/Security", "What is the first containment action?", buildChoices(
-      "Immediately isolate impacted hosts, block lateral movement, and preserve forensic evidence.", "Limits spread, preserves evidence, and enables effective investigation.", 10,
-      "Increase monitoring and prepare for isolation, but delay action until more data is collected.", "Helpful, but containment should not wait too long or risk further spread.", 5,
-      "Disable all logging to reduce system load and focus on restoration.", "Destroys forensic trail and weakens response and recovery.", -5,
-      "Reboot all affected systems to clear the infection quickly.", "Can worsen encryption/data loss and destroys evidence, making recovery harder.", -5
-    )),
-    q("IT/Security", "How do you handle backups and restoration?", buildChoices(
-      "Validate that backups are clean, restore in controlled phases using canary systems, and monitor for reinfection.", "Prevents reinfection and reduces recovery risk.", 10,
-      "Restore quickly, validating only the most critical backups before bringing systems online.", "Faster, but risks partial reinfection if rushed or incomplete.", 5,
-      "Restore all systems at once without validation to minimize downtime.", "High risk of reinfection and system instability.", -5,
-      "Ignore backups and plan to rebuild systems from scratch at a later date.", "Unnecessary downtime and business impact, with no guarantee of clean recovery.", -5
-    )),
-    q("IT/Security", "How should customer-facing systems return to service?", buildChoices(
-      "Restore customer-facing systems in stages, with integrity checks and a rollback plan for each phase.", "Controlled recovery, reduces risk of further disruption, and protects customer experience.", 10,
-      "Bring critical channels online first, monitoring closely for issues but skipping some validation steps.", "Reasonable if risk-managed, but can be unstable and risky if not fully validated.", 5,
-      "Bypass change controls and patch all systems quickly to restore service as fast as possible.", "Introduces new vulnerabilities and audit issues, and may violate policy.", -5,
-      "Share admin credentials widely among staff to speed up restoration work.", "Security breakdown and major audit failure, with high risk of further compromise.", -5
-    )),
+    /* ================= CEO / SVPs ================= */
 
-    // HR (3)
-    q("HR", "What guidance should HR send employees today?", buildChoices(
-      "Send an official internal update, include a phishing reminder, and provide clear instructions for reporting issues.", "Reduces mistakes, improves incident reporting, and supports a unified response.", 10,
-      "Send a brief message advising caution and to await further updates, but provide no reporting instructions.", "Some value, but lacks actionable steps and may leave staff uncertain.", 5,
-      "Allow personal email and file sharing to keep work moving during the disruption.", "Creates data leakage and compliance risk, and undermines security controls.", -5,
-      "Provide no guidance until the incident is fully resolved.", "Rumors and anxiety increase, and errors are more likely.", -5
-    )),
-    q("HR", "What staffing posture is appropriate during incident response?", buildChoices(
-      "Implement a documented coverage plan with defined shifts and scheduled breaks for all critical staff.", "Reduces burnout, errors, and supports operational continuity.", 10,
-      "Ask managers to cover as needed and track overtime centrally, but do not formalize shift coverage.", "Works short-term, but may be uneven and unsustainable without structure.", 5,
-      "Allow unlimited overtime without tracking or limits to maximize response speed.", "Fatigue and HR liability risk, and may lead to mistakes.", -5,
-      "Prohibit all overtime regardless of incident needs.", "Slows response and prolongs outage, risking further harm.", -5
-    )),
-    q("HR", "Remote-work policy if office systems are degraded?", buildChoices(
-      "Permit remote work using VPN, MFA, and only approved tools, with clear guidance on security protocols.", "Maintains productivity while controlling risk and supporting business continuity.", 10,
-      "Allow remote work but restrict only the highest-risk activities, leaving some controls unenforced.", "Better than open access, but still needs strong controls and monitoring.", 5,
-      "Disable MFA to make remote access easier for all staff during the incident.", "Raises compromise risk and undermines security during a critical period.", -5,
-      "Stop all work entirely until office systems are fully restored.", "Unnecessary disruption and negative customer impact.", -5
-    )),
+    q("CEO/SVPs",
+      "In the first 30 minutes, which leadership action best stabilizes the situation while preserving flexibility?",
+      buildChoices(
+        "Formally activate incident command, assign decision ownership, and issue an internal alignment message with a defined update cadence.",
+        "Creates structure and tempo without locking leadership into premature commitments.",
+        10,
 
-    // Finance (3)
-    q("Finance", "What’s the first finance control during disruption?", buildChoices(
-      "Establish an incident-specific cost center, require approvals for all critical spend, and document all financial decisions.", "Maintains visibility, audit trail, and supports defensible recovery.", 10,
-      "Track only major vendor invoices and estimate the rest, focusing on the largest expenses first.", "Some visibility, but can miss key categories and lead to incomplete records.", 5,
-      "Allow spending as needed to keep operations running, with reconciliation to be done after the incident.", "Weak controls and audit risk, and may result in unapproved or inappropriate spend.", -5,
-      "Ignore all costs until the next month-end close, then review incident-related expenses.", "No visibility, governance issues, and potential for missed or inappropriate spend.", -5
-    )),
-    q("Finance", "How should liquidity be monitored during service disruption?", buildChoices(
-      "Increase the frequency of liquidity monitoring, implement contingency plans, and review cash positions throughout the day.", "Reduces risk of cash stress, surprises, and supports proactive management.", 10,
-      "Maintain normal monitoring cadence but add a daily executive check-in for updates.", "Some improvement, but may miss rapid shifts or emerging risks.", 5,
-      "Assume deposits and withdrawals will remain stable despite the disruption.", "Dangerous assumption during instability, can lead to liquidity shortfalls.", -5,
-      "Stop all liquidity monitoring because systems are down and wait for restoration.", "Governance failure and high risk of undetected issues.", -5
-    )),
-    q("Finance", "How do you manage critical vendor payments (security/infra)?", buildChoices(
-      "Prioritize payments to continuity-critical vendors according to the incident response plan, with executive oversight.", "Keeps recovery moving, maintains defensibility, and supports operational continuity.", 10,
-      "Pay critical vendors on a case-by-case basis, requiring executive approval for each payment.", "Works, but is slower and can be inconsistent, risking delays.", 5,
-      "Pay the smallest invoices first to minimize cash outflows during the incident.", "Not aligned to operational priority and may delay critical services.", -5,
-      "Stop all vendor payments until the incident is fully resolved.", "Risks service disruption, penalties, and loss of critical support.", -5
-    )),
+        "Convene senior leadership privately to align on strategy before activating formal response structures.",
+        "Improves executive alignment but delays broader coordination and operational clarity.",
+        5,
 
-    // Loans (3)
-    q("Loans", "How should loan operations continue if the core is degraded?", buildChoices(
-      "Follow the manual playbook, prioritize time-sensitive items, and document all exceptions and workarounds.", "Maintains service, preserves controls, and supports auditability.", 10,
-      "Pause all new loan activity, but continue existing commitments using manual processes.", "Reduces risk, but may delay service for new customers and increase manual errors.", 5,
-      "Proceed with loan operations without documentation to expedite processing.", "Compliance and fraud risk, and undermines audit trail.", -5,
-      "Cancel all in-flight loans broadly to minimize operational complexity.", "Reputation and customer harm, and may violate contractual obligations.", -5
-    )),
-    q("Loans", "What controls apply to manual underwriting/processing?", buildChoices(
-      "Require dual review, use a standardized checklist, and ensure secure document storage for all manual processing.", "Preserves audit trail, accuracy, and supports compliance.", 10,
-      "Manager review only, with a checklist but no dual control or secure storage.", "Better than no controls, but weaker segregation and higher risk of errors.", 5,
-      "Rely on verbal approvals only to speed up manual processing.", "Weak evidence, high risk of audit findings, and potential for fraud.", -5,
-      "Allow staff to email PII freely between each other to keep work moving.", "Privacy and compliance breach risk, and may violate regulations.", -5
-    )),
-    q("Loans", "How should borrower communications be handled?", buildChoices(
-      "Use standard scripts with factual updates, clear escalation paths, and avoid speculation in all communications.", "Consistent, defensible, and reduces complaints and confusion.", 10,
-      "Allow lenders to communicate using a general guideline, but permit some customization per case.", "Some consistency, but still varies and increases risk of miscommunication.", 5,
-      "Provide no communication to borrowers until all systems are restored.", "Confusion and complaint volume grow, and may damage trust.", -5,
-      "Promise specific timelines for resolution even if they cannot be confirmed.", "Credibility and legal risk, and may result in broken promises.", -5
-    )),
+        "Allow IT and Security to continue assessment before leadership engages to avoid interfering with technical response.",
+        "Avoids distraction but leaves a leadership vacuum during a critical early window.",
+        -5,
 
-    // Accounting (3)
-    q("Accounting", "How should accounting handle posting delays/partial data?", buildChoices(
-      "Perform a provisional close, enhance reconciliations, and document all manual adjustments and exceptions.", "Transparent, controlled, and supports auditability.", 10,
-      "Delay the close briefly, reconciling only material accounts and documenting the rationale for any delays.", "Reasonable if time-boxed and documented, but may miss some issues.", 5,
-      "Skip all reconciliations due to time pressure and focus on closing quickly.", "Misstatements likely, and increases audit risk.", -5,
-      "Adjust entries to smooth the impact of the disruption and avoid drawing attention.", "Fraud and misrepresentation risk, and may violate accounting standards.", -5
-    )),
-    q("Accounting", "Which reconciliations are top priority during the incident?", buildChoices(
-      "Focus on cash, customer balances, and inter-system breaks as the top priority for reconciliation.", "Covers highest material risk and supports accurate reporting.", 10,
-      "Reconcile only cash accounts first, then address other accounts later as time allows.", "Partial coverage, but may miss systemic breaks and errors.", 5,
-      "Prioritize cosmetic reports and non-material accounts to show progress quickly.", "Misses actual risk areas and may delay detection of real issues.", -5,
-      "Allow manual overrides with no logs to expedite reconciliation.", "No audit trail, high risk, and undermines controls.", -5
-    )),
-    q("Accounting", "How do you preserve audit trail during manual workarounds?", buildChoices(
-      "Maintain a central log of all approvals and changes, with supporting evidence retained for each entry.", "Defensible record for audit and regulators, and supports transparency.", 10,
-      "Use email threads for approvals, requiring manager sign-off on each, but do not centralize records.", "Some evidence, but messy and hard to audit or review.", 5,
-      "Disable all logging to move faster and reduce administrative burden.", "Destroys evidence and undermines auditability.", -5,
-      "Share credentials among staff to speed up manual workarounds.", "Breaks segregation of duties and increases risk of errors or fraud.", -5
-    )),
+        "Engage external advisors immediately and defer coordination decisions until their recommendations are received.",
+        "Introduces delay and dilutes accountability at the most time-sensitive stage.",
+        -5
+      )
+    ),
 
-    // Deposits (3)
-    q("Deposits", "How do you preserve customer access during online banking disruption?", buildChoices(
-      "Implement a branch and ATM continuity plan, provide staff scripts, and issue regular status updates to customers.", "Maintains access, reduces panic, and supports customer trust.", 10,
-      "Focus on ATM access first, with limited branch support and minimal communication.", "Some access, but increases branch pressure and may frustrate customers.", 5,
-      "Shut down all access channels to prevent further issues until systems are restored.", "Triggers panic, complaints, and loss of trust.", -5,
-      "Provide no updates to customers and let them discover issues on their own.", "Call volume and distrust spike, and may damage reputation.", -5
-    )),
-    q("Deposits", "What withdrawal strategy fits during the incident?", buildChoices(
-      "Set temporary withdrawal limits, provide clear explanations to customers, and establish an escalation path for exceptions.", "Balances liquidity, fairness, and customer understanding.", 10,
-      "Limit only very large withdrawals, but allow smaller transactions without restriction.", "Helps, but can be inconsistent and may frustrate some customers.", 5,
-      "Allow unlimited withdrawals for all customers to avoid complaints.", "Liquidity and cash risk, and may worsen the incident.", -5,
-      "Let each branch set different rules for withdrawals based on local judgment.", "Inconsistent, causes escalations, and undermines policy.", -5
-    )),
-    q("Deposits", "How often should the public status page be updated?", buildChoices(
-      "Update the public status page at a regular cadence with factual progress and next steps.", "Builds trust, reduces speculation, and keeps customers informed.", 10,
-      "Update only when major milestones are reached, with no set schedule.", "Better than silence, but less predictable and may increase uncertainty.", 5,
-      "Post constant, unvetted updates from multiple staff to show activity.", "Creates noise, confusion, and increases risk of mistakes.", -5,
-      "Restrict updates to internal staff only and do not inform customers.", "Customers remain uninformed, and call volume and complaints may rise.", -5
-    )),
+    q("CEO/SVPs",
+      "If system restoration timelines remain uncertain, how should leadership frame ransom payment discussions?",
+      buildChoices(
+        "Establish a decision framework involving legal, regulators, and law enforcement while prioritizing restoration without committing to payment.",
+        "Keeps options governed and defensible without signaling intent or panic.",
+        10,
+
+        "Privately evaluate ransom payment feasibility as a contingency while continuing restoration efforts.",
+        "Maintains optionality but risks internal leakage and moral hazard.",
+        5,
+
+        "Authorize payment if restoration exceeds predefined time thresholds to minimize customer impact.",
+        "Creates false certainty and ignores legal, ethical, and recovery risks.",
+        -5,
+
+        "Defer the decision entirely until technical teams confirm recovery success or failure.",
+        "Delays strategic planning and may force rushed decisions later.",
+        -5
+      )
+    ),
+
+    q("CEO/SVPs",
+      "What customer communication approach best balances transparency with operational uncertainty?",
+      buildChoices(
+        "Acknowledge service disruption, share confirmed impacts, explain next steps, and commit to a predictable update cadence.",
+        "Builds trust while avoiding speculation or overpromising.",
+        10,
+
+        "Issue a brief holding statement indicating awareness and promising updates once details are confirmed.",
+        "Reduces silence risk but may not sufficiently manage expectations.",
+        5,
+
+        "Emphasize system security assurances without addressing service impacts to avoid alarm.",
+        "Creates credibility gaps when customers experience disruptions firsthand.",
+        -5,
+
+        "Delay external communication until restoration timelines are fully validated.",
+        "Increases speculation, call volume, and reputational damage.",
+        -5
+      )
+    ),
+
+    /* ================= IT / Security ================= */
+
+    q("IT/Security",
+      "What containment action most effectively limits further impact while preserving investigative integrity?",
+      buildChoices(
+        "Isolate affected systems, restrict lateral movement, and preserve logs and memory artifacts for forensics.",
+        "Limits spread and supports both recovery and investigation.",
+        10,
+
+        "Increase monitoring and prepare isolation steps while validating indicators of compromise.",
+        "Improves situational awareness but delays decisive containment.",
+        5,
+
+        "Temporarily reduce logging verbosity to improve system performance during response.",
+        "Appears efficient but reduces visibility during a critical phase.",
+        -5,
+
+        "Restart impacted systems to clear malicious processes before further encryption occurs.",
+        "Risks data loss and destroys forensic evidence.",
+        -5
+      )
+    ),
+
+    q("IT/Security",
+      "How should backups be incorporated into the recovery strategy?",
+      buildChoices(
+        "Check backups offline, restore in steps, and monitor for issues.",
+        "Reduces reinfection risk and supports controlled recovery.",
+        10,
+
+        "Spot-check backups, restore key systems, and watch for problems.",
+        "Speeds recovery but increases reinfection risk.",
+        5,
+
+        "Restore everything at once, then check for errors and issues.",
+        "Magnifies failure impact if backups are compromised.",
+        -5,
+
+        "Wait for full analysis, then restore systems and review results.",
+        "Unnecessarily extends outage and customer impact.",
+        -5
+      )
+    ),
+
+    q("IT/Security",
+      "What approach best governs the return of customer-facing systems?",
+      buildChoices(
+        "Restore systems in stages, check each step, and monitor after going live.",
+        "Balances speed with stability and customer protection.",
+        10,
+
+        "Bring key channels online first, fix issues as they come up, and monitor closely.",
+        "Improves access quickly but increases outage volatility.",
+        5,
+
+        "Skip change controls, restore everything fast, and check for problems later.",
+        "Introduces compounding risk and audit exposure.",
+        -5,
+
+        "Give broad access to staff, restore quickly, and review after the fact.",
+        "Creates significant security and compliance failures.",
+        -5
+      )
+    ),
+
+    /* ================= HR ================= */
+
+    q("HR",
+      "What employee guidance best reduces risk while supporting response efforts?",
+      buildChoices(
+        "Send an official update, include security reminders, and give reporting steps.",
+        "Reduces mistakes and aligns staff behavior.",
+        10,
+
+        "Tell staff to be cautious and wait for more instructions from managers.",
+        "Provides awareness but lacks actionable direction.",
+        5,
+
+        "Allow use of alternate tools to keep work moving during outages.",
+        "Introduces data leakage and compliance risk.",
+        -5,
+
+        "Give no guidance until the incident is fully understood by leadership.",
+        "Allows rumors and unsafe behavior to spread.",
+        -5
+      )
+    ),
+
+    q("HR",
+      "What staffing approach best sustains response operations over multiple days?",
+      buildChoices(
+        "Use structured shifts, coverage plans, and required rest for all staff.",
+        "Reduces burnout and error rates.",
+        10,
+
+        "Track overtime, let managers adjust staffing as needed for coverage.",
+        "Provides flexibility but risks uneven coverage.",
+        5,
+
+        "Allow unlimited overtime to maximize staff availability during response.",
+        "Increases fatigue-related mistakes and HR risk.",
+        -5,
+
+        "Limit overtime strictly to control costs and hours for all staff.",
+        "Prolongs outage and operational stress.",
+        -5
+      )
+    ),
+
+    q("HR",
+      "If remote work is required due to system disruption, what posture best balances access and security?",
+      buildChoices(
+        "Allow remote work with approved tools, MFA, VPN, and clear security rules.",
+        "Maintains continuity while managing risk.",
+        10,
+
+        "Permit some remote work, relax certain controls to make access easier.",
+        "Improves access but weakens security posture.",
+        5,
+
+        "Turn off MFA for now to avoid remote access problems for staff.",
+        "Significantly increases compromise risk.",
+        -5,
+
+        "Stop all work until systems are stable and secure for everyone.",
+        "Creates unnecessary operational disruption.",
+        -5
+      )
+    ),
+
+    /* ================= Finance ================= */
+
+    q("Finance",
+      "What financial control should be established immediately during the incident?",
+      buildChoices(
+        "Set up a cost center, require approvals, and document all spending decisions.",
+        "Preserves auditability and spending discipline.",
+        10,
+
+        "Track big expenses, estimate internal costs, and review after the incident.",
+        "Provides partial visibility but misses true impact.",
+        5,
+
+        "Let teams spend as needed, then reconcile and review later on.",
+        "Weakens governance and audit defense.",
+        -5,
+
+        "Wait to track costs until normal operations are restored for all departments.",
+        "Creates blind spots and reporting risk.",
+        -5
+      )
+    ),
+
+    q("Finance",
+      "How should liquidity be managed amid transaction disruptions?",
+      buildChoices(
+        "Increase monitoring frequency and activate contingency liquidity planning.",
+        "Supports proactive risk management.",
+        10,
+
+        "Maintain standard monitoring with executive check-ins.",
+        "Provides awareness but may miss rapid shifts.",
+        5,
+
+        "Assume customer behavior will normalize quickly.",
+        "Underestimates volatility during outages.",
+        -5,
+
+        "Pause liquidity analysis until systems are restored.",
+        "Creates unacceptable financial risk.",
+        -5
+      )
+    ),
+
+    q("Finance",
+      "How should payments to critical vendors be prioritized?",
+      buildChoices(
+        "Prioritize continuity-critical vendors under executive oversight.",
+        "Aligns spend with recovery objectives.",
+        10,
+
+        "Approve vendor payments individually as requests arise.",
+        "Maintains control but slows recovery.",
+        5,
+
+        "Pay invoices based on age or amount to conserve cash.",
+        "Misaligns payments with operational needs.",
+        -5,
+
+        "Suspend all vendor payments during the incident.",
+        "Risks service degradation and penalties.",
+        -5
+      )
+    ),
+
+    /* ================= Loans ================= */
+
+    q("Loans",
+      "If the core system is degraded, how should loan operations proceed?",
+      buildChoices(
+        "Use documented manual procedures, prioritize time-sensitive items, and log all exceptions.",
+        "Maintains service while preserving controls.",
+        10,
+
+        "Pause new originations but manually service existing commitments.",
+        "Reduces risk but impacts customers and revenue.",
+        5,
+
+        "Proceed with manual processing without documentation to maintain speed.",
+        "Creates compliance and audit failures.",
+        -5,
+
+        "Cancel in-flight loans broadly until restoration.",
+        "Harms customers and contractual obligations.",
+        -5
+      )
+    ),
+
+    q("Loans",
+      "What control is most critical during manual underwriting?",
+      buildChoices(
+        "Dual review with standardized checklists and secure document handling.",
+        "Preserves accuracy and audit trail.",
+        10,
+
+        "Manager review only for higher-risk loans.",
+        "Provides partial control but weaker segregation.",
+        5,
+
+        "Verbal approvals to expedite processing.",
+        "Insufficient evidence and high risk.",
+        -5,
+
+        "Unrestricted document sharing to keep work moving.",
+        "PII exposure and compliance breaches.",
+        -5
+      )
+    ),
+
+    q("Loans",
+      "How should borrower communications be handled during disruption?",
+      buildChoices(
+        "Use consistent scripts with factual updates and defined escalation paths.",
+        "Reduces confusion and complaints.",
+        10,
+
+        "Allow lenders to tailor messages within general guidance.",
+        "Improves empathy but risks inconsistency.",
+        5,
+
+        "Avoid communication until timelines are certain.",
+        "Increases frustration and mistrust.",
+        -5,
+
+        "Provide optimistic timelines to reassure borrowers.",
+        "Credibility loss if missed.",
+        -5
+      )
+    ),
+
+    /* ================= Accounting ================= */
+
+    q("Accounting",
+      "How should accounting address incomplete or delayed data?",
+      buildChoices(
+        "Perform provisional reporting with enhanced reconciliations and documented adjustments.",
+        "Maintains transparency and control.",
+        10,
+
+        "Delay close briefly while reconciling only material accounts.",
+        "Reasonable if controlled and documented.",
+        5,
+
+        "Skip reconciliations to close on time.",
+        "Increases misstatement risk.",
+        -5,
+
+        "Adjust entries to smooth disruption impact.",
+        "Ethical and audit violations.",
+        -5
+      )
+    ),
+
+    q("Accounting",
+      "Which reconciliations should take priority during recovery?",
+      buildChoices(
+        "Cash, customer balances, and inter-system differences.",
+        "Targets highest financial risk.",
+        10,
+
+        "Cash accounts only initially.",
+        "Partial risk coverage.",
+        5,
+
+        "Focus on non-material accounts to show progress.",
+        "Misses real exposure.",
+        -5,
+
+        "Allow undocumented overrides to speed reconciliation.",
+        "Destroys audit trail.",
+        -5
+      )
+    ),
+
+    q("Accounting",
+      "How can audit trail be preserved during manual workarounds?",
+      buildChoices(
+        "Centralized logs with approvals and retained evidence.",
+        "Defensible for examiners and auditors.",
+        10,
+
+        "Email approvals retained by managers.",
+        "Provides evidence but is difficult to audit.",
+        5,
+
+        "Suspend logging to reduce administrative burden.",
+        "Eliminates traceability.",
+        -5,
+
+        "Share credentials to simplify access.",
+        "Breaks segregation of duties.",
+        -5
+      )
+    ),
+
+    /* ================= Deposits ================= */
+
+    q("Deposits",
+      "How should customer access be preserved during online banking disruption?",
+      buildChoices(
+        "Implement branch and ATM continuity plans with scripts and regular updates.",
+        "Maintains access and trust.",
+        10,
+
+        "Focus on ATM access with limited branch support.",
+        "Provides partial access.",
+        5,
+
+        "Suspend all access until systems are stable.",
+        "Triggers panic and reputational damage.",
+        -5,
+
+        "Allow customers to discover outages without communication.",
+        "Increases complaints and confusion.",
+        -5
+      )
+    ),
+
+    q("Deposits",
+      "What withdrawal policy best balances liquidity and fairness?",
+      buildChoices(
+        "Temporary limits with clear explanations and escalation paths.",
+        "Controls risk while maintaining trust.",
+        10,
+
+        "Restrict only unusually large withdrawals.",
+        "Reduces some risk but lacks consistency.",
+        5,
+
+        "Permit unlimited withdrawals to avoid complaints.",
+        "Liquidity risk escalates.",
+        -5,
+
+        "Allow each branch to set its own rules.",
+        "Creates inconsistency and escalation.",
+        -5
+      )
+    ),
+
+    q("Deposits",
+      "How often should public status updates be issued?",
+      buildChoices(
+        "At a predictable cadence with verified information and next steps.",
+        "Reduces speculation and call volume.",
+        10,
+
+        "Only when major milestones occur.",
+        "Less predictable but better than silence.",
+        5,
+
+        "Continuously as staff learn new information.",
+        "Creates confusion and misinformation.",
+        -5,
+
+        "Restrict updates to internal audiences only.",
+        "Leaves customers uninformed.",
+        -5
+      )
+    ),
   ]
 };
 
