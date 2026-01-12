@@ -142,10 +142,10 @@ const SCENARIO_RANSOMWARE = {
     )),
 
     q("Deposits", "How should branch teams respond to higher walk-in traffic?", buildChoices(
-      "Provide clear talking points and self-service alternatives", "Reduces frustration and load.", 10,
-      "Ask customers to call later", "Not helpful.", 5,
-      "Downplay the issue", "Harms trust.", -5,
-      "Share internal emails with customers", "Leads to confusion and risk.", -5
+      "Give staff a script and suggest self-service options", "Reduces frustration and load.", 10,
+      "Tell customers to return at a later time", "Not helpful.", 5,
+      "Minimize the situation when asked", "Harms trust.", -5,
+      "Show customers internal communications", "Leads to confusion and risk.", -5
     )),
     q("Deposits", "What is the immediate guidance for ACH issues?", buildChoices(
       "Communicate expected delays and offer alternatives where possible", "Sets expectations and reduces complaints.", 10,

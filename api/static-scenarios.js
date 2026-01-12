@@ -41,22 +41,22 @@ const SCENARIO_RANSOMWARE = {
   questions: [
     // CEO/SVPs (3)
     q("CEO/SVPs", "What is leadership’s first move in the first 30 minutes?", buildChoices(
-      "Quickly establish a central response group, clarify who will speak for the organization, and share an initial update with staff.", "Ensures rapid alignment, clear ownership, and reduces confusion from the outset.", 10,
-      "Gather senior leaders to discuss the situation and consider next steps before formalizing a response structure.", "May help coordination, but delays structure and can create uncertainty.", 5,
-      "Request IT to provide a full assessment before making any internal announcements or activating a response plan.", "Creates a vacuum, increases rumors, and slows response.", -5,
-      "Rely on external partners to coordinate communications and manage the incident response process.", "Loss of control, inconsistent messaging, and potential legal exposure.", -5
+      "Form a response group, assign a spokesperson, and send an initial staff update.", "Ensures rapid alignment, clear ownership, and reduces confusion from the outset.", 10,
+      "Meet with senior leaders to discuss and consider next steps before formalizing a response.", "May help coordination, but delays structure and can create uncertainty.", 5,
+      "Wait for IT to finish their assessment before making announcements or activating a plan.", "Creates a vacuum, increases rumors, and slows response.", -5,
+      "Let outside partners coordinate communications and manage the response process.", "Loss of control, inconsistent messaging, and potential legal exposure.", -5
     )),
     q("CEO/SVPs", "How should leadership decide about ransom payment if restoration is slow?", buildChoices(
-      "Refuse payment, focus on restoration, and coordinate with legal, regulators, and law enforcement for all decisions.", "Most defensible; avoids funding criminals and maintains regulatory trust.", 10,
-      "Consider payment only as a last resort, after exhausting all restoration options and consulting with legal and regulators.", "Keeps options open, but introduces significant risk and must be tightly governed.", 5,
-      "Authorize immediate payment to expedite restoration and minimize downtime, regardless of legal advice.", "No guarantee of recovery; sets a dangerous precedent and invites repeat targeting.", -5,
-      "Take no action and hope the issue resolves itself without further intervention.", "Worsens operational and reputational damage, and may violate reporting obligations.", -5
+      "Decline to pay, focus on restoring systems, and coordinate with legal and regulators.", "Most defensible; avoids funding criminals and maintains regulatory trust.", 10,
+      "Consider payment as a last resort after all restoration options and legal input.", "Keeps options open, but introduces significant risk and must be tightly governed.", 5,
+      "Approve payment right away to restore service, regardless of legal advice.", "No guarantee of recovery; sets a dangerous precedent and invites repeat targeting.", -5,
+      "Wait and see if the issue resolves without intervention.", "Worsens operational and reputational damage, and may violate reporting obligations.", -5
     )),
     q("CEO/SVPs", "What should leadership communicate to customers today?", buildChoices(
-      "Acknowledge the service impact, share what is currently known, outline next steps, and provide a predictable update cadence.", "Builds trust, reduces speculation, and manages expectations.", 10,
-      "Issue a brief holding statement promising updates, but avoid specifics until more is known.", "Better than silence, but less helpful without detail or cadence.", 5,
-      "Publicly assign blame to a vendor or third party for the disruption.", "Legal and reputational risk; often premature and can backfire.", -5,
-      "Reassure customers that everything is normal and there is no cause for concern.", "If inaccurate, credibility collapses and trust is lost.", -5
+      "Acknowledge the impact, share current facts, outline next steps, and set an update schedule.", "Builds trust, reduces speculation, and manages expectations.", 10,
+      "Release a short statement promising updates, but avoid details until more is known.", "Better than silence, but less helpful without detail or cadence.", 5,
+      "Blame a vendor or third party for the disruption in public statements.", "Legal and reputational risk; often premature and can backfire.", -5,
+      "Tell customers that everything is normal and there is no cause for concern.", "If inaccurate, credibility collapses and trust is lost.", -5
     )),
 
     // IT/Security (3)
