@@ -813,10 +813,10 @@ const SCENARIO_INSIDER = {
     )),
 
     q("Loans", "What should be verified for loan systems?", buildChoices(
-      "Access reviews for deal changes and rate tables", "Targets fraud risks.", 10,
-      "No special actions", "Misses risk.", 5,
-      "Suspend all loan ops", "Too blunt.", -5,
-      "Allow single-approver changes", "Risky.", -5
+      "Confirm recent changes to loan terms and rates", "Targets fraud risks.", 10,
+      "Take no additional verification steps", "Misses risk.", 5,
+      "Pause all loan processing activities", "Too blunt.", -5,
+      "Permit one person to approve changes", "Risky.", -5
     )),
     q("Loans", "How should borrower communications be handled?", buildChoices(
       "Only if directly impacted; coordinated and factual", "Prudent.", 10,

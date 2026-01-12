@@ -41,10 +41,10 @@ const SCENARIO_RANSOMWARE = {
   questions: [
     // CEO/SVPs (3)
     q("CEO/SVPs", "What is leadership’s first move in the first 30 minutes?", buildChoices(
-      "Activate Incident Command, assign a single spokesperson, and immediately communicate a preliminary status to all staff.", "Ensures rapid alignment, clear ownership, and reduces confusion from the outset.", 10,
-      "Hold an executive huddle to discuss options, then decide on command activation after more information is gathered.", "May help coordination, but delays structure and can create uncertainty.", 5,
-      "Wait for IT to confirm the full scope before making any announcements or activating command.", "Creates a vacuum, increases rumors, and slows response.", -5,
-      "Let a vendor or third party lead all communications and incident response steps.", "Loss of control, inconsistent messaging, and potential legal exposure.", -5
+      "Quickly establish a central response group, clarify who will speak for the organization, and share an initial update with staff.", "Ensures rapid alignment, clear ownership, and reduces confusion from the outset.", 10,
+      "Gather senior leaders to discuss the situation and consider next steps before formalizing a response structure.", "May help coordination, but delays structure and can create uncertainty.", 5,
+      "Request IT to provide a full assessment before making any internal announcements or activating a response plan.", "Creates a vacuum, increases rumors, and slows response.", -5,
+      "Rely on external partners to coordinate communications and manage the incident response process.", "Loss of control, inconsistent messaging, and potential legal exposure.", -5
     )),
     q("CEO/SVPs", "How should leadership decide about ransom payment if restoration is slow?", buildChoices(
       "Refuse payment, focus on restoration, and coordinate with legal, regulators, and law enforcement for all decisions.", "Most defensible; avoids funding criminals and maintains regulatory trust.", 10,
