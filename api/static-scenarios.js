@@ -45,19 +45,19 @@ const SCENARIO_RANSOMWARE = {
     q("CEO/SVPs",
       "In the first 30 minutes, which leadership action best stabilizes the situation while preserving flexibility?",
       buildChoices(
-        "Activate incident command, assign roles, and set a cadence for updates to ensure alignment and structure.",
+        "Activate incident command, assign roles to key leaders, and set a regular cadence for updates to ensure everyone is aligned and the response is structured and effective throughout the incident.",
         "Creates structure and tempo without locking leadership into premature commitments.",
         10,
 
-        "Meet privately with senior leaders first, then activate a formal response group to coordinate actions and messaging.",
+        "Meet privately with senior leaders first, then activate a formal response group to coordinate actions and messaging, ensuring all departments are represented and communication is consistent across the organization.",
         "Improves executive alignment but delays broader coordination and operational clarity.",
         5,
 
-        "Let IT and Security continue their assessment before leadership steps in, keeping technical focus but delaying broader coordination.",
+        "Let IT and Security continue their assessment before leadership steps in, keeping technical focus but delaying broader coordination, which may result in slower decision-making and less clarity for other teams involved.",
         "Avoids distraction but leaves a leadership vacuum during a critical early window.",
         -5,
 
-        "Wait for external advisors to provide input before making coordination decisions, delaying action but seeking outside expertise.",
+        "Wait for external advisors to provide input before making coordination decisions, delaying action but seeking outside expertise, which could slow down the response and create uncertainty among staff and stakeholders.",
         "Introduces delay and dilutes accountability at the most time-sensitive stage.",
         -5
       )
