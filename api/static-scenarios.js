@@ -1,3 +1,60 @@
+const SCENARIO_REGULATORY_INQUIRY = {
+  key: "regulatory-inquiry-customer-complaints",
+  title: "Regulatory Inquiry Triggered by Customer Complaints",
+  description:
+    "Regulators contact the bank after receiving multiple customer complaints about delays, fees, and inconsistent explanations — before the bank has formally escalated an incident.",
+  questions: [
+    // CEO/SVPs
+    q("CEO/SVPs", "How should leadership manage the regulator relationship after being contacted first?", buildChoices(
+      "Respond promptly with transparency, provide a summary of known facts, outline steps being taken, and commit to regular updates. Track all communications, monitor for trust and regulatory expectations and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for trust and regulatory expectations and effectiveness, and review for effectiveness after restoration.", "Builds trust and manages expectations.", 10,
+      "Delay response until more information is gathered, preparing a comprehensive report before engaging. Track all actions, monitor for trust and regulatory expectations and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for trust and regulatory expectations and effectiveness, and review for effectiveness after restoration.", "May appear evasive and risk trust.", 5,
+      "Deflect responsibility to departments or vendors, providing only minimal information and waiting for further regulator requests. Track all actions, monitor for trust and regulatory expectations and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for trust and regulatory expectations and effectiveness, and review for effectiveness after restoration.", "Risks credibility and escalates scrutiny.", -5,
+      "Ignore the inquiry until a formal request is received, taking no action until required. Track all actions, monitor for trust and regulatory expectations and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for trust and regulatory expectations and effectiveness, and review for effectiveness after restoration.", "Destroys trust and increases risk of penalties.", -5
+    )),
+    // IT/Security
+    q("IT/Security", "How should IT reconstruct the incident timeline for regulators?", buildChoices(
+      "Gather logs, emails, and system records, interview key staff, and create a detailed, evidence-based timeline. Track all actions, monitor for completeness and accuracy and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for completeness and accuracy and effectiveness, and review for effectiveness after restoration.", "Ensures accuracy and supports defensibility.", 10,
+      "Rely on memory and informal notes from staff, compiling a timeline based on recollections. Track all actions, monitor for completeness and accuracy and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for completeness and accuracy and effectiveness, and review for effectiveness after restoration.", "May miss key details and reduce defensibility.", 5,
+      "Provide only system-generated logs without context or explanation, omitting staff input. Track all actions, monitor for completeness and accuracy and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for completeness and accuracy and effectiveness, and review for effectiveness after restoration.", "Lacks context and may raise questions.", -5,
+      "Delay timeline creation until specifically requested by regulators, taking no proactive steps. Track all actions, monitor for completeness and accuracy and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for completeness and accuracy and effectiveness, and review for effectiveness after restoration.", "Appears unprepared and reactive.", -5
+    )),
+    // HR
+    q("HR", "How should HR address training adequacy and scripts after complaints?", buildChoices(
+      "Review and update training materials and scripts, provide refresher sessions, and document all changes. Track all actions, monitor for staff readiness and complaint reduction and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for staff readiness and complaint reduction and effectiveness, and review for effectiveness after restoration.", "Improves readiness and reduces future complaints.", 10,
+      "Survey staff for feedback and make minor adjustments to scripts, updating only where issues are reported. Track all actions, monitor for staff readiness and complaint reduction and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for staff readiness and complaint reduction and effectiveness, and review for effectiveness after restoration.", "Some improvement but may miss systemic issues.", 5,
+      "Rely on existing materials and assume staff are following procedures, making no changes unless required. Track all actions, monitor for staff readiness and complaint reduction and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for staff readiness and complaint reduction and effectiveness, and review for effectiveness after restoration.", "Misses opportunity to address root causes.", -5,
+      "Blame staff for complaints and issue warnings, focusing on discipline rather than improvement. Track all actions, monitor for staff readiness and complaint reduction and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for staff readiness and complaint reduction and effectiveness, and review for effectiveness after restoration.", "Damages morale and increases turnover.", -5
+    )),
+    // Finance
+    q("Finance", "How should Finance handle fee reversals and cost impact after complaints?", buildChoices(
+      "Implement a clear fee reversal policy, document all reversals, and analyze cost impact for reporting. Track all actions, monitor for fairness and cost control and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for fairness and cost control and effectiveness, and review for effectiveness after restoration.", "Balances fairness and cost control.", 10,
+      "Review fee reversals case-by-case without a formal policy, allowing discretion but risking inconsistency. Track all actions, monitor for fairness and cost control and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for fairness and cost control and effectiveness, and review for effectiveness after restoration.", "Some flexibility but may appear inconsistent.", 5,
+      "Deny all fee reversals to protect revenue, regardless of complaint validity. Track all actions, monitor for fairness and cost control and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for fairness and cost control and effectiveness, and review for effectiveness after restoration.", "Risks regulatory findings and customer churn.", -5,
+      "Reverse all fees automatically, regardless of context or policy. Track all actions, monitor for fairness and cost control and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for fairness and cost control and effectiveness, and review for effectiveness after restoration.", "Unsustainable and may encourage abuse.", -5
+    )),
+    // Loans
+    q("Loans", "How should Loans ensure customer remediation is consistent?", buildChoices(
+      "Standardize remediation steps, document all actions, and communicate clearly with affected customers. Track all actions, monitor for consistency and fairness and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for consistency and fairness and effectiveness, and review for effectiveness after restoration.", "Ensures fairness and reduces repeat complaints.", 10,
+      "Allow each lender to decide remediation steps, providing general guidance but no standardization. Track all actions, monitor for consistency and fairness and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for consistency and fairness and effectiveness, and review for effectiveness after restoration.", "May create inconsistency and confusion.", 5,
+      "Remediate only when customers escalate, addressing issues reactively rather than proactively. Track all actions, monitor for consistency and fairness and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for consistency and fairness and effectiveness, and review for effectiveness after restoration.", "Misses silent or less vocal customers.", -5,
+      "Delay remediation until after regulatory review, taking no action until required. Track all actions, monitor for consistency and fairness and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for consistency and fairness and effectiveness, and review for effectiveness after restoration.", "Increases risk of findings and customer loss.", -5
+    )),
+    // Accounting
+    q("Accounting", "How should Accounting support documentation after a regulatory inquiry?", buildChoices(
+      "Compile all relevant records, reconcile discrepancies, and provide a clear audit trail for regulators. Track all actions, monitor for completeness and defensibility and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for completeness and defensibility and effectiveness, and review for effectiveness after restoration.", "Supports defensibility and reduces findings.", 10,
+      "Provide only summary reports without supporting detail, limiting documentation to high-level overviews. Track all actions, monitor for completeness and defensibility and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for completeness and defensibility and effectiveness, and review for effectiveness after restoration.", "May raise questions about thoroughness.", 5,
+      "Delay documentation until specifically requested, taking no proactive steps. Track all actions, monitor for completeness and defensibility and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for completeness and defensibility and effectiveness, and review for effectiveness after restoration.", "Appears unprepared and reactive.", -5,
+      "Rely on verbal explanations instead of written records, providing only staff recollections. Track all actions, monitor for completeness and defensibility and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for completeness and defensibility and effectiveness, and review for effectiveness after restoration.", "Weakens audit trail and defensibility.", -5
+    )),
+    // Deposits
+    q("Deposits", "How should Deposits handle complaints and identify root cause?", buildChoices(
+      "Log all complaints, analyze trends, and implement corrective actions to address root causes. Communicate findings to staff and customers, and review for effectiveness after restoration. Track all actions, monitor for complaint reduction and root cause resolution and effectiveness, and review for effectiveness after restoration.", "Reduces complaints and addresses root causes.", 10,
+      "Address complaints individually without trend analysis, resolving issues as they arise. Track all actions, monitor for complaint reduction and root cause resolution and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for complaint reduction and root cause resolution and effectiveness, and review for effectiveness after restoration.", "May miss systemic issues and repeat complaints.", 5,
+      "Minimize complaints and discourage escalation, focusing on quick resolution rather than analysis. Track all actions, monitor for complaint reduction and root cause resolution and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for complaint reduction and root cause resolution and effectiveness, and review for effectiveness after restoration.", "Risks missing root causes and regulatory findings.", -5,
+      "Ignore complaints unless required by regulators, taking no action until formally requested. Track all actions, monitor for complaint reduction and root cause resolution and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for complaint reduction and root cause resolution and effectiveness, and review for effectiveness after restoration.", "Increases risk of findings and customer loss.", -5
+    )),
+  ]
+};
 const SCENARIO_BACKUP_COMPROMISE = {
   key: "backup-compromise-mid-incident",
   title: "Backup Compromise Discovered Mid-Incident",
@@ -1727,6 +1784,7 @@ const SCENARIOS = [
   SCENARIO_INSIDER,
   SCENARIO_VENDOR_OUTAGE,
   SCENARIO_BACKUP_COMPROMISE,
+  SCENARIO_REGULATORY_INQUIRY,
   SCENARIO_INSIDER_FRAUD,
   SCENARIO_ACH_FAILURE
 ];
