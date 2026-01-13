@@ -45,19 +45,19 @@ const SCENARIO_RANSOMWARE = {
     q("CEO/SVPs",
       "In the first 30 minutes, which leadership action best stabilizes the situation while preserving flexibility?",
       buildChoices(
-        "Activate incident command, assign roles to key leaders, and set a regular cadence for updates to ensure everyone is aligned and the response is structured and effective throughout the incident.",
+        "Activate incident command, assign roles to key leaders, and set a regular cadence for updates to ensure everyone is aligned and the response is structured and effective throughout the incident. Track all actions, monitor for alignment, and review for effectiveness after restoration.",
         "Creates structure and tempo without locking leadership into premature commitments.",
         10,
 
-        "Meet privately with senior leaders first, then activate a formal response group to coordinate actions and messaging, ensuring all departments are represented and communication is consistent across the organization.",
+        "Meet privately with senior leaders first, then activate a formal response group to coordinate actions and messaging, ensuring all departments are represented and communication is consistent across the organization. Track all meetings, monitor for coordination, and review for effectiveness after restoration.",
         "Improves executive alignment but delays broader coordination and operational clarity.",
         5,
 
-        "Let IT and Security continue their assessment before leadership steps in, keeping technical focus but delaying broader coordination, which may result in slower decision-making and less clarity for other teams involved.",
+        "Let IT and Security continue their assessment before leadership steps in, keeping technical focus but delaying broader coordination, which may result in slower decision-making and less clarity for other teams involved. Track all assessments, monitor for decision-making speed, and review for effectiveness after restoration.",
         "Avoids distraction but leaves a leadership vacuum during a critical early window.",
         -5,
 
-        "Wait for external advisors to provide input before making coordination decisions, delaying action but seeking outside expertise, which could slow down the response and create uncertainty among staff and stakeholders.",
+        "Wait for external advisors to provide input before making coordination decisions, delaying action but seeking outside expertise, which could slow down the response and create uncertainty among staff and stakeholders. Track all advice, monitor for delays, and review for effectiveness after restoration.",
         "Introduces delay and dilutes accountability at the most time-sensitive stage.",
         -5
       )
@@ -66,19 +66,19 @@ const SCENARIO_RANSOMWARE = {
     q("CEO/SVPs",
       "If system restoration timelines remain uncertain, how should leadership frame ransom payment discussions?",
       buildChoices(
-        "Establish a decision framework with legal, regulators, and law enforcement, focusing on restoration but not committing to payment yet.",
+        "Establish a decision framework with legal, regulators, and law enforcement, focusing on restoration but not committing to payment yet. Track all discussions, monitor for governance, and review for effectiveness after restoration.",
         "Keeps options governed and defensible without signaling intent or panic.",
         10,
 
-        "Privately evaluate ransom payment as a backup plan while restoration continues, keeping options open but risking internal confusion.",
+        "Privately evaluate ransom payment as a backup plan while restoration continues, keeping options open but risking internal confusion. Track all evaluations, monitor for leakage, and review for effectiveness after restoration.",
         "Maintains optionality but risks internal leakage and moral hazard.",
         5,
 
-        "Authorize payment if restoration goes past set time thresholds to reduce customer impact, acting quickly but risking other issues.",
+        "Authorize payment if restoration goes past set time thresholds to reduce customer impact, acting quickly but risking other issues. Track all authorizations, monitor for risks, and review for effectiveness after restoration.",
         "Creates false certainty and ignores legal, ethical, and recovery risks.",
         -5,
 
-        "Defer the decision until technical teams confirm recovery, waiting for clarity but risking rushed choices later on.",
+        "Defer the decision until technical teams confirm recovery, waiting for clarity but risking rushed choices later on. Track all decisions, monitor for planning delays, and review for effectiveness after restoration.",
         "Delays strategic planning and may force rushed decisions later.",
         -5
       )
@@ -87,19 +87,19 @@ const SCENARIO_RANSOMWARE = {
     q("CEO/SVPs",
       "What customer communication approach best balances transparency with operational uncertainty?",
       buildChoices(
-        "Acknowledge disruption, share confirmed impacts, explain next steps, and commit to regular updates for transparency and trust.",
+        "Acknowledge disruption, share confirmed impacts, explain next steps, and commit to regular updates for transparency and trust. Track all communications, monitor for trust and transparency, and review for effectiveness after restoration.",
         "Builds trust while avoiding speculation or overpromising.",
         10,
 
-        "Issue a brief holding statement to show awareness and promise updates once more details are confirmed and available.",
+        "Issue a brief holding statement to show awareness and promise updates once more details are confirmed and available. Track all statements, monitor for expectation management, and review for effectiveness after restoration.",
         "Reduces silence risk but may not sufficiently manage expectations.",
         5,
 
-        "Emphasize system security assurances but avoid discussing service impacts, aiming to prevent alarm but risking credibility.",
+        "Emphasize system security assurances but avoid discussing service impacts, aiming to prevent alarm but risking credibility. Track all assurances, monitor for credibility gaps, and review for effectiveness after restoration.",
         "Creates credibility gaps when customers experience disruptions firsthand.",
         -5,
 
-        "Delay external communication until restoration timelines are fully validated, waiting for certainty but increasing speculation.",
+        "Delay external communication until restoration timelines are fully validated, waiting for certainty but increasing speculation. Track all delays, monitor for speculation and reputational damage, and review for effectiveness after restoration.",
         "Increases speculation, call volume, and reputational damage.",
         -5
       )
@@ -110,19 +110,19 @@ const SCENARIO_RANSOMWARE = {
     q("IT/Security",
       "What containment action most effectively limits further impact while preserving investigative integrity?",
       buildChoices(
-        "Isolate affected systems, restrict lateral movement, and preserve logs and memory artifacts for forensics.",
+        "Isolate affected systems, restrict lateral movement, and preserve logs and memory artifacts for forensics. Track all containment actions, monitor for spread and investigation integrity, and review for effectiveness after restoration.",
         "Limits spread and supports both recovery and investigation.",
         10,
 
-        "Increase monitoring and prepare isolation steps while validating indicators of compromise.",
+        "Increase monitoring and prepare isolation steps while validating indicators of compromise. Track all monitoring, monitor for containment speed, and review for effectiveness after restoration.",
         "Improves situational awareness but delays decisive containment.",
         5,
 
-        "Temporarily reduce logging verbosity to improve system performance during response.",
+        "Temporarily reduce logging verbosity to improve system performance during response. Track all changes, monitor for visibility, and review for effectiveness after restoration.",
         "Appears efficient but reduces visibility during a critical phase.",
         -5,
 
-        "Restart impacted systems to clear malicious processes before further encryption occurs.",
+        "Restart impacted systems to clear malicious processes before further encryption occurs. Track all restarts, monitor for data loss and evidence integrity, and review for effectiveness after restoration.",
         "Risks data loss and destroys forensic evidence.",
         -5
       )
@@ -131,19 +131,19 @@ const SCENARIO_RANSOMWARE = {
     q("IT/Security",
       "How should backups be incorporated into the recovery strategy?",
       buildChoices(
-        "Check backups offline, restore in steps, and monitor for issues.",
+        "Check backups offline, restore in steps, and monitor for issues. Track all restores, monitor for reinfection risk and recovery control, and review for effectiveness after restoration.",
         "Reduces reinfection risk and supports controlled recovery.",
         10,
 
-        "Spot-check backups, restore key systems, and watch for problems.",
+        "Spot-check backups, restore key systems, and watch for problems. Track all spot-checks, monitor for recovery speed and reinfection risk, and review for effectiveness after restoration.",
         "Speeds recovery but increases reinfection risk.",
         5,
 
-        "Restore everything at once, then check for errors and issues.",
+        "Restore everything at once, then check for errors and issues. Track all restores, monitor for failure impact, and review for effectiveness after restoration.",
         "Magnifies failure impact if backups are compromised.",
         -5,
 
-        "Wait for full analysis, then restore systems and review results.",
+        "Wait for full analysis, then restore systems and review results. Track all analyses, monitor for outage length and customer impact, and review for effectiveness after restoration.",
         "Unnecessarily extends outage and customer impact.",
         -5
       )
@@ -152,19 +152,19 @@ const SCENARIO_RANSOMWARE = {
     q("IT/Security",
       "What approach best governs the return of customer-facing systems?",
       buildChoices(
-        "Restore systems in stages, check each step, and monitor after going live.",
+        "Restore systems in stages, check each step, and monitor after going live. Track all stages, monitor for speed, stability, and customer protection, and review for effectiveness after restoration.",
         "Balances speed with stability and customer protection.",
         10,
 
-        "Bring key channels online first, fix issues as they come up, and monitor closely.",
+        "Bring key channels online first, fix issues as they come up, and monitor closely. Track all channels, monitor for access and volatility, and review for effectiveness after restoration.",
         "Improves access quickly but increases outage volatility.",
         5,
 
-        "Skip change controls, restore everything fast, and check for problems later.",
+        "Skip change controls, restore everything fast, and check for problems later. Track all changes, monitor for compounding risk and audit exposure, and review for effectiveness after restoration.",
         "Introduces compounding risk and audit exposure.",
         -5,
 
-        "Give broad access to staff, restore quickly, and review after the fact.",
+        "Give broad access to staff, restore quickly, and review after the fact. Track all access, monitor for security and compliance failures, and review for effectiveness after restoration.",
         "Creates significant security and compliance failures.",
         -5
       )
@@ -175,19 +175,19 @@ const SCENARIO_RANSOMWARE = {
     q("HR",
       "What employee guidance best reduces risk while supporting response efforts?",
       buildChoices(
-        "Send an official update, include security reminders, and give reporting steps.",
+        "Send an official update, include security reminders, and give reporting steps. Track all communications, monitor for mistakes and alignment, and review for effectiveness after restoration.",
         "Reduces mistakes and aligns staff behavior.",
         10,
 
-        "Tell staff to be cautious and wait for more instructions from managers.",
+        "Tell staff to be cautious and wait for more instructions from managers. Track all instructions, monitor for actionable direction, and review for effectiveness after restoration.",
         "Provides awareness but lacks actionable direction.",
         5,
 
-        "Allow use of alternate tools to keep work moving during outages.",
+        "Allow use of alternate tools to keep work moving during outages. Track all tool usage, monitor for data leakage and compliance risk, and review for effectiveness after restoration.",
         "Introduces data leakage and compliance risk.",
         -5,
 
-        "Give no guidance until the incident is fully understood by leadership.",
+        "Give no guidance until the incident is fully understood by leadership. Track all decisions, monitor for rumors and unsafe behavior, and review for effectiveness after restoration.",
         "Allows rumors and unsafe behavior to spread.",
         -5
       )
@@ -196,19 +196,19 @@ const SCENARIO_RANSOMWARE = {
     q("HR",
       "What staffing approach best sustains response operations over multiple days?",
       buildChoices(
-        "Use structured shifts, coverage plans, and required rest for all staff.",
+        "Use structured shifts, coverage plans, and required rest for all staff. Track all schedules, monitor for burnout and error rates, and review for effectiveness after restoration.",
         "Reduces burnout and error rates.",
         10,
 
-        "Track overtime, let managers adjust staffing as needed for coverage.",
+        "Track overtime, let managers adjust staffing as needed for coverage. Track all overtime, monitor for coverage, and review for effectiveness after restoration.",
         "Provides flexibility but risks uneven coverage.",
         5,
 
-        "Allow unlimited overtime to maximize staff availability during response.",
+        "Allow unlimited overtime to maximize staff availability during response. Track all overtime, monitor for fatigue and HR risk, and review for effectiveness after restoration.",
         "Increases fatigue-related mistakes and HR risk.",
         -5,
 
-        "Limit overtime strictly to control costs and hours for all staff.",
+        "Limit overtime strictly to control costs and hours for all staff. Track all limits, monitor for outage and stress, and review for effectiveness after restoration.",
         "Prolongs outage and operational stress.",
         -5
       )
@@ -217,19 +217,19 @@ const SCENARIO_RANSOMWARE = {
     q("HR",
       "If remote work is required due to system disruption, what posture best balances access and security?",
       buildChoices(
-        "Allow remote work with approved tools, MFA, VPN, and clear security rules.",
+        "Allow remote work with approved tools, MFA, VPN, and clear security rules. Track all remote work, monitor for continuity and risk, and review for effectiveness after restoration.",
         "Maintains continuity while managing risk.",
         10,
 
-        "Permit some remote work, relax certain controls to make access easier.",
+        "Permit some remote work, relax certain controls to make access easier. Track all controls, monitor for access and security posture, and review for effectiveness after restoration.",
         "Improves access but weakens security posture.",
         5,
 
-        "Turn off MFA for now to avoid remote access problems for staff.",
+        "Turn off MFA for now to avoid remote access problems for staff. Track all changes, monitor for compromise risk, and review for effectiveness after restoration.",
         "Significantly increases compromise risk.",
         -5,
 
-        "Stop all work until systems are stable and secure for everyone.",
+        "Stop all work until systems are stable and secure for everyone. Track all work stoppages, monitor for operational disruption, and review for effectiveness after restoration.",
         "Creates unnecessary operational disruption.",
         -5
       )
@@ -240,19 +240,19 @@ const SCENARIO_RANSOMWARE = {
     q("Finance",
       "What financial control should be established immediately during the incident?",
       buildChoices(
-        "Set up a cost center, require approvals, and document all spending decisions.",
+        "Set up a cost center, require approvals, and document all spending decisions. Track all spending, monitor for auditability and discipline, and review for effectiveness after restoration.",
         "Preserves auditability and spending discipline.",
         10,
 
-        "Track big expenses, estimate internal costs, and review after the incident.",
+        "Track big expenses, estimate internal costs, and review after the incident. Track all expenses, monitor for visibility and impact, and review for effectiveness after restoration.",
         "Provides partial visibility but misses true impact.",
         5,
 
-        "Let teams spend as needed, then reconcile and review later on.",
+        "Let teams spend as needed, then reconcile and review later on. Track all spending, monitor for governance and audit defense, and review for effectiveness after restoration.",
         "Weakens governance and audit defense.",
         -5,
 
-        "Wait to track costs until normal operations are restored for all departments.",
+        "Wait to track costs until normal operations are restored for all departments. Track all delays, monitor for blind spots and reporting risk, and review for effectiveness after restoration.",
         "Creates blind spots and reporting risk.",
         -5
       )
@@ -261,19 +261,19 @@ const SCENARIO_RANSOMWARE = {
     q("Finance",
       "How should liquidity be managed amid transaction disruptions?",
       buildChoices(
-        "Increase monitoring frequency and activate contingency liquidity planning.",
+        "Increase monitoring frequency and activate contingency liquidity planning. Track all monitoring, monitor for risk management, and review for effectiveness after restoration.",
         "Supports proactive risk management.",
         10,
 
-        "Maintain standard monitoring with executive check-ins.",
+        "Maintain standard monitoring with executive check-ins. Track all monitoring, monitor for awareness and rapid shifts, and review for effectiveness after restoration.",
         "Provides awareness but may miss rapid shifts.",
         5,
 
-        "Assume customer behavior will normalize quickly.",
+        "Assume customer behavior will normalize quickly. Track all assumptions, monitor for volatility, and review for effectiveness after restoration.",
         "Underestimates volatility during outages.",
         -5,
 
-        "Pause liquidity analysis until systems are restored.",
+        "Pause liquidity analysis until systems are restored. Track all pauses, monitor for financial risk, and review for effectiveness after restoration.",
         "Creates unacceptable financial risk.",
         -5
       )
@@ -282,19 +282,19 @@ const SCENARIO_RANSOMWARE = {
     q("Finance",
       "How should payments to critical vendors be prioritized?",
       buildChoices(
-        "Prioritize continuity-critical vendors under executive oversight.",
+        "Prioritize continuity-critical vendors under executive oversight. Track all payments, monitor for alignment with recovery, and review for effectiveness after restoration.",
         "Aligns spend with recovery objectives.",
         10,
 
-        "Approve vendor payments individually as requests arise.",
+        "Approve vendor payments individually as requests arise. Track all approvals, monitor for control and recovery speed, and review for effectiveness after restoration.",
         "Maintains control but slows recovery.",
         5,
 
-        "Pay invoices based on age or amount to conserve cash.",
+        "Pay invoices based on age or amount to conserve cash. Track all payments, monitor for alignment with operational needs, and review for effectiveness after restoration.",
         "Misaligns payments with operational needs.",
         -5,
 
-        "Suspend all vendor payments during the incident.",
+        "Suspend all vendor payments during the incident. Track all suspensions, monitor for service degradation and penalties, and review for effectiveness after restoration.",
         "Risks service degradation and penalties.",
         -5
       )
@@ -305,19 +305,19 @@ const SCENARIO_RANSOMWARE = {
     q("Loans",
       "If the core system is degraded, how should loan operations proceed?",
       buildChoices(
-        "Use documented manual procedures, prioritize time-sensitive items, and log all exceptions.",
+        "Use documented manual procedures, prioritize time-sensitive items, and log all exceptions. Track all procedures, monitor for service and controls, and review for effectiveness after restoration.",
         "Maintains service while preserving controls.",
         10,
 
-        "Pause new originations but manually service existing commitments.",
+        "Pause new originations but manually service existing commitments. Track all originations, monitor for risk and impact, and review for effectiveness after restoration.",
         "Reduces risk but impacts customers and revenue.",
         5,
 
-        "Proceed with manual processing without documentation to maintain speed.",
+        "Proceed with manual processing without documentation to maintain speed. Track all processing, monitor for compliance and audit failures, and review for effectiveness after restoration.",
         "Creates compliance and audit failures.",
         -5,
 
-        "Cancel in-flight loans broadly until restoration.",
+        "Cancel in-flight loans broadly until restoration. Track all cancellations, monitor for customer and contractual impact, and review for effectiveness after restoration.",
         "Harms customers and contractual obligations.",
         -5
       )
@@ -326,19 +326,19 @@ const SCENARIO_RANSOMWARE = {
     q("Loans",
       "What control is most critical during manual underwriting?",
       buildChoices(
-        "Dual review with standardized checklists and secure document handling.",
+        "Dual review with standardized checklists and secure document handling. Track all reviews, monitor for accuracy and audit trail, and review for effectiveness after restoration.",
         "Preserves accuracy and audit trail.",
         10,
 
-        "Manager review only for higher-risk loans.",
+        "Manager review only for higher-risk loans. Track all reviews, monitor for control and segregation, and review for effectiveness after restoration.",
         "Provides partial control but weaker segregation.",
         5,
 
-        "Verbal approvals to expedite processing.",
+        "Verbal approvals to expedite processing. Track all approvals, monitor for evidence and risk, and review for effectiveness after restoration.",
         "Insufficient evidence and high risk.",
         -5,
 
-        "Unrestricted document sharing to keep work moving.",
+        "Unrestricted document sharing to keep work moving. Track all sharing, monitor for PII exposure and compliance breaches, and review for effectiveness after restoration.",
         "PII exposure and compliance breaches.",
         -5
       )
@@ -347,19 +347,19 @@ const SCENARIO_RANSOMWARE = {
     q("Loans",
       "How should borrower communications be handled during disruption?",
       buildChoices(
-        "Use consistent scripts with factual updates and defined escalation paths.",
+        "Use consistent scripts with factual updates and defined escalation paths. Track all communications, monitor for confusion and complaints, and review for effectiveness after restoration.",
         "Reduces confusion and complaints.",
         10,
 
-        "Allow lenders to tailor messages within general guidance.",
+        "Allow lenders to tailor messages within general guidance. Track all messages, monitor for empathy and inconsistency, and review for effectiveness after restoration.",
         "Improves empathy but risks inconsistency.",
         5,
 
-        "Avoid communication until timelines are certain.",
+        "Avoid communication until timelines are certain. Track all delays, monitor for frustration and mistrust, and review for effectiveness after restoration.",
         "Increases frustration and mistrust.",
         -5,
 
-        "Provide optimistic timelines to reassure borrowers.",
+        "Provide optimistic timelines to reassure borrowers. Track all timelines, monitor for credibility loss, and review for effectiveness after restoration.",
         "Credibility loss if missed.",
         -5
       )
@@ -370,19 +370,19 @@ const SCENARIO_RANSOMWARE = {
     q("Accounting",
       "How should accounting address incomplete or delayed data?",
       buildChoices(
-        "Perform provisional reporting with enhanced reconciliations and documented adjustments.",
+        "Perform provisional reporting with enhanced reconciliations and documented adjustments. Track all reporting, monitor for transparency and control, and review for effectiveness after restoration.",
         "Maintains transparency and control.",
         10,
 
-        "Delay close briefly while reconciling only material accounts.",
+        "Delay close briefly while reconciling only material accounts. Track all delays, monitor for control and documentation, and review for effectiveness after restoration.",
         "Reasonable if controlled and documented.",
         5,
 
-        "Skip reconciliations to close on time.",
+        "Skip reconciliations to close on time. Track all skips, monitor for misstatement risk, and review for effectiveness after restoration.",
         "Increases misstatement risk.",
         -5,
 
-        "Adjust entries to smooth disruption impact.",
+        "Adjust entries to smooth disruption impact. Track all adjustments, monitor for ethical and audit violations, and review for effectiveness after restoration.",
         "Ethical and audit violations.",
         -5
       )
@@ -391,19 +391,19 @@ const SCENARIO_RANSOMWARE = {
     q("Accounting",
       "Which reconciliations should take priority during recovery?",
       buildChoices(
-        "Cash, customer balances, and inter-system differences.",
+        "Cash, customer balances, and inter-system differences. Track all reconciliations, monitor for financial risk, and review for effectiveness after restoration.",
         "Targets highest financial risk.",
         10,
 
-        "Cash accounts only initially.",
+        "Cash accounts only initially. Track all reconciliations, monitor for risk coverage, and review for effectiveness after restoration.",
         "Partial risk coverage.",
         5,
 
-        "Focus on non-material accounts to show progress.",
+        "Focus on non-material accounts to show progress. Track all accounts, monitor for exposure, and review for effectiveness after restoration.",
         "Misses real exposure.",
         -5,
 
-        "Allow undocumented overrides to speed reconciliation.",
+        "Allow undocumented overrides to speed reconciliation. Track all overrides, monitor for audit trail, and review for effectiveness after restoration.",
         "Destroys audit trail.",
         -5
       )
@@ -412,19 +412,19 @@ const SCENARIO_RANSOMWARE = {
     q("Accounting",
       "How can audit trail be preserved during manual workarounds?",
       buildChoices(
-        "Centralized logs with approvals and retained evidence.",
+        "Centralized logs with approvals and retained evidence. Track all logs, monitor for defensibility, and review for effectiveness after restoration.",
         "Defensible for examiners and auditors.",
         10,
 
-        "Email approvals retained by managers.",
+        "Email approvals retained by managers. Track all approvals, monitor for evidence and audit difficulty, and review for effectiveness after restoration.",
         "Provides evidence but is difficult to audit.",
         5,
 
-        "Suspend logging to reduce administrative burden.",
+        "Suspend logging to reduce administrative burden. Track all suspensions, monitor for traceability, and review for effectiveness after restoration.",
         "Eliminates traceability.",
         -5,
 
-        "Share credentials to simplify access.",
+        "Share credentials to simplify access. Track all sharing, monitor for segregation of duties, and review for effectiveness after restoration.",
         "Breaks segregation of duties.",
         -5
       )
@@ -435,19 +435,19 @@ const SCENARIO_RANSOMWARE = {
     q("Deposits",
       "How should customer access be preserved during online banking disruption?",
       buildChoices(
-        "Implement branch and ATM continuity plans with scripts and regular updates.",
+        "Implement branch and ATM continuity plans with scripts and regular updates. Track all plans, monitor for access and trust, and review for effectiveness after restoration.",
         "Maintains access and trust.",
         10,
 
-        "Focus on ATM access with limited branch support.",
+        "Focus on ATM access with limited branch support. Track all access, monitor for support and partial access, and review for effectiveness after restoration.",
         "Provides partial access.",
         5,
 
-        "Suspend all access until systems are stable.",
+        "Suspend all access until systems are stable. Track all suspensions, monitor for panic and reputational damage, and review for effectiveness after restoration.",
         "Triggers panic and reputational damage.",
         -5,
 
-        "Allow customers to discover outages without communication.",
+        "Allow customers to discover outages without communication. Track all communications, monitor for complaints and confusion, and review for effectiveness after restoration.",
         "Increases complaints and confusion.",
         -5
       )
@@ -456,19 +456,19 @@ const SCENARIO_RANSOMWARE = {
     q("Deposits",
       "What withdrawal policy best balances liquidity and fairness?",
       buildChoices(
-        "Temporary limits with clear explanations and escalation paths.",
+        "Temporary limits with clear explanations and escalation paths. Track all limits, monitor for risk and trust, and review for effectiveness after restoration.",
         "Controls risk while maintaining trust.",
         10,
 
-        "Restrict only unusually large withdrawals.",
+        "Restrict only unusually large withdrawals. Track all restrictions, monitor for risk and consistency, and review for effectiveness after restoration.",
         "Reduces some risk but lacks consistency.",
         5,
 
-        "Permit unlimited withdrawals to avoid complaints.",
+        "Permit unlimited withdrawals to avoid complaints. Track all withdrawals, monitor for liquidity risk, and review for effectiveness after restoration.",
         "Liquidity risk escalates.",
         -5,
 
-        "Allow each branch to set its own rules.",
+        "Allow each branch to set its own rules. Track all rules, monitor for inconsistency and escalation, and review for effectiveness after restoration.",
         "Creates inconsistency and escalation.",
         -5
       )
@@ -477,19 +477,19 @@ const SCENARIO_RANSOMWARE = {
     q("Deposits",
       "How often should public status updates be issued?",
       buildChoices(
-        "At a predictable cadence with verified information and next steps.",
+        "At a predictable cadence with verified information and next steps. Track all updates, monitor for speculation and call volume, and review for effectiveness after restoration.",
         "Reduces speculation and call volume.",
         10,
 
-        "Only when major milestones occur.",
+        "Only when major milestones occur. Track all milestones, monitor for predictability and silence, and review for effectiveness after restoration.",
         "Less predictable but better than silence.",
         5,
 
-        "Continuously as staff learn new information.",
+        "Continuously as staff learn new information. Track all updates, monitor for confusion and misinformation, and review for effectiveness after restoration.",
         "Creates confusion and misinformation.",
         -5,
 
-        "Restrict updates to internal audiences only.",
+        "Restrict updates to internal audiences only. Track all restrictions, monitor for customer information, and review for effectiveness after restoration.",
         "Leaves customers uninformed.",
         -5
       )
