@@ -655,142 +655,142 @@ const SCENARIO_INSIDER_FRAUD = {
   questions: [
     // CEO/SVPs (3)
     q("CEO/SVPs", "What is leadership’s first decision when insider fraud is flagged?", buildChoices(
-      "Activate incident governance with Legal/HR and define a preservation-first posture", "Ensures coordinated, defensible actions and preserves evidence.", 10,
-      "Quietly let audit handle it and wait for a report", "Too slow; evidence and losses can grow.", 5,
-      "Suspend all customer communications until month-end", "Delays can harm customers and trust.", -5,
-      "Ask the employee to explain publicly before acting", "Prejudicial and risky; can taint evidence.", -5
+      "Activate incident governance with Legal and HR, define a preservation-first posture, and coordinate all actions to ensure evidence is protected and decisions are defensible. Communicate the plan to key stakeholders and document every step for future review.", "Ensures coordinated, defensible actions and preserves evidence.", 10,
+      "Quietly let audit handle it and wait for a report, minimizing immediate disruption. Track all developments, monitor for additional evidence or losses, and prepare to escalate if the situation worsens or new risks emerge.", "Too slow; evidence and losses can grow.", 5,
+      "Suspend all customer communications until month-end, pausing all outreach and updates. Document the rationale, monitor for customer impacts, and plan to resume communications with a full report after the investigation concludes.", "Delays can harm customers and trust.", -5,
+      "Ask the employee to explain publicly before acting, requiring a statement in front of staff. Record the process, communicate risks to legal and HR, and review for evidence contamination or prejudicial effects after the fact.", "Prejudicial and risky; can taint evidence.", -5
     )),
     q("CEO/SVPs", "What disclosure approach is appropriate on day one?", buildChoices(
-      "Internal need-to-know only with prepared scripts; external comms only if customers are impacted", "Balances transparency and integrity of investigation.", 10,
-      "Public press release naming the employee", "Legal/privacy risk.", 5,
-      "Tell branches to improvise answers when asked", "Inconsistent and risky.", -5,
-      "Share raw audit workpapers widely", "Uncontrolled and risky.", -5
+      "Limit disclosure to internal need-to-know only with prepared scripts, and provide external communications only if customers are impacted. Track all communications, review for consistency, and update scripts as the investigation progresses.", "Balances transparency and integrity of investigation.", 10,
+      "Issue a public press release naming the employee, sharing details with media and stakeholders. Document the rationale, monitor for legal and privacy risks, and prepare to address any fallout or questions that arise.", "Legal/privacy risk.", 5,
+      "Tell branches to improvise answers when asked, allowing staff to respond as they see fit. Track all responses, review for inconsistencies, and plan to standardize communications after the initial phase.", "Inconsistent and risky.", -5,
+      "Share raw audit workpapers widely, distributing all findings to staff and stakeholders. Record what is shared, communicate risks to management, and review for uncontrolled information flow after the investigation.", "Uncontrolled and risky.", -5
     )),
     q("CEO/SVPs", "How should leadership engage with law enforcement?", buildChoices(
-      "Consult counsel, preserve evidence chain, and coordinate if thresholds met", "Defensible coordination without compromising investigation.", 10,
-      "Call local police immediately with partial information", "May compromise evidence handling.", 5,
-      "Avoid law enforcement entirely", "Misses recovery/deterrence opportunities.", -5,
-      "Let the implicated employee choose whether to involve law enforcement", "Conflict and governance failure.", -5
+      "Consult counsel, preserve the evidence chain, and coordinate with law enforcement if thresholds are met. Document all interactions, communicate the plan to stakeholders, and review for legal and investigative integrity throughout the process.", "Defensible coordination without compromising investigation.", 10,
+      "Call local police immediately with partial information, providing initial details before a full review. Track all communications, monitor for evidence handling issues, and prepare to follow up with complete documentation as needed.", "May compromise evidence handling.", 5,
+      "Avoid law enforcement entirely, handling the matter internally. Document the rationale, monitor for missed recovery or deterrence opportunities, and review for governance risks after the investigation.", "Misses recovery/deterrence opportunities.", -5,
+      "Let the implicated employee choose whether to involve law enforcement, allowing them to decide the next steps. Record the process, communicate risks to management, and review for conflicts or governance failures after the fact.", "Conflict and governance failure.", -5
     )),
 
     // IT/Security (3)
     q("IT/Security", "What immediate access action is required?", buildChoices(
-      "Disable implicated accounts, revoke tokens/keys, and review privileged access paths", "Reduces further loss and closes exposure.", 10,
-      "Increase monitoring but leave access active to watch behavior", "Leaves risk window open.", 5,
-      "Share admin credentials so teams can move faster", "Segregation failure.", -5,
-      "Disable logging to reduce noise", "Destroys forensics.", -5
+      "Disable implicated accounts, revoke all tokens and keys, and review privileged access paths for any additional exposure. Document every action, communicate changes to IT and security teams, and monitor for further risks after access is removed.", "Reduces further loss and closes exposure.", 10,
+      "Increase monitoring but leave access active to watch behavior, tracking all activity in real time. Record findings, communicate risks to management, and prepare to disable access if suspicious actions are detected.", "Leaves risk window open.", 5,
+      "Share admin credentials so teams can move faster, providing access to all necessary systems. Track who receives credentials, monitor for segregation failures, and reset all access once the incident is resolved.", "Segregation failure.", -5,
+      "Disable logging to reduce noise, suspending record-keeping for the duration of the incident. Document the rationale, inform relevant teams, and plan to restore logging and review for evidence loss after the investigation.", "Destroys forensics.", -5
     )),
     q("IT/Security", "How do you preserve technical evidence?", buildChoices(
-      "Snapshot systems, collect relevant logs, and store with chain-of-custody", "Supports legal and recovery steps.", 10,
-      "Save screenshots to a shared drive", "Partial but weak forensics.", 5,
-      "Delete unneeded logs to save space", "Loss of evidence.", -5,
-      "Let staff export data locally for convenience", "Privacy/integrity risk.", -5
+      "Snapshot systems, collect all relevant logs, and store them with a documented chain-of-custody. Communicate procedures to staff, review evidence regularly, and ensure support for legal and recovery steps throughout the process.", "Supports legal and recovery steps.", 10,
+      "Save screenshots to a shared drive, instructing staff to capture key information. Track completeness, inform compliance of the approach, and review for weak forensics after restoration.", "Partial but weak forensics.", 5,
+      "Delete unneeded logs to save space, removing older records during the investigation. Document the rationale, communicate risks to management, and review for evidence loss after the incident is resolved.", "Loss of evidence.", -5,
+      "Let staff export data locally for convenience, allowing personal copies of key files. Track all exports, inform compliance, and review for privacy or integrity risks after the investigation.", "Privacy/integrity risk.", -5
     )),
     q("IT/Security", "What controls reduce spread if the employee had cross-department access?", buildChoices(
-      "Immediate access review across integrated apps; rotate secrets; validate vendor integrations", "Closes lateral paths quickly.", 10,
-      "Focus only on the primary app they used", "Misses other access vectors.", 5,
-      "Trust vendor logs to catch everything later", "Over-reliance; delays containment.", -5,
-      "Turn off monitoring tools so systems run faster", "Removes visibility.", -5
+      "Conduct an immediate access review across all integrated applications, rotate secrets, and validate vendor integrations to close lateral paths quickly. Document all changes, communicate with vendors, and monitor for further risks after containment.", "Closes lateral paths quickly.", 10,
+      "Focus only on the primary app they used, reviewing access and activity in that system. Track findings, communicate risks to management, and prepare to expand the review if new evidence emerges.", "Misses other access vectors.", 5,
+      "Trust vendor logs to catch everything later, relying on external monitoring for incident detection. Document the rationale, monitor for delays in containment, and review for missed access vectors after the investigation.", "Over-reliance; delays containment.", -5,
+      "Turn off monitoring tools so systems run faster, suspending visibility during the incident. Record the rationale, inform relevant teams, and plan to restore monitoring and review for missed activity after the fact.", "Removes visibility.", -5
     )),
 
     // HR (3)
     q("HR", "What HR step should happen first with the implicated employee?", buildChoices(
-      "Admin leave pending investigation; collect assets with Legal/IT present", "Reduces interference and preserves evidence.", 10,
-      "Immediate termination without documentation", "May complicate investigation and recovery.", 5,
-      "Public shaming to make an example", "Culture and legal risk.", -5,
-      "Do nothing until audit proves loss amount", "Delays containment and safety.", -5
+      "Place the implicated employee on administrative leave pending investigation, and collect all assets with Legal and IT present. Document every step, communicate the process to staff, and monitor for interference or evidence loss throughout the investigation.", "Reduces interference and preserves evidence.", 10,
+      "Immediate termination without documentation, ending employment before a full review. Track all actions, communicate risks to management, and prepare to address complications in investigation and recovery.", "May complicate investigation and recovery.", 5,
+      "Public shaming to make an example, announcing the incident to all staff. Record the process, communicate risks to HR and legal, and review for culture and legal impacts after the fact.", "Culture and legal risk.", -5,
+      "Do nothing until audit proves loss amount, delaying all action until a full report is available. Document the rationale, monitor for containment and safety risks, and review for missed opportunities after the investigation.", "Delays containment and safety.", -5
     )),
     q("HR", "What guidance goes to staff?", buildChoices(
-      "Report concerns via official channel; do not speculate; preserve evidence", "Encourages reporting and consistency.", 10,
-      "Encourage discussion in group chats to surface leads", "Uncontrolled and risky.", 5,
-      "Threaten discipline for any mention of the case", "Chills reporting.", -5,
-      "Share the employee name and rumors for transparency", "Privacy and legal risk.", -5
+      "Instruct staff to report concerns via the official channel, avoid speculation, and preserve evidence. Communicate the guidance clearly, track compliance, and review for consistency and effectiveness after the incident.", "Encourages reporting and consistency.", 10,
+      "Encourage discussion in group chats to surface leads, allowing open conversation among staff. Track all discussions, monitor for uncontrolled risks, and plan to standardize reporting after the investigation.", "Uncontrolled and risky.", 5,
+      "Threaten discipline for any mention of the case, warning staff against discussing the incident. Document the approach, monitor for reporting chills, and review for effectiveness and culture impacts after the fact.", "Chills reporting.", -5,
+      "Share the employee name and rumors for transparency, providing details to all staff. Track all communications, inform HR and legal of risks, and review for privacy and legal impacts after the incident.", "Privacy and legal risk.", -5
     )),
     q("HR", "How do you manage safety and coverage?", buildChoices(
-      "Coordinate schedules and backups; offer remote options if needed", "Reduces burnout and maintains service.", 10,
-      "Keep all normal schedules regardless of incident", "May slow response.", 5,
-      "Suspend all operations for the week", "Overreaction and customer harm.", -5,
-      "Let teams self-organize with no oversight", "Inconsistent and risky.", -5
+      "Coordinate schedules and backups, offer remote work options if needed, and communicate changes to all staff. Track coverage, monitor for burnout, and review for service impacts throughout the incident.", "Reduces burnout and maintains service.", 10,
+      "Keep all normal schedules regardless of incident, maintaining standard operations. Track response times, monitor for slowdowns, and prepare to adjust schedules if service quality declines.", "May slow response.", 5,
+      "Suspend all operations for the week, pausing all work until the incident is resolved. Document the rationale, monitor for customer harm, and review for overreaction after restoration.", "Overreaction and customer harm.", -5,
+      "Let teams self-organize with no oversight, allowing staff to manage coverage independently. Track all decisions, monitor for inconsistencies, and review for risks after the incident.", "Inconsistent and risky.", -5
     )),
 
     // Finance (3)
     q("Finance", "How should potential losses be tracked?", buildChoices(
-      "Create incident cost center and exposure ledger with approvals", "Accurate and audit-ready.", 10,
-      "Estimate later once law enforcement is engaged", "Late and inaccurate.", 5,
-      "Record losses in misc expense categories", "Lack of transparency.", -5,
-      "Avoid tracking until customers complain", "Reactive and risky.", -5
+      "Create an incident cost center and exposure ledger with approvals, tracking all potential losses as they arise. Communicate the process to finance and audit teams, review for accuracy, and ensure records are audit-ready throughout the investigation.", "Accurate and audit-ready.", 10,
+      "Estimate losses later once law enforcement is engaged, waiting for external input before tracking. Document the rationale, monitor for late or inaccurate records, and review for missed exposures after the incident.", "Late and inaccurate.", 5,
+      "Record losses in miscellaneous expense categories, spreading costs across unrelated accounts. Track all entries, inform management of the approach, and review for transparency risks after restoration.", "Lack of transparency.", -5,
+      "Avoid tracking until customers complain, waiting for external reports before recording losses. Document the rationale, monitor for reactive risks, and review for missed opportunities after the investigation.", "Reactive and risky.", -5
     )),
     q("Finance", "What spend gets priority during investigation?", buildChoices(
-      "Forensics, monitoring, and recovery work aligned to response", "Reduces future loss and speeds clarity.", 10,
-      "Freeze all spend to avoid criticism", "Slows investigation and recovery.", 5,
-      "Cut security tooling to save money", "Increases risk.", -5,
-      "Pay without approvals to be fast", "Control failure.", -5
+      "Prioritize spend on forensics, monitoring, and recovery work aligned to the incident response, tracking all expenditures and approvals. Communicate priorities to finance and management, review for effectiveness, and adjust as the investigation progresses.", "Reduces future loss and speeds clarity.", 10,
+      "Freeze all spend to avoid criticism, suspending all payments during the investigation. Track impacts on investigation and recovery, document the rationale, and review for delays after restoration.", "Slows investigation and recovery.", 5,
+      "Cut security tooling to save money, reducing investment in protective measures. Track all changes, monitor for increased risk, and review for impacts on investigation and future prevention.", "Increases risk.", -5,
+      "Pay without approvals to be fast, expediting payments for incident response. Track all expenditures, inform management of risks, and review for control failures after the investigation.", "Control failure.", -5
     )),
     q("Finance", "How do you approach potential restitution or credits?", buildChoices(
-      "Document criteria for customer remediation with Legal; track cases centrally", "Fair and defensible.", 10,
-      "Handle refunds ad-hoc at branch discretion", "Inconsistent and risky.", 5,
-      "Deny all claims until final report", "Trust and reputation risk.", -5,
-      "Refund everyone universally immediately", "Encourages abuse and misstatements.", -5
+      "Document criteria for customer remediation with Legal, track all cases centrally, and communicate the process to staff. Review for fairness and defensibility, update criteria as needed, and ensure consistency throughout the investigation.", "Fair and defensible.", 10,
+      "Handle refunds ad-hoc at branch discretion, allowing each location to decide on restitution. Track all cases, monitor for inconsistencies, and review for risks after the incident is resolved.", "Inconsistent and risky.", 5,
+      "Deny all claims until the final report is complete, pausing all remediation until investigation ends. Document the rationale, monitor for trust and reputation risks, and review for missed opportunities after restoration.", "Trust and reputation risk.", -5,
+      "Refund everyone universally immediately, providing compensation to all affected customers. Track all payments, monitor for abuse and misstatements, and review for sustainability after the incident.", "Encourages abuse and misstatements.", -5
     )),
 
     // Loans (3)
     q("Loans", "What should Loans do if loan files were accessed?", buildChoices(
-      "Restrict access, validate integrity, and log exceptions with dual review", "Protects privacy and audit trail.", 10,
-      "Continue normal processing until issues arise", "Reactive and risky.", 5,
-      "Allow personal email for backup copies", "Privacy/policy breach.", -5,
-      "Share credentials to speed verification", "Segregation failure.", -5
+      "Restrict access to loan files, validate integrity, and log all exceptions with dual review. Communicate procedures to staff, track all changes, and review for privacy and audit trail protection throughout the incident.", "Protects privacy and audit trail.", 10,
+      "Continue normal processing until issues arise, maintaining standard operations. Track all activity, monitor for new risks, and prepare to escalate if problems are detected.", "Reactive and risky.", 5,
+      "Allow personal email for backup copies, instructing staff to use their own accounts for document transfer. Track all communications, inform compliance of the approach, and review for privacy or policy breaches after restoration.", "Privacy/policy breach.", -5,
+      "Share credentials to speed verification, providing access to necessary systems for all involved. Record who receives credentials, monitor for segregation failures, and reset all access once normal operations resume.", "Segregation failure.", -5
     )),
     q("Loans", "How do you verify changes to borrower payout instructions?", buildChoices(
-      "Out-of-band verification using known contacts with evidence", "Prevents misdirection fraud.", 10,
-      "Callback to number provided in a recent email", "Weak control; can be attacker-controlled.", 5,
-      "Accept emailed instructions from familiar addresses", "Spoofing risk.", -5,
-      "Skip checks to move faster", "Loss risk.", -5
+      "Verify changes to borrower payout instructions using out-of-band methods with known contacts and documented evidence. Communicate procedures to staff, track all verifications, and review for fraud prevention effectiveness after the incident.", "Prevents misdirection fraud.", 10,
+      "Callback to the number provided in a recent email, confirming instructions directly. Track all calls, monitor for weak controls, and review for risks of attacker manipulation after restoration.", "Weak control; can be attacker-controlled.", 5,
+      "Accept emailed instructions from familiar addresses, processing changes based on sender recognition. Track all communications, monitor for spoofing risks, and review for effectiveness after the incident.", "Spoofing risk.", -5,
+      "Skip checks to move faster, expediting processing without verification. Track all changes, monitor for loss risks, and review for missed opportunities after restoration.", "Loss risk.", -5
     )),
     q("Loans", "What messaging is appropriate to impacted borrowers?", buildChoices(
-      "Standard scripts with factual updates and escalation path", "Consistent and defensible.", 10,
-      "Let lenders craft custom narratives per case", "Inconsistent and risky.", 5,
-      "Promise accelerated approvals as compensation", "Credibility risk.", -5,
-      "Avoid communication to reduce noise", "Confusion and churn.", -5
+      "Use standard scripts with factual updates and an escalation path for impacted borrowers, communicating consistently and defensibly. Track all communications, monitor for customer feedback, and review for effectiveness after the incident.", "Consistent and defensible.", 10,
+      "Let lenders craft custom narratives per case, allowing personalized messaging for each borrower. Track all communications, monitor for inconsistencies, and review for risks after restoration.", "Inconsistent and risky.", 5,
+      "Promise accelerated approvals as compensation, offering expedited service to affected borrowers. Track all promises, monitor for credibility risks, and review for sustainability after the incident.", "Credibility risk.", -5,
+      "Avoid communication to reduce noise, pausing all outreach to impacted borrowers. Track all cases, monitor for confusion and churn, and review for missed opportunities after restoration.", "Confusion and churn.", -5
     )),
 
     // Accounting (3)
     q("Accounting", "How do you handle suspicious adjustments in the GL?", buildChoices(
-      "Identify impacted accounts, reverse/segregate entries, and document approvals", "Transparent and auditable.", 10,
-      "Net changes to simplify presentation", "Misstatement risk.", 5,
-      "Delay entries until the investigation ends", "Late/inaccurate reporting.", -5,
-      "Permit manual overrides with no logs", "Audit trail failure.", -5
+      "Identify impacted accounts, reverse or segregate entries, and document all approvals for suspicious adjustments in the GL. Communicate procedures to staff, track all changes, and review for transparency and auditability throughout the incident.", "Transparent and auditable.", 10,
+      "Net changes to simplify presentation, combining entries for easier review. Track all adjustments, monitor for misstatement risks, and review for accuracy after restoration.", "Misstatement risk.", 5,
+      "Delay entries until the investigation ends, postponing all reporting until a full review is complete. Document the rationale, monitor for late or inaccurate records, and review for missed opportunities after the incident.", "Late/inaccurate reporting.", -5,
+      "Permit manual overrides with no logs, allowing adjustments without record-keeping. Track all changes, inform management of risks, and review for audit trail failures after restoration.", "Audit trail failure.", -5
     )),
     q("Accounting", "Which reconciliations come first after fraud is suspected?", buildChoices(
-      "Cash, suspense, and inter-system tie-outs where adjustments occurred", "Targets highest material risk.", 10,
-      "Cash only; revisit others next month", "Partial visibility.", 5,
-      "Skip reconciliations to avoid attention", "Findings likely.", -5,
-      "Adjust entries to match expectations", "Manipulation risk.", -5
+      "Reconcile cash, suspense, and inter-system tie-outs where adjustments occurred first, documenting all findings and actions. Communicate priorities to the team, track progress, and review for material risks before moving to other reconciliations.", "Targets highest material risk.", 10,
+      "Reconcile cash only and revisit others next month, focusing initial efforts on liquid assets. Document the approach, monitor for partial visibility, and plan to address remaining reconciliations as resources allow.", "Partial visibility.", 5,
+      "Skip reconciliations to avoid attention, postponing review to minimize scrutiny. Track all decisions, monitor for findings, and review for missed opportunities after restoration.", "Findings likely.", -5,
+      "Adjust entries to match expectations, modifying records to align with anticipated outcomes. Track all changes, monitor for manipulation risks, and review for accuracy after the incident.", "Manipulation risk.", -5
     )),
     q("Accounting", "How do you preserve evidence for examiners?", buildChoices(
-      "Central evidence index with approvals, timestamps, and artifact links", "Defensible for audit/regulators.", 10,
-      "Email threads archived loosely", "Messy and incomplete.", 5,
-      "Verbal approvals only", "Weak evidence.", -5,
-      "Delete drafts later to reduce storage", "Regulatory risk.", -5
+      "Maintain a central evidence index with approvals, timestamps, and artifact links for examiners. Communicate procedures to staff, review logs regularly, and ensure defensibility for audit and regulatory review throughout the incident.", "Defensible for audit/regulators.", 10,
+      "Archive email threads loosely, instructing staff to save relevant communications. Track completeness, inform compliance of the approach, and review for gaps after restoration.", "Messy and incomplete.", 5,
+      "Use verbal approvals only, allowing decisions to be made without written records. Monitor for weak evidence, document any issues, and plan to strengthen approval processes once normal operations resume.", "Weak evidence.", -5,
+      "Delete drafts later to reduce storage, removing interim documentation after manual work. Record the rationale, inform relevant teams, and review for regulatory risks after the incident.", "Regulatory risk.", -5
     )),
 
     // Deposits (3)
     q("Deposits", "How should suspicious customer-impacting activity be handled?", buildChoices(
-      "Place holds per policy, escalate cases, and document thoroughly", "Balances protection and fairness.", 10,
-      "Allow all activity to avoid complaints", "Loss and compliance risk.", 5,
-      "Let branches decide ad-hoc without scripts", "Inconsistent and risky.", -5,
-      "Disclose employee identity to explain delays", "Privacy/legal risk.", -5
+      "Place holds per policy, escalate cases, and document thoroughly for all suspicious customer-impacting activity. Communicate procedures to staff, track all cases, and review for protection and fairness throughout the incident.", "Balances protection and fairness.", 10,
+      "Allow all activity to avoid complaints, permitting transactions without restriction. Track all activity, monitor for loss and compliance risks, and review for effectiveness after restoration.", "Loss and compliance risk.", 5,
+      "Let branches decide ad-hoc without scripts, allowing each location to manage cases independently. Track all decisions, monitor for inconsistencies, and review for risks after the incident.", "Inconsistent and risky.", -5,
+      "Disclose employee identity to explain delays, sharing personal details with customers. Track all communications, inform management of privacy and legal risks, and review for appropriateness after restoration.", "Privacy/legal risk.", -5
     )),
     q("Deposits", "What should frontline scripts emphasize?", buildChoices(
-      "Verification steps, factual updates, and where customers can get help", "Reduces confusion and escalations.", 10,
-      "Tell customers everything is fine without details", "Credibility risk.", 5,
-      "Share internal investigation notes if asked", "Inappropriate and risky.", -5,
-      "Encourage customers to post online for updates", "Uncontrolled messaging.", -5
+      "Frontline scripts should emphasize verification steps, factual updates, and where customers can get help. Communicate the guidance to staff, track all customer interactions, and review for confusion and escalation risks throughout the incident.", "Reduces confusion and escalations.", 10,
+      "Tell customers everything is fine without details, reassuring them without providing specifics. Track customer reactions, monitor for credibility risks, and review for effectiveness after restoration.", "Credibility risk.", 5,
+      "Share internal investigation notes if asked, providing behind-the-scenes information to customers. Track all communications, inform management of risks, and review for appropriateness after the incident.", "Inappropriate and risky.", -5,
+      "Encourage customers to post online for updates, directing them to share experiences publicly. Track all posts, monitor for uncontrolled messaging, and review for impacts after restoration.", "Uncontrolled messaging.", -5
     )),
     q("Deposits", "How often should external status be updated if customers are affected?", buildChoices(
-      "Regular cadence with confirmed facts and next steps", "Predictable and trust-building.", 10,
-      "Only if there is breaking news", "Unpredictable; more calls.", 5,
-      "Constant updates with speculation to show action", "Noise and mistakes.", -5,
-      "Internal-only updates", "Customers remain uninformed.", -5
+      "Provide external status updates at a regular cadence with confirmed facts and next steps if customers are affected. Track all communications, monitor for trust-building, and review for effectiveness after the incident.", "Predictable and trust-building.", 10,
+      "Update only if there is breaking news, limiting communications to major developments. Track call volume, monitor for unpredictability, and review for impacts after restoration.", "Unpredictable; more calls.", 5,
+      "Provide constant updates with speculation to show action, sharing information as it becomes available. Track all communications, monitor for noise and mistakes, and review for effectiveness after the incident.", "Noise and mistakes.", -5,
+      "Share internal-only updates, keeping customers uninformed during the incident. Track all decisions, monitor for customer frustration, and review for service impacts after restoration.", "Customers remain uninformed.", -5
     )),
   ]
 };
