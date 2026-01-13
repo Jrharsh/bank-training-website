@@ -526,10 +526,10 @@ const SCENARIO_VENDOR_OUTAGE = {
 
     // IT/Security (3)
     q("IT/Security", "What is the first technical continuity action?", buildChoices(
-      "Enable read-only/limited modes, confirm failovers, and post status banners", "Preserves access where possible and sets expectations.", 10,
-      "Turn off all digital channels to reduce pressure", "Harms access unnecessarily.", 5,
-      "Disable logging to reduce system load", "Destroys evidence and observability.", -5,
-      "Share admin credentials for faster triage", "Major control failure.", -5
+      "Enable read-only or limited modes across all affected systems, confirm failovers are functioning as intended, and post status banners to inform users of current limitations. Document all actions taken and coordinate with relevant teams to ensure continuity and transparency throughout the process.", "Preserves access where possible and sets expectations.", 10,
+      "Turn off all digital channels to reduce pressure on the system, including customer-facing portals and internal access points. Notify stakeholders of the shutdown, monitor for any critical impacts, and prepare a plan for gradual restoration once stability is confirmed.", "Harms access unnecessarily.", 5,
+      "Disable logging to reduce system load during the incident, ensuring that performance is prioritized. Communicate this change to IT and security teams, and establish alternative monitoring methods to track system health and user activity while logs are offline.", "Destroys evidence and observability.", -5,
+      "Share admin credentials for faster triage among technical staff, allowing immediate access to all systems. Record who receives credentials, set temporary access controls, and plan to reset all credentials and audit access once the incident is resolved.", "Major control failure.", -5
     )),
     q("IT/Security", "How should you work with the vendor’s technical teams?", buildChoices(
       "Establish real-time comms bridge, request telemetry, and align on rollback/restore steps", "Improves coordination and reduces surprises.", 10,
