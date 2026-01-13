@@ -1,3 +1,30 @@
+const SCENARIO_BACKUP_COMPROMISE = {
+  key: "backup-compromise-mid-incident",
+  title: "Backup Compromise Discovered Mid-Incident",
+  description:
+    "During a ransomware recovery, IT discovers that several 'known-good' backups show indicators of compromise. Restoration timelines extend dramatically, and leadership must reassess communications, regulatory notifications, and customer assurances already made.",
+  questions: [
+    // CEO/SVPs (3)
+    q("CEO/SVPs", "Do you retract public statements about recovery timelines?", buildChoices(
+      "Issue an immediate update clarifying the new findings, explain the impact on recovery timelines, and commit to further updates as the situation evolves. Track all communications, monitor for trust and transparency and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for trust and transparency and effectiveness, and review for effectiveness after restoration.", "Maintains trust and transparency.", 10,
+      "Wait for more technical clarity before updating public statements, monitoring the situation internally and preparing a communication plan for when more is known. Track all decisions, monitor for trust and transparency and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for trust and transparency and effectiveness, and review for effectiveness after restoration.", "Reduces risk of misinformation but may appear evasive.", 5,
+      "Downplay the new findings and continue with the original messaging, only updating if directly questioned by stakeholders. Track all communications, monitor for trust and transparency and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for trust and transparency and effectiveness, and review for effectiveness after restoration.", "Risks credibility if discovered later.", -5,
+      "Retract all previous statements without explanation, removing prior updates and refusing to comment further until the incident is resolved. Track all actions, monitor for trust and transparency and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for trust and transparency and effectiveness, and review for effectiveness after restoration.", "Destroys trust and increases speculation.", -5
+    )),
+    q("CEO/SVPs", "Do you pause restoration already in progress?", buildChoices(
+      "Pause all restoration activities, conduct a full review of backup integrity, and communicate the reason for the pause to all stakeholders. Track all actions, monitor for risk and recovery effectiveness, and review for effectiveness after restoration. Track all actions, monitor for risk and recovery effectiveness, and review for effectiveness after restoration.", "Reduces risk of reinfection and ensures integrity.", 10,
+      "Continue restoration for unaffected systems while reviewing compromised backups, balancing progress with caution. Track all actions, monitor for risk and recovery effectiveness, and review for effectiveness after restoration. Track all actions, monitor for risk and recovery effectiveness, and review for effectiveness after restoration.", "Balances progress and caution but may miss hidden risks.", 5,
+      "Ignore the new findings and proceed with the original restoration plan, assuming the risk is minimal. Track all actions, monitor for risk and recovery effectiveness, and review for effectiveness after restoration. Track all actions, monitor for risk and recovery effectiveness, and review for effectiveness after restoration.", "Risks reinfection and further delays.", -5,
+      "Let each department decide whether to pause or continue restoration, providing general guidance but no centralized decision. Track all actions, monitor for risk and recovery effectiveness, and review for effectiveness after restoration. Track all actions, monitor for risk and recovery effectiveness, and review for effectiveness after restoration.", "Creates inconsistency and confusion.", -5
+    )),
+    q("CEO/SVPs", "How do you message uncertainty without causing panic?", buildChoices(
+      "Acknowledge the new uncertainty, explain what is being done to resolve it, and provide a clear schedule for updates. Emphasize transparency and commitment to resolution. Track all communications, monitor for trust and panic and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for trust and panic and effectiveness, and review for effectiveness after restoration.", "Builds trust and manages expectations.", 10,
+      "Provide only minimal updates until more is known, focusing on facts and avoiding speculation. Track all communications, monitor for trust and panic and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for trust and panic and effectiveness, and review for effectiveness after restoration.", "Reduces risk of misinformation but may increase anxiety.", 5,
+      "Reassure stakeholders that everything is under control without sharing details, aiming to prevent panic but withholding key information. Track all communications, monitor for trust and panic and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for trust and panic and effectiveness, and review for effectiveness after restoration.", "May backfire if new issues arise.", -5,
+      "Avoid all communication until the situation is fully resolved, providing no updates or information. Track all actions, monitor for trust and panic and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for trust and panic and effectiveness, and review for effectiveness after restoration.", "Increases speculation and panic.", -5
+    )),
+  ]
+};
 // api/static-scenarios.js
 // 5 static tabletop scenarios.
 // Each scenario: 21 questions (3 per department).
@@ -1699,6 +1726,7 @@ const SCENARIOS = [
   SCENARIO_WEATHER,
   SCENARIO_INSIDER,
   SCENARIO_VENDOR_OUTAGE,
+  SCENARIO_BACKUP_COMPROMISE,
   SCENARIO_INSIDER_FRAUD,
   SCENARIO_ACH_FAILURE
 ];
