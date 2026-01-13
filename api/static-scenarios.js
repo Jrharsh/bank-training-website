@@ -953,142 +953,142 @@ const SCENARIO_LIQUIDITY = {
   questions: [
     // CEO/SVPs (3)
     q("CEO/SVPs", "What is the immediate leadership communication strategy?", buildChoices(
-      "Share a calm, factual statement with update schedule and contact info.", "Controls narrative and reduces panic.", 10,
-      "Release a short holding statement and plan a follow-up message.", "Better than silence, but less effective without cadence detail.", 5,
-      "Announce legal action as the first response to rumors.", "Often inflames situation and distracts from reassurance.", -5,
-      "Stay silent and close comments to avoid attention.", "Looks evasive; rumors grow.", -5
+      "Share a calm, factual statement with a clear update schedule and contact information, ensuring all stakeholders are informed and reassured throughout the incident.", "Controls narrative and reduces panic.", 10,
+      "Release a short holding statement to acknowledge the situation, followed by a planned, detailed message that outlines next steps and provides contact information for further questions.", "Better than silence, but less effective without cadence detail.", 5,
+      "Announce legal action as the first response to rumors, making a public statement that addresses the situation, outlines intended actions, and provides a schedule for future updates to all parties.", "Often inflames situation and distracts from reassurance.", -5,
+      "Stay silent and close comments to avoid attention, refraining from any public statements while monitoring the situation and preparing to respond if further developments occur.", "Looks evasive; rumors grow.", -5
     )),
     q("CEO/SVPs", "How should leadership coordinate governance today?", buildChoices(
-      "Start a crisis command group with leads and regular checkpoints.", "Fast alignment and consistent decisions.", 10,
-      "Hold daily executive updates but let departments act independently.", "Some coordination, but decisions can conflict.", 5,
-      "Meet with executives only, without operational leads involved.", "Misses branch/call center realities.", -5,
-      "Let vendors lead all communications and decisions.", "Loss of control and misaligned priorities.", -5
+      "Start a crisis command group with department leads and regular checkpoints, ensuring all decisions are aligned and communicated clearly to every team throughout the incident.", "Fast alignment and consistent decisions.", 10,
+      "Hold daily executive updates and allow departments to act independently, providing a structure for information sharing while letting each group manage its own response and report progress.", "Some coordination, but decisions can conflict.", 5,
+      "Meet with executives only, without operational leads involved, focusing on high-level strategy and decision-making while relying on department heads to implement actions and communicate with their teams.", "Misses branch/call center realities.", -5,
+      "Let vendors lead all communications and decisions, giving external partners control over messaging and coordination, while internal teams follow guidance and report outcomes as directed.", "Loss of control and misaligned priorities.", -5
     )),
     q("CEO/SVPs", "Do you adjust branch cash policy immediately?", buildChoices(
-      "Set temporary limits, provide scripts, and define escalation steps.", "Consistency protects liquidity and service.", 10,
-      "Adjust policy only for very large withdrawals as needed.", "Helps but may still create inconsistency.", 5,
-      "Close branches to reduce cash demand right away.", "Worsens panic and rumor.", -5,
-      "Let each branch set its own policy for withdrawals.", "Inconsistent; escalations rise.", -5
+      "Set temporary limits on cash withdrawals, provide scripts for staff, and define escalation steps, ensuring consistency and clear communication with customers at every branch during the incident.", "Consistency protects liquidity and service.", 10,
+      "Adjust policy only for very large withdrawals as needed, allowing flexibility for exceptional cases while maintaining standard procedures for most transactions and providing guidance to staff.", "Helps but may still create inconsistency.", 5,
+      "Close branches to reduce cash demand right away, implementing a shutdown of operations and communicating the decision to customers, with plans for reopening and updates as the situation evolves.", "Worsens panic and rumor.", -5,
+      "Let each branch set its own policy for withdrawals, giving managers discretion to respond to local conditions, while providing general guidelines and support for handling customer requests.", "Inconsistent; escalations rise.", -5
     )),
 
     // IT/Security (3)
     q("IT/Security", "What’s the IT priority with traffic spikes?", buildChoices(
-      "Monitor/scale online banking and prepare DDoS protections", "Prevents outages and protects access.", 10,
-      "Increase monitoring and prepare to scale if thresholds hit", "Helpful, but may be late without proactive scaling.", 5,
-      "Disable protections to reduce friction", "Creates security exposure during chaos.", -5,
-      "Block all logins temporarily", "Amplifies panic and customer impact.", -5
+      "Monitor and scale online banking systems, prepare DDoS protections, and ensure all technical teams are ready to respond to increased traffic and potential threats throughout the incident.", "Prevents outages and protects access.", 10,
+      "Increase monitoring and prepare to scale if thresholds are hit, coordinating with IT and security teams to address any spikes in activity and maintain system stability as needed.", "Helpful, but may be late without proactive scaling.", 5,
+      "Disable protections to reduce friction, allowing easier access for users but increasing the risk of security exposure and potential system compromise during high traffic periods.", "Creates security exposure during chaos.", -5,
+      "Block all logins temporarily, restricting access for all users while the situation is assessed and technical teams work to resolve issues and restore normal operations.", "Amplifies panic and customer impact.", -5
     )),
     q("IT/Security", "How do you monitor for fraud during chaos?", buildChoices(
-      "Increase fraud monitoring, rate limits, and alert triage", "Reduces losses and supports response.", 10,
-      "Keep current monitoring but add manual review for high-risk activity", "Better, but slower and less scalable.", 5,
-      "Turn off alerts to reduce noise", "Creates blind spots for attacks.", -5,
-      "Share admin tools widely to speed up work", "Security breakdown.", -5
+      "Increase fraud monitoring, implement rate limits, and conduct alert triage, ensuring all suspicious activity is reviewed and addressed promptly by the security team throughout the incident.", "Reduces losses and supports response.", 10,
+      "Keep current monitoring in place but add manual review for high-risk activity, assigning staff to focus on specific cases and report findings to leadership for further action.", "Better, but slower and less scalable.", 5,
+      "Turn off alerts to reduce noise, minimizing distractions for staff but creating blind spots for potential attacks and increasing the risk of undetected fraudulent activity.", "Creates blind spots for attacks.", -5,
+      "Share admin tools widely to speed up work, giving more staff access to critical systems but increasing the risk of security breakdowns and unauthorized actions during the response.", "Security breakdown.", -5
     )),
     q("IT/Security", "How should you handle customer status comms technically?", buildChoices(
-      "Maintain a single status page with verified updates", "Reduces call volume and misinformation.", 10,
-      "Post updates on the website homepage only", "Helpful, but less structured than a status page.", 5,
-      "No updates until resolved", "Speculation grows.", -5,
-      "Allow anyone to post updates", "Misinformation risk.", -5
+      "Maintain a single status page with verified updates, ensuring all customers have access to accurate information and regular notifications about the incident and its resolution.", "Reduces call volume and misinformation.", 10,
+      "Post updates on the website homepage only, providing general information to visitors but lacking the structure and detail of a dedicated status page for ongoing communication.", "Helpful, but less structured than a status page.", 5,
+      "No updates until resolved, withholding all information from customers until the incident is fully addressed and normal operations are restored, which may increase speculation and concern.", "Speculation grows.", -5,
+      "Allow anyone to post updates, giving staff and customers the ability to share information freely but increasing the risk of misinformation and confusion during the incident.", "Misinformation risk.", -5
     )),
 
     // HR (3)
     q("HR", "How should staffing be handled at branches today?", buildChoices(
-      "Surge staffing/rotation and de-escalation guidance", "Safer environment and better service.", 10,
-      "Add a few float staff where possible", "Helps, but may not meet peak demand.", 5,
-      "Force overtime with no breaks", "Burnout and safety risk.", -5,
-      "Send everyone home to reduce conflict", "Service failure fuels rumor.", -5
+      "Implement surge staffing and rotation schedules, provide de-escalation guidance, and ensure all branches have adequate coverage and support throughout the incident.", "Safer environment and better service.", 10,
+      "Add a few float staff where possible, supplementing regular teams with additional personnel to help meet increased demand and maintain service quality during peak periods.", "Helps, but may not meet peak demand.", 5,
+      "Force overtime with no breaks, requiring all staff to work extended hours without rest, which may lead to burnout, increased safety risks, and reduced effectiveness over time.", "Burnout and safety risk.", -5,
+      "Send everyone home to reduce conflict, closing branches and suspending operations, which may result in service failures and fuel further rumors among customers and staff.", "Service failure fuels rumor.", -5
     )),
     q("HR", "What should HR tell employees about public rumor discussions?", buildChoices(
-      "Remind social policy: do not speculate; refer to official comms", "Prevents misinformation and PR risk.", 10,
-      "Suggest staff avoid social media during the incident", "Some benefit, but still lacks clear referral guidance.", 5,
-      "Allow staff to respond freely online", "High PR risk; inconsistent info.", -5,
-      "Punish anyone who mentions it", "Chills reporting and worsens culture.", -5
+      "Remind employees of the social media policy, instructing them not to speculate and to refer all questions to official communications, ensuring consistent messaging and reducing misinformation risk.", "Prevents misinformation and PR risk.", 10,
+      "Suggest staff avoid social media during the incident, recommending that employees limit their online activity and refrain from posting about the situation until further notice.", "Some benefit, but still lacks clear referral guidance.", 5,
+      "Allow staff to respond freely online, giving employees the freedom to share their thoughts and experiences about the incident, which may result in inconsistent information and increased PR risk.", "High PR risk; inconsistent info.", -5,
+      "Punish anyone who mentions it, enforcing strict disciplinary measures for any employee who discusses the incident publicly, which may chill reporting and worsen organizational culture.", "Chills reporting and worsens culture.", -5
     )),
     q("HR", "How should HR support customer-facing staff under stress?", buildChoices(
-      "Provide scripts, breaks, escalation support, and safety plan", "Reduces incidents and improves consistency.", 10,
-      "Offer scripts but leave breaks to managers", "Some value, but uneven execution.", 5,
-      "Tell them to 'handle it'", "Unsafe and inconsistent.", -5,
-      "No support until next week", "Burnout and mistakes increase.", -5
+      "Provide scripts for customer interactions, schedule regular breaks, offer escalation support, and implement a safety plan to help staff manage stress and maintain consistency during the incident.", "Reduces incidents and improves consistency.", 10,
+      "Offer scripts for customer interactions but leave break scheduling to managers, providing some support while allowing flexibility in how staff manage their workload and stress.", "Some value, but uneven execution.", 5,
+      "Tell staff to handle all issues on their own, giving them full responsibility for managing customer interactions and stress without additional support or guidance from HR.", "Unsafe and inconsistent.", -5,
+      "Provide no support until next week, delaying all assistance and resources for customer-facing staff, which may lead to increased burnout, mistakes, and dissatisfaction.", "Burnout and mistakes increase.", -5
     )),
 
     // Finance (3)
     q("Finance", "What’s the first step to stabilize liquidity management?", buildChoices(
-      "Increase liquidity reporting cadence and prep contingency funding", "Enables confident, compliant decisions.", 10,
-      "Keep normal cadence but add an exec summary", "Some visibility but may be too slow.", 5,
-      "Freeze all outgoing payments", "Operational harm and panic risk.", -5,
-      "Stop cash ordering to save money", "Worsens shortages and rumor impact.", -5
+      "Increase the cadence of liquidity reporting and prepare contingency funding, ensuring all financial teams are aligned and ready to respond to changing conditions throughout the incident.", "Enables confident, compliant decisions.", 10,
+      "Keep the normal reporting cadence but add an executive summary, providing additional context and updates to leadership while maintaining standard procedures for financial oversight.", "Some visibility but may be too slow.", 5,
+      "Freeze all outgoing payments, halting all transactions and informing stakeholders of the decision, which may cause operational harm and increase panic among customers and staff.", "Operational harm and panic risk.", -5,
+      "Stop cash ordering to save money, suspending all new cash requests and communicating the change to branches, which may worsen shortages and amplify the impact of rumors.", "Worsens shortages and rumor impact.", -5
     )),
     q("Finance", "How do you prioritize payments today?", buildChoices(
-      "Critical ops, cash logistics, security/infra vendors first", "Keeps bank functioning and stable.", 10,
-      "Pay critical items as they arise with exec approval", "Works but slower and inconsistent.", 5,
-      "Pay smallest invoices first", "Not aligned to criticality.", -5,
-      "Stop all payments", "Service collapse risk.", -5
+      "Prioritize payments for critical operations, cash logistics, and security/infrastructure vendors first, ensuring the bank remains functional and stable throughout the incident.", "Keeps bank functioning and stable.", 10,
+      "Pay critical items as they arise with executive approval, reviewing each transaction individually and coordinating with leadership to maintain oversight and control.", "Works but slower and inconsistent.", 5,
+      "Pay the smallest invoices first, processing low-value transactions ahead of larger ones and communicating the approach to vendors and staff, regardless of operational impact.", "Not aligned to criticality.", -5,
+      "Stop all payments, suspending all outgoing transactions and notifying stakeholders of the decision, which may result in service collapse and increased risk for the organization.", "Service collapse risk.", -5
     )),
     q("Finance", "How should you track costs from this event?", buildChoices(
-      "Incident cost center with approvals and documentation", "Audit-ready and accurate.", 10,
-      "Track only vendor costs and estimate internal hours later", "Partial but may miss true impact.", 5,
-      "Track later from memory", "Inaccurate.", -5,
-      "Hide costs across misc categories", "Reporting integrity risk.", -5
+      "Create an incident cost center with required approvals and thorough documentation, ensuring all expenses are tracked accurately and are audit-ready for future review.", "Audit-ready and accurate.", 10,
+      "Track only vendor costs and estimate internal hours later, maintaining partial records and updating totals as more information becomes available, which may miss the true impact of the event.", "Partial but may miss true impact.", 5,
+      "Track all costs later from memory, relying on staff recollections to compile expense reports after the incident, which may result in inaccurate and incomplete records.", "Inaccurate.", -5,
+      "Hide costs across miscellaneous categories, dispersing expenses throughout various accounts to avoid scrutiny, which may create reporting integrity risks and complicate future audits.", "Reporting integrity risk.", -5
     )),
 
     // Loans (3)
     q("Loans", "How should loan disbursements proceed during volatility?", buildChoices(
-      "Continue with heightened verification and clear comms", "Balances service and risk.", 10,
-      "Pause new disbursements but keep commitments", "Safer, but impacts customers and revenue.", 5,
-      "Rush approvals to keep volume up", "Fraud/credit risk increases.", -5,
-      "Let lenders bypass controls", "Compliance failure.", -5
+      "Continue loan disbursements with heightened verification and clear communications, ensuring all transactions are reviewed and customers are kept informed throughout the period of volatility.", "Balances service and risk.", 10,
+      "Pause new disbursements but keep commitments, temporarily suspending new loans while honoring existing agreements and providing updates to affected customers and staff.", "Safer, but impacts customers and revenue.", 5,
+      "Rush approvals to keep volume up, expediting the loan process and increasing the number of disbursements, which may raise the risk of fraud and credit losses for the institution.", "Fraud/credit risk increases.", -5,
+      "Let lenders bypass controls, allowing staff to process loans without standard checks and balances, which may result in compliance failures and increased risk exposure.", "Compliance failure.", -5
     )),
     q("Loans", "What borrower messaging is appropriate?", buildChoices(
-      "Use standard message: what to expect + escalation path", "Consistency reduces complaints.", 10,
-      "Tell borrowers processing may be delayed", "True but can be too vague without next steps.", 5,
-      "Promise faster approvals to calm them", "Overpromise creates credibility risk.", -5,
-      "No communication", "Confusion increases churn.", -5
+      "Use a standard message that explains what borrowers can expect, provides an escalation path, and ensures all communications are consistent and clear throughout the incident.", "Consistency reduces complaints.", 10,
+      "Tell borrowers that processing may be delayed, providing an honest update about potential slowdowns and offering guidance on what steps to take if they have concerns or questions.", "True but can be too vague without next steps.", 5,
+      "Promise faster approvals to calm borrowers, assuring them that their applications will be expedited, even if this creates a risk of overpromising and damaging credibility if delays occur.", "Overpromise creates credibility risk.", -5,
+      "Provide no communication to borrowers, withholding all updates and information about the status of their loans, which may lead to confusion and increased customer churn.", "Confusion increases churn.", -5
     )),
     q("Loans", "What control do you add during high chaos?", buildChoices(
-      "Dual control on exceptions and verification checklist", "Reduces fraud and errors.", 10,
-      "Require manager review on exceptions only", "Helps, but may miss process gaps.", 5,
-      "Skip controls to move fast", "Losses and findings likely.", -5,
-      "Email sensitive docs freely", "Privacy/compliance risk.", -5
+      "Implement dual control on exceptions and use a verification checklist, ensuring all high-risk transactions are reviewed by multiple staff and documented thoroughly during periods of chaos.", "Reduces fraud and errors.", 10,
+      "Require manager review on exceptions only, assigning oversight to supervisors for unusual cases while allowing standard transactions to proceed with less scrutiny.", "Helps, but may miss process gaps.", 5,
+      "Skip controls to move fast, removing standard checks and procedures to expedite processing, which may increase the likelihood of losses and audit findings for the organization.", "Losses and findings likely.", -5,
+      "Email sensitive documents freely, allowing staff to share confidential information without restrictions, which may create privacy and compliance risks for the institution.", "Privacy/compliance risk.", -5
     )),
 
     // Accounting (3)
     q("Accounting", "How do you reflect unusual cash movement in reporting?", buildChoices(
-      "Daily cash position with reconciliations and notes", "Accurate visibility for leadership.", 10,
-      "Daily summary numbers without full reconciliation", "Some signal, but risk inaccurate decisions.", 5,
-      "Weekly reporting only", "Too slow during a run.", -5,
-      "Suppress negative indicators", "Governance and ethics risk.", -5
+      "Report the daily cash position with full reconciliations and detailed notes, providing leadership with accurate visibility and supporting decision-making throughout the incident.", "Accurate visibility for leadership.", 10,
+      "Provide daily summary numbers without full reconciliation, offering a general overview of cash movement but risking inaccurate decisions due to incomplete information.", "Some signal, but risk inaccurate decisions.", 5,
+      "Switch to weekly reporting only, reducing the frequency of updates and potentially delaying the identification of issues during periods of unusual cash movement.", "Too slow during a run.", -5,
+      "Suppress negative indicators in reports, omitting unfavorable data to present a more positive outlook, which may create governance and ethics risks for the organization.", "Governance and ethics risk.", -5
     )),
     q("Accounting", "What’s the priority reconciliation during heavy cash activity?", buildChoices(
-      "Branch cash, vault/ATM settlement, GL tie-outs", "Catches material breaks quickly.", 10,
-      "Branch cash only", "Partial coverage; may miss settlement issues.", 5,
-      "Skip until month-end", "Backlog compounds risk.", -5,
-      "Allow unlogged adjustments", "No audit trail.", -5
+      "Reconcile branch cash, vault/ATM settlements, and general ledger tie-outs as a priority, ensuring all material breaks are caught quickly and addressed during periods of heavy cash activity.", "Catches material breaks quickly.", 10,
+      "Reconcile branch cash only, focusing on a single area and providing partial coverage, which may miss settlement issues and create gaps in financial oversight.", "Partial coverage; may miss settlement issues.", 5,
+      "Skip reconciliations until month-end, delaying all reviews and allowing the backlog to compound, which may increase risk and make it harder to resolve discrepancies later.", "Backlog compounds risk.", -5,
+      "Allow unlogged adjustments, permitting staff to make changes without documentation, which may result in no audit trail and increased risk of errors or fraud.", "No audit trail.", -5
     )),
     q("Accounting", "How do you maintain documentation for unusual transactions?", buildChoices(
-      "Central evidence folder with approvals and index", "Audit-ready and consistent.", 10,
-      "Keep notes individually and consolidate later", "Better than nothing, but risk loss/inconsistency.", 5,
-      "Only verbal approvals", "Insufficient evidence.", -5,
-      "Delete messy records later", "Regulatory risk.", -5
+      "Maintain a central evidence folder with required approvals and a detailed index, ensuring all documentation for unusual transactions is audit-ready and consistent across the organization.", "Audit-ready and consistent.", 10,
+      "Keep notes individually and consolidate them later, allowing staff to maintain their own records before combining them, which may risk loss or inconsistency in documentation.", "Better than nothing, but risk loss/inconsistency.", 5,
+      "Rely on only verbal approvals for unusual transactions, foregoing written documentation and creating insufficient evidence for future audits or reviews.", "Insufficient evidence.", -5,
+      "Delete messy records later, removing incomplete or disorganized documentation after the fact, which may create regulatory risk and hinder future investigations.", "Regulatory risk.", -5
     )),
 
     // Deposits (3)
     q("Deposits", "How do you manage large withdrawal requests at branches?", buildChoices(
-      "Set policy limits and schedule large cash pickups", "Fairness and liquidity control.", 10,
-      "Allow withdrawals but require manager approval over a threshold", "Helps, but can still be inconsistent without scripts.", 5,
-      "Honor all requests immediately", "Cash depletion risk.", -5,
-      "Let each branch decide", "Inconsistent and risky.", -5
+      "Set policy limits on large cash withdrawals and schedule pickups, ensuring fairness and liquidity control at all branches while communicating procedures to staff and customers.", "Fairness and liquidity control.", 10,
+      "Allow withdrawals but require manager approval over a set threshold, providing oversight for larger transactions and helping maintain consistency, though some variation may still occur without scripts.", "Helps, but can still be inconsistent without scripts.", 5,
+      "Honor all withdrawal requests immediately, processing every transaction as it comes in, which may increase the risk of cash depletion and create challenges for branch operations.", "Cash depletion risk.", -5,
+      "Let each branch decide its own approach to large withdrawals, giving managers discretion but increasing the risk of inconsistency and potential issues across locations.", "Inconsistent and risky.", -5
     )),
     q("Deposits", "How do you handle call center pressure and messaging?", buildChoices(
-      "Recorded message + scripts + status updates", "Reduces load and keeps messaging consistent.", 10,
-      "Add scripts but keep the phone tree the same", "Helpful, but still high volume without automation.", 5,
-      "Turn phones off", "Worsens panic.", -5,
-      "Tell customers 'it’s fine' with no facts", "Credibility risk.", -5
+      "Use a recorded message, provide scripts for staff, and issue regular status updates, reducing call center load and keeping messaging consistent for all customers during the incident.", "Reduces load and keeps messaging consistent.", 10,
+      "Add scripts for staff but keep the phone tree the same, offering some support for customer interactions but maintaining the existing call routing, which may result in high volume without automation.", "Helpful, but still high volume without automation.", 5,
+      "Turn phones off during periods of high pressure, suspending all incoming calls and communications, which may worsen panic and leave customers without support.", "Worsens panic.", -5,
+      "Tell customers everything is fine without providing facts, offering vague reassurances that may damage credibility and increase confusion among callers.", "Credibility risk.", -5
     )),
     q("Deposits", "What is the best customer reassurance tactic?", buildChoices(
-      "Transparent updates + what customers can do + where to check status", "Trust-building and practical.", 10,
-      "Encourage customers to visit a branch for updates", "Some reassurance, but increases branch load.", 5,
-      "Silence", "Speculation grows.", -5,
-      "Blame customers for panic", "Reputational harm.", -5
+      "Provide transparent updates, explain what customers can do, and direct them to where they can check status, building trust and offering practical support throughout the incident.", "Trust-building and practical.", 10,
+      "Encourage customers to visit a branch for updates, offering in-person reassurance and information, though this may increase branch load and create additional challenges for staff.", "Some reassurance, but increases branch load.", 5,
+      "Maintain silence and provide no updates or information to customers, which may lead to increased speculation, confusion, and dissatisfaction during the incident.", "Speculation grows.", -5,
+      "Blame customers for panic, attributing the situation to their actions and communications, which may cause reputational harm and damage relationships with the community.", "Reputational harm.", -5
     )),
   ]
 };
@@ -1102,10 +1102,10 @@ const SCENARIO_BEC_WIRE = {
   questions: [
     // CEO/SVPs (3)
     q("CEO/SVPs", "What leadership posture is appropriate as the fraud escalates?", buildChoices(
-      "Treat as a major incident with clear ownership and rapid containment", "Fast coordinated action reduces losses.", 10,
-      "Escalate internally but keep it out of formal incident structure", "Some action, but coordination is weaker.", 5,
-      "Wait for confirmed losses before acting", "Too slow; loss window stays open.", -5,
-      "Downplay externally regardless of impact", "Trust damage and regulatory risk.", -5
+      "Treat the situation as a major incident, assign clear ownership, and implement rapid containment measures, ensuring all teams are aligned and actions are documented throughout the response.", "Fast coordinated action reduces losses.", 10,
+      "Escalate the issue internally, keep it out of the formal incident structure, and coordinate actions among departments, maintaining communication and tracking progress as the situation develops.", "Some action, but coordination is weaker.", 5,
+      "Wait for confirmed losses before taking action, monitor the situation closely, and prepare to respond with appropriate measures once the impact is fully understood and documented.", "Too slow; loss window stays open.", -5,
+      "Downplay the incident externally regardless of impact, communicate minimal details to stakeholders, and focus on internal management while maintaining records of all decisions and communications.", "Trust damage and regulatory risk.", -5
     )),
     q("CEO/SVPs", "How should executive communications be coordinated?", buildChoices(
       "Single spokesperson + consistent scripts for staff", "Avoids mixed messaging and reduces risk.", 10,
