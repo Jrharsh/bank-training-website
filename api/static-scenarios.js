@@ -1,3 +1,60 @@
+const SCENARIO_OPS_ERROR_FRAUD = {
+  key: "operational-error-looks-like-fraud",
+  title: "Operational Error That Looks Like Fraud",
+  description:
+    "An internal posting error mimics fraud behavior (duplicate debits, missing credits). Customers freeze accounts, assuming compromise.",
+  questions: [
+    // CEO/SVPs
+    q("CEO/SVPs", "How should leadership frame the incident publicly when the error looks like fraud?", buildChoices(
+      "Acknowledge the issue, clarify it is operational not malicious, and commit to rapid correction and transparent updates. Track all communications, monitor for trust and narrative control and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for trust and narrative control and effectiveness, and review for effectiveness after restoration.", "Builds trust and controls the narrative.", 10,
+      "Delay public communication until all facts are known, focusing on internal investigation first. Track all actions, monitor for trust and narrative control and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for trust and narrative control and effectiveness, and review for effectiveness after restoration.", "Reduces misinformation but risks rumor spread.", 5,
+      "Emphasize only technical details, avoiding any discussion of customer impact or narrative. Track all communications, monitor for trust and narrative control and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for trust and narrative control and effectiveness, and review for effectiveness after restoration.", "Misses the public narrative and increases confusion.", -5,
+      "Deny any issue until forced to respond, refusing to comment until external pressure mounts. Track all actions, monitor for trust and narrative control and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for trust and narrative control and effectiveness, and review for effectiveness after restoration.", "Destroys trust and increases speculation.", -5
+    )),
+    // IT/Security
+    q("IT/Security", "How should IT/Security prove the error is not malicious?", buildChoices(
+      "Collect and review all relevant logs, system records, and staff actions, document the timeline, and communicate findings to stakeholders. Track all actions, monitor for accuracy and defensibility and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for accuracy and defensibility and effectiveness, and review for effectiveness after restoration.", "Ensures accuracy and supports defensibility.", 10,
+      "Rely on system consistency checks and staff statements, assuming no malicious activity if no discrepancies are found. Track all actions, monitor for accuracy and defensibility and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for accuracy and defensibility and effectiveness, and review for effectiveness after restoration.", "May miss hidden issues and reduce defensibility.", 5,
+      "Delay investigation until more evidence is found, postponing action in hopes of finding more proof. Track all actions, monitor for accuracy and defensibility and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for accuracy and defensibility and effectiveness, and review for effectiveness after restoration.", "Delays resolution and increases risk.", -5,
+      "Ignore the incident and assert it is not malicious without investigation. Track all actions, monitor for accuracy and defensibility and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for accuracy and defensibility and effectiveness, and review for effectiveness after restoration.", "Reduces trust and increases risk of findings.", -5
+    )),
+    // HR
+    q("HR", "How should HR support staff morale when employees are accused of fraud?", buildChoices(
+      "Provide clear communication about the nature of the error, offer support resources, and reinforce a culture of accountability and learning. Track all actions, monitor for morale and stress reduction and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for morale and stress reduction and effectiveness, and review for effectiveness after restoration.", "Improves morale and reduces stress.", 10,
+      "Survey staff for feedback and make minor adjustments to support, updating only where issues are reported. Track all actions, monitor for morale and stress reduction and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for morale and stress reduction and effectiveness, and review for effectiveness after restoration.", "Some improvement but may miss systemic issues.", 5,
+      "Rely on existing support and assume staff are coping, making no changes unless required. Track all actions, monitor for morale and stress reduction and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for morale and stress reduction and effectiveness, and review for effectiveness after restoration.", "Misses opportunity to address root causes.", -5,
+      "Blame staff for the error and issue warnings, focusing on discipline rather than improvement. Track all actions, monitor for morale and stress reduction and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for morale and stress reduction and effectiveness, and review for effectiveness after restoration.", "Damages morale and increases turnover.", -5
+    )),
+    // Finance
+    q("Finance", "How should Finance manage temporary liquidity distortion from the error?", buildChoices(
+      "Monitor liquidity closely, communicate with leadership, and prepare contingency plans for cash flow needs. Track all actions, monitor for liquidity and risk and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for liquidity and risk and effectiveness, and review for effectiveness after restoration.", "Balances risk and supports stability.", 10,
+      "Estimate liquidity impact based on best guesses, updating numbers as new information emerges. Track all actions, monitor for liquidity and risk and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for liquidity and risk and effectiveness, and review for effectiveness after restoration.", "Some flexibility but may appear inconsistent.", 5,
+      "Deny any liquidity impact exists, refusing to estimate or communicate possible effects. Track all actions, monitor for liquidity and risk and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for liquidity and risk and effectiveness, and review for effectiveness after restoration.", "Risks regulatory findings and trust loss.", -5,
+      "Provide no estimates until all entries are corrected, delaying communication indefinitely. Track all actions, monitor for liquidity and risk and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for liquidity and risk and effectiveness, and review for effectiveness after restoration.", "Increases anxiety and regulatory scrutiny.", -5
+    )),
+    // Loans
+    q("Loans", "How should Loans address auto-pay confusion caused by the error?", buildChoices(
+      "Communicate proactively with affected customers, clarify the nature of the error, and provide remediation or escalation paths. Track all actions, monitor for accuracy and fairness and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for accuracy and fairness and effectiveness, and review for effectiveness after restoration.", "Ensures fairness and reduces repeat complaints.", 10,
+      "Allow each lender to decide how to handle confusion, providing general guidance but no standardization. Track all actions, monitor for accuracy and fairness and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for accuracy and fairness and effectiveness, and review for effectiveness after restoration.", "May create inconsistency and confusion.", 5,
+      "Remediate only when customers escalate, addressing issues reactively rather than proactively. Track all actions, monitor for accuracy and fairness and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for accuracy and fairness and effectiveness, and review for effectiveness after restoration.", "Misses silent or less vocal customers.", -5,
+      "Delay all action until the error is fully corrected, taking no steps to resolve confusion until more data is found. Track all actions, monitor for accuracy and fairness and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for accuracy and fairness and effectiveness, and review for effectiveness after restoration.", "Increases risk of findings and customer loss.", -5
+    )),
+    // Accounting
+    q("Accounting", "How should Accounting correct entries without causing misstatement?", buildChoices(
+      "Document all corrections, reconcile accounts, and communicate changes to auditors and stakeholders. Track all actions, monitor for accuracy and defensibility and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for accuracy and defensibility and effectiveness, and review for effectiveness after restoration.", "Ensures accuracy and reduces risk of misstatement.", 10,
+      "Make corrections as needed without full documentation, updating records as issues are found. Track all actions, monitor for accuracy and defensibility and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for accuracy and defensibility and effectiveness, and review for effectiveness after restoration.", "May raise questions about thoroughness.", 5,
+      "Delay corrections until specifically requested, taking no proactive steps. Track all actions, monitor for accuracy and defensibility and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for accuracy and defensibility and effectiveness, and review for effectiveness after restoration.", "Appears unprepared and reactive.", -5,
+      "Rely on verbal explanations instead of written records, providing only staff recollections. Track all actions, monitor for accuracy and defensibility and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for accuracy and defensibility and effectiveness, and review for effectiveness after restoration.", "Weakens audit trail and defensibility.", -5
+    )),
+    // Deposits
+    q("Deposits", "How should Deposits manage call center overload during the incident?", buildChoices(
+      "Implement surge staffing, provide scripts for common questions, and issue regular status updates to reduce call volume. Track all actions, monitor for load and messaging consistency and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for load and messaging consistency and effectiveness, and review for effectiveness after restoration.", "Reduces load and keeps messaging consistent.", 10,
+      "Add scripts for staff but keep the phone tree the same, offering some support but maintaining the existing call routing. Track all actions, monitor for load and messaging consistency and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for load and messaging consistency and effectiveness, and review for effectiveness after restoration.", "Helpful, but still high volume without automation.", 5,
+      "Turn phones off during periods of high pressure, suspending all incoming calls and communications. Track all actions, monitor for load and messaging consistency and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for load and messaging consistency and effectiveness, and review for effectiveness after restoration.", "Worsens panic and leaves customers without support.", -5,
+      "Tell customers everything is fine without providing facts, offering vague reassurances that may damage credibility and increase confusion. Track all actions, monitor for load and messaging consistency and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for load and messaging consistency and effectiveness, and review for effectiveness after restoration.", "Credibility risk and confusion.", -5
+    )),
+  ]
+};
 const SCENARIO_DATA_UNVERIFIABLE = {
   key: "customer-data-correct-unverifiable",
   title: "Customer Data Correct but Unverifiable",
@@ -1836,6 +1893,7 @@ const SCENARIOS = [
   SCENARIO_BACKUP_COMPROMISE,
   SCENARIO_REGULATORY_INQUIRY,
   SCENARIO_DATA_UNVERIFIABLE,
+  SCENARIO_OPS_ERROR_FRAUD,
   SCENARIO_INSIDER_FRAUD,
   SCENARIO_ACH_FAILURE
 ];
