@@ -45,40 +45,40 @@ const SCENARIO_RANSOMWARE = {
     q("CEO/SVPs",
       "In the first 30 minutes, which leadership action best stabilizes the situation while preserving flexibility?",
       buildChoices(
-          "Activate incident command, assign ownership, and set an update cadence.",
-          "Creates structure and tempo without locking leadership into premature commitments.",
-          10,
+        "Activate incident command, assign roles, and set a cadence for updates to ensure alignment and structure.",
+        "Creates structure and tempo without locking leadership into premature commitments.",
+        10,
 
-          "Meet privately with senior leaders before activating a formal response.",
-          "Improves executive alignment but delays broader coordination and operational clarity.",
-          5,
+        "Meet privately with senior leaders first, then activate a formal response group to coordinate actions and messaging.",
+        "Improves executive alignment but delays broader coordination and operational clarity.",
+        5,
 
-          "Let IT and Security continue assessment before leadership steps in.",
-          "Avoids distraction but leaves a leadership vacuum during a critical early window.",
-          -5,
+        "Let IT and Security continue their assessment before leadership steps in, keeping technical focus but delaying broader coordination.",
+        "Avoids distraction but leaves a leadership vacuum during a critical early window.",
+        -5,
 
-          "Wait for external advisors before making coordination decisions.",
-          "Introduces delay and dilutes accountability at the most time-sensitive stage.",
-          -5
-        )
+        "Wait for external advisors to provide input before making coordination decisions, delaying action but seeking outside expertise.",
+        "Introduces delay and dilutes accountability at the most time-sensitive stage.",
+        -5
+      )
     ),
 
     q("CEO/SVPs",
       "If system restoration timelines remain uncertain, how should leadership frame ransom payment discussions?",
       buildChoices(
-        "Establish a decision framework involving legal, regulators, and law enforcement while prioritizing restoration without committing to payment.",
+        "Establish a decision framework with legal, regulators, and law enforcement, focusing on restoration but not committing to payment yet.",
         "Keeps options governed and defensible without signaling intent or panic.",
         10,
 
-        "Privately evaluate ransom payment feasibility as a contingency while continuing restoration efforts.",
+        "Privately evaluate ransom payment as a backup plan while restoration continues, keeping options open but risking internal confusion.",
         "Maintains optionality but risks internal leakage and moral hazard.",
         5,
 
-        "Authorize payment if restoration exceeds predefined time thresholds to minimize customer impact.",
+        "Authorize payment if restoration goes past set time thresholds to reduce customer impact, acting quickly but risking other issues.",
         "Creates false certainty and ignores legal, ethical, and recovery risks.",
         -5,
 
-        "Defer the decision entirely until technical teams confirm recovery success or failure.",
+        "Defer the decision until technical teams confirm recovery, waiting for clarity but risking rushed choices later on.",
         "Delays strategic planning and may force rushed decisions later.",
         -5
       )
@@ -87,19 +87,19 @@ const SCENARIO_RANSOMWARE = {
     q("CEO/SVPs",
       "What customer communication approach best balances transparency with operational uncertainty?",
       buildChoices(
-        "Acknowledge service disruption, share confirmed impacts, explain next steps, and commit to a predictable update cadence.",
+        "Acknowledge disruption, share confirmed impacts, explain next steps, and commit to regular updates for transparency and trust.",
         "Builds trust while avoiding speculation or overpromising.",
         10,
 
-        "Issue a brief holding statement indicating awareness and promising updates once details are confirmed.",
+        "Issue a brief holding statement to show awareness and promise updates once more details are confirmed and available.",
         "Reduces silence risk but may not sufficiently manage expectations.",
         5,
 
-        "Emphasize system security assurances without addressing service impacts to avoid alarm.",
+        "Emphasize system security assurances but avoid discussing service impacts, aiming to prevent alarm but risking credibility.",
         "Creates credibility gaps when customers experience disruptions firsthand.",
         -5,
 
-        "Delay external communication until restoration timelines are fully validated.",
+        "Delay external communication until restoration timelines are fully validated, waiting for certainty but increasing speculation.",
         "Increases speculation, call volume, and reputational damage.",
         -5
       )
