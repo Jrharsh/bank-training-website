@@ -45,22 +45,22 @@ const SCENARIO_RANSOMWARE = {
     q("CEO/SVPs",
       "In the first 30 minutes, which leadership action best stabilizes the situation while preserving flexibility?",
       buildChoices(
-        "Formally activate incident command, assign decision ownership, and issue an internal alignment message with a defined update cadence.",
-        "Creates structure and tempo without locking leadership into premature commitments.",
-        10,
+          "Activate incident command, assign ownership, and set an update cadence.",
+          "Creates structure and tempo without locking leadership into premature commitments.",
+          10,
 
-        "Convene senior leadership privately to align on strategy before activating formal response structures.",
-        "Improves executive alignment but delays broader coordination and operational clarity.",
-        5,
+          "Meet privately with senior leaders before activating a formal response.",
+          "Improves executive alignment but delays broader coordination and operational clarity.",
+          5,
 
-        "Allow IT and Security to continue assessment before leadership engages to avoid interfering with technical response.",
-        "Avoids distraction but leaves a leadership vacuum during a critical early window.",
-        -5,
+          "Let IT and Security continue assessment before leadership steps in.",
+          "Avoids distraction but leaves a leadership vacuum during a critical early window.",
+          -5,
 
-        "Engage external advisors immediately and defer coordination decisions until their recommendations are received.",
-        "Introduces delay and dilutes accountability at the most time-sensitive stage.",
-        -5
-      )
+          "Wait for external advisors before making coordination decisions.",
+          "Introduces delay and dilutes accountability at the most time-sensitive stage.",
+          -5
+        )
     ),
 
     q("CEO/SVPs",
