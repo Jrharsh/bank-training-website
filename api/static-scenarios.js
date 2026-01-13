@@ -1,3 +1,53 @@
+const SCENARIO_DATA_UNVERIFIABLE = {
+  key: "customer-data-correct-unverifiable",
+  title: "Customer Data Correct but Unverifiable",
+  description:
+    "Customers report incorrect balances and transaction histories. Internal systems appear consistent, but logs required to prove accuracy are incomplete due to a prior retention misconfiguration.",
+  questions: [
+    // CEO/SVPs
+    q("CEO/SVPs", "How should leadership address the trust vs truth dilemma with customers and regulators?", buildChoices(
+      "Acknowledge the evidence gap, explain the steps being taken to validate data, and offer transparent updates while committing to remediation if errors are found. Track all communications, monitor for trust and regulatory risk and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for trust and regulatory risk and effectiveness, and review for effectiveness after restoration.", "Builds trust and manages regulatory risk.", 10,
+      "Emphasize system consistency and assert data is correct, downplaying the lack of evidence. Track all communications, monitor for trust and regulatory risk and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for trust and regulatory risk and effectiveness, and review for effectiveness after restoration.", "May appear evasive and risk trust.", 5,
+      "Delay communication until more evidence is found, waiting for further investigation before addressing customers or regulators. Track all actions, monitor for trust and regulatory risk and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for trust and regulatory risk and effectiveness, and review for effectiveness after restoration.", "Increases speculation and anxiety.", -5,
+      "Deny any issues and refuse to discuss evidence gaps, insisting that all data is correct without explanation. Track all actions, monitor for trust and regulatory risk and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for trust and regulatory risk and effectiveness, and review for effectiveness after restoration.", "Destroys trust and increases regulatory scrutiny.", -5
+    )),
+    // IT/Security
+    q("IT/Security", "How should IT address logging gaps and validate data integrity?", buildChoices(
+      "Conduct a full review of available logs, use alternative validation methods, and document all findings and gaps. Communicate limitations to stakeholders and plan for future retention improvements. Track all actions, monitor for integrity and completeness and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for integrity and completeness and effectiveness, and review for effectiveness after restoration.", "Maximizes defensibility and transparency.", 10,
+      "Rely on system consistency checks alone, assuming data is correct if no discrepancies are found. Track all actions, monitor for integrity and completeness and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for integrity and completeness and effectiveness, and review for effectiveness after restoration.", "May miss hidden issues and reduce defensibility.", 5,
+      "Delay validation until more logs are recovered, postponing action in hopes of finding more evidence. Track all actions, monitor for integrity and completeness and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for integrity and completeness and effectiveness, and review for effectiveness after restoration.", "Delays resolution and increases risk.", -5,
+      "Ignore the logging gap and assert that all data is correct, refusing to investigate further. Track all actions, monitor for integrity and completeness and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for integrity and completeness and effectiveness, and review for effectiveness after restoration.", "Reduces trust and increases risk of findings.", -5
+    )),
+    // HR
+    q("HR", "How should HR address training gaps and staff stress from unverifiable data?", buildChoices(
+      "Provide targeted training on evidence handling, offer stress management resources, and clarify accountability expectations. Track all actions, monitor for staff readiness and stress reduction and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for staff readiness and stress reduction and effectiveness, and review for effectiveness after restoration.", "Improves readiness and reduces stress.", 10,
+      "Survey staff for feedback and make minor adjustments to training, updating only where issues are reported. Track all actions, monitor for staff readiness and stress reduction and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for staff readiness and stress reduction and effectiveness, and review for effectiveness after restoration.", "Some improvement but may miss systemic issues.", 5,
+      "Rely on existing training and assume staff are prepared, making no changes unless required. Track all actions, monitor for staff readiness and stress reduction and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for staff readiness and stress reduction and effectiveness, and review for effectiveness after restoration.", "Misses opportunity to address root causes.", -5,
+      "Blame staff for customer complaints and issue warnings, focusing on discipline rather than improvement. Track all actions, monitor for staff readiness and stress reduction and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for staff readiness and stress reduction and effectiveness, and review for effectiveness after restoration.", "Damages morale and increases turnover.", -5
+    )),
+    // Finance
+    q("Finance", "How should Finance estimate exposure without complete evidence?", buildChoices(
+      "Use available data, document all assumptions, and provide a range of possible exposures with clear caveats. Communicate limitations to leadership and regulators. Track all actions, monitor for accuracy and defensibility and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for accuracy and defensibility and effectiveness, and review for effectiveness after restoration.", "Balances accuracy and defensibility.", 10,
+      "Estimate exposure based on best guesses, updating numbers as new information emerges. Track all actions, monitor for accuracy and defensibility and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for accuracy and defensibility and effectiveness, and review for effectiveness after restoration.", "Some flexibility but may appear inconsistent.", 5,
+      "Deny any exposure exists without evidence, refusing to estimate or communicate possible impacts. Track all actions, monitor for accuracy and defensibility and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for accuracy and defensibility and effectiveness, and review for effectiveness after restoration.", "Risks regulatory findings and trust loss.", -5,
+      "Provide no estimates until all evidence is recovered, delaying communication indefinitely. Track all actions, monitor for accuracy and defensibility and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for accuracy and defensibility and effectiveness, and review for effectiveness after restoration.", "Increases anxiety and regulatory scrutiny.", -5
+    )),
+    // Loans
+    q("Loans", "How should Loans handle payoff accuracy and disputes with unverifiable data?", buildChoices(
+      "Review all available records, communicate limitations to customers, and offer remediation or escalation paths for disputes. Track all actions, monitor for accuracy and fairness and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for accuracy and fairness and effectiveness, and review for effectiveness after restoration.", "Ensures fairness and reduces repeat complaints.", 10,
+      "Allow each lender to decide how to handle disputes, providing general guidance but no standardization. Track all actions, monitor for accuracy and fairness and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for accuracy and fairness and effectiveness, and review for effectiveness after restoration.", "May create inconsistency and confusion.", 5,
+      "Remediate only when customers escalate, addressing issues reactively rather than proactively. Track all actions, monitor for accuracy and fairness and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for accuracy and fairness and effectiveness, and review for effectiveness after restoration.", "Misses silent or less vocal customers.", -5,
+      "Delay all action until evidence is complete, taking no steps to resolve disputes until more data is found. Track all actions, monitor for accuracy and fairness and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for accuracy and fairness and effectiveness, and review for effectiveness after restoration.", "Increases risk of findings and customer loss.", -5
+    )),
+    // Accounting
+    q("Accounting", "How should Accounting address audit trail sufficiency with incomplete logs?", buildChoices(
+      "Compile all available records, document gaps, and provide a clear explanation to auditors and regulators. Plan for future improvements in retention and evidence handling. Track all actions, monitor for completeness and defensibility and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for completeness and defensibility and effectiveness, and review for effectiveness after restoration.", "Supports defensibility and reduces findings.", 10,
+      "Provide only summary reports without supporting detail, limiting documentation to high-level overviews. Track all actions, monitor for completeness and defensibility and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for completeness and defensibility and effectiveness, and review for effectiveness after restoration.", "May raise questions about thoroughness.", 5,
+      "Delay documentation until specifically requested, taking no proactive steps. Track all actions, monitor for completeness and defensibility and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for completeness and defensibility and effectiveness, and review for effectiveness after restoration.", "Appears unprepared and reactive.", -5,
+      "Rely on verbal explanations instead of written records, providing only staff recollections. Track all actions, monitor for completeness and defensibility and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for completeness and defensibility and effectiveness, and review for effectiveness after restoration.", "Weakens audit trail and defensibility.", -5
+    )),
+  ]
+};
 const SCENARIO_REGULATORY_INQUIRY = {
   key: "regulatory-inquiry-customer-complaints",
   title: "Regulatory Inquiry Triggered by Customer Complaints",
@@ -1785,6 +1835,7 @@ const SCENARIOS = [
   SCENARIO_VENDOR_OUTAGE,
   SCENARIO_BACKUP_COMPROMISE,
   SCENARIO_REGULATORY_INQUIRY,
+  SCENARIO_DATA_UNVERIFIABLE,
   SCENARIO_INSIDER_FRAUD,
   SCENARIO_ACH_FAILURE
 ];
