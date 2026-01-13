@@ -1108,10 +1108,10 @@ const SCENARIO_BEC_WIRE = {
       "Downplay the incident externally regardless of impact, communicate minimal details to stakeholders, and focus on internal management while maintaining records of all decisions and communications.", "Trust damage and regulatory risk.", -5
     )),
     q("CEO/SVPs", "How should executive communications be coordinated?", buildChoices(
-      "Single spokesperson + consistent scripts for staff", "Avoids mixed messaging and reduces risk.", 10,
-      "Allow department heads to share updates with their teams only", "Internal alignment helps, but public messaging may still drift.", 5,
-      "Let each branch speak externally if asked", "Inconsistent and risky statements.", -5,
-      "No communications until investigation ends", "Rumors fill the vacuum.", -5
+      "Appoint a single spokesperson and provide consistent scripts for staff, ensuring all communications are aligned and every team receives the same information throughout the incident.", "Avoids mixed messaging and reduces risk.", 10,
+      "Allow department heads to share updates with their teams only, coordinating internal alignment and messaging while monitoring for any drift in public communications and addressing inconsistencies as needed.", "Internal alignment helps, but public messaging may still drift.", 5,
+      "Let each branch speak externally if asked, giving local teams the authority to communicate with stakeholders and customers, which may result in inconsistent and risky statements across the organization.", "Inconsistent and risky statements.", -5,
+      "Provide no communications until the investigation ends, withholding all updates and information from staff and stakeholders, which may allow rumors to fill the vacuum and increase uncertainty.", "Rumors fill the vacuum.", -5
     )),
     q("CEO/SVPs", "What priority should be set for customer remediation?", buildChoices(
       "Reach out to affected customers, provide guidance, and set up escalation.", "Trust-preserving and defensible.", 10,
