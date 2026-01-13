@@ -532,24 +532,24 @@ const SCENARIO_VENDOR_OUTAGE = {
       "Share admin credentials for faster triage among technical staff, allowing immediate access to all systems. Record who receives credentials, set temporary access controls, and plan to reset all credentials and audit access once the incident is resolved.", "Major control failure.", -5
     )),
     q("IT/Security", "How should you work with the vendor’s technical teams?", buildChoices(
-      "Establish real-time comms bridge, request telemetry, and align on rollback/restore steps", "Improves coordination and reduces surprises.", 10,
-      "Send occasional emails and wait for updates", "Too slow for an active incident.", 5,
-      "Publish vendor IOCs/details broadly to all staff", "Unnecessary exposure and confusion.", -5,
-      "Route all tech inquiries through branches", "Inefficient and noisy.", -5
+      "Establish a real-time communications bridge with the vendor’s technical teams, request detailed telemetry data, and align on rollback and restore steps. Schedule regular status updates, document all decisions, and ensure both sides have clear escalation paths for urgent issues.", "Improves coordination and reduces surprises.", 10,
+      "Send occasional emails to the vendor and wait for updates, keeping a log of all correspondence. Inform internal teams of expected delays, monitor for critical changes, and prepare to escalate if responses are not timely or sufficient for incident resolution.", "Too slow for an active incident.", 5,
+      "Publish vendor indicators of compromise (IOCs) and technical details broadly to all staff, including step-by-step instructions for identifying related issues. Track staff feedback, provide a channel for questions, and update documentation as new information becomes available.", "Unnecessary exposure and confusion.", -5,
+      "Route all technical inquiries through branch offices, instructing staff to collect and forward questions to a central team. Maintain a record of all inquiries, communicate response timelines, and follow up with branches to ensure information is distributed accurately.", "Inefficient and noisy.", -5
     )),
     q("IT/Security", "How do you protect data integrity during backlog posting?", buildChoices(
-      "Stage recovery with canary validation and reconciliations before full catch-up", "Reduces error and duplicate posting risk.", 10,
-      "Post everything at once and fix later", "High risk of breaks and customer impact.", 5,
-      "Let branches manually enter transactions to help", "Inconsistent and risky; audit issues.", -5,
-      "Silence alerts during backlog so dashboards look green", "Masks risk and delays detection.", -5
+      "Stage recovery with canary validation and reconciliations before full catch-up, testing a small sample of transactions first. Document all validation steps, monitor for discrepancies, and only proceed to full posting once accuracy is confirmed and reconciliation is complete.", "Reduces error and duplicate posting risk.", 10,
+      "Post everything at once and fix later, prioritizing speed over accuracy. Track all posted transactions, prepare a plan for identifying and correcting errors, and communicate to stakeholders about the risks and expected follow-up actions.", "High risk of breaks and customer impact.", 5,
+      "Let branches manually enter transactions to help with backlog, providing detailed instructions and temporary access. Monitor for inconsistencies, audit all manual entries, and plan for a comprehensive review and correction process after the backlog is cleared.", "Inconsistent and risky; audit issues.", -5,
+      "Silence alerts during backlog so dashboards look green, suppressing notifications to reduce perceived risk. Keep a record of all suppressed alerts, inform relevant teams, and ensure that a full review of system health is conducted once normal operations resume.", "Masks risk and delays detection.", -5
     )),
 
     // HR (3)
     q("HR", "How do you support front-line staffing during the outage?", buildChoices(
-      "Surge staffing/rotation, de-escalation scripts, and scheduled breaks", "Improves safety and service quality.", 10,
-      "Keep normal staffing and hope traffic subsides", "Burnout and longer lines.", 5,
-      "Forbid breaks during the outage", "Unsafe and counterproductive.", -5,
-      "Send staff home to reduce friction", "Service failure and longer recovery.", -5
+      "Implement surge staffing and rotation schedules for front-line employees, provide de-escalation scripts for handling customer frustration, and ensure scheduled breaks are enforced. Track staff well-being, adjust staffing levels as needed, and communicate support resources throughout the outage.", "Improves safety and service quality.", 10,
+      "Keep normal staffing levels and hope traffic subsides, maintaining standard shift patterns. Monitor employee stress and customer wait times, offer encouragement, and prepare to make adjustments if conditions worsen or service quality declines.", "Burnout and longer lines.", 5,
+      "Forbid breaks during the outage to maximize staff availability, instructing employees to remain at their stations. Monitor for signs of fatigue and stress, document any incidents, and plan to address staff well-being after the outage is resolved.", "Unsafe and counterproductive.", -5,
+      "Send staff home to reduce friction and minimize on-site issues, maintaining only essential personnel. Communicate the rationale to all employees, track service impacts, and prepare a plan for rapid re-staffing once normal operations resume.", "Service failure and longer recovery.", -5
     )),
     q("HR", "What internal guidance should staff receive about discussing the vendor?", buildChoices(
       "Use approved scripts; avoid speculation; refer questions to official status updates", "Consistent, defensible comms.", 10,
@@ -566,10 +566,10 @@ const SCENARIO_VENDOR_OUTAGE = {
 
     // Finance (3)
     q("Finance", "What should Finance monitor first?", buildChoices(
-      "Liquidity, settlement exposure, and cash logistics with increased cadence", "Avoids surprises and supports decisions.", 10,
-      "Maintain normal reporting cadence only", "Too slow for an outage.", 5,
-      "Stop cash orders to save costs", "Harms service and access.", -5,
-      "Ignore exposure until restoration", "Governance failure.", -5
+      "Monitor liquidity, settlement exposure, and cash logistics with increased cadence, reviewing balances and transaction flows frequently. Document all findings, communicate risks to leadership, and adjust monitoring protocols as the outage evolves to avoid surprises and support decision-making.", "Avoids surprises and supports decisions.", 10,
+      "Maintain normal reporting cadence only, continuing with standard schedules and procedures. Track any delays or discrepancies, inform stakeholders of routine updates, and prepare to escalate if issues arise that require more frequent attention.", "Too slow for an outage.", 5,
+      "Stop cash orders to save costs during the outage, suspending new requests and communicating the change to branches. Monitor for service impacts, record any access issues, and plan to resume normal operations once stability is restored.", "Harms service and access.", -5,
+      "Ignore exposure until restoration, focusing on other priorities during the outage. Document the rationale for this approach, track any resulting risks, and prepare a post-restoration review to address any missed exposures or governance failures.", "Governance failure.", -5
     )),
     q("Finance", "How do you handle incident spend and credits?", buildChoices(
       "Create incident cost center; track vendor credits/SLA claims with documentation", "Audit-ready and recovers value.", 10,
@@ -586,62 +586,62 @@ const SCENARIO_VENDOR_OUTAGE = {
 
     // Loans (3)
     q("Loans", "How do you handle time-sensitive loan disbursements if core is degraded?", buildChoices(
-      "Use manual playbook with dual control and evidence until systems return", "Balances service and control.", 10,
-      "Pause all disbursements broadly", "Customer harm and reputational impact.", 5,
-      "Proceed via email-only approvals", "Weak evidence and fraud risk.", -5,
-      "Let lenders bypass controls case-by-case", "Compliance failure.", -5
+      "Use a manual playbook with dual control and evidence for each disbursement until systems return, documenting every step and ensuring oversight. Communicate the process to all stakeholders and review transactions for compliance once systems are restored.", "Balances service and control.", 10,
+      "Pause all disbursements broadly, notifying customers of the delay and tracking all pending requests. Prepare a plan for rapid processing once systems are operational, and monitor for reputational impacts during the outage.", "Customer harm and reputational impact.", 5,
+      "Proceed via email-only approvals, collecting all necessary documentation electronically and maintaining a log of approvals. Communicate risks to staff, monitor for fraud, and plan to audit all transactions after the outage.", "Weak evidence and fraud risk.", -5,
+      "Let lenders bypass controls on a case-by-case basis, allowing discretion for urgent needs. Record all exceptions, communicate the rationale to compliance teams, and review for policy violations once normal operations resume.", "Compliance failure.", -5
     )),
     q("Loans", "How should rate-lock/closing timelines be managed?", buildChoices(
-      "Proactively communicate impacts with alternatives and document exceptions", "Reduces complaints and preserves trust.", 10,
-      "Promise on-time closings regardless", "Sets unrealistic expectations.", 5,
-      "Avoid discussing delays to reduce panic", "Backfires when delays occur.", -5,
-      "Ask borrowers to sign blank forms to finish later", "High compliance risk.", -5
+      "Proactively communicate impacts to borrowers, offer alternatives, and document all exceptions to standard timelines. Track customer feedback, update staff on procedures, and review all cases for compliance after the outage.", "Reduces complaints and preserves trust.", 10,
+      "Promise on-time closings regardless of the outage, reassuring borrowers and staff. Monitor for missed deadlines, document any issues, and prepare to address complaints or reputational risks if expectations are not met.", "Sets unrealistic expectations.", 5,
+      "Avoid discussing delays to reduce panic, instructing staff to minimize mention of timing issues. Track customer reactions, document any confusion, and plan to clarify procedures once normal operations resume.", "Backfires when delays occur.", -5,
+      "Ask borrowers to sign blank forms to finish later, expediting the process during the outage. Record all instances, communicate risks to compliance, and review for legal or regulatory issues after restoration.", "High compliance risk.", -5
     )),
     q("Loans", "What control applies to document handling during manual work?", buildChoices(
-      "Secure storage, role-based access, and exception logging", "Preserves privacy and audit trail.", 10,
-      "Allow personal email for speed", "Privacy and policy breach.", 5,
-      "Share credentials to keep work moving", "Segregation failure.", -5,
-      "Disable logging temporarily", "Evidence loss.", -5
+      "Use secure storage, role-based access, and exception logging for all documents handled manually, tracking every access and change. Communicate procedures to staff, review logs regularly, and audit all manual work after the outage.", "Preserves privacy and audit trail.", 10,
+      "Allow personal email for speed, instructing staff to use their own accounts for document transfer. Track all communications, inform compliance of the approach, and plan to review for privacy or policy breaches after restoration.", "Privacy and policy breach.", 5,
+      "Share credentials to keep work moving, providing access to necessary systems for all involved. Record who receives credentials, monitor for segregation failures, and reset all access once normal operations resume.", "Segregation failure.", -5,
+      "Disable logging temporarily to reduce system load, suspending record-keeping for manual work. Document the rationale, inform relevant teams, and plan to restore logging and review for evidence loss after the outage.", "Evidence loss.", -5
     )),
 
     // Accounting (3)
     q("Accounting", "How should posting delays be reflected in reporting?", buildChoices(
-      "Provisional reporting with enhanced reconciliations and documentation", "Transparent and controlled.", 10,
-      "Report estimates without notes to avoid questions", "Misleading to stakeholders.", 5,
-      "Skip reconciliations until month-end", "Breaks and misstatements likely.", -5,
-      "Smooth entries to hide outage impact", "Ethics and audit risk.", -5
+      "Use provisional reporting with enhanced reconciliations and thorough documentation for all posting delays, noting the reasons and impacts. Communicate updates to stakeholders, review for accuracy, and ensure transparency throughout the outage period.", "Transparent and controlled.", 10,
+      "Report estimates without notes to avoid questions, providing summary figures only. Track any discrepancies, prepare to address stakeholder concerns, and plan to update reports with full details once the outage is resolved.", "Misleading to stakeholders.", 5,
+      "Skip reconciliations until month-end, postponing all review and adjustment activities. Document the rationale, monitor for misstatements, and prepare for a comprehensive reconciliation process after restoration.", "Breaks and misstatements likely.", -5,
+      "Smooth entries to hide outage impact, adjusting figures to minimize visible effects. Record all changes, inform relevant teams, and review for ethics and audit risks once normal operations resume.", "Ethics and audit risk.", -5
     )),
     q("Accounting", "What reconciliations are top priority after restoration?", buildChoices(
-      "Cash, suspense accounts, and inter-system breaks from backlog posting", "Targets material risk first.", 10,
-      "Cash only; do others later", "Partial coverage.", 5,
-      "None; assume vendor caught everything", "Risk of undetected breaks.", -5,
-      "Manual overrides with no logs", "Audit trail failure.", -5
+      "Reconcile cash, suspense accounts, and inter-system breaks from backlog posting first, documenting all findings and actions. Communicate priorities to the team, track progress, and review for material risks before moving to other reconciliations.", "Targets material risk first.", 10,
+      "Reconcile cash only and do others later, focusing initial efforts on liquid assets. Document the approach, monitor for issues in other accounts, and plan to address remaining reconciliations as resources allow.", "Partial coverage.", 5,
+      "Do not perform any reconciliations, assuming the vendor caught everything. Record the rationale, communicate the decision to stakeholders, and prepare to review for undetected breaks if issues arise.", "Risk of undetected breaks.", -5,
+      "Use manual overrides with no logs, making adjustments without record-keeping. Track any changes made, inform relevant teams, and plan to restore proper audit trails after the outage.", "Audit trail failure.", -5
     )),
     q("Accounting", "How do you preserve evidence during manual processing?", buildChoices(
-      "Central log of approvals/changes with links to artifacts", "Defensible and consistent.", 10,
-      "Email threads collected later", "Messy and incomplete.", 5,
-      "Verbal approvals only", "Weak evidence.", -5,
-      "Delete drafts and notes to reduce clutter", "Regulatory risk.", -5
+      "Maintain a central log of all approvals and changes during manual processing, including links to supporting artifacts. Communicate procedures to staff, review logs regularly, and ensure consistency and defensibility for future audits.", "Defensible and consistent.", 10,
+      "Collect email threads later to document manual processing, instructing staff to save relevant communications. Track completeness, inform compliance of the approach, and review for gaps after restoration.", "Messy and incomplete.", 5,
+      "Use verbal approvals only, allowing decisions to be made without written records. Monitor for weak evidence, document any issues, and plan to strengthen approval processes once normal operations resume.", "Weak evidence.", -5,
+      "Delete drafts and notes to reduce clutter, removing interim documentation during manual work. Record the rationale, inform relevant teams, and review for regulatory risks after the outage.", "Regulatory risk.", -5
     )),
 
     // Deposits (3)
     q("Deposits", "What should branches tell customers about delayed postings?", buildChoices(
-      "Use scripts: what’s impacted, what customers can do, and where to check status", "Consistent and practical guidance.", 10,
-      "Say \"everything is fine\" to avoid panic", "Credibility risk when delays are visible.", 5,
-      "Blame vendor staff by name", "Unprofessional and risky.", -5,
-      "Share internal emails as proof", "Inappropriate and risky.", -5
+      "Use approved scripts to explain what’s impacted, what customers can do, and where to check status updates. Document all customer interactions, provide consistent guidance, and escalate complex cases as needed to maintain trust and clarity.", "Consistent and practical guidance.", 10,
+      "Say \"everything is fine\" to avoid panic, reassuring customers without providing details. Track customer reactions, prepare to address concerns if delays become visible, and review communication strategy after the outage.", "Credibility risk when delays are visible.", 5,
+      "Blame vendor staff by name when discussing delays, identifying individuals responsible. Record all such communications, inform management of the approach, and review for professionalism and risk after restoration.", "Unprofessional and risky.", -5,
+      "Share internal emails as proof of the situation, providing customers with behind-the-scenes information. Document what is shared, communicate risks to staff, and review for appropriateness and confidentiality after the outage.", "Inappropriate and risky.", -5
     )),
     q("Deposits", "How should holds/fees be handled fairly during the outage?", buildChoices(
-      "Temporary policy with clear criteria and escalation path", "Balances fairness and control.", 10,
-      "Waive everything universally", "Unsustainable and may create abuse.", 5,
-      "No waivers under any condition", "Customer harm and complaints.", -5,
-      "Different rules per branch", "Inconsistent and risky.", -5
+      "Implement a temporary policy with clear criteria and an escalation path for handling holds and fees during the outage. Communicate the policy to all branches, track exceptions, and review for fairness and consistency after restoration.", "Balances fairness and control.", 10,
+      "Waive all holds and fees universally, applying the same approach to every customer. Document the rationale, monitor for abuse, and prepare to adjust the policy if it becomes unsustainable.", "Unsustainable and may create abuse.", 5,
+      "Do not allow waivers under any condition, enforcing standard rules throughout the outage. Track customer complaints, document the impact, and review for reputational risks after normal operations resume.", "Customer harm and complaints.", -5,
+      "Apply different rules per branch, allowing each location to decide how to handle holds and fees. Record all decisions, monitor for inconsistencies, and review for fairness and risk after the outage.", "Inconsistent and risky.", -5
     )),
     q("Deposits", "What update cadence reduces call volume most effectively?", buildChoices(
-      "Regular status cadence with factual progress and ETAs when verified", "Predictable and trust-building.", 10,
-      "Update only when there’s big news", "Less predictable; more calls.", 5,
-      "Constant unvetted updates from multiple staff", "Noise and errors.", -5,
-      "Internal-only updates", "Customers remain uninformed.", -5
+      "Provide regular status updates with factual progress and verified ETAs, communicating predictably to customers. Track call volume, adjust cadence as needed, and review effectiveness after the outage.", "Predictable and trust-building.", 10,
+      "Update customers only when there’s big news, limiting communications to major developments. Monitor for increased call volume, document customer feedback, and review the strategy for future incidents.", "Less predictable; more calls.", 5,
+      "Allow constant unvetted updates from multiple staff, sharing information as it becomes available. Track errors and confusion, inform management of issues, and plan to centralize communications after restoration.", "Noise and errors.", -5,
+      "Share internal-only updates, keeping customers uninformed during the outage. Record the rationale, monitor for customer frustration, and review for service impacts after normal operations resume.", "Customers remain uninformed.", -5
     )),
   ]
 };
