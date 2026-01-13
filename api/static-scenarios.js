@@ -1452,10 +1452,10 @@ const SCENARIO_WEATHER = {
       "No reassignments", "Service gaps.", -5
     )),
     q("HR", "How should employee communications run during the storm?", buildChoices(
-      "Scheduled updates via official channels", "Predictable and clear.", 10,
-      "Manager texts only", "Fragmented and inconsistent.", 5,
-      "Public posts by employees", "Unvetted info risk.", -5,
-      "Silence", "Rumors and anxiety.", -5
+      "Provide scheduled updates via official channels, ensuring all employees receive consistent, timely, and accurate information about the storm and its impact on operations.", "Predictable and clear.", 10,
+      "Allow managers to send text updates to their teams as needed, giving flexibility but risking fragmented and inconsistent communication across different departments and locations.", "Fragmented and inconsistent.", 5,
+      "Permit employees to make public posts about the situation, encouraging real-time sharing but increasing the risk of unvetted information and potential confusion among staff and customers.", "Unvetted info risk.", -5,
+      "Maintain complete silence regarding the storm, withholding all updates and information, which may lead to rumors, anxiety, and a lack of clarity for employees during the incident.", "Rumors and anxiety.", -5
     )),
 
     // Finance (3)
