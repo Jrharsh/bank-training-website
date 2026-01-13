@@ -43,42 +43,42 @@ const SCENARIO_RANSOMWARE = {
     /* ================= CEO / SVPs ================= */
 
     q("CEO/SVPs",
-      "In the first 30 minutes, which leadership action best stabilizes the situation while preserving flexibility?",
-      buildChoices(
-        "Activate incident command, assign roles to key leaders, and set a regular cadence for updates to ensure everyone is aligned and the response is structured and effective throughout the incident. Track all actions, monitor for alignment, and review for effectiveness after restoration.",
-        "Creates structure and tempo without locking leadership into premature commitments.",
-        10,
+        "In the first 30 minutes, which leadership action best stabilizes the situation while preserving flexibility?",
+        buildChoices(
+          "Activate incident command, assign roles to key leaders, and set a regular cadence for updates to ensure everyone is aligned and the response is structured and effective throughout the incident. Track all actions, monitor for alignment and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for alignment and effectiveness, and review for effectiveness after restoration.",
+          "Creates structure and tempo without locking leadership into premature commitments.",
+          10,
 
-        "Meet privately with senior leaders first, then activate a formal response group to coordinate actions and messaging, ensuring all departments are represented and communication is consistent across the organization. Track all meetings, monitor for coordination, and review for effectiveness after restoration.",
-        "Improves executive alignment but delays broader coordination and operational clarity.",
-        5,
+          "Meet privately with senior leaders first, then activate a formal response group to coordinate actions and messaging, ensuring all departments are represented and communication is consistent across the organization. Track all meetings, monitor for coordination and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for alignment and effectiveness, and review for effectiveness after restoration.",
+          "Improves executive alignment but delays broader coordination and operational clarity.",
+          5,
 
-        "Let IT and Security continue their assessment before leadership steps in, keeping technical focus but delaying broader coordination, which may result in slower decision-making and less clarity for other teams involved. Track all assessments, monitor for decision-making speed, and review for effectiveness after restoration.",
-        "Avoids distraction but leaves a leadership vacuum during a critical early window.",
-        -5,
+          "Let IT and Security continue their assessment before leadership steps in, keeping technical focus but delaying broader coordination, which may result in slower decision-making and less clarity for other teams involved. Track all assessments, monitor for decision-making speed and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for alignment and effectiveness, and review for effectiveness after restoration.",
+          "Avoids distraction but leaves a leadership vacuum during a critical early window.",
+          -5,
 
-        "Wait for external advisors to provide input before making coordination decisions, delaying action but seeking outside expertise, which could slow down the response and create uncertainty among staff and stakeholders. Track all advice, monitor for delays, and review for effectiveness after restoration.",
-        "Introduces delay and dilutes accountability at the most time-sensitive stage.",
-        -5
-      )
+          "Wait for external advisors to provide input before making coordination decisions, delaying action but seeking outside expertise, which could slow down the response and create uncertainty among staff and stakeholders. Track all advice, monitor for delays and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for alignment and effectiveness, and review for effectiveness after restoration.",
+          "Introduces delay and dilutes accountability at the most time-sensitive stage.",
+          -5
+        )
     ),
 
     q("CEO/SVPs",
       "If system restoration timelines remain uncertain, how should leadership frame ransom payment discussions?",
       buildChoices(
-        "Establish a decision framework with legal, regulators, and law enforcement, focusing on restoration but not committing to payment yet. Track all discussions, monitor for governance, and review for effectiveness after restoration.",
+        "Establish a decision framework with legal, regulators, and law enforcement, focusing on restoration but not committing to payment yet. Track all discussions, monitor for governance and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for governance and effectiveness, and review for effectiveness after restoration.",
         "Keeps options governed and defensible without signaling intent or panic.",
         10,
 
-        "Privately evaluate ransom payment as a backup plan while restoration continues, keeping options open but risking internal confusion. Track all evaluations, monitor for leakage, and review for effectiveness after restoration.",
+        "Privately evaluate ransom payment as a backup plan while restoration continues, keeping options open but risking internal confusion. Track all evaluations, monitor for leakage and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for governance and effectiveness, and review for effectiveness after restoration.",
         "Maintains optionality but risks internal leakage and moral hazard.",
         5,
 
-        "Authorize payment if restoration goes past set time thresholds to reduce customer impact, acting quickly but risking other issues. Track all authorizations, monitor for risks, and review for effectiveness after restoration.",
+        "Authorize payment if restoration goes past set time thresholds to reduce customer impact, acting quickly but risking other issues. Track all authorizations, monitor for risks and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for governance and effectiveness, and review for effectiveness after restoration.",
         "Creates false certainty and ignores legal, ethical, and recovery risks.",
         -5,
 
-        "Defer the decision until technical teams confirm recovery, waiting for clarity but risking rushed choices later on. Track all decisions, monitor for planning delays, and review for effectiveness after restoration.",
+        "Defer the decision until technical teams confirm recovery, waiting for clarity but risking rushed choices later on. Track all decisions, monitor for planning delays and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for governance and effectiveness, and review for effectiveness after restoration.",
         "Delays strategic planning and may force rushed decisions later.",
         -5
       )
@@ -87,19 +87,19 @@ const SCENARIO_RANSOMWARE = {
     q("CEO/SVPs",
       "What customer communication approach best balances transparency with operational uncertainty?",
       buildChoices(
-        "Acknowledge disruption, share confirmed impacts, explain next steps, and commit to regular updates for transparency and trust. Track all communications, monitor for trust and transparency, and review for effectiveness after restoration.",
+        "Acknowledge disruption, share confirmed impacts, explain next steps, and commit to regular updates for transparency and trust. Track all communications, monitor for trust and transparency and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for trust and transparency and effectiveness, and review for effectiveness after restoration.",
         "Builds trust while avoiding speculation or overpromising.",
         10,
 
-        "Issue a brief holding statement to show awareness and promise updates once more details are confirmed and available. Track all statements, monitor for expectation management, and review for effectiveness after restoration.",
+        "Issue a brief holding statement to show awareness and promise updates once more details are confirmed and available. Track all statements, monitor for expectation management and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for trust and transparency and effectiveness, and review for effectiveness after restoration.",
         "Reduces silence risk but may not sufficiently manage expectations.",
         5,
 
-        "Emphasize system security assurances but avoid discussing service impacts, aiming to prevent alarm but risking credibility. Track all assurances, monitor for credibility gaps, and review for effectiveness after restoration.",
+        "Emphasize system security assurances but avoid discussing service impacts, aiming to prevent alarm but risking credibility. Track all assurances, monitor for credibility gaps and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for trust and transparency and effectiveness, and review for effectiveness after restoration.",
         "Creates credibility gaps when customers experience disruptions firsthand.",
         -5,
 
-        "Delay external communication until restoration timelines are fully validated, waiting for certainty but increasing speculation. Track all delays, monitor for speculation and reputational damage, and review for effectiveness after restoration.",
+        "Delay external communication until restoration timelines are fully validated, waiting for certainty but increasing speculation. Track all delays, monitor for speculation and reputational damage and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for trust and transparency and effectiveness, and review for effectiveness after restoration.",
         "Increases speculation, call volume, and reputational damage.",
         -5
       )
