@@ -518,10 +518,10 @@ const SCENARIO_VENDOR_OUTAGE = {
       "Share detailed vendor contracts publicly", "Not appropriate; legal and reputational risks.", -5
     )),
     q("CEO/SVPs", "How do you approach regulatory notification thresholds?", buildChoices(
-      "Assess materiality (channels, duration, customers) and consult counsel to trigger thresholds", "Defensible governance; avoids late or unnecessary filings.", 10,
-      "Notify all regulators immediately for any outage", "May be premature and create noise.", 5,
-      "Ignore thresholds until customers complain widely", "Reactive and risky.", -5,
-      "Let vendor notify regulators on your behalf", "You own the relationship and obligations.", -5
+      "Notify the primary regulator promptly, providing a detailed summary of facts, impacts, and a remediation plan to ensure transparency and compliance throughout the process.", "Defensible governance; avoids late or unnecessary filings.", 10,
+      "Choose not to notify regulators in order to avoid additional scrutiny, even if the situation escalates and more information becomes available over time.", "Reactive and risky.", -5,
+      "Immediately blame third parties for the incident and send notifications to regulators, focusing on shifting responsibility rather than addressing the core issues directly.", "May be premature and create noise.", 5,
+      "Wait to notify regulators until there are widespread customer complaints, then provide a summary of the situation and actions taken, regardless of earlier developments.", "You own the relationship and obligations.", -5
     )),
 
     // IT/Security (3)
