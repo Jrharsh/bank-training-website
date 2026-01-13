@@ -370,19 +370,19 @@ const SCENARIO_RANSOMWARE = {
     q("Accounting",
       "How should accounting address incomplete or delayed data?",
       buildChoices(
-        "Perform provisional reporting with enhanced reconciliations and documented adjustments. Track all reporting, monitor for transparency and control, and review for effectiveness after restoration.",
+        "Perform provisional reporting with enhanced reconciliations and documented adjustments. Track all reporting, monitor for transparency and control, and review for effectiveness after restoration. Track all actions, monitor for transparency and control, and review for effectiveness after restoration.",
         "Maintains transparency and control.",
         10,
 
-        "Delay close briefly while reconciling only material accounts. Track all delays, monitor for control and documentation, and review for effectiveness after restoration.",
+        "Delay close briefly while reconciling only material accounts. Track all delays, monitor for control and documentation and effectiveness, and review for effectiveness after restoration.",
         "Reasonable if controlled and documented.",
         5,
 
-        "Skip reconciliations to close on time. Track all skips, monitor for misstatement risk, and review for effectiveness after restoration.",
+        "Skip reconciliations to close on time. Track all skips, monitor for misstatement risk and effectiveness, and review for effectiveness after restoration.",
         "Increases misstatement risk.",
         -5,
 
-        "Adjust entries to smooth disruption impact. Track all adjustments, monitor for ethical and audit violations, and review for effectiveness after restoration.",
+        "Adjust entries to smooth disruption impact. Track all adjustments, monitor for ethical and audit violations and effectiveness, and review for effectiveness after restoration.",
         "Ethical and audit violations.",
         -5
       )
@@ -391,19 +391,19 @@ const SCENARIO_RANSOMWARE = {
     q("Accounting",
       "Which reconciliations should take priority during recovery?",
       buildChoices(
-        "Cash, customer balances, and inter-system differences. Track all reconciliations, monitor for financial risk, and review for effectiveness after restoration.",
+        "Cash, customer balances, and inter-system differences. Track all reconciliations, monitor for financial risk and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for financial risk and effectiveness, and review for effectiveness after restoration.",
         "Targets highest financial risk.",
         10,
 
-        "Cash accounts only initially. Track all reconciliations, monitor for risk coverage, and review for effectiveness after restoration.",
+        "Cash accounts only initially. Track all reconciliations, monitor for risk coverage and effectiveness, and review for effectiveness after restoration.",
         "Partial risk coverage.",
         5,
 
-        "Focus on non-material accounts to show progress. Track all accounts, monitor for exposure, and review for effectiveness after restoration.",
+        "Focus on non-material accounts to show progress. Track all accounts, monitor for exposure and effectiveness, and review for effectiveness after restoration.",
         "Misses real exposure.",
         -5,
 
-        "Allow undocumented overrides to speed reconciliation. Track all overrides, monitor for audit trail, and review for effectiveness after restoration.",
+        "Allow undocumented overrides to speed reconciliation. Track all overrides, monitor for audit trail and effectiveness, and review for effectiveness after restoration.",
         "Destroys audit trail.",
         -5
       )
@@ -412,19 +412,19 @@ const SCENARIO_RANSOMWARE = {
     q("Accounting",
       "How can audit trail be preserved during manual workarounds?",
       buildChoices(
-        "Centralized logs with approvals and retained evidence. Track all logs, monitor for defensibility, and review for effectiveness after restoration.",
+        "Centralized logs with approvals and retained evidence. Track all logs, monitor for defensibility and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for defensibility and effectiveness, and review for effectiveness after restoration.",
         "Defensible for examiners and auditors.",
         10,
 
-        "Email approvals retained by managers. Track all approvals, monitor for evidence and audit difficulty, and review for effectiveness after restoration.",
+        "Email approvals retained by managers. Track all approvals, monitor for evidence and audit difficulty and effectiveness, and review for effectiveness after restoration.",
         "Provides evidence but is difficult to audit.",
         5,
 
-        "Suspend logging to reduce administrative burden. Track all suspensions, monitor for traceability, and review for effectiveness after restoration.",
+        "Suspend logging to reduce administrative burden. Track all suspensions, monitor for traceability and effectiveness, and review for effectiveness after restoration.",
         "Eliminates traceability.",
         -5,
 
-        "Share credentials to simplify access. Track all sharing, monitor for segregation of duties, and review for effectiveness after restoration.",
+        "Share credentials to simplify access. Track all sharing, monitor for segregation of duties and effectiveness, and review for effectiveness after restoration.",
         "Breaks segregation of duties.",
         -5
       )
@@ -435,19 +435,19 @@ const SCENARIO_RANSOMWARE = {
     q("Deposits",
       "How should customer access be preserved during online banking disruption?",
       buildChoices(
-        "Implement branch and ATM continuity plans with scripts and regular updates. Track all plans, monitor for access and trust, and review for effectiveness after restoration.",
+        "Implement branch and ATM continuity plans with scripts and regular updates. Track all plans, monitor for access and trust and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for access and trust and effectiveness, and review for effectiveness after restoration.",
         "Maintains access and trust.",
         10,
 
-        "Focus on ATM access with limited branch support. Track all access, monitor for support and partial access, and review for effectiveness after restoration.",
+        "Focus on ATM access with limited branch support. Track all access, monitor for support and partial access and effectiveness, and review for effectiveness after restoration.",
         "Provides partial access.",
         5,
 
-        "Suspend all access until systems are stable. Track all suspensions, monitor for panic and reputational damage, and review for effectiveness after restoration.",
+        "Suspend all access until systems are stable. Track all suspensions, monitor for panic and reputational damage and effectiveness, and review for effectiveness after restoration.",
         "Triggers panic and reputational damage.",
         -5,
 
-        "Allow customers to discover outages without communication. Track all communications, monitor for complaints and confusion, and review for effectiveness after restoration.",
+        "Allow customers to discover outages without communication. Track all communications, monitor for complaints and confusion and effectiveness, and review for effectiveness after restoration.",
         "Increases complaints and confusion.",
         -5
       )
@@ -456,19 +456,19 @@ const SCENARIO_RANSOMWARE = {
     q("Deposits",
       "What withdrawal policy best balances liquidity and fairness?",
       buildChoices(
-        "Temporary limits with clear explanations and escalation paths. Track all limits, monitor for risk and trust, and review for effectiveness after restoration.",
+        "Temporary limits with clear explanations and escalation paths. Track all limits, monitor for risk and trust and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for risk and trust and effectiveness, and review for effectiveness after restoration.",
         "Controls risk while maintaining trust.",
         10,
 
-        "Restrict only unusually large withdrawals. Track all restrictions, monitor for risk and consistency, and review for effectiveness after restoration.",
+        "Restrict only unusually large withdrawals. Track all restrictions, monitor for risk and consistency and effectiveness, and review for effectiveness after restoration.",
         "Reduces some risk but lacks consistency.",
         5,
 
-        "Permit unlimited withdrawals to avoid complaints. Track all withdrawals, monitor for liquidity risk, and review for effectiveness after restoration.",
+        "Permit unlimited withdrawals to avoid complaints. Track all withdrawals, monitor for liquidity risk and effectiveness, and review for effectiveness after restoration.",
         "Liquidity risk escalates.",
         -5,
 
-        "Allow each branch to set its own rules. Track all rules, monitor for inconsistency and escalation, and review for effectiveness after restoration.",
+        "Allow each branch to set its own rules. Track all rules, monitor for inconsistency and escalation and effectiveness, and review for effectiveness after restoration.",
         "Creates inconsistency and escalation.",
         -5
       )
@@ -477,19 +477,19 @@ const SCENARIO_RANSOMWARE = {
     q("Deposits",
       "How often should public status updates be issued?",
       buildChoices(
-        "At a predictable cadence with verified information and next steps. Track all updates, monitor for speculation and call volume, and review for effectiveness after restoration.",
+        "At a predictable cadence with verified information and next steps. Track all updates, monitor for speculation and call volume and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for speculation and call volume and effectiveness, and review for effectiveness after restoration.",
         "Reduces speculation and call volume.",
         10,
 
-        "Only when major milestones occur. Track all milestones, monitor for predictability and silence, and review for effectiveness after restoration.",
+        "Only when major milestones occur. Track all milestones, monitor for predictability and silence and effectiveness, and review for effectiveness after restoration.",
         "Less predictable but better than silence.",
         5,
 
-        "Continuously as staff learn new information. Track all updates, monitor for confusion and misinformation, and review for effectiveness after restoration.",
+        "Continuously as staff learn new information. Track all updates, monitor for confusion and misinformation and effectiveness, and review for effectiveness after restoration.",
         "Creates confusion and misinformation.",
         -5,
 
-        "Restrict updates to internal audiences only. Track all restrictions, monitor for customer information, and review for effectiveness after restoration.",
+        "Restrict updates to internal audiences only. Track all restrictions, monitor for customer information and effectiveness, and review for effectiveness after restoration.",
         "Leaves customers uninformed.",
         -5
       )
@@ -804,102 +804,102 @@ const SCENARIO_ACH_FAILURE = {
   questions: [
     // CEO/SVPs (3)
     q("CEO/SVPs", "What is leadership’s immediate posture in the first hour?", buildChoices(
-      "Activate incident governance with the Payments Ops lead, Legal/Compliance, and Communications, ensuring all decisions are aligned and regulatory and customer actions proceed in sync. Document every step, communicate the plan to stakeholders, and monitor for new developments throughout the first hour.", "Aligns decisions, ensures regulatory and customer actions proceed in sync.", 10,
-      "Let Operations fix it quietly and avoid formal activation to reduce attention, allowing the team to work without cross-functional coordination. Track all actions, monitor for increased risk, and prepare to escalate if the situation worsens or new issues arise.", "Slows cross-functional coordination and increases risk.", 5,
-      "Publicly blame a vendor before confirming details, issuing statements to staff and customers. Record the rationale, communicate risks to management, and review for premature or risky impacts after the incident.", "Premature and risky.", -5,
-      "Wait for customers to complain before acting, pausing all response until external reports are received. Document the rationale, monitor for trust impacts, and review for missed opportunities after restoration.", "Reactive and harmful to trust.", -5
+      "Activate incident governance with the Payments Ops lead, Legal/Compliance, and Communications, ensuring all decisions are aligned and regulatory and customer actions proceed in sync. Document every step, communicate the plan to stakeholders, and monitor for new developments throughout the first hour. Track all actions, monitor for decision alignment and regulatory/customer actions, and review for effectiveness after restoration.", "Aligns decisions, ensures regulatory and customer actions proceed in sync.", 10,
+      "Let Operations fix it quietly and avoid formal activation to reduce attention, allowing the team to work without cross-functional coordination. Track all actions, monitor for increased risk and coordination, and review for effectiveness after restoration.", "Slows cross-functional coordination and increases risk.", 5,
+      "Publicly blame a vendor before confirming details, issuing statements to staff and customers. Record the rationale, communicate risks to management, and review for premature or risky impacts after the incident. Track all communications, monitor for risk and premature action, and review for effectiveness after restoration.", "Premature and risky.", -5,
+      "Wait for customers to complain before acting, pausing all response until external reports are received. Document the rationale, monitor for trust impacts, and review for missed opportunities after restoration. Track all actions, monitor for trust and missed opportunities, and review for effectiveness after restoration.", "Reactive and harmful to trust.", -5
     )),
     q("CEO/SVPs", "What should initial customer messaging emphasize?", buildChoices(
-      "Explain what happened in plain language, what’s impacted, expected timing, and where to get updates, providing clear and consistent information to all customers. Track feedback, update messaging as needed, and review for trust-building effectiveness after the incident.", "Builds trust and reduces volume.", 10,
-      "Promise exact reversal times before confirming with the Fed and counterparties, reassuring customers with specific timelines. Track all communications, monitor for credibility risks, and review for accuracy after restoration.", "Overpromising risks credibility.", 5,
-      "Say \"all accounts are safe\" with no specifics, providing general reassurance without details. Track customer reactions, monitor for frustration, and review for effectiveness after the incident.", "Looks evasive and frustrates customers.", -5,
-      "Share individual account details publicly to demonstrate transparency, providing personal information to all customers. Track all disclosures, inform management of privacy and legal risks, and review for appropriateness after restoration.", "Privacy and legal risk.", -5
+      "Explain what happened in plain language, what’s impacted, expected timing, and where to get updates, providing clear and consistent information to all customers. Track feedback, update messaging as needed, and review for trust-building effectiveness after the incident. Track all communications, monitor for trust and volume, and review for effectiveness after restoration.", "Builds trust and reduces volume.", 10,
+      "Promise exact reversal times before confirming with the Fed and counterparties, reassuring customers with specific timelines. Track all communications, monitor for credibility risks and accuracy, and review for effectiveness after restoration.", "Overpromising risks credibility.", 5,
+      "Say \"all accounts are safe\" with no specifics, providing general reassurance without details. Track customer reactions, monitor for frustration and effectiveness, and review for effectiveness after restoration.", "Looks evasive and frustrates customers.", -5,
+      "Share individual account details publicly to demonstrate transparency, providing personal information to all customers. Track all disclosures, inform management of privacy and legal risks, and review for appropriateness after restoration. Track all communications, monitor for privacy and legal risk, and review for effectiveness after restoration.", "Privacy and legal risk.", -5
     )),
     q("CEO/SVPs", "How do you handle regulatory notification thresholds?", buildChoices(
-      "Assess materiality and customer impact with Compliance and counsel, and notify regulators per established thresholds. Document all decisions, communicate the plan to stakeholders, and review for defensibility and timeliness throughout the incident.", "Defensible and timely.", 10,
-      "Notify everyone immediately regardless of criteria, sending communications to all parties as soon as the incident is discovered. Track all notifications, monitor for premature or noisy impacts, and review for effectiveness after restoration.", "Can be premature and create noise.", 5,
-      "Rely on the Fed to notify regulators on your behalf, delegating responsibility for external communications. Document the rationale, monitor for missed obligations, and review for governance risks after the incident.", "You own the obligation.", -5,
-      "Ignore thresholds until the next exam, postponing all notifications until a future review. Track all decisions, monitor for governance failures, and review for missed opportunities after restoration.", "Governance failure.", -5
+      "Assess materiality and customer impact with Compliance and counsel, and notify regulators per established thresholds. Document all decisions, communicate the plan to stakeholders, and review for defensibility and timeliness throughout the incident. Track all notifications, monitor for defensibility and timeliness, and review for effectiveness after restoration.", "Defensible and timely.", 10,
+      "Notify everyone immediately regardless of criteria, sending communications to all parties as soon as the incident is discovered. Track all notifications, monitor for premature or noisy impacts, and review for effectiveness after restoration. Track all notifications, monitor for noise and effectiveness, and review for effectiveness after restoration.", "Can be premature and create noise.", 5,
+      "Rely on the Fed to notify regulators on your behalf, delegating responsibility for external communications. Document the rationale, monitor for missed obligations, and review for governance risks after the incident. Track all communications, monitor for obligations and governance, and review for effectiveness after restoration.", "You own the obligation.", -5,
+      "Ignore thresholds until the next exam, postponing all notifications until a future review. Track all decisions, monitor for governance failures and missed opportunities, and review for effectiveness after restoration.", "Governance failure.", -5
     )),
 
     // IT/Security (3)
     q("IT/Security", "What technical step protects integrity during correction?", buildChoices(
-      "Freeze additional outbound ACH batches, preserve all logs, and enable enhanced monitoring to protect integrity during correction. Document every action, communicate changes to IT and security teams, and monitor for compounding errors and evidence preservation throughout the incident.", "Prevents compounding errors and preserves evidence.", 10,
-      "Purge logs to improve performance while reconciling, removing older records during the correction process. Track all deletions, inform management of risks, and review for forensic impacts after restoration.", "Destroys forensics.", 5,
-      "Share admin credentials to accelerate access for all teams, providing immediate entry to necessary systems. Track who receives credentials, monitor for segregation failures, and reset all access once the incident is resolved.", "Segregation failure.", -5,
-      "Disable monitoring alerts to reduce noise, suspending notifications during the correction process. Document the rationale, inform relevant teams, and plan to restore alerts and review for missed activity after the incident.", "Removes visibility during a critical period.", -5
+      "Freeze additional outbound ACH batches, preserve all logs, and enable enhanced monitoring to protect integrity during correction. Document every action, communicate changes to IT and security teams, and monitor for compounding errors and evidence preservation throughout the incident. Track all actions, monitor for integrity and evidence, and review for effectiveness after restoration.", "Prevents compounding errors and preserves evidence.", 10,
+      "Purge logs to improve performance while reconciling, removing older records during the correction process. Track all deletions, inform management of risks, and review for forensic impacts after restoration. Track all actions, monitor for forensics and performance, and review for effectiveness after restoration.", "Destroys forensics.", 5,
+      "Share admin credentials to accelerate access for all teams, providing immediate entry to necessary systems. Track who receives credentials, monitor for segregation failures, and reset all access once the incident is resolved. Track all actions, monitor for segregation failure, and review for effectiveness after restoration.", "Segregation failure.", -5,
+      "Disable monitoring alerts to reduce noise, suspending notifications during the correction process. Document the rationale, inform relevant teams, and plan to restore alerts and review for missed activity after the incident. Track all actions, monitor for visibility and missed activity, and review for effectiveness after restoration.", "Removes visibility during a critical period.", -5
     )),
     q("IT/Security", "How should files and interfaces be handled with the Fed and processors?", buildChoices(
-      "Open a real-time bridge with counterparties, validate file hashes and IDs, and align on reversal windows to ensure files and interfaces are handled correctly. Track all communications, monitor for timing risks, and review for rework reduction after restoration.", "Reduces rework and timing risk.", 10,
-      "Email updates periodically and wait for responses, sending information to the Fed and processors as needed. Track all responses, monitor for slowdowns, and review for effectiveness after the incident.", "Too slow for a time-bound correction.", 5,
-      "Resend corrected files without coordination, transmitting updates independently. Track all postings, monitor for duplicate or contradictory entries, and review for risks after restoration.", "Duplicate/contradictory postings risk.", -5,
-      "Allow branches to upload corrected files directly, permitting each location to manage updates. Track all uploads, monitor for uncontrolled risks, and review for effectiveness after the incident.", "Uncontrolled and risky.", -5
+      "Open a real-time bridge with counterparties, validate file hashes and IDs, and align on reversal windows to ensure files and interfaces are handled correctly. Track all communications, monitor for timing risks and rework reduction, and review for effectiveness after restoration.", "Reduces rework and timing risk.", 10,
+      "Email updates periodically and wait for responses, sending information to the Fed and processors as needed. Track all responses, monitor for slowdowns and effectiveness, and review for effectiveness after the incident.", "Too slow for a time-bound correction.", 5,
+      "Resend corrected files without coordination, transmitting updates independently. Track all postings, monitor for duplicate or contradictory entries and risks, and review for effectiveness after restoration.", "Duplicate/contradictory postings risk.", -5,
+      "Allow branches to upload corrected files directly, permitting each location to manage updates. Track all uploads, monitor for uncontrolled risks and effectiveness, and review for effectiveness after the incident.", "Uncontrolled and risky.", -5
     )),
     q("IT/Security", "How do you prevent repeat errors while investigating?", buildChoices(
-      "Implement a temporary two-person review for export jobs and parameter changes, adding control while the root cause is determined. Track all reviews, communicate procedures to staff, and monitor for repeat errors throughout the investigation.", "Adds control while root cause is determined.", 10,
-      "Trust the scheduled jobs and focus only on the bad file, maintaining standard operations for all other processes. Track all jobs, monitor for systemic issues, and review for missed opportunities after restoration.", "Misses systemic issues.", 5,
-      "Disable change management to move faster, suspending review and approval processes during the investigation. Track all changes, monitor for new errors, and review for effectiveness after restoration.", "Introduces new errors.", -5,
-      "Turn off file validations so jobs don’t fail, removing safeguards for the duration of the incident. Track all changes, monitor for risks, and review for missed errors after restoration.", "Removes safeguards.", -5
+      "Implement a temporary two-person review for export jobs and parameter changes, adding control while the root cause is determined. Track all reviews, communicate procedures to staff, and monitor for repeat errors throughout the investigation. Track all actions, monitor for control and repeat errors, and review for effectiveness after restoration.", "Adds control while root cause is determined.", 10,
+      "Trust the scheduled jobs and focus only on the bad file, maintaining standard operations for all other processes. Track all jobs, monitor for systemic issues and missed opportunities, and review for effectiveness after restoration.", "Misses systemic issues.", 5,
+      "Disable change management to move faster, suspending review and approval processes during the investigation. Track all changes, monitor for new errors and effectiveness, and review for effectiveness after restoration.", "Introduces new errors.", -5,
+      "Turn off file validations so jobs don’t fail, removing safeguards for the duration of the incident. Track all changes, monitor for risks and missed errors, and review for effectiveness after restoration.", "Removes safeguards.", -5
     )),
 
     // HR (3)
     q("HR", "What guidance supports staff dealing with upset customers?", buildChoices(
-      "Provide scripts, de-escalation tips, and break scheduling for staff dealing with upset customers, and route complex cases to specialists. Track all interactions, monitor for safety and consistency, and review for effectiveness after restoration.", "Improves safety and consistency.", 10,
-      "Let each branch decide how to explain the issue, allowing staff to respond as they see fit. Track all communications, monitor for inconsistencies, and review for risks after the incident.", "Inconsistent and risky.", 5,
-      "Disallow any discussion and refer customers to the Fed, instructing staff to avoid all explanations. Track all referrals, monitor for unhelpful or inaccurate impacts, and review for effectiveness after restoration.", "Unhelpful and inaccurate.", -5,
-      "Encourage staff to post explanations on social media, sharing information publicly. Track all posts, monitor for reputational risks, and review for impacts after restoration.", "Reputational risk.", -5
+      "Provide scripts, de-escalation tips, and break scheduling for staff dealing with upset customers, and route complex cases to specialists. Track all interactions, monitor for safety and consistency, and review for effectiveness after restoration. Track all actions, monitor for safety and consistency, and review for effectiveness after restoration.", "Improves safety and consistency.", 10,
+      "Let each branch decide how to explain the issue, allowing staff to respond as they see fit. Track all communications, monitor for inconsistencies and risks, and review for effectiveness after restoration.", "Inconsistent and risky.", 5,
+      "Disallow any discussion and refer customers to the Fed, instructing staff to avoid all explanations. Track all referrals, monitor for unhelpful or inaccurate impacts and effectiveness, and review for effectiveness after restoration.", "Unhelpful and inaccurate.", -5,
+      "Encourage staff to post explanations on social media, sharing information publicly. Track all posts, monitor for reputational risks and impacts, and review for effectiveness after restoration.", "Reputational risk.", -5
     )),
     q("HR", "What staffing posture fits a time-sensitive correction window?", buildChoices(
-      "Implement documented shifts with surge coverage for Payments Ops and Contact Center, sustaining performance without burnout. Track all schedules, monitor for reliability, and review for effectiveness after restoration.", "Sustains performance without burnout.", 10,
-      "Ask for volunteers to stay late with no plan, relying on staff willingness to cover extra hours. Track all shifts, monitor for uneven or unreliable coverage, and review for effectiveness after restoration.", "Uneven and unreliable.", 5,
-      "Mandatory overtime for all departments, requiring extended hours for every team. Track all schedules, monitor for burnout and errors, and review for sustainability after restoration.", "Burnout and errors.", -5,
-      "No overtime regardless of volume, maintaining standard hours throughout the incident. Track all schedules, monitor for backlog growth and trust erosion, and review for effectiveness after restoration.", "Backlog grows and trust erodes.", -5
+      "Implement documented shifts with surge coverage for Payments Ops and Contact Center, sustaining performance without burnout. Track all schedules, monitor for reliability and burnout, and review for effectiveness after restoration.", "Sustains performance without burnout.", 10,
+      "Ask for volunteers to stay late with no plan, relying on staff willingness to cover extra hours. Track all shifts, monitor for uneven or unreliable coverage and effectiveness, and review for effectiveness after restoration.", "Uneven and unreliable.", 5,
+      "Mandatory overtime for all departments, requiring extended hours for every team. Track all schedules, monitor for burnout and errors and sustainability, and review for effectiveness after restoration.", "Burnout and errors.", -5,
+      "No overtime regardless of volume, maintaining standard hours throughout the incident. Track all schedules, monitor for backlog growth and trust erosion and effectiveness, and review for effectiveness after restoration.", "Backlog grows and trust erodes.", -5
     )),
     q("HR", "What is the appropriate approach with implicated individuals (if any)?", buildChoices(
-      "Place implicated individuals on administrative leave pending investigation, collect all assets, and revoke access with IT. Track every step, communicate the process to staff, and review for integrity and safety throughout the incident.", "Protects integrity and safety.", 10,
-      "Public reprimand while they continue working, announcing the issue to all staff. Track all communications, monitor for culture and legal risks, and review for effectiveness after restoration.", "Culture and legal risk.", 5,
-      "Ignore until root cause is final, delaying all action until a full review is complete. Track all decisions, monitor for risk window impacts, and review for missed opportunities after restoration.", "Leaves risk window open.", -5,
-      "Share their name in staff channels for transparency, providing personal details to all staff. Track all communications, monitor for privacy and legal risks, and review for appropriateness after restoration.", "Privacy/legal risk.", -5
+      "Place implicated individuals on administrative leave pending investigation, collect all assets, and revoke access with IT. Track every step, communicate the process to staff, and review for integrity and safety throughout the incident. Track all actions, monitor for integrity and safety, and review for effectiveness after restoration.", "Protects integrity and safety.", 10,
+      "Public reprimand while they continue working, announcing the issue to all staff. Track all communications, monitor for culture and legal risks and effectiveness, and review for effectiveness after restoration.", "Culture and legal risk.", 5,
+      "Ignore until root cause is final, delaying all action until a full review is complete. Track all decisions, monitor for risk window impacts and missed opportunities, and review for effectiveness after restoration.", "Leaves risk window open.", -5,
+      "Share their name in staff channels for transparency, providing personal details to all staff. Track all communications, monitor for privacy and legal risks and appropriateness, and review for effectiveness after restoration.", "Privacy/legal risk.", -5
     )),
 
     // Finance (3)
     q("Finance", "What must Finance track from the outset?", buildChoices(
-      "Track customer exposure, provisional entries, fees/credits, and incident costs from the outset, documenting every item for accurate governance and recovery. Communicate the process to finance and audit teams, review for completeness, and update records as the incident evolves.", "Accurate governance and recovery.", 10,
-      "Track only vendor invoices and reconcile later, focusing on external payments before reviewing internal impacts. Track all invoices, monitor for partial views, and review for missed true impact after restoration.", "Partial view; misses true impact.", 5,
-      "Do not track to avoid panic, suspending all record-keeping during the incident. Track all decisions, monitor for compliance and risk, and review for effectiveness after restoration.", "Non-compliant and risky.", -5,
-      "Hide costs in miscellaneous accounts, spreading expenses across unrelated categories. Track all entries, monitor for integrity risks, and review for transparency after restoration.", "Integrity risk.", -5
+      "Track customer exposure, provisional entries, fees/credits, and incident costs from the outset, documenting every item for accurate governance and recovery. Communicate the process to finance and audit teams, review for completeness, and update records as the incident evolves. Track all actions, monitor for governance and recovery, and review for effectiveness after restoration.", "Accurate governance and recovery.", 10,
+      "Track only vendor invoices and reconcile later, focusing on external payments before reviewing internal impacts. Track all invoices, monitor for partial views and true impact, and review for effectiveness after restoration.", "Partial view; misses true impact.", 5,
+      "Do not track to avoid panic, suspending all record-keeping during the incident. Track all decisions, monitor for compliance and risk and effectiveness, and review for effectiveness after restoration.", "Non-compliant and risky.", -5,
+      "Hide costs in miscellaneous accounts, spreading expenses across unrelated categories. Track all entries, monitor for integrity risks and transparency, and review for effectiveness after restoration.", "Integrity risk.", -5
     )),
     q("Finance", "How should fee waivers/credits be handled?", buildChoices(
-      "Implement a criteria-based policy with approvals and evidence per case for fee waivers and credits, documenting every decision for fairness and defensibility. Communicate the policy to all branches, track exceptions, and review for effectiveness after restoration.", "Fair and defensible.", 10,
-      "Grant everything universally, waiving all fees and credits for every customer. Track all decisions, monitor for abuse and sustainability, and review for effectiveness after restoration.", "Unsustainable and invites abuse.", 5,
-      "Deny all credits to protect revenue, suspending all waivers during the incident. Track all decisions, monitor for trust and complaint risks, and review for effectiveness after restoration.", "Trust and complaint risk.", -5,
-      "Leave to branch discretion with no logs, allowing each location to decide on waivers independently. Track all decisions, monitor for inconsistencies, and review for risks after restoration.", "Inconsistent and risky.", -5
+      "Implement a criteria-based policy with approvals and evidence per case for fee waivers and credits, documenting every decision for fairness and defensibility. Communicate the policy to all branches, track exceptions, and review for effectiveness after restoration. Track all actions, monitor for fairness and defensibility, and review for effectiveness after restoration.", "Fair and defensible.", 10,
+      "Grant everything universally, waiving all fees and credits for every customer. Track all decisions, monitor for abuse and sustainability and effectiveness, and review for effectiveness after restoration.", "Unsustainable and invites abuse.", 5,
+      "Deny all credits to protect revenue, suspending all waivers during the incident. Track all decisions, monitor for trust and complaint risks and effectiveness, and review for effectiveness after restoration.", "Trust and complaint risk.", -5,
+      "Leave to branch discretion with no logs, allowing each location to decide on waivers independently. Track all decisions, monitor for inconsistencies and risks, and review for effectiveness after restoration.", "Inconsistent and risky.", -5
     )),
     q("Finance", "What payment/vendor prioritization supports recovery?", buildChoices(
-      "Prioritize payments for critical operations (processors, comms tools, logistics) first with approvals, aligning spend to incident needs. Track all expenditures, communicate priorities to finance and management, and review for effectiveness after restoration.", "Aligns spend to incident needs.", 10,
-      "Pay FIFO only, processing invoices in the order received. Track all payments, monitor for impact misalignment, and review for effectiveness after restoration.", "Ignores impact.", 5,
-      "Pay smallest invoices first, prioritizing low-value payments over critical ones. Track all expenditures, monitor for misalignment, and review for effectiveness after restoration.", "Not aligned to criticality.", -5,
-      "Stop all payments until resolved, suspending all transactions during the incident. Track all decisions, monitor for service disruption risks, and review for effectiveness after restoration.", "Service disruption risk.", -5
+      "Prioritize payments for critical operations (processors, comms tools, logistics) first with approvals, aligning spend to incident needs. Track all expenditures, communicate priorities to finance and management, and review for effectiveness after restoration. Track all actions, monitor for spend alignment and recovery, and review for effectiveness after restoration.", "Aligns spend to incident needs.", 10,
+      "Pay FIFO only, processing invoices in the order received. Track all payments, monitor for impact misalignment and effectiveness, and review for effectiveness after restoration.", "Ignores impact.", 5,
+      "Pay smallest invoices first, prioritizing low-value payments over critical ones. Track all expenditures, monitor for misalignment and effectiveness, and review for effectiveness after restoration.", "Not aligned to criticality.", -5,
+      "Stop all payments until resolved, suspending all transactions during the incident. Track all decisions, monitor for service disruption risks and effectiveness, and review for effectiveness after restoration.", "Service disruption risk.", -5
     )),
 
     // Loans (3)
     q("Loans", "How should automatic loan ACH debits be handled today?", buildChoices(
-      "Pause new pulls where appropriate, verify previous postings, and communicate proactively to borrowers about changes to automatic loan ACH debits. Track all actions, monitor for compounding errors and complaints, and review for effectiveness after restoration.", "Prevents compounding errors and complaints.", 10,
-      "Continue as normal and fix later if needed, maintaining standard operations for all debits. Track all postings, monitor for reversals and confusion, and review for effectiveness after restoration.", "Creates more reversals and confusion.", 5,
-      "Accept borrower emails as proof to skip pulls permanently, allowing customers to opt out via email. Track all communications, monitor for control weakness and risk, and review for effectiveness after restoration.", "Control weakness and risk.", -5,
-      "Bypass controls for VIPs, providing special treatment for select borrowers. Track all exceptions, monitor for inconsistency and risk, and review for effectiveness after restoration.", "Inconsistent and risky.", -5
+      "Pause new pulls where appropriate, verify previous postings, and communicate proactively to borrowers about changes to automatic loan ACH debits. Track all actions, monitor for compounding errors and complaints and effectiveness, and review for effectiveness after restoration.", "Prevents compounding errors and complaints.", 10,
+      "Continue as normal and fix later if needed, maintaining standard operations for all debits. Track all postings, monitor for reversals and confusion and effectiveness, and review for effectiveness after restoration.", "Creates more reversals and confusion.", 5,
+      "Accept borrower emails as proof to skip pulls permanently, allowing customers to opt out via email. Track all communications, monitor for control weakness and risk and effectiveness, and review for effectiveness after restoration.", "Control weakness and risk.", -5,
+      "Bypass controls for VIPs, providing special treatment for select borrowers. Track all exceptions, monitor for inconsistency and risk and effectiveness, and review for effectiveness after restoration.", "Inconsistent and risky.", -5
     )),
     q("Loans", "What verification applies to borrower account change requests during this event?", buildChoices(
-      "Verify borrower account change requests using out-of-band methods with known contacts and documented evidence during this event. Track all verifications, communicate procedures to staff, and review for fraud prevention effectiveness after restoration.", "Prevents misdirection or fraud.", 10,
-      "Callback to the number provided in the request email, confirming instructions directly. Track all calls, monitor for weak controls, and review for risks after restoration.", "Weak control.", 5,
-      "Accept emailed instructions from familiar addresses, processing changes based on sender recognition. Track all communications, monitor for spoof risk, and review for effectiveness after restoration.", "Spoof risk.", -5,
-      "Skip checks to reduce backlog, expediting processing without verification. Track all changes, monitor for loss risk, and review for missed opportunities after restoration.", "Loss risk.", -5
+      "Verify borrower account change requests using out-of-band methods with known contacts and documented evidence during this event. Track all verifications, communicate procedures to staff, and review for fraud prevention effectiveness after restoration. Track all actions, monitor for fraud prevention and effectiveness, and review for effectiveness after restoration.", "Prevents misdirection or fraud.", 10,
+      "Callback to the number provided in the request email, confirming instructions directly. Track all calls, monitor for weak controls and risks, and review for effectiveness after restoration.", "Weak control.", 5,
+      "Accept emailed instructions from familiar addresses, processing changes based on sender recognition. Track all communications, monitor for spoof risk and effectiveness, and review for effectiveness after restoration.", "Spoof risk.", -5,
+      "Skip checks to reduce backlog, expediting processing without verification. Track all changes, monitor for loss risk and missed opportunities, and review for effectiveness after restoration.", "Loss risk.", -5
     )),
     q("Loans", "What should lenders communicate to borrowers impacted by mis-posted ACH?", buildChoices(
-      "Use scripts with factual status, timing expectations, and an escalation path for borrowers impacted by mis-posted ACH, communicating consistently to reduce complaints. Track all communications, monitor for customer feedback, and review for effectiveness after restoration.", "Consistency reduces complaints.", 10,
-      "Promise resolution by end of day for all, reassuring borrowers with specific timelines. Track all communications, monitor for overpromise risk, and review for effectiveness after restoration.", "Overpromise risk.", 5,
-      "Avoid communicating to reduce noise, pausing all outreach to impacted borrowers. Track all cases, monitor for confusion and churn, and review for missed opportunities after restoration.", "Confusion and churn.", -5,
-      "Share internal notes on reversal files, providing behind-the-scenes information to borrowers. Track all communications, inform management of risks, and review for appropriateness after restoration.", "Inappropriate and risky.", -5
+      "Use scripts with factual status, timing expectations, and an escalation path for borrowers impacted by mis-posted ACH, communicating consistently to reduce complaints. Track all communications, monitor for customer feedback and effectiveness, and review for effectiveness after restoration.", "Consistency reduces complaints.", 10,
+      "Promise resolution by end of day for all, reassuring borrowers with specific timelines. Track all communications, monitor for overpromise risk and effectiveness, and review for effectiveness after restoration.", "Overpromise risk.", 5,
+      "Avoid communicating to reduce noise, pausing all outreach to impacted borrowers. Track all cases, monitor for confusion and churn and missed opportunities, and review for effectiveness after restoration.", "Confusion and churn.", -5,
+      "Share internal notes on reversal files, providing behind-the-scenes information to borrowers. Track all communications, inform management of risks and appropriateness, and review for effectiveness after restoration.", "Inappropriate and risky.", -5
     )),
 
     // Accounting (3)
