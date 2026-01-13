@@ -468,3 +468,144 @@ body {
 }
 .uc-box h3 { margin: 0 0 8px 0; }
 .uc-box p { margin: 0; }
+
+/* ===================== */
+/*  DARK MODE SUPPORT    */
+/* ===================== */
+@media (prefers-color-scheme: dark) {
+  body {
+    background: #181c22;
+    color: #e3e6eb;
+  }
+  .header img {
+    filter: brightness(0.85) contrast(1.1);
+  }
+  .title {
+    color: #ffb347;
+  }
+  .scoreboard {
+    background: none;
+  }
+  .department {
+    background: #232a36;
+    color: #ffe082;
+  }
+  .scenario-box,
+  .question-box,
+  .intro-box {
+    background: #232a36;
+    color: #e3e6eb;
+    box-shadow: 0 0 16px rgba(0,0,0,0.45);
+  }
+  .choice-btn {
+    background: #232a36;
+    color: #e3e6eb;
+    border: 1px solid #374151;
+  }
+  .choice-btn:hover {
+    background: #2a3140;
+    border-color: #4b5563;
+  }
+  .choice-btn.selected {
+    background: #1e293b;
+    border-color: #60a5fa;
+  }
+  .choice-btn.correct {
+    background-color: #27ae60;
+    color: #fff;
+  }
+  .choice-btn.incorrect {
+    background-color: #c0392b;
+    color: #fff;
+  }
+  .point-badge {
+    background: #232a36;
+    color: #ffe082;
+    border: 1px solid #374151;
+  }
+  .point-badge.good { border-color: #27ae60; background: #1e293b; color: #27ae60; }
+  .point-badge.ok   { border-color: #60a5fa; background: #1e293b; color: #60a5fa; }
+  .point-badge.bad  { border-color: #c0392b; background: #1e293b; color: #ffb4a2; }
+  .explain-box {
+    background: #232a36;
+    color: #e3e6eb;
+  }
+  .controls button {
+    background: #27ae60;
+    color: #fff;
+  }
+  .controls button:hover {
+    background: #219150;
+  }
+  .winner-card {
+    background: #181c22;
+    color: #ffe082;
+    border: 1px solid #232a36;
+  }
+  .winner-hero {
+    background: linear-gradient(135deg, #232a36 0%, #181c22 100%);
+  }
+  .winner-pill {
+    background: #232a36;
+    color: #ffe082;
+    border: 1px solid #374151;
+  }
+  .winner-pill .badge {
+    background: #ffe082;
+    color: #232a36;
+  }
+  .podium-card {
+    background: #232a36;
+    color: #ffe082;
+    border: 1px solid #374151;
+  }
+  .podium-card.first {
+    background: #ffb34733;
+    border-color: #ffb347;
+  }
+  .podium-card.first .pts { color: #ffb347; }
+  .podium-card.second .pts { color: #60a5fa; }
+  .podium-card.third .pts { color: #ffb4a2; }
+  .results-title {
+    color: #ffe082;
+  }
+  .result-row {
+    background: #232a36;
+    border: 1px solid #374151;
+  }
+  .result-row.top {
+    background: #ffb34733;
+    border-color: #ffb347;
+  }
+  .rank {
+    background: #232a36;
+    color: #ffe082;
+  }
+  .result-row.top .rank {
+    background: #ffb347;
+    color: #232a36;
+  }
+  .dept-name {
+    color: #ffe082;
+  }
+  .dept-sub {
+    color: #ffe08299;
+  }
+  .result-score {
+    color: #27ae60;
+  }
+  .winner-actions .primary {
+    background: linear-gradient(135deg, #27ae60, #219150);
+    color: #ffe082;
+  }
+  .winner-actions .secondary {
+    background: #232a36;
+    color: #ffe082;
+    border: 1px solid #374151;
+  }
+  .uc-box {
+    background: #232a36;
+    border: 1px solid #ffe082;
+    color: #ffe082;
+  }
+}
