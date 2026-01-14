@@ -2,21 +2,7 @@
 <html lang="en">
     <script src="js/static-scenarios.js"></script>
     <script>
-let selectedDepartment = null;
-let selectedComplexity = 'intermediate';
-
-const departments = [
-    { id: 'Deposits', name: 'Deposits', icon: '💰' },
-    { id: 'Tellers', name: 'Tellers', icon: '🏪' },
-    { id: 'Loans', name: 'Loans', icon: '📊' },
-    { id: 'Accounting', name: 'Accounting', icon: '📈' },
-    { id: 'Bookkeeping', name: 'Bookkeeping', icon: '📚' },
-    { id: 'Loan Servicing', name: 'Loan Servicing', icon: '🔧' },
-    { id: 'Compliance', name: 'Compliance', icon: '⚖️' },
-    { id: 'IT', name: 'IT', icon: '💻' },
-    { id: 'Security', name: 'Security', icon: '🔒' },
-    { id: 'New Accounts', name: 'New Accounts', icon: '📝' }
-];
+// Variables moved to the second script block to avoid redeclaration
 
 function updateStatus(message, isError = false) {
     const statusIndicator = document.getElementById('statusIndicator');
