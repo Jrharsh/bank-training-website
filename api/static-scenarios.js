@@ -954,24 +954,26 @@ const SCENARIO_INSIDER = {
       "Policy and security failure.",
       -5
     )),
-    q("Loans", "What borrower messaging is appropriate if communications were tampered?", buildChoices(
-      "Use standard scripts with factual updates and escalation path",
-      "Consistency reduces complaints.",
-      10,
-
-      "Let lenders improvise messages case-by-case",
-      "Inconsistent and risky.",
-      5,
-
-      "Promise accelerated approvals to calm them",
-      "Credibility risk.",
-      -5,
-
-      "Avoid any communication until resolved",
-      "Confusion and churn.",
-      -5
-    )),
-    /* ================= SCENARIO 7 ------------------------- */
+        q("Loans", "What borrower messaging is appropriate if communications were tampered?", buildChoices(
+          "Use standard scripts with factual updates and escalation path",
+          "Consistency reduces complaints.",
+          10,
+    
+          "Let lenders improvise messages case-by-case",
+          "Inconsistent and risky.",
+          5,
+    
+          "Promise accelerated approvals to calm them",
+          "Credibility risk.",
+          -5,
+    
+          "Avoid any communication until resolved",
+          "Confusion and churn.",
+          -5
+        ))
+      ]
+    };
+    
     const SCENARIO_VENDOR_OUTAGE = {
       key: "third-party-core-vendor-outage",
       title: "Third-Party Core Vendor Outage",
