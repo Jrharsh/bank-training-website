@@ -7,54 +7,142 @@
         <link rel="stylesheet" href="/css/style.css">
         <script src="js/static-scenarios.js"></script>
         <style>
-            /* Place your CSS here or in /css/style.css */
-            .discussion-points {
-                background: #e3f2fd;
-                border-radius: 12px;
-                padding: 20px;
-                border-left: 5px solid #2196f3;
-            }
-            .discussion-points h4 {
-                color: #1976d2;
-                margin: 0 0 15px 0;
-                font-size: 1.3rem;
-            }
-            .discussion-points ul {
+            body {
+                background: #181e24;
+                color: #f5f6fa;
+                font-family: 'Segoe UI', Arial, sans-serif;
                 margin: 0;
-                padding-left: 20px;
+                min-height: 100vh;
             }
-            .discussion-points li {
-                color: #424242;
-                margin-bottom: 10px;
-                font-size: 1.05rem;
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 32px 16px 48px 16px;
             }
-            .back-btn {
-                background: transparent;
-                color: #2c3e50;
-                border: 2px solid #2c3e50;
-                padding: 10px 20px;
-                border-radius: 8px;
-                text-decoration: none;
-                display: inline-block;
-                margin-bottom: 20px;
-                transition: all 0.3s ease;
+            .header {
+                text-align: center;
+                margin-bottom: 32px;
             }
-            .back-btn:hover {
-                background: #2c3e50;
-                color: white;
+            .header h1 {
+                font-size: 2.5rem;
+                margin-bottom: 0.5rem;
+            }
+            .header p {
+                color: #b0b8c1;
+                font-size: 1.1rem;
             }
             .status-indicator {
-                background: rgba(255, 255, 255, 0.9);
-                padding: 15px;
-                border-radius: 10px;
-                margin-bottom: 20px;
+                background: #232a32;
+                color: #28a745;
+                padding: 12px 20px;
+                border-radius: 8px;
+                margin-bottom: 24px;
                 font-family: monospace;
-                font-size: 0.9rem;
+                font-size: 1rem;
                 border-left: 4px solid #28a745;
+                box-shadow: 0 2px 8px rgba(40,167,69,0.05);
+                transition: background 0.2s, color 0.2s;
             }
             .status-indicator.error {
                 border-left-color: #dc3545;
-                background: #f8d7da;
+                background: #3a2327;
+                color: #dc3545;
+            }
+            .controls {
+                margin-bottom: 36px;
+            }
+            .department-grid {
+                display: grid;
+                grid-template-columns: repeat(5, 1fr);
+                gap: 16px;
+                margin-bottom: 24px;
+            }
+            .department-card {
+                background: #232a32;
+                border-radius: 10px;
+                padding: 18px 0 10px 0;
+                text-align: center;
+                cursor: pointer;
+                border: 2px solid transparent;
+                transition: border 0.2s, background 0.2s;
+                font-size: 1.1rem;
+            }
+            .department-card.selected, .department-card:hover {
+                border: 2px solid #2196f3;
+                background: #1a222b;
+            }
+            .department-icon {
+                font-size: 2rem;
+                margin-bottom: 6px;
+            }
+            .complexity-options {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+                margin-bottom: 18px;
+            }
+            .complexity-option {
+                background: #232a32;
+                border-radius: 8px;
+                padding: 12px 16px;
+                cursor: pointer;
+                border: 2px solid transparent;
+                transition: border 0.2s, background 0.2s;
+            }
+            .complexity-option.selected, .complexity-option:hover {
+                border: 2px solid #17a2b8;
+                background: #1a222b;
+            }
+            .complexity-label {
+                font-weight: 600;
+                font-size: 1.1rem;
+            }
+            .complexity-desc {
+                color: #b0b8c1;
+                font-size: 0.95rem;
+            }
+            .generate-section {
+                text-align: right;
+                margin-bottom: 0;
+            }
+            .generate-btn {
+                background: linear-gradient(135deg, #28d17c, #1abc9c);
+                color: #fff;
+                border: none;
+                padding: 12px 32px;
+                border-radius: 8px;
+                font-size: 1.1rem;
+                font-weight: 600;
+                cursor: pointer;
+                transition: background 0.2s, box-shadow 0.2s;
+                box-shadow: 0 2px 8px rgba(40,209,124,0.08);
+            }
+            .generate-btn:disabled {
+                background: #444c56;
+                color: #b0b8c1;
+                cursor: not-allowed;
+            }
+            .scenario-output {
+                margin-top: 40px;
+                display: none;
+            }
+            .scenario-header {
+                display: flex;
+                align-items: center;
+                gap: 18px;
+                margin-bottom: 18px;
+            }
+            .scenario-icon {
+                font-size: 2.2rem;
+            }
+            .scenario-title h3 {
+                margin: 0 0 4px 0;
+                font-size: 1.4rem;
+            }
+            .scenario-title p {
+                margin: 0;
+                color: #b0b8c1;
+                font-size: 1rem;
             }
             .refresh-btn {
                 background: linear-gradient(135deg, #17a2b8, #138496);
@@ -72,7 +160,52 @@
                 transform: translateY(-2px);
                 box-shadow: 0 5px 15px rgba(23, 162, 184, 0.4);
             }
+            .discussion-points {
+                background: #e3f2fd;
+                border-radius: 12px;
+                padding: 20px;
+                border-left: 5px solid #2196f3;
+                color: #222;
+                margin-top: 24px;
+            }
+            .discussion-points h4 {
+                color: #1976d2;
+                margin: 0 0 15px 0;
+                font-size: 1.3rem;
+            }
+            .discussion-points ul {
+                margin: 0;
+                padding-left: 20px;
+            }
+            .discussion-points li {
+                color: #424242;
+                margin-bottom: 10px;
+                font-size: 1.05rem;
+            }
+            .back-btn {
+                background: transparent;
+                color: #b0b8c1;
+                border: 2px solid #2c3e50;
+                padding: 10px 20px;
+                border-radius: 8px;
+                text-decoration: none;
+                display: inline-block;
+                margin-bottom: 20px;
+                transition: all 0.3s ease;
+            }
+            .back-btn:hover {
+                background: #2c3e50;
+                color: white;
+            }
+            @media (max-width: 1024px) {
+                .department-grid {
+                    grid-template-columns: repeat(3, 1fr);
+                }
+            }
             @media (max-width: 768px) {
+                .container {
+                    padding: 12px 2vw 32px 2vw;
+                }
                 .department-grid {
                     grid-template-columns: repeat(2, 1fr);
                 }
@@ -81,6 +214,9 @@
                 }
                 .scenario-header {
                     flex-direction: column;
+                    text-align: center;
+                }
+                .generate-section {
                     text-align: center;
                 }
             }
@@ -139,7 +275,7 @@
             </div>
         </div>
 
-        <div class="scenario-output" id="scenarioOutput">
+        <div class="scenario-output" id="scenarioOutput" style="display:none;">
             <div class="scenario-header">
                 <div class="scenario-icon" id="scenarioIcon">🏢</div>
                 <div class="scenario-title">
