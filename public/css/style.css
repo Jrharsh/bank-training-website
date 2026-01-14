@@ -1,7 +1,14 @@
-/* Department grid dark mode fix for discussion tool */
+/* Department grid branding: SSB TX colors */
+.department-grid {
+  background: linear-gradient(135deg, #002147 60%, #d51c29 100%);
+}
 @media (prefers-color-scheme: dark) {
+  .department-grid {
+    background: linear-gradient(135deg, #002147 70%, #d51c29 100%);
+    box-shadow: 0 2px 32px rgba(0,33,71,0.18);
+  }
   .department-name {
-    color: #f3f6fa !important;
+    color: #fff !important;
     font-weight: 600;
   }
   .department-icon {
