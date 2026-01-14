@@ -18,6 +18,15 @@
                 max-width: 1100px;
                 margin: 0 auto;
                 padding: 32px 16px 48px 16px;
+                }
+                .controls {
+                    background: #232a32;
+                    border-radius: 18px;
+                    box-shadow: 0 6px 32px rgba(33,150,243,0.08), 0 1.5px 6px rgba(0,0,0,0.08);
+                    padding: 36px 32px 32px 32px;
+                    margin-bottom: 36px;
+                    margin-top: 18px;
+                    border: 1.5px solid #222b36;
             }
             .header {
                 text-align: center;
@@ -57,6 +66,12 @@
             }
             .steps-bar .step-label {
                 color: #fff;
+                    }
+                    .steps-bar {
+                        margin-bottom: 32px;
+                        font-size: 1.35rem;
+                        font-weight: 700;
+                        letter-spacing: 0.01em;
                 font-size: 1.15rem;
                 font-weight: 600;
             }
@@ -65,6 +80,15 @@
                 font-size: 1.15rem;
                 font-weight: 700;
                 margin-right: 4px;
+                    }
+                    .department-grid {
+                        gap: 28px;
+                        margin: 0 auto 38px auto;
+                        max-width: 900px;
+                        background: #232a32;
+                        border-radius: 14px;
+                        padding: 18px 0 10px 0;
+                        border: 1.5px solid #222b36;
             }
             .department-grid {
                 display: grid;
@@ -76,15 +100,34 @@
             }
             .department-card {
                 background: #232a32;
+                    }
+                    .department-card {
+                        border-radius: 16px;
+                        padding: 36px 0 20px 0;
+                        border: 2.5px solid transparent;
+                        transition: border 0.18s, background 0.18s, box-shadow 0.18s, transform 0.12s;
+                        font-size: 1.18rem;
+                        will-change: transform, box-shadow;
                 border-radius: 12px;
                 padding: 28px 0 16px 0;
                 text-align: center;
                 cursor: pointer;
                 border: 2px solid transparent;
+                    }
+                    .department-card.selected, .department-card:hover {
+                        border: 2.5px solid #2196f3;
+                        box-shadow: 0 8px 32px rgba(33,150,243,0.13);
+                        transform: scale(1.045);
+                        z-index: 2;
                 transition: border 0.2s, background 0.2s, box-shadow 0.2s;
                 font-size: 1.15rem;
                 box-shadow: 0 2px 12px rgba(33,150,243,0.04);
             }
+                    }
+                    .department-icon {
+                        font-size: 2.7rem;
+                        margin-bottom: 16px;
+                        display: block;
             .department-card.selected, .department-card:hover {
                 border: 2px solid #2196f3;
                 background: #1a222b;
@@ -103,11 +146,25 @@
             .complexity-option {
                 background: #232a32;
                 border-radius: 8px;
+                    }
+                    .generate-btn {
+                        padding: 22px 64px;
+                        border-radius: 16px;
+                        font-size: 1.35rem;
+                        font-weight: 800;
+                        transition: background 0.18s, box-shadow 0.18s, transform 0.12s;
+                        box-shadow: 0 6px 32px rgba(40,209,124,0.13);
+                        margin-top: 18px;
+                        letter-spacing: 0.01em;
+                        will-change: transform, box-shadow;
                 padding: 10px 14px;
                 cursor: pointer;
                 border: 2px solid transparent;
                 transition: border 0.2s, background 0.2s;
             }
+                    }
+                    .generate-btn:disabled {
+                        box-shadow: none;
             .complexity-option.selected, .complexity-option:hover {
                 border: 2px solid #17a2b8;
                 background: #1a222b;
