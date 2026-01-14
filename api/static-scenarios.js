@@ -580,6 +580,16 @@ const SCENARIO_RANSOMWARE = {
     ),
 
     q("Accounting",
+      "What reporting helps?",
+      buildChoices(
+        "Provide daily incident cost summaries that include a breakdown of all expenses, resource allocations, and any financial impacts related to branch closures and outages, ensuring leadership receives timely and actionable information for decision-making.", "Daily reporting gives leadership timely visibility and supports rapid decision-making.", 10,
+        "Distribute raw expense dumps to leadership and relevant teams, presenting all transaction details and exception items in a comprehensive format, and include instructions for interpreting the data and a channel for questions or clarifications.", "Raw data provides transparency but may overwhelm leadership and slow decision-making.", 5,
+        "Do not provide regular reports, relying instead on ad-hoc updates only when major changes occur, and communicate significant developments as needed without maintaining a structured reporting cadence.", "Lack of regular reporting can leave leadership unaware of emerging risks and trends.", -5,
+        "Send weekly summary reports that include a review of all incident-related expenses, exception trends, and any significant changes, sharing these with leadership and relevant teams and collecting feedback to refine future reports.", "Weekly reporting is less timely but can still support oversight and planning.", -5
+      )
+    ),
+
+    q("Accounting",
       "Which reconciliations should take priority during recovery?",
       buildChoices(
         "Cash, customer balances, and inter-system differences. Track all reconciliations, monitor for financial risk and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for financial risk and effectiveness, and review for effectiveness after restoration.",
@@ -1207,7 +1217,7 @@ const SCENARIO_INSIDER = {
           "Ethics and audit risk.",
           -5
         )),
-        q("Accounting", "What reconciliations are top priority after restoration?", buildChoices(
+        q("Accounting", "Which reconciliations should take priority after restoration?", buildChoices(
           "Reconcile cash, suspense accounts, and inter-system tie-outs where suspicious adjustments occurred, documenting all findings and actions in detail. Communicate these priorities to the team, track progress in a central log, and review for material risks before moving to other reconciliations. Ensure all steps are audit-ready and defensible.",
           "Targets highest material risk and supports auditability.",
           10,
@@ -1635,76 +1645,6 @@ const SCENARIO_INSIDER = {
 
           "Delete drafts once the panic passes, removing interim documentation after manual work. Track all deletions, inform relevant teams, and review for regulatory risk after restoration.",
           "Regulatory risk; may result in loss of critical evidence.",
-          -5
-        )),
-
-        // Deposits (3)
-        q("Deposits", "How to manage branch customer volume?", buildChoices(
-          "Set up clear signage at all branch entrances, provide information on alternate locations and services, and implement queue management protocols to guide customers efficiently. Communicate changes to staff and monitor customer flow throughout the incident.",
-          "Strong, defensible action that best supports incident goals.",
-          10,
-
-          "Share updated internal maps and service availability with staff and customers, ensuring everyone knows which branches and services are operational. Provide guidance on alternate options and track customer feedback for improvements.",
-          "Helpful for navigation, but may not address all customer needs.",
-          5,
-
-          "Ask customers to return at a later time if branches are crowded or unavailable, providing information on expected wait times and alternate service channels. Document customer interactions and monitor for service impacts.",
-          "May reduce immediate volume, but risks customer frustration and loss of business.",
-          -5,
-
-          "Promise instant service to all customers regardless of branch conditions, instructing staff to expedite every request. Track service times and monitor for staff burnout and operational risks.",
-          "Unrealistic and may create operational challenges and staff burnout.",
-          -5
-        )),
-        q("Deposits", "How should customer access be preserved during online banking disruption?", buildChoices(
-          "Implement branch and ATM continuity plans with scripts and regular updates. Track all plans, monitor for access and trust and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for access and trust and effectiveness, and review for effectiveness after restoration.",
-          "Maintains access and trust.",
-          10,
-
-          "Focus on ATM access with limited branch support. Track all access, monitor for support and partial access and effectiveness, and review for effectiveness after restoration.",
-          "Provides partial access.",
-          5,
-
-          "Suspend all access until systems are stable. Track all suspensions, monitor for panic and reputational damage and effectiveness, and review for effectiveness after restoration.",
-          "Triggers panic and reputational damage.",
-          -5,
-
-          "Allow customers to discover outages without communication. Track all communications, monitor for complaints and confusion and effectiveness, and review for effectiveness after restoration.",
-          "Increases complaints and confusion.",
-          -5
-        )),
-        q("Deposits", "What withdrawal policy best balances liquidity and fairness?", buildChoices(
-          "Temporary limits with clear explanations and escalation paths. Track all limits, monitor for risk and trust and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for risk and trust and effectiveness, and review for effectiveness after restoration.",
-          "Controls risk while maintaining trust.",
-          10,
-
-          "Restrict only unusually large withdrawals. Track all restrictions, monitor for risk and consistency and effectiveness, and review for effectiveness after restoration.",
-          "Reduces some risk but lacks consistency.",
-          5,
-
-          "Permit unlimited withdrawals to avoid complaints. Track all withdrawals, monitor for liquidity risk and effectiveness, and review for effectiveness after restoration.",
-          "Liquidity risk escalates.",
-          -5,
-
-          "Allow each branch to set its own rules. Track all rules, monitor for inconsistency and escalation and effectiveness, and review for effectiveness after restoration.",
-          "Creates inconsistency and escalation.",
-          -5
-        )),
-        q("Deposits", "How often should public status updates be issued?", buildChoices(
-          "At a predictable cadence with verified information and next steps. Track all updates, monitor for speculation and call volume and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for speculation and call volume and effectiveness, and review for effectiveness after restoration.",
-          "Reduces speculation and call volume.",
-          10,
-
-          "Only when major milestones occur. Track all milestones, monitor for predictability and silence and effectiveness, and review for effectiveness after restoration.",
-          "Less predictable but better than silence.",
-          5,
-
-          "Continuously as staff learn new information. Track all updates, monitor for confusion and misinformation and effectiveness, and review for effectiveness after restoration.",
-          "Creates confusion and misinformation.",
-          -5,
-
-          "Restrict updates to internal audiences only. Track all restrictions, monitor for customer information and effectiveness, and review for effectiveness after restoration.",
-          "Leaves customers uninformed.",
           -5
         )),
       ]
