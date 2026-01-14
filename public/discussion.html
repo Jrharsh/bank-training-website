@@ -8,109 +8,85 @@
         <script src="js/static-scenarios.js"></script>
         <style>
             /* Place your CSS here or in /css/style.css */
+            .discussion-points {
+                background: #e3f2fd;
+                border-radius: 12px;
+                padding: 20px;
+                border-left: 5px solid #2196f3;
+            }
+            .discussion-points h4 {
+                color: #1976d2;
+                margin: 0 0 15px 0;
+                font-size: 1.3rem;
+            }
+            .discussion-points ul {
+                margin: 0;
+                padding-left: 20px;
+            }
+            .discussion-points li {
+                color: #424242;
+                margin-bottom: 10px;
+                font-size: 1.05rem;
+            }
+            .back-btn {
+                background: transparent;
+                color: #2c3e50;
+                border: 2px solid #2c3e50;
+                padding: 10px 20px;
+                border-radius: 8px;
+                text-decoration: none;
+                display: inline-block;
+                margin-bottom: 20px;
+                transition: all 0.3s ease;
+            }
+            .back-btn:hover {
+                background: #2c3e50;
+                color: white;
+            }
+            .status-indicator {
+                background: rgba(255, 255, 255, 0.9);
+                padding: 15px;
+                border-radius: 10px;
+                margin-bottom: 20px;
+                font-family: monospace;
+                font-size: 0.9rem;
+                border-left: 4px solid #28a745;
+            }
+            .status-indicator.error {
+                border-left-color: #dc3545;
+                background: #f8d7da;
+            }
+            .refresh-btn {
+                background: linear-gradient(135deg, #17a2b8, #138496);
+                color: white;
+                border: none;
+                padding: 10px 25px;
+                border-radius: 25px;
+                font-size: 1rem;
+                font-weight: 500;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                margin-left: 15px;
+            }
+            .refresh-btn:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 5px 15px rgba(23, 162, 184, 0.4);
+            }
+            @media (max-width: 768px) {
+                .department-grid {
+                    grid-template-columns: repeat(2, 1fr);
+                }
+                .complexity-options {
+                    grid-template-columns: 1fr;
+                }
+                .scenario-header {
+                    flex-direction: column;
+                    text-align: center;
+                }
+            }
         </style>
     </head>
     <body>
-        <!-- ...existing HTML content (header, controls, etc.)... -->
-        <!-- Place your HTML content here, outside of <script> tags -->
-        <!-- At the end of the body, include your JavaScript: -->
-        <script>
-            // ...existing JavaScript code only...
-        </script>
-    </body>
-        }
-
-        .discussion-points {
-            background: #e3f2fd;
-            border-radius: 12px;
-            padding: 20px;
-            border-left: 5px solid #2196f3;
-        }
-
-        .discussion-points h4 {
-            color: #1976d2;
-            margin: 0 0 15px 0;
-            font-size: 1.3rem;
-        }
-
-        .discussion-points ul {
-            margin: 0;
-            padding-left: 20px;
-        }
-
-        .discussion-points li {
-            color: #424242;
-            margin-bottom: 10px;
-            font-size: 1.05rem;
-        }
-
-        .back-btn {
-            background: transparent;
-            color: #2c3e50;
-            border: 2px solid #2c3e50;
-            padding: 10px 20px;
-            border-radius: 8px;
-            text-decoration: none;
-            display: inline-block;
-            margin-bottom: 20px;
-            transition: all 0.3s ease;
-        }
-
-        .back-btn:hover {
-            background: #2c3e50;
-            color: white;
-        }
-
-        .status-indicator {
-            background: rgba(255, 255, 255, 0.9);
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            font-family: monospace;
-            font-size: 0.9rem;
-            border-left: 4px solid #28a745;
-        }
-
-        .status-indicator.error {
-            border-left-color: #dc3545;
-            background: #f8d7da;
-        }
-
-        .refresh-btn {
-            background: linear-gradient(135deg, #17a2b8, #138496);
-            color: white;
-            border: none;
-            padding: 10px 25px;
-            border-radius: 25px;
-            font-size: 1rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-left: 15px;
-        }
-
-        .refresh-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(23, 162, 184, 0.4);
-        }
-
-        @media (max-width: 768px) {
-            .department-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .complexity-options {
-                grid-template-columns: 1fr;
-            }
-            
-            .scenario-header {
-                flex-direction: column;
-                text-align: center;
-            }
-        }
-    </style>
-</head>
-<body>
     <div class="container">
         <a href="/" class="back-btn">← Back to Main Menu</a>
         
@@ -431,5 +407,5 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log('[DEBUG] Initialization complete');
 });
     </script>
-</body>
+    </body>
 </html>
