@@ -8,6 +8,92 @@ body {
   background: #f5f7fa;
   color: #333;
 }
+
+/* Dark mode styles: only active if user prefers dark mode */
+@media (prefers-color-scheme: dark) {
+  body {
+    background: #181c23;
+    color: #f3f6fa;
+  }
+  .header img {
+    filter: brightness(0.85) contrast(1.1);
+  }
+  .title {
+    color: #ffb4a2;
+  }
+  .scoreboard {
+    background: none;
+  }
+  .department {
+    background: #232a36;
+    color: #ffe082;
+  }
+  .scenario-box,
+  .question-box,
+  .intro-box {
+    background: #232a36;
+    color: #f3f6fa;
+    box-shadow: 0 0 16px rgba(0,0,0,0.45);
+  }
+  .choice-btn {
+    background: #232a36;
+    color: #ffe082;
+    border: 1px solid #374151;
+  }
+  .choice-btn:hover {
+    background: #232a36;
+    border-color: #ffe082;
+  }
+  .choice-btn.selected {
+    background: #374151;
+    border-color: #ffe082;
+  }
+  .choice-btn.correct {
+    background-color: #27ae60;
+    color: #fff;
+  }
+  .choice-btn.incorrect {
+    background-color: #e74c3c;
+    color: #fff;
+  }
+  .point-badge {
+    background: #232a36;
+    color: #ffe082;
+    border: 1px solid #ffe082;
+  }
+  .controls button {
+    background: #374151;
+    color: #ffe082;
+  }
+  .controls button:hover {
+    background: #232a36;
+    color: #fff;
+  }
+  .winner-card {
+    background: #181c23;
+    color: #ffe082;
+    border: 1px solid #ffe082;
+  }
+  .winner-pill {
+    background: #232a36;
+    color: #ffe082;
+    border: 1px solid #ffe082;
+  }
+  .winner-pill .badge {
+    background: #ffe082;
+    color: #232a36;
+  }
+  .winner-actions .secondary {
+    background: #232a36;
+    color: #ffe082;
+    border: 1px solid #374151;
+  }
+  .uc-box {
+    background: #232a36;
+    border: 1px solid #ffe082;
+    color: #ffe082;
+  }
+}
 .header {
   display: flex;
   align-items: center;
