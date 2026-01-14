@@ -5,15 +5,16 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  // Under Construction: return minimal discussion payload with no points
+  // Get a random scenario and return only metadata (no questions/answers)
   const base = getRandomScenario();
   const { department = 'General', complexity = 'intermediate' } = req.body || {};
   res.set('Cache-Control', 'no-store');
   return res.status(200).json({
-    title: `${base.title} — ${department}`,
+    key: base.key,
+    title: base.title,
     description: base.description,
-    discussionPoints: [],
+    department,
     complexity,
-    department
+    // No questions or answers included
   });
 }

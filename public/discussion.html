@@ -315,7 +315,7 @@
             <p>Generate realistic, bank-specific training scenarios from built-in templates</p>
         </div>
 
-        <div class="status-indicator" id="statusIndicator">
+        <div class="status-indicator" id="statusIndicator" style="display:none;">
             <strong>Status:</strong> <span id="statusText">Ready to generate scenarios</span>
         </div>
 
@@ -377,13 +377,18 @@ const departments = [
 ];
 
 function updateStatus(message, isError = false) {
+    // Hide status indicator for static/offline mode except for debugging
     const statusIndicator = document.getElementById('statusIndicator');
     const statusText = document.getElementById('statusText');
-    
-    statusText.textContent = message;
-    statusIndicator.className = isError ? 'status-indicator error' : 'status-indicator';
-    
-    // Add console logging for debugging
+    if (isError) {
+        statusText.textContent = message;
+        statusIndicator.className = 'status-indicator error';
+        statusIndicator.style.display = '';
+    } else {
+        // Hide status for normal operation
+        statusIndicator.style.display = 'none';
+    }
+    // Console log for debugging
     console.log(`[STATUS] ${message}`, isError ? '(ERROR)' : '');
 }
 
@@ -443,7 +448,7 @@ function updateGenerateButton() {
     generateBtn.disabled = !selectedDepartment;
 }
 
-async function generateScenario() {
+function generateScenario() {
     if (!selectedDepartment) {
         updateStatus('Please select a department first', true);
         return;
@@ -451,49 +456,24 @@ async function generateScenario() {
 
     const generateBtn = document.getElementById('generateBtn');
     const generateBtnText = document.getElementById('generateBtnText');
-    
+
     // Show loading state
     generateBtn.classList.add('loading');
     generateBtn.disabled = true;
     generateBtnText.textContent = 'Generating scenario...';
     updateStatus('Generating scenario from templates...');
 
-    console.log(`[DEBUG] Starting generation: ${selectedDepartment} - ${selectedComplexity}`);
-
+    // Use static-scenarios.js data
     try {
-        const requestData = {
-            department: selectedDepartment,
-            complexity: selectedComplexity
-        };
-        
-        console.log('[DEBUG] Request data:', requestData);
-
-        const response = await fetch('/api/generate-discussion-scenario', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(requestData)
-        });
-
-        console.log(`[DEBUG] Response status: ${response.status}`);
-
-        if (!response.ok) {
-            const errorText = await response.text();
-            console.log('[DEBUG] Error response:', errorText);
-            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        // Find scenarios for the selected department
+        let scenarios = window.staticScenarios && window.staticScenarios[selectedDepartment];
+        if (!scenarios || !Array.isArray(scenarios) || scenarios.length === 0) {
+            throw new Error('No scenarios found for this department');
         }
-
-        const data = await response.json();
-        console.log('[DEBUG] Response data:', data);
-        
-        if (data.error) {
-            throw new Error(data.error);
-        }
-
-        displayScenario(data);
+        // Pick a random scenario
+        const scenario = scenarios[Math.floor(Math.random() * scenarios.length)];
+        displayScenario(scenario);
         updateStatus('Scenario generated successfully.');
-
     } catch (error) {
         console.error('[DEBUG] Error:', error);
         updateStatus(`Error: ${error.message}`, true);
@@ -575,15 +555,12 @@ function displayScenario(data) {
 
 function displayErrorFallback() {
     const dept = departments.find(d => d.id === selectedDepartment);
-    
     document.getElementById('scenarioIcon').textContent = dept.icon;
-    document.getElementById('scenarioTitle').textContent = 'Scenario Generation Failed';
+    document.getElementById('scenarioTitle').textContent = 'No Scenarios Available';
     document.getElementById('scenarioDepartment').textContent = `${dept.name} Department`;
-    document.getElementById('scenarioContent').textContent = 'Unable to generate AI scenario. Check the browser console (F12) for error details.';
-    
+    document.getElementById('scenarioContent').textContent = 'No scenarios are available for this department in the offline template. Please select a different department or contact your administrator to add more scenarios.';
     const discussionContainer = document.getElementById('discussionPoints');
-    discussionContainer.innerHTML = '<li>Check browser console for error details</li><li>Verify server is running</li><li>Check OpenAI API configuration</li>';
-    
+    discussionContainer.innerHTML = '<li>Try a different department</li><li>Contact your administrator to add more scenarios</li>';
     document.getElementById('scenarioOutput').style.display = 'block';
     document.getElementById('scenarioOutput').scrollIntoView({ behavior: 'smooth' });
 }
