@@ -1,3 +1,14 @@
+/* Department grid dark mode fix for discussion tool */
+@media (prefers-color-scheme: dark) {
+  .department-name {
+    color: #f3f6fa !important;
+    font-weight: 600;
+  }
+  .department-icon {
+    color: #ffe082 !important;
+    filter: brightness(1.2) drop-shadow(0 0 2px #fff2);
+  }
+}
 * {
   box-sizing: border-box;
 }
