@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Tabletop Scenario Generator</title>
         <link rel="stylesheet" href="/css/style.css">
-        <script src="js/static-scenarios.js"></script>
+        <script src="js/discussion-scenarios.js"></script>
         <style>
             body {
                 background: #181e24;
@@ -463,10 +463,10 @@ function generateScenario() {
     generateBtnText.textContent = 'Generating scenario...';
     updateStatus('Generating scenario from templates...');
 
-    // Use static-scenarios.js data
+    // Use discussion-scenarios.js data
     try {
         // Find scenarios for the selected department
-        let scenarios = window.staticScenarios && window.staticScenarios[selectedDepartment];
+        let scenarios = window.discussionScenarios && window.discussionScenarios[selectedDepartment];
         if (!scenarios || !Array.isArray(scenarios) || scenarios.length === 0) {
             throw new Error('No scenarios found for this department');
         }
