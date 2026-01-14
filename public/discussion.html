@@ -15,16 +15,16 @@
                 min-height: 100vh;
             }
             .container {
-                max-width: 1200px;
+                max-width: 1100px;
                 margin: 0 auto;
                 padding: 32px 16px 48px 16px;
             }
             .header {
                 text-align: center;
-                margin-bottom: 32px;
+                margin-bottom: 24px;
             }
             .header h1 {
-                font-size: 2.5rem;
+                font-size: 2.3rem;
                 margin-bottom: 0.5rem;
             }
             .header p {
@@ -34,13 +34,13 @@
             .status-indicator {
                 background: #232a32;
                 color: #28a745;
-                padding: 12px 20px;
-                border-radius: 8px;
-                margin-bottom: 24px;
+                padding: 8px 18px;
+                border-radius: 6px;
+                margin-bottom: 18px;
                 font-family: monospace;
                 font-size: 1rem;
                 border-left: 4px solid #28a745;
-                box-shadow: 0 2px 8px rgba(40,167,69,0.05);
+                box-shadow: none;
                 transition: background 0.2s, color 0.2s;
             }
             .status-indicator.error {
@@ -48,43 +48,68 @@
                 background: #3a2327;
                 color: #dc3545;
             }
-            .controls {
-                margin-bottom: 36px;
+            .steps-bar {
+                display: flex;
+                align-items: flex-end;
+                gap: 32px;
+                margin-bottom: 18px;
+                font-size: 1.25rem;
+                font-weight: 600;
+            }
+            .steps-bar .step-label {
+                color: #fff;
+                font-size: 1.1rem;
+                font-weight: 600;
+            }
+            .steps-bar .step-number {
+                color: #2196f3;
+                font-size: 1.1rem;
+                font-weight: 700;
+                margin-right: 4px;
+            }
+            .selectors-row {
+                display: flex;
+                gap: 32px;
+                align-items: flex-start;
+                margin-bottom: 0;
+            }
+            .departments-col, .complexity-col {
+                flex: 1 1 0;
             }
             .department-grid {
                 display: grid;
                 grid-template-columns: repeat(5, 1fr);
-                gap: 16px;
-                margin-bottom: 24px;
+                gap: 12px;
+                margin-bottom: 0;
             }
             .department-card {
                 background: #232a32;
-                border-radius: 10px;
-                padding: 18px 0 10px 0;
+                border-radius: 8px;
+                padding: 14px 0 8px 0;
                 text-align: center;
                 cursor: pointer;
                 border: 2px solid transparent;
                 transition: border 0.2s, background 0.2s;
-                font-size: 1.1rem;
+                font-size: 1.05rem;
             }
             .department-card.selected, .department-card:hover {
                 border: 2px solid #2196f3;
                 background: #1a222b;
             }
             .department-icon {
-                font-size: 2rem;
-                margin-bottom: 6px;
+                font-size: 1.7rem;
+                margin-bottom: 4px;
             }
             .complexity-options {
                 display: grid;
-                grid-template-columns: repeat(2, 1fr);
-                gap: 12px;
-                margin-bottom: 18px;
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+                margin-bottom: 0;
             }
             .complexity-option {
                 background: #232a32;
                 border-radius: 8px;
-                padding: 12px 16px;
+                padding: 10px 14px;
                 cursor: pointer;
                 border: 2px solid transparent;
                 transition: border 0.2s, background 0.2s;
@@ -95,15 +120,16 @@
             }
             .complexity-label {
                 font-weight: 600;
-                font-size: 1.1rem;
+                font-size: 1.05rem;
             }
             .complexity-desc {
                 color: #b0b8c1;
-                font-size: 0.95rem;
+                font-size: 0.93rem;
             }
             .generate-section {
-                text-align: right;
-                margin-bottom: 0;
+                display: flex;
+                align-items: flex-end;
+                margin-left: 32px;
             }
             .generate-btn {
                 background: linear-gradient(135deg, #28d17c, #1abc9c);
@@ -206,6 +232,10 @@
                 .container {
                     padding: 12px 2vw 32px 2vw;
                 }
+                .selectors-row {
+                    flex-direction: column;
+                    gap: 18px;
+                }
                 .department-grid {
                     grid-template-columns: repeat(2, 1fr);
                 }
@@ -217,7 +247,9 @@
                     text-align: center;
                 }
                 .generate-section {
-                    text-align: center;
+                    margin-left: 0;
+                    margin-top: 18px;
+                    justify-content: flex-start;
                 }
             }
         </style>
@@ -236,42 +268,43 @@
         </div>
 
         <div class="controls">
-            <h2>Configure Your Scenario</h2>
-            
-            <!-- Department Selection -->
-            <h3>1. Select Department</h3>
-            <div class="department-grid" id="departmentGrid">
-                <!-- Departments populated by JavaScript -->
+            <div class="steps-bar">
+                <span class="step-label">Configure Your Scenario</span>
+                <span class="step-number">1.</span><span class="step-label">Select Department</span>
+                <span class="step-number">2.</span><span class="step-label">Choose Scenario Complexity</span>
             </div>
-
-            <!-- Complexity Selection -->
-            <div class="complexity-selector">
-                <h3>2. Choose Scenario Complexity</h3>
-                <div class="complexity-options" id="complexityOptions">
-                    <div class="complexity-option" data-complexity="basic">
-                        <div class="complexity-label">Basic</div>
-                        <div class="complexity-desc">Simple, straightforward scenarios</div>
-                    </div>
-                    <div class="complexity-option selected" data-complexity="intermediate">
-                        <div class="complexity-label">Intermediate</div>
-                        <div class="complexity-desc">Multi-faceted challenges</div>
-                    </div>
-                    <div class="complexity-option" data-complexity="advanced">
-                        <div class="complexity-label">Advanced</div>
-                        <div class="complexity-desc">Complex, interconnected issues</div>
-                    </div>
-                    <div class="complexity-option" data-complexity="crisis">
-                        <div class="complexity-label">Crisis</div>
-                        <div class="complexity-desc">High-pressure emergency situations</div>
+            <div class="selectors-row">
+                <div class="departments-col">
+                    <div class="department-grid" id="departmentGrid">
+                        <!-- Departments populated by JavaScript -->
                     </div>
                 </div>
-            </div>
-
-            <div class="generate-section">
-                <button class="generate-btn" id="generateBtn" disabled>
-                    <span class="loading-spinner"></span>
-                    <span id="generateBtnText">Generate Scenario</span>
-                </button>
+                <div class="complexity-col">
+                    <div class="complexity-options" id="complexityOptions">
+                        <div class="complexity-option" data-complexity="basic">
+                            <div class="complexity-label">Basic</div>
+                            <div class="complexity-desc">Simple, straightforward scenarios</div>
+                        </div>
+                        <div class="complexity-option selected" data-complexity="intermediate">
+                            <div class="complexity-label">Intermediate</div>
+                            <div class="complexity-desc">Multi-faceted challenges</div>
+                        </div>
+                        <div class="complexity-option" data-complexity="advanced">
+                            <div class="complexity-label">Advanced</div>
+                            <div class="complexity-desc">Complex, interconnected issues</div>
+                        </div>
+                        <div class="complexity-option" data-complexity="crisis">
+                            <div class="complexity-label">Crisis</div>
+                            <div class="complexity-desc">High-pressure emergency situations</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="generate-section">
+                    <button class="generate-btn" id="generateBtn" disabled>
+                        <span class="loading-spinner"></span>
+                        <span id="generateBtnText">Generate Scenario</span>
+                    </button>
+                </div>
             </div>
         </div>
 
