@@ -84,15 +84,26 @@ body {
 ================================ */
 .ttsg .header {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 12px;
+  gap: 8px;
+  margin-bottom: 18px;
 }
 .ttsg .header img {
-  width: 80px;
-  height: 80px;
+  width: 96px;
+  height: 96px;
   object-fit: contain;
 }
+
+/* Department icon fallback: image preferred, emoji fallback */
+.ttsg .department-icon-img {
+  width: 32px;
+  height: 32px;
+  display: none;
+}
+.ttsg .department-card.has-image .department-icon-img { display: inline-block; }
+.ttsg .department-card.has-image .department-icon { display: none; }
 .cmg .q-progress {
   font-size: 0.95rem;
   color: #64748b;
