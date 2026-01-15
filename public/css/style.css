@@ -82,19 +82,19 @@ body {
 /* ================================
    Crisis Management Game — UI polish
 ================================ */
-.q-progress {
+.cmg .q-progress {
   font-size: 0.95rem;
   color: #64748b;
   margin-bottom: 10px;
 }
 
-.question-card {
+.cmg .question-card {
   max-width: 820px;
   margin: 0 auto;
   text-align: center;
 }
 
-.department-label {
+.cmg .department-label {
   display: inline-flex;
   align-items: center;
   padding: 6px 10px;
@@ -105,20 +105,20 @@ body {
   margin-bottom: 8px;
 }
 
-.question-title {
+.cmg .question-title {
   margin: 8px 0 16px;
   font-size: 1.35rem;
   color: #0f172a;
 }
 
-.choices {
+.cmg .choices {
   display: flex;
   flex-direction: column;
   gap: 10px;
   align-items: stretch;
 }
 
-.question-card .choice-btn {
+.cmg .question-card .choice-btn {
   width: 100%;
   padding: 12px 16px;
   border-radius: 10px;
@@ -128,14 +128,14 @@ body {
   display: block; /* avoid webkit box clamp */
 }
 
-.question-card .choice-btn:hover {
+.cmg .question-card .choice-btn:hover {
   background: #f1f5f9;
   border-color: #60a5fa;
 }
 
-.next-button { margin-top: 14px; }
+.cmg .next-button { margin-top: 14px; }
 
-#nextBtn {
+.cmg #nextBtn {
   padding: 10px 16px;
   border-radius: 10px;
   background: #2563eb;
@@ -145,17 +145,17 @@ body {
   font-weight: 600;
 }
 
-#nextBtn:hover:not(:disabled) {
+.cmg #nextBtn:hover:not(:disabled) {
   background: #1e40af;
 }
 
-#nextBtn:disabled {
+.cmg #nextBtn:disabled {
   opacity: 0.6;
   cursor: not-allowed;
   background: #94a3b8;
 }
 
-.explain-box {
+.cmg .explain-box {
   margin-top: 14px;
   text-align: left;
   background: #f8fafc;
@@ -164,19 +164,19 @@ body {
   padding: 12px 14px;
 }
 
-.explain-top { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+.cmg .explain-top { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
 
-.point-badge { border-radius: 999px; padding: 4px 8px; font-weight: 700; font-size: 0.85rem; }
+.cmg .point-badge { border-radius: 999px; padding: 4px 8px; font-weight: 700; font-size: 0.85rem; }
 
 /* Header layout for game page: logo + centered title */
-.header {
+.cmg .header {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 12px;
   margin-bottom: 12px;
 }
-.header .title {
+.cmg .header .title {
   text-align: center;
   display: inline-flex;
   align-items: center;
@@ -185,7 +185,7 @@ body {
   margin: 0;
 }
 
-.header img {
+.cmg .header img {
   width: 80px;
   height: 80px;
   object-fit: contain;
