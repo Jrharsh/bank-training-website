@@ -118,6 +118,67 @@ body {
   font-size: 2.9rem !important;
   margin-bottom: 12px !important;
 }
+
+/* ================================
+   TTSG — Card and Grid polish
+================================ */
+.ttsg #departmentGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 18px;
+  max-width: 980px;
+  margin: 22px auto 26px;
+}
+
+.ttsg .department-card {
+  background: #fff;
+  border: 1px solid #e0e6ed;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(30,41,59,0.08);
+  padding: 22px 12px 18px;
+  text-align: center;
+  transition: box-shadow 0.18s ease, transform 0.12s ease, border-color 0.18s ease;
+}
+.ttsg .department-card:hover {
+  transform: translateY(-2px) scale(1.02);
+  border-color: #60a5fa;
+  box-shadow: 0 6px 24px rgba(30,41,59,0.13);
+}
+.ttsg .department-card.selected {
+  border-color: #2196f3;
+  box-shadow: 0 8px 28px rgba(33,150,243,0.18);
+}
+
+.ttsg .department-name {
+  font-weight: 600;
+  color: #222;
+  margin-top: 6px;
+}
+
+.ttsg .generate-section {
+  display: flex;
+  justify-content: center;
+  margin: 0 auto 0 auto;
+  background: transparent;
+  box-shadow: none;
+}
+.ttsg .generate-btn {
+  padding: 12px 24px;
+  border-radius: 10px;
+  font-size: 1.04rem;
+  background: linear-gradient(120deg, #60a5fa 0%, #28d17c 100%) !important;
+  color: #fff !important;
+  border: none;
+  box-shadow: 0 2px 8px rgba(40, 209, 124, 0.10);
+}
+.ttsg .generate-btn:hover:not(:disabled) {
+  background: linear-gradient(120deg, #2563eb 0%, #1e874b 100%) !important;
+}
+.ttsg .generate-btn:disabled {
+  background: #b7e4c7 !important;
+  color: #e0e6ed !important;
+  cursor: not-allowed;
+}
 .cmg .q-progress {
   font-size: 0.95rem;
   color: #64748b;
