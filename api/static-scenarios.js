@@ -1,167 +1,350 @@
-const SCENARIO_OPS_ERROR_FRAUD = {
-  key: "operational-error-looks-like-fraud",
-  title: "Operational Error That Looks Like Fraud",
-  description:
-    "An internal posting error mimics fraud behavior (duplicate debits, missing credits). Customers freeze accounts, assuming compromise.",
-  questions: [
-    // CEO/SVPs
-    q("CEO/SVPs", "How should leadership frame the incident publicly when the error looks like fraud?", buildChoices(
-      "Acknowledge the issue clearly, explain that it is an operational error and not a malicious act, and commit to rapid correction and transparent updates for all stakeholders. Provide regular status reports and ensure all communications are consistent and reviewed for effectiveness after restoration.", "Builds trust and controls the narrative.", 10,
-      "Delay public communication until all facts are confirmed, focusing on internal investigation and preparing a comprehensive statement before addressing the public. Provide updates only after internal review and ensure all communications are consistent and reviewed for effectiveness after restoration.", "Reduces misinformation but risks rumor spread.", 5,
-      "Emphasize only technical details in all communications, avoiding discussion of customer impact or broader narrative, and provide updates focused solely on system status. Ensure all communications are consistent and reviewed for effectiveness after restoration.", "Misses the public narrative and increases confusion.", -5,
-      "Deny any issue exists until external pressure forces a response, refusing to comment or provide updates until absolutely necessary. Only communicate after being compelled and ensure all communications are consistent and reviewed for effectiveness after restoration.", "Destroys trust and increases speculation.", -5
-    )),
-    // IT/Security
-    q("IT/Security", "How should IT/Security prove the error is not malicious?", buildChoices(
-      "Collect and review all relevant logs, system records, and staff actions, document the timeline, and communicate findings to stakeholders. Provide a detailed report and ensure all actions are reviewed for accuracy and defensibility after restoration.", "Ensures accuracy and supports defensibility.", 10,
-      "Rely on system consistency checks and staff statements, assuming no malicious activity if no discrepancies are found. Prepare a summary of findings and ensure all actions are reviewed for accuracy and defensibility after restoration.", "May miss hidden issues and reduce defensibility.", 5,
-      "Delay investigation until more evidence is found, postponing action in hopes of finding more proof. Provide updates only when new information is available and ensure all actions are reviewed for accuracy and defensibility after restoration.", "Delays resolution and increases risk.", -5,
-      "Ignore the incident and assert it is not malicious without investigation. Make no effort to collect evidence and ensure all actions are reviewed for accuracy and defensibility after restoration.", "Reduces trust and increases risk of findings.", -5
-    )),
-    // HR
-    q("HR", "How should HR support staff morale when employees are accused of fraud?", buildChoices(
-      "Provide clear communication about the nature of the error, offer support resources, and reinforce a culture of accountability and learning. Ensure regular updates and monitor staff morale and stress reduction, reviewing effectiveness after restoration.", "Improves morale and reduces stress.", 10,
-      "Survey staff for feedback and make minor adjustments to support, updating only where issues are reported. Provide periodic updates and monitor staff morale and stress reduction, reviewing effectiveness after restoration.", "Some improvement but may miss systemic issues.", 5,
-      "Rely on existing support and assume staff are coping, making no changes unless required. Offer minimal updates and monitor staff morale and stress reduction, reviewing effectiveness after restoration.", "Misses opportunity to address root causes.", -5,
-      "Blame staff for the error and issue warnings, focusing on discipline rather than improvement. Communicate only when necessary and monitor staff morale and stress reduction, reviewing effectiveness after restoration.", "Damages morale and increases turnover.", -5
-    )),
-    // Finance
-    q("Finance", "How should Finance manage temporary liquidity distortion from the error?", buildChoices(
-      "Monitor liquidity closely, communicate with leadership, and prepare contingency plans for cash flow needs. Provide regular updates and ensure all actions are reviewed for liquidity and risk management after restoration.", "Balances risk and supports stability.", 10,
-      "Estimate liquidity impact based on best guesses, updating numbers as new information emerges. Share periodic updates and ensure all actions are reviewed for liquidity and risk management after restoration.", "Some flexibility but may appear inconsistent.", 5,
-      "Deny any liquidity impact exists, refusing to estimate or communicate possible effects. Provide minimal updates and ensure all actions are reviewed for liquidity and risk management after restoration.", "Risks regulatory findings and trust loss.", -5,
-      "Provide no estimates until all entries are corrected, delaying communication indefinitely. Only update after full correction and ensure all actions are reviewed for liquidity and risk management after restoration.", "Increases anxiety and regulatory scrutiny.", -5
-    )),
-    // Loans
-    q("Loans", "How should Loans address auto-pay confusion caused by the error?", buildChoices(
-      "Communicate proactively with affected customers, clarify the nature of the error, and provide remediation or escalation paths. Give regular updates and ensure all actions are reviewed for accuracy and fairness after restoration.", "Ensures fairness and reduces repeat complaints.", 10,
-      "Allow each lender to decide how to handle confusion, providing general guidance but no standardization. Share periodic updates and ensure all actions are reviewed for accuracy and fairness after restoration.", "May create inconsistency and confusion.", 5,
-      "Remediate only when customers escalate, addressing issues reactively rather than proactively. Provide minimal updates and ensure all actions are reviewed for accuracy and fairness after restoration.", "Misses silent or less vocal customers.", -5,
-      "Delay all action until the error is fully corrected, taking no steps to resolve confusion until more data is found. Only update after full correction and ensure all actions are reviewed for accuracy and fairness after restoration.", "Increases risk of findings and customer loss.", -5
-    )),
-    // Accounting
-    q("Accounting", "How should Accounting correct entries without causing misstatement?", buildChoices(
-      "Document all corrections, reconcile accounts, and communicate changes to auditors and stakeholders. Provide regular updates and ensure all actions are reviewed for accuracy and defensibility after restoration.", "Ensures accuracy and reduces risk of misstatement.", 10,
-      "Make corrections as needed without full documentation, updating records as issues are found. Share periodic updates and ensure all actions are reviewed for accuracy and defensibility after restoration.", "May raise questions about thoroughness.", 5,
-      "Delay corrections until specifically requested, taking no proactive steps. Provide minimal updates and ensure all actions are reviewed for accuracy and defensibility after restoration.", "Appears unprepared and reactive.", -5,
-      "Rely on verbal explanations instead of written records, providing only staff recollections. Only update after full correction and ensure all actions are reviewed for accuracy and defensibility after restoration.", "Weakens audit trail and defensibility.", -5
-    )),
-    // Deposits
-    q("Deposits", "How should Deposits manage call center overload during the incident?", buildChoices(
-      "Implement surge staffing, provide scripts for common questions, and issue regular status updates to reduce call volume. Give regular updates and ensure all actions are reviewed for load and messaging consistency after restoration.", "Reduces load and keeps messaging consistent.", 10,
-      "Add scripts for staff but keep the phone tree the same, offering some support for customer interactions but maintaining the existing call routing. Share periodic updates and ensure all actions are reviewed for load and messaging consistency after restoration.", "Helpful, but still high volume without automation.", 5,
-      "Turn phones off during periods of high pressure, suspending all incoming calls and communications. Provide minimal updates and ensure all actions are reviewed for load and messaging consistency after restoration.", "Worsens panic and leaves customers without support.", -5,
-      "Tell customers everything is fine without providing facts, offering vague reassurances that may damage credibility and increase confusion among callers. Track all communications, monitor for credibility risk and effectiveness, and review for effectiveness after restoration.", "Credibility risk and confusion.", -5
-    )),
-  ]
-};
+q(
+  "CEO/SVPs",
+  "How should leadership frame the incident publicly while the root cause is still being validated?",
+  buildChoices(
+
+    // Correct (10) — balanced, but not verbose
+    "Acknowledge customer impact, state that anomalous activity is under investigation, avoid confirming cause prematurely, and commit to time-bound updates.",
+    "Balances transparency with uncertainty and avoids statements that may later require correction.",
+    10,
+
+    // Partial (5) — defensible but incomplete
+    "Delay public statements until internal teams confirm whether the activity is operational or malicious, focusing first on internal alignment.",
+    "Reduces risk of retraction but allows external speculation to grow unchecked.",
+    5,
+
+    // Wrong (-5) — tempting but risky
+    "Frame the issue as a system processing problem without addressing customer concerns about account security.",
+    "Technically accurate but fails to address the trust implications driving customer behavior.",
+    -5,
+
+    // Wrong (-5) — sounds reassuring but dangerous
+    "Reassure customers that there is no fraud risk while remediation is underway.",
+    "Creates exposure if later findings contradict the statement and undermines credibility.",
+    -5
+  )
+);
+
+
 const SCENARIO_DATA_UNVERIFIABLE = {
   key: "customer-data-correct-unverifiable",
-  title: "Customer Data Correct but Unverifiable",
+  title: "Customer Data Appears Correct but Cannot Be Fully Verified",
   description:
-    "Customers report incorrect balances and transaction histories. Internal systems appear consistent, but logs required to prove accuracy are incomplete due to a prior retention misconfiguration.",
+    "Customers report incorrect balances and transaction histories. Core systems reconcile internally, but supporting logs needed to independently verify accuracy are incomplete due to a prior retention misconfiguration.",
   questions: [
-    // CEO/SVPs
-    q("CEO/SVPs", "How should leadership address the trust vs truth dilemma with customers and regulators?", buildChoices(
-      "Acknowledge the evidence gap, explain the steps being taken to validate data, and offer transparent updates while committing to remediation if errors are found. Provide regular status reports and ensure all communications are consistent and reviewed for effectiveness after restoration.", "Builds trust and manages regulatory risk.", 10,
-      "Emphasize system consistency and assert data is correct, downplaying the lack of evidence. Share periodic updates and ensure all communications are consistent and reviewed for effectiveness after restoration.", "May appear evasive and risk trust.", 5,
-      "Delay communication until more evidence is found, waiting for further investigation before addressing customers or regulators. Provide minimal updates and ensure all communications are consistent and reviewed for effectiveness after restoration.", "Increases speculation and anxiety.", -5,
-      "Deny any issues and refuse to discuss evidence gaps, insisting that all data is correct without explanation. Only communicate if required and ensure all communications are consistent and reviewed for effectiveness after restoration.", "Destroys trust and increases regulatory scrutiny.", -5
-    )),
-    // IT/Security
-    q("IT/Security", "How should IT address logging gaps and validate data integrity?", buildChoices(
-      "Conduct a full review of available logs, use alternative validation methods, and document all findings and gaps. Provide a detailed report and ensure all actions are reviewed for integrity and completeness after restoration.", "Maximizes defensibility and transparency.", 10,
-      "Rely on system consistency checks alone, assuming data is correct if no discrepancies are found. Prepare a summary of findings and ensure all actions are reviewed for integrity and completeness after restoration.", "May miss hidden issues and reduce defensibility.", 5,
-      "Delay validation until more logs are recovered, postponing action in hopes of finding more evidence. Provide updates only when new information is available and ensure all actions are reviewed for integrity and completeness after restoration.", "Delays resolution and increases risk.", -5,
-      "Ignore the logging gap and assert that all data is correct, refusing to investigate further. Make no effort to collect evidence and ensure all actions are reviewed for integrity and completeness after restoration.", "Reduces trust and increases risk of findings.", -5
-    )),
+
+    // CEO / SVPs
+    q(
+      "CEO/SVPs",
+      "How should leadership balance confidence in internal data with the inability to fully prove accuracy to customers and regulators?",
+      buildChoices(
+        "Acknowledge the verification gap, explain validation steps underway, avoid definitive claims, and commit to remediation if discrepancies are identified.",
+        "Maintains credibility by separating confidence from proof.",
+        10,
+
+        "State that systems reconcile internally and emphasize confidence in accuracy while additional validation work continues.",
+        "Reassuring, but risks appearing dismissive of evidentiary gaps.",
+        5,
+
+        "Delay external communication until validation work is complete and evidence gaps are resolved.",
+        "Reduces retraction risk but allows speculation to grow.",
+        -5,
+
+        "Assert that the data is correct and treat the lack of logs as an internal documentation issue.",
+        "Overconfidence increases regulatory and reputational exposure.",
+        -5
+      )
+    ),
+
+    // IT / Security
+    q(
+      "IT/Security",
+      "What is the most defensible way to validate data integrity when primary logs are incomplete?",
+      buildChoices(
+        "Correlate alternative system records, reconstruct timelines where possible, and document both findings and validation limits.",
+        "Demonstrates diligence despite incomplete evidence.",
+        10,
+
+        "Rely on system reconciliation results and anomaly detection outputs to support data accuracy.",
+        "Technically sound but weaker without independent corroboration.",
+        5,
+
+        "Pause validation until missing logs can be recovered or recreated.",
+        "Delays resolution without guaranteeing better evidence.",
+        -5,
+
+        "Conclude validation is unnecessary since no active discrepancies are visible.",
+        "Creates exposure if later inconsistencies emerge.",
+        -5
+      )
+    ),
+
     // HR
-    q("HR", "How should HR address training gaps and staff stress from unverifiable data?", buildChoices(
-      "Provide targeted training on evidence handling, offer stress management resources, and clarify accountability expectations. Ensure regular updates and monitor staff readiness and stress reduction, reviewing effectiveness after restoration.", "Improves readiness and reduces stress.", 10,
-      "Survey staff for feedback and make minor adjustments to training, updating only where issues are reported. Provide periodic updates and monitor staff readiness and stress reduction, reviewing effectiveness after restoration.", "Some improvement but may miss systemic issues.", 5,
-      "Rely on existing training and assume staff are prepared, making no changes unless required. Offer minimal updates and monitor staff readiness and stress reduction, reviewing effectiveness after restoration.", "Misses opportunity to address root causes.", -5,
-      "Blame staff for customer complaints and issue warnings, focusing on discipline rather than improvement. Communicate only when necessary and monitor staff readiness and stress reduction, reviewing effectiveness after restoration.", "Damages morale and increases turnover.", -5
-    )),
+    q(
+      "HR",
+      "How should HR respond to employee stress and accountability concerns arising from customer-facing uncertainty?",
+      buildChoices(
+        "Clarify expectations, reinforce escalation paths, and provide support resources while investigations continue.",
+        "Reduces fear-driven errors and protects morale.",
+        10,
+
+        "Remind staff to follow existing procedures and direct questions to management.",
+        "Maintains order but may not address anxiety.",
+        5,
+
+        "Limit communication to avoid distracting staff during remediation work.",
+        "Silence increases uncertainty and rumor.",
+        -5,
+
+        "Emphasize disciplinary consequences for errors to reinforce accountability.",
+        "Erodes trust and discourages transparency.",
+        -5
+      )
+    ),
+
     // Finance
-    q("Finance", "How should Finance estimate exposure without complete evidence?", buildChoices(
-      "Use available data, document all assumptions, and provide a range of possible exposures with clear caveats. Provide regular updates and ensure all actions are reviewed for accuracy and defensibility after restoration.", "Balances accuracy and defensibility.", 10,
-      "Estimate exposure based on best guesses, updating numbers as new information emerges. Share periodic updates and ensure all actions are reviewed for accuracy and defensibility after restoration.", "Some flexibility but may appear inconsistent.", 5,
-      "Deny any exposure exists without evidence, refusing to estimate or communicate possible impacts. Provide minimal updates and ensure all actions are reviewed for accuracy and defensibility after restoration.", "Risks regulatory findings and trust loss.", -5,
-      "Provide no estimates until all evidence is recovered, delaying communication indefinitely. Only update after full evidence is recovered and ensure all actions are reviewed for accuracy and defensibility after restoration.", "Increases anxiety and regulatory scrutiny.", -5
-    )),
+    q(
+      "Finance",
+      "How should Finance assess financial exposure when transaction accuracy cannot be fully substantiated?",
+      buildChoices(
+        "Develop estimated exposure ranges with documented assumptions and clear limitations.",
+        "Balances decision-making needs with defensibility.",
+        10,
+
+        "Provide point estimates based on reconciled balances and adjust if discrepancies emerge.",
+        "Useful operationally but weaker for audit scrutiny.",
+        5,
+
+        "Avoid quantifying exposure until full verification is possible.",
+        "Limits misstatement risk but delays risk awareness.",
+        -5,
+
+        "Assume no exposure exists until errors are proven.",
+        "Creates blind spots and regulatory concern.",
+        -5
+      )
+    ),
+
     // Loans
-    q("Loans", "How should Loans handle payoff accuracy and disputes with unverifiable data?", buildChoices(
-      "Review all available records, communicate limitations to customers, and offer remediation or escalation paths for disputes. Give regular updates and ensure all actions are reviewed for accuracy and fairness after restoration.", "Ensures fairness and reduces repeat complaints.", 10,
-      "Allow each lender to decide how to handle disputes, providing general guidance but no standardization. Share periodic updates and ensure all actions are reviewed for accuracy and fairness after restoration.", "May create inconsistency and confusion.", 5,
-      "Remediate only when customers escalate, addressing issues reactively rather than proactively. Provide minimal updates and ensure all actions are reviewed for accuracy and fairness after restoration.", "Misses silent or less vocal customers.", -5,
-      "Delay all action until evidence is complete, taking no steps to resolve disputes until more data is found. Only update after full evidence is recovered and ensure all actions are reviewed for accuracy and fairness after restoration.", "Increases risk of findings and customer loss.", -5
-    )),
+    q(
+      "Loans",
+      "How should loan payoff disputes be handled when supporting transaction history cannot be fully verified?",
+      buildChoices(
+        "Review available records, disclose verification limits, and offer structured dispute escalation.",
+        "Balances fairness with operational control.",
+        10,
+
+        "Allow lenders discretion to resolve disputes using their judgment.",
+        "Flexible but inconsistent across customers.",
+        5,
+
+        "Address disputes only if customers escalate beyond first contact.",
+        "Misses silent or less assertive customers.",
+        -5,
+
+        "Defer all dispute resolution until validation is complete.",
+        "Increases customer frustration and complaint risk.",
+        -5
+      )
+    ),
+
     // Accounting
-    q("Accounting", "How should Accounting address audit trail sufficiency with incomplete logs?", buildChoices(
-      "Compile all available records, document gaps, and provide a clear explanation to auditors and regulators. Provide regular updates and ensure all actions are reviewed for completeness and defensibility after restoration.", "Supports defensibility and reduces findings.", 10,
-      "Provide only summary reports without supporting detail, limiting documentation to high-level overviews. Share periodic updates and ensure all actions are reviewed for completeness and defensibility after restoration.", "May raise questions about thoroughness.", 5,
-      "Delay documentation until specifically requested, taking no proactive steps. Provide minimal updates and ensure all actions are reviewed for completeness and defensibility after restoration.", "Appears unprepared and reactive.", -5,
-      "Rely on verbal explanations instead of written records, providing only staff recollections. Only update after regulatory review and ensure all actions are reviewed for completeness and defensibility after restoration.", "Weakens audit trail and defensibility.", -5
-    )),
+    q(
+      "Accounting",
+      "How should Accounting support auditability when transaction evidence is incomplete?",
+      buildChoices(
+        "Compile available documentation, clearly identify evidence gaps, and explain compensating controls.",
+        "Strengthens audit defensibility despite limitations.",
+        10,
+
+        "Provide summarized reconciliations without detailing validation gaps.",
+        "Technically accurate but lacks transparency.",
+        5,
+
+        "Wait for auditors to request specific documentation before acting.",
+        "Appears reactive and unprepared.",
+        -5,
+
+        "Rely on verbal explanations supported by system confidence.",
+        "Weakens audit position and credibility.",
+        -5
+      )
+    )
+
   ]
 };
+
 const SCENARIO_REGULATORY_INQUIRY = {
   key: "regulatory-inquiry-customer-complaints",
   title: "Regulatory Inquiry Triggered by Customer Complaints",
   description:
     "Regulators contact the bank after receiving multiple customer complaints about delays, fees, and inconsistent explanations — before the bank has formally escalated an incident.",
   questions: [
+
     // CEO/SVPs
-    q("CEO/SVPs", "How should leadership manage the regulator relationship after being contacted first?", buildChoices(
-      "Respond promptly with transparency, provide a summary of known facts, outline steps being taken, and commit to regular updates. Provide regular status reports and ensure all communications are consistent and reviewed for effectiveness after restoration.", "Builds trust and manages expectations.", 10,
-      "Delay response until more information is gathered, preparing a comprehensive report before engaging. Share periodic updates and ensure all communications are consistent and reviewed for effectiveness after restoration.", "May appear evasive and risk trust.", 5,
-      "Deflect responsibility to departments or vendors, providing only minimal information and waiting for further regulator requests. Provide minimal updates and ensure all communications are consistent and reviewed for effectiveness after restoration.", "Risks credibility and escalates scrutiny.", -5,
-      "Ignore the inquiry until a formal request is received, taking no action until required. Only communicate if required and ensure all communications are consistent and reviewed for effectiveness after restoration.", "Destroys trust and increases risk of penalties.", -5
-    )),
+    q(
+      "CEO/SVPs",
+      "Regulators reached out before the bank formally escalated. What is the most defensible leadership approach in the first response?",
+      buildChoices(
+        "Acknowledge receipt promptly, share verified facts and current scope, describe immediate controls, and set a specific update cadence with a single point of contact.",
+        "Shows control, reduces speculation, and prevents contradictions later.",
+        10,
+
+        "Acknowledge promptly, explain that validation is in progress, and provide a near-term checkpoint time before sharing details beyond confirmed facts.",
+        "Buys time without going silent, but can look thin if overused.",
+        5,
+
+        "Provide limited information and redirect detailed questions to individual departments until an internal summary is assembled.",
+        "Creates inconsistent narratives and signals weak governance.",
+        -5,
+
+        "Wait for a formal written request before responding so the bank is not committed to any early narrative.",
+        "Appears evasive and increases scrutiny and urgency.",
+        -5
+      )
+    ),
+
     // IT/Security
-    q("IT/Security", "How should IT reconstruct the incident timeline for regulators?", buildChoices(
-      "Gather logs, emails, and system records, interview key staff, and create a detailed, evidence-based timeline. Provide a detailed report and ensure all actions are reviewed for completeness and accuracy after restoration.", "Ensures accuracy and supports defensibility.", 10,
-      "Rely on memory and informal notes from staff, compiling a timeline based on recollections. Prepare a summary of findings and ensure all actions are reviewed for completeness and accuracy after restoration.", "May miss key details and reduce defensibility.", 5,
-      "Provide only system-generated logs without context or explanation, omitting staff input. Provide minimal updates and ensure all actions are reviewed for completeness and accuracy after restoration.", "Lacks context and may raise questions.", -5,
-      "Delay timeline creation until specifically requested by regulators, taking no proactive steps. Only update if required and ensure all actions are reviewed for completeness and accuracy after restoration.", "Appears unprepared and reactive.", -5
-    )),
+    q(
+      "IT/Security",
+      "Regulators want a timeline explaining what customers experienced versus what systems recorded. How should IT/Security reconstruct it most credibly?",
+      buildChoices(
+        "Correlate system logs, ticketing/contact-center data, change records, and staff interviews into a single timeline, clearly labeling what is confirmed vs inferred.",
+        "Builds a defensible narrative and avoids overstating certainty.",
+        10,
+
+        "Use system-generated logs as the primary source and supplement gaps with SME recollection and incident chat notes.",
+        "Often workable, but recollection can be inconsistent under scrutiny.",
+        5,
+
+        "Send raw system logs and dashboards without interpretation to avoid claims that could later change.",
+        "Lacks context; regulators still need a coherent story and accountability.",
+        -5,
+
+        "Delay building a timeline until regulators ask specific questions so effort is not wasted on the wrong format.",
+        "Looks reactive and can miss time-sensitive preservation needs.",
+        -5
+      )
+    ),
+
     // HR
-    q("HR", "How should HR address training adequacy and scripts after complaints?", buildChoices(
-      "Review and update training materials and scripts, provide refresher sessions, and document all changes. Ensure regular updates and monitor staff readiness and complaint reduction, reviewing effectiveness after restoration.", "Improves readiness and reduces future complaints.", 10,
-      "Survey staff for feedback and make minor adjustments to scripts, updating only where issues are reported. Provide periodic updates and monitor staff readiness and complaint reduction, reviewing effectiveness after restoration.", "Some improvement but may miss systemic issues.", 5,
-      "Rely on existing materials and assume staff are following procedures, making no changes unless required. Offer minimal updates and monitor staff readiness and complaint reduction, reviewing effectiveness after restoration.", "Misses opportunity to address root causes.", -5,
-      "Blame staff for complaints and issue warnings, focusing on discipline rather than improvement. Communicate only when necessary and monitor staff readiness and complaint reduction, reviewing effectiveness after restoration.", "Damages morale and increases turnover.", -5
-    )),
+    q(
+      "HR",
+      "Complaints cite inconsistent explanations at branches and the contact center. What HR action best demonstrates control without implying fault prematurely?",
+      buildChoices(
+        "Issue interim scripts and escalation rules, run short refresher huddles for frontline roles, and document distribution/acknowledgment for exam defensibility.",
+        "Addresses inconsistency fast and creates evidence of corrective action.",
+        10,
+
+        "Reinforce existing scripts and ask managers to coach teams while HR collects examples of where messaging diverged.",
+        "May help, but risks uneven execution across locations.",
+        5,
+
+        "Pause updates to scripts until root cause is fully confirmed so staff are not re-trained multiple times.",
+        "Leaves inconsistency in place and increases complaint volume.",
+        -5,
+
+        "Address complaints primarily through disciplinary reminders to ensure staff take customer messaging seriously.",
+        "Chills reporting and encourages staff to avoid helping customers.",
+        -5
+      )
+    ),
+
     // Finance
-    q("Finance", "How should Finance handle fee reversals and cost impact after complaints?", buildChoices(
-      "Implement a clear fee reversal policy, document all reversals, and analyze cost impact for reporting. Provide regular updates and ensure all actions are reviewed for fairness and cost control after restoration.", "Balances fairness and cost control.", 10,
-      "Review fee reversals case-by-case without a formal policy, allowing discretion but risking inconsistency. Share periodic updates and ensure all actions are reviewed for fairness and cost control after restoration.", "Some flexibility but may appear inconsistent.", 5,
-      "Deny all fee reversals to protect revenue, regardless of complaint validity. Provide minimal updates and ensure all actions are reviewed for fairness and cost control after restoration.", "Risks regulatory findings and customer churn.", -5,
-      "Reverse all fees automatically, regardless of context or policy. Only update after all reversals are processed and ensure all actions are reviewed for fairness and cost control after restoration.", "Unsustainable and may encourage abuse.", -5
-    )),
+    q(
+      "Finance",
+      "Customer complaints include fees tied to delays. How should Finance handle reversals while maintaining both fairness and defensibility?",
+      buildChoices(
+        "Implement a temporary, criteria-based waiver/reversal policy with audit logging, approvals, and reporting so totals and rationale can be explained externally.",
+        "Balances customer remediation with control and traceability.",
+        10,
+
+        "Handle reversals case-by-case with manager discretion and track totals centrally for later analysis.",
+        "Flexible, but inconsistent decisions can create new complaints.",
+        5,
+
+        "Pause all reversals until the bank confirms whether the incident qualifies for any remediation policy.",
+        "Escalates frustration and increases regulator interest in customer harm.",
+        -5,
+
+        "Reverse all fees automatically to reduce complaints quickly, then reconcile later once the incident is understood.",
+        "Creates abuse risk and weakens the bank’s ability to justify decisions.",
+        -5
+      )
+    ),
+
     // Loans
-    q("Loans", "How should Loans ensure customer remediation is consistent?", buildChoices(
-      "Standardize remediation steps, document all actions, and communicate clearly with affected customers. Give regular updates and ensure all actions are reviewed for consistency and fairness after restoration.", "Ensures fairness and reduces repeat complaints.", 10,
-      "Allow each lender to decide remediation steps, providing general guidance but no standardization. Share periodic updates and ensure all actions are reviewed for consistency and fairness after restoration.", "May create inconsistency and confusion.", 5,
-      "Remediate only when customers escalate, addressing issues reactively rather than proactively. Provide minimal updates and ensure all actions are reviewed for consistency and fairness after restoration.", "Misses silent or less vocal customers.", -5,
-      "Delay remediation until after regulatory review, taking no action until required. Only update after regulatory review and ensure all actions are reviewed for consistency and fairness after restoration.", "Increases risk of findings and customer loss.", -5
-    )),
+    q(
+      "Loans",
+      "Loan customers report delayed postings and conflicting guidance. What approach keeps remediation consistent while operations are still stabilizing?",
+      buildChoices(
+        "Use a standard remediation playbook (scripts, decision criteria, documentation), route exceptions through an approval path, and proactively identify impacted loan segments.",
+        "Reduces inconsistency and creates defensible records.",
+        10,
+
+        "Provide general guidance and allow lenders to tailor remediation to the customer relationship while tracking outcomes.",
+        "Some consistency, but relationship-based exceptions can look unfair.",
+        5,
+
+        "Only address issues when customers complain to avoid creating additional workload during stabilization.",
+        "Misses silent impacts and increases regulator concern about harm.",
+        -5,
+
+        "Delay remediation until regulators provide explicit expectations to avoid rework or second-guessing.",
+        "Signals lack of customer-first controls and increases scrutiny.",
+        -5
+      )
+    ),
+
     // Accounting
-    q("Accounting", "How should Accounting support documentation after a regulatory inquiry?", buildChoices(
-      "Compile all relevant records, reconcile discrepancies, and provide a clear audit trail for regulators. Provide regular updates and ensure all actions are reviewed for completeness and defensibility after restoration.", "Supports defensibility and reduces findings.", 10,
-      "Provide only summary reports without supporting detail, limiting documentation to high-level overviews. Share periodic updates and ensure all actions are reviewed for completeness and defensibility after restoration.", "May raise questions about thoroughness.", 5,
-      "Delay documentation until specifically requested, taking no proactive steps. Provide minimal updates and ensure all actions are reviewed for completeness and defensibility after restoration.", "Appears unprepared and reactive.", -5,
-      "Rely on verbal explanations instead of written records, providing only staff recollections. Only update after regulatory review and ensure all actions are reviewed for completeness and defensibility after restoration.", "Weakens audit trail and defensibility.", -5
-    )),
+    q(
+      "Accounting",
+      "Regulators request support for fee reversals, posting corrections, and customer impact. What documentation posture best holds up under review?",
+      buildChoices(
+        "Create an evidence index tying each action to approvals, source records, reconciliations, and customer impact summaries, noting any gaps and compensating controls.",
+        "Provides traceability and reduces follow-up churn from examiners.",
+        10,
+
+        "Provide summarized reconciliations and add supporting detail only for material categories or when specifically requested.",
+        "Efficient, but can appear incomplete if regulators expect full traceability.",
+        5,
+
+        "Wait to produce documentation until operational recovery is complete so the record can be finalized once.",
+        "Delays increase suspicion and can miss retention deadlines.",
+        -5,
+
+        "Rely on verbal explanations from SMEs supported by a few key reports rather than building full documentation.",
+        "Weak evidence trail and high risk of findings.",
+        -5
+      )
+    ),
+
     // Deposits
-    q("Deposits", "How should Deposits handle complaints and identify root cause?", buildChoices(
-      "Log all complaints, analyze trends, and implement corrective actions to address root causes. Communicate findings to staff and customers, and review for effectiveness after restoration. Track all actions, monitor for complaint reduction and root cause resolution and effectiveness, and review for effectiveness after restoration.", "Reduces complaints and addresses root causes.", 10,
-      "Address complaints individually without trend analysis, resolving issues as they arise. Track all actions, monitor for complaint reduction and root cause resolution and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for complaint reduction and root cause resolution and effectiveness, and review for effectiveness after restoration.", "May miss systemic issues and repeat complaints.", 5,
-      "Minimize complaints and discourage escalation, focusing on quick resolution rather than analysis. Track all actions, monitor for complaint reduction and root cause resolution and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for complaint reduction and root cause resolution and effectiveness, and review for effectiveness after restoration.", "Risks missing root causes and regulatory findings.", -5,
-      "Ignore complaints unless required by regulators, taking no action until formally requested. Track all actions, monitor for complaint reduction and root cause resolution and effectiveness, and review for effectiveness after restoration. Track all actions, monitor for complaint reduction and root cause resolution and effectiveness, and review for effectiveness after restoration.", "Increases risk of findings and customer loss.", -5
-    )),
+    q(
+      "Deposits",
+      "Complaints cite delays, fee issues, and inconsistent explanations. What is the strongest Deposits approach to reduce complaints and surface root cause quickly?",
+      buildChoices(
+        "Centralize complaint intake, tag by issue type/channel/location, review daily for patterns, and issue interim scripts + corrective actions tied to measurable outcomes.",
+        "Turns complaints into signals and creates defensible corrective action evidence.",
+        10,
+
+        "Resolve complaints as they arrive and ask teams to flag unusual themes to management for later review.",
+        "Can work short-term, but trends are easy to miss without structure.",
+        5,
+
+        "Prioritize rapid closure of complaints to reduce volume, even if categorization and root cause review happen later.",
+        "Improves metrics temporarily but fails to address systemic drivers.",
+        -5,
+
+        "Treat complaints as isolated events unless regulators request a formal trend review and root cause analysis.",
+        "Appears dismissive and increases regulatory escalation likelihood.",
+        -5
+      )
+    )
+
   ]
 };
+
 const SCENARIO_BACKUP_COMPROMISE = {
   key: "backup-compromise-mid-incident",
   title: "Backup Compromise Discovered Mid-Incident",
@@ -707,6 +890,148 @@ const SCENARIO_RANSOMWARE = {
 /* ------------------------- EXPORTS ------------------------- */
 
 /* ------------------------- SCENARIO 6 ------------------------- */
+/* ------------------------- SCENARIO 2 ------------------------- */
+const SCENARIO_LIQUIDITY = {
+  key: "liquidity-stress-event",
+  title: "Liquidity Stress Triggered by Market News",
+  description:
+    "Breaking market news triggers unusual withdrawal activity and increased customer inquiries about the bank’s strength. Leadership activates the Liquidity Playbook.",
+  questions: [
+    q("CEO/SVPs", "What message should leadership provide publicly today?", buildChoices(
+      "Transparent statement about liquidity position and contingency funding, with update cadence", "Builds trust and reduces speculation.", 10,
+      "Short statement acknowledging market volatility", "Helpful but light on substance.", 5,
+      "No statement to avoid drawing attention", "Rumors can worsen; perceived evasiveness.", -5,
+      "Blame competitors for fearmongering", "Unprofessional and risky.", -5
+    )),
+    q("CEO/SVPs", "What is the near-term governance approach for decisions?", buildChoices(
+      "Daily (or twice daily) liquidity council with clear decision logs", "Keeps actions aligned and documented.", 10,
+      "Ad-hoc approvals by email", "Inconsistent and harder to track.", 5,
+      "Single-person decisions without documentation", "Risky and non-transparent.", -5,
+      "Defer decisions to next board meeting", "Too slow in a stress event.", -5
+    )),
+    q("CEO/SVPs", "Should you release liquidity metrics externally?", buildChoices(
+      "Share appropriate, accurate ranges with counsel/regulators aligned", "Balanced transparency.", 10,
+      "Share granular daily balances publicly", "May be misleading/risky.", 5,
+      "Share nothing at all", "May increase speculation.", -5,
+      "Post raw internal dashboards", "Confusing and risky.", -5
+    )),
+
+    q("IT/Security", "What monitoring action is most important today?", buildChoices(
+      "Enhanced anomaly detection on online banking and large funds transfers", "High-risk fraud and outflow vectors.", 10,
+      "Disable all monitoring to reduce noise", "Risky and counterproductive.", -5,
+      "Only monitor branch activity", "Misses major channels.", -5,
+      "Share logs with third parties freely", "Security and privacy risk.", -5
+    )),
+    q("IT/Security", "What change management posture fits the situation?", buildChoices(
+      "Heightened change control with rollback plans for critical fixes", "Keeps stability while enabling response.", 10,
+      "Normal change control", "May be fine but lacks heightened caution.", 5,
+      "Freeze all changes for a week", "Overly rigid; can block needed fixes.", -5,
+      "Untracked hotfixes across environments", "Risky and non-compliant.", -5
+    )),
+    q("IT/Security", "Which security comms should go to staff today?", buildChoices(
+      "Targeted phishing alerts and MFA reinforcement", "High-value reminders during stress.", 10,
+      "Generic security email", "OK but easy to ignore.", 5,
+      "No comms to avoid distractions", "Increases risk.", -5,
+      "Allow personal devices for expediency", "Risky.", -5
+    )),
+
+    q("HR", "How should HR support branch staff handling anxious customers?", buildChoices(
+      "Provide talking points, de-escalation tips, and escalation paths", "Practical support.", 10,
+      "Ask managers to improvise", "Inconsistent and stressful.", 5,
+      "No HR support needed", "Unhelpful and risky.", -5,
+      "Share customer PII examples in training", "Privacy risk.", -5
+    )),
+    q("HR", "What guidance should HR give about overtime?", buildChoices(
+      "Pre-approved overtime with central tracking and wellness guidance", "Balances service and staff well-being.", 10,
+      "Unlimited overtime if needed", "Burnout and errors.", 5,
+      "Ban overtime entirely", "May worsen service levels.", -5,
+      "No guidance", "Chaos and inconsistency.", -5
+    )),
+    q("HR", "How should internal rumor control be handled?", buildChoices(
+      "Frequent factual updates; encourage reporting of misinformation", "Reduces confusion and fear.", 10,
+      "One update at week’s end", "Too infrequent.", 5,
+      "Silence until things calm down", "Rumors flourish.", -5,
+      "Allow managers to share all details", "Inconsistent and risky.", -5
+    )),
+
+    q("Finance", "What liquidity action should be considered today?", buildChoices(
+      "Increase on-balance sheet liquidity and test contingency lines", "Prudent positioning.", 10,
+      "Wait and see for a few days", "May be acceptable but risky.", 5,
+      "Sell assets immediately at deep discounts", "Value destruction.", -5,
+      "Ignore metrics until month-end", "Dangerous.", -5
+    )),
+    q("Finance", "How should pricing be decided?", buildChoices(
+      "Small, targeted pricing adjustments with defined review intervals", "Balances stability and competitiveness.", 10,
+      "Large, reactive price swings daily", "Confusing and risky.", 5,
+      "No changes regardless of conditions", "May lose deposits.", -5,
+      "Let each branch manager change rates", "Inconsistent and risky.", -5
+    )),
+    q("Finance", "How should vendor dependencies be tracked?", buildChoices(
+      "Review critical vendor status and SLAs daily", "Supports stability and planning.", 10,
+      "Assume vendors are fine", "Risky.", 5,
+      "Blame vendors publicly", "Counterproductive.", -5,
+      "Share vendor incident tickets externally", "Confidentiality risk.", -5
+    )),
+
+    q("Loans", "How should loan pipeline communications be handled?", buildChoices(
+      "Set expectations with borrowers; provide clear timelines and contacts", "Improves trust and reduces churn.", 10,
+      "Generic updates only", "Less helpful.", 5,
+      "No updates to avoid alarm", "Confusing and harmful.", -5,
+      "Promise aggressive timelines without certainty", "Backfires.", -5
+    )),
+    q("Loans", "What exception handling makes sense today?", buildChoices(
+      "Structured exceptions with approvals and documentation", "Keeps control while serving needs.", 10,
+      "Ad-hoc exceptions via email", "Inconsistent.", 5,
+      "No exceptions allowed", "Rigid.", -5,
+      "Unlimited exceptions by team leads", "Risky.", -5
+    )),
+    q("Loans", "How should collateral reviews proceed?", buildChoices(
+      "Continue critical reviews; document delays and mitigation", "Balanced approach.", 10,
+      "Pause all reviews", "Too blunt.", 5,
+      "Accept informal valuations", "Risky.", -5,
+      "Skip reviews for small loans", "Non-compliant.", -5
+    )),
+
+    q("Accounting", "How should daily reconciliation be managed?", buildChoices(
+      "Tight variance tracking and exception logs", "Maintains control.", 10,
+      "Weekly-only recon", "Too slow.", 5,
+      "Suspend recon until calm", "Risky.", -5,
+      "Local ad-hoc methods", "Inconsistent.", -5
+    )),
+    q("Accounting", "How should credits/fees be tracked?", buildChoices(
+      "Separate tracking with rationale and incident tag", "Good audit trail.", 10,
+      "Bulk adjustments later", "Opaque.", 5,
+      "Ignore until later", "Backlog.", -5,
+      "Mix into unrelated accounts", "Non-compliant.", -5
+    )),
+    q("Accounting", "What reporting cadence should accounting adopt?", buildChoices(
+      "Daily incident metrics to leadership", "Keeps alignment.", 10,
+      "Twice weekly updates", "Slower.", 5,
+      "Weekly update only", "Too slow.", -5,
+      "No updates", "Lack of visibility.", -5
+    )),
+
+    q("Deposits", "What branch guidance helps most today?", buildChoices(
+      "Clear talking points, escalation paths, and alternatives", "Supports service.", 10,
+      "Ask customers to wait", "Weak.", 5,
+      "Downplay concerns", "Trust risk.", -5,
+      "Share internal dashboards", "Confusing/risky.", -5
+    )),
+    q("Deposits", "How to handle ACH impact?", buildChoices(
+      "Communicate delays with options and timeframes", "Sets expectations.", 10,
+      "Tell customers to retry later", "Vague.", 5,
+      "Promise exact restore times", "Risky.", -5,
+      "Use insecure channels for details", "Risky.", -5
+    )),
+    q("Deposits", "How to process dispute volume spikes?", buildChoices(
+      "Flag incident-related cases and prioritize", "Efficient and traceable.", 10,
+      "Treat as normal", "Hard to analyze later.", 5,
+      "Suspend dispute handling", "Harmful.", -5,
+      "Share screenshots with customers", "Risky.", -5
+    )),
+  ]
+};
+
 const SCENARIO_INSIDER = {
   key: "insider-threat-terminated-employee",
   title: "Terminated Employee Causes Insider Disruption",
@@ -1266,17 +1591,11 @@ const SCENARIO_INSIDER = {
 const SCENARIOS = [
   SCENARIO_RANSOMWARE,
   SCENARIO_LIQUIDITY,
-  SCENARIO_BEC_WIRE,
-  SCENARIO_REG_EXAM,
-  SCENARIO_WEATHER,
-  SCENARIO_INSIDER,
-  SCENARIO_VENDOR_OUTAGE,
   SCENARIO_BACKUP_COMPROMISE,
   SCENARIO_REGULATORY_INQUIRY,
   SCENARIO_DATA_UNVERIFIABLE,
-  SCENARIO_OPS_ERROR_FRAUD,
-  SCENARIO_INSIDER_FRAUD,
-  SCENARIO_ACH_FAILURE
+  SCENARIO_INSIDER,
+  SCENARIO_VENDOR_OUTAGE
 ];
 
 export function getScenarios() {
