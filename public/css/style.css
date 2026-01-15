@@ -289,8 +289,6 @@ body {
 .department {
   width: 160px !important;
   height: 160px !important;
-  width: 160px !important;
-  height: 160px !important;
   min-width: 160px !important;
   min-height: 160px !important;
   max-width: 160px !important;
@@ -313,16 +311,16 @@ body {
   margin: 0 !important;
   padding: 0 !important;
   overflow: hidden !important;
+  justify-items: center !important;
   text-align: center !important;
-  position: relative !important;
-  vertical-align: middle !important;
+}
 .department:hover {
   box-shadow: 0 6px 24px rgba(30,41,59,0.13);
   transform: translateY(-2px) scale(1.04);
   border-color: #60a5fa;
-  width: 48px !important;
-  height: 48px !important;
-  margin-bottom: 10px !important;
+  max-width: 64px !important;
+  max-height: 64px !important;
+  margin-bottom: 12px !important;
   display: block !important;
   margin-left: auto !important;
   margin-right: auto !important;
@@ -344,14 +342,6 @@ body {
   display: flex !important;
   justify-content: center !important;
   align-items: center !important;
-  width: 100% !important;
-  text-align: center !important;
-  margin: 0 auto !important;
-  flex-shrink: 0 !important;
-  line-height: 1.2 !important;
-  font-size: 1.08rem !important;
-  padding: 0 !important;
-  position: relative !important;
 }
 .generate-btn {
   padding: 12px 32px !important;
