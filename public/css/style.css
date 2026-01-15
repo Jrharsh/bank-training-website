@@ -76,6 +76,9 @@ body {
   color: #333;
 }
 
+/* Utility */
+.hidden { display: none !important; }
+
 /* Header layout for game page: logo + centered title */
 .header {
   display: flex;
