@@ -293,25 +293,34 @@ body {
   min-height: 180px !important;
   max-width: 180px !important;
   max-height: 180px !important;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background: #fff;
-  border-radius: 18px;
-  box-shadow: 0 2px 14px rgba(30,41,59,0.10);
-  font-weight: 600;
-  font-size: 1.08rem;
-  color: #222;
-  border: 2.5px solid #e0e6ed;
-  transition: box-shadow 0.2s, transform 0.2s;
-  cursor: pointer;
-  box-sizing: border-box;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: #fff !important;
+  border-radius: 18px !important;
+  box-shadow: 0 2px 14px rgba(30,41,59,0.10) !important;
+  font-weight: 600 !important;
+  font-size: 1.08rem !important;
+  color: #222 !important;
+  border: 2.5px solid #e0e6ed !important;
+  transition: box-shadow 0.2s, transform 0.2s !important;
+  cursor: pointer !important;
+  box-sizing: border-box !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
 }
 .department:hover {
   box-shadow: 0 6px 24px rgba(30,41,59,0.13);
   transform: translateY(-2px) scale(1.04);
   border-color: #60a5fa;
+  max-width: 64px;
+  max-height: 64px;
+  margin-bottom: 12px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* Generate Scenario button: clean and centered */
@@ -319,7 +328,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 100px 0 0 0;
+  margin: 140px 0 0 0;
   width: 100%;
   background: none !important;
   box-shadow: none !important;
