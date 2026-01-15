@@ -49,6 +49,17 @@ const DEPARTMENTS = [
   "Finance","Loans","Accounting","Deposits"
 ];
 
+// Shared colors per department for scoreboard and question label
+const DEPT_COLORS = {
+  "CEO/SVPs":"#8e44ad",
+  "IT/Security":"#c0392b",
+  "HR":"#2980b9",
+  "Finance":"#27ae60",
+  "Loans":"#f39c12",
+  "Accounting":"#9b59b6",
+  "Deposits":"#2ecc71"
+};
+
 const state = {
   scenario: null,
   index: 0,
@@ -137,13 +148,8 @@ function roundRobinOrder(questions) {
    SCOREBOARD
 ================================ */
 function renderScoreboard() {
-  const colors = {
-    "CEO/SVPs":"#8e44ad","IT/Security":"#c0392b","HR":"#2980b9",
-    "Finance":"#27ae60","Loans":"#f39c12","Accounting":"#9b59b6","Deposits":"#2ecc71"
-  };
-
   $("scoreboard").innerHTML = DEPARTMENTS.map(d => `
-    <div class="department" style="background:${colors[d]}">
+    <div class="department" style="background:${DEPT_COLORS[d]}">
       ${d}
       <div class="score" id="score-${d}">${state.scores[d]}</div>
     </div>
@@ -208,7 +214,7 @@ function renderQuestion() {
     </div>
 
     <div class="question-card">
-      <div class="department-label">${q.department}</div>
+      <div class="department-label" style="background:${DEPT_COLORS[q.department]}; color:#fff">${q.department}</div>
       <h2 class="question-title">${escapeHtml(q.questionText)}</h2>
 
       <div class="choices">
