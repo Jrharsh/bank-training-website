@@ -279,7 +279,7 @@ body {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   grid-template-rows: repeat(2, 1fr);
-  gap: 32px 32px;
+  gap: 8px 8px;
   margin-bottom: 0;
   justify-items: center;
   align-items: center;
@@ -287,12 +287,12 @@ body {
   padding: 32px 0 0 0;
 }
 .department {
-  width: 180px !important;
-  height: 180px !important;
-  min-width: 180px !important;
-  min-height: 180px !important;
-  max-width: 180px !important;
-  max-height: 180px !important;
+  width: 160px !important;
+  height: 160px !important;
+  min-width: 160px !important;
+  min-height: 160px !important;
+  max-width: 160px !important;
+  max-height: 160px !important;
   aspect-ratio: 1 / 1 !important;
   display: flex !important;
   flex-direction: column !important;
@@ -332,18 +332,16 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 140px 0 0 0;
+  margin: 450px 0 0 0;
   width: 100%;
   background: none !important;
   box-shadow: none !important;
   border-radius: 0 !important;
   padding: 0 !important;
   border: none !important;
-  display: block !important;
-  width: 100% !important;
-  text-align: center !important;
-  margin: 0 auto !important;
-  flex-shrink: 0 !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
 }
 .generate-btn {
   padding: 12px 32px !important;
