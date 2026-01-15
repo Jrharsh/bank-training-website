@@ -1012,6 +1012,303 @@ const SCENARIO_VENDOR_OUTAGE = {
   ]
 };
 
+/* ------------------------- SCENARIO: Regulatory Inquiry ------------------------- */
+const SCENARIO_REGULATORY_INQUIRY = {
+  key: "regulatory-inquiry-customer-complaints",
+  title: "Regulatory Inquiry Triggered by Customer Complaints",
+  description:
+    "Regulators contact the bank after receiving multiple customer complaints about delays, fees, and inconsistent explanations — before the bank has formally escalated an incident.",
+  questions: [
+
+    // CEO/SVPs
+    q(
+      "CEO/SVPs",
+      "Regulators reached out before the bank formally escalated. What is the most defensible leadership approach in the first response?",
+      buildChoices(
+        "Acknowledge receipt promptly, share verified facts and current scope, describe immediate controls, and set a specific update cadence with a single point of contact.",
+        "Shows control, reduces speculation, and prevents contradictions later.",
+        10,
+
+        "Acknowledge promptly, explain that validation is in progress, and provide a near-term checkpoint time before sharing details beyond confirmed facts.",
+        "Buys time without going silent, but can look thin if overused.",
+        5,
+
+        "Provide limited information and redirect detailed questions to individual departments until an internal summary is assembled.",
+        "Creates inconsistent narratives and signals weak governance.",
+        -5,
+
+        "Wait for a formal written request before responding so the bank is not committed to any early narrative.",
+        "Appears evasive and increases scrutiny and urgency.",
+        -5
+      )
+    ),
+
+    // IT/Security
+    q(
+      "IT/Security",
+      "Regulators want a timeline explaining what customers experienced versus what systems recorded. How should IT/Security reconstruct it most credibly?",
+      buildChoices(
+        "Correlate system logs, ticketing/contact-center data, change records, and staff interviews into a single timeline, clearly labeling what is confirmed vs inferred.",
+        "Builds a defensible narrative and avoids overstating certainty.",
+        10,
+
+        "Use system-generated logs as the primary source and supplement gaps with SME recollection and incident chat notes.",
+        "Often workable, but recollection can be inconsistent under scrutiny.",
+        5,
+
+        "Send raw system logs and dashboards without interpretation to avoid claims that could later change.",
+        "Lacks context; regulators still need a coherent story and accountability.",
+        -5,
+
+        "Delay building a timeline until regulators ask specific questions so effort is not wasted on the wrong format.",
+        "Looks reactive and can miss time-sensitive preservation needs.",
+        -5
+      )
+    ),
+
+    // HR
+    q(
+      "HR",
+      "Complaints cite inconsistent explanations at branches and the contact center. What HR action best demonstrates control without implying fault prematurely?",
+      buildChoices(
+        "Issue interim scripts and escalation rules, run short refresher huddles for frontline roles, and document distribution/acknowledgment for exam defensibility.",
+        "Addresses inconsistency fast and creates evidence of corrective action.",
+        10,
+
+        "Reinforce existing scripts and ask managers to coach teams while HR collects examples of where messaging diverged.",
+        "May help, but risks uneven execution across locations.",
+        5,
+
+        "Pause updates to scripts until root cause is fully confirmed so staff are not re-trained multiple times.",
+        "Leaves inconsistency in place and increases complaint volume.",
+        -5,
+
+        "Address complaints primarily through disciplinary reminders to ensure staff take customer messaging seriously.",
+        "Chills reporting and encourages staff to avoid helping customers.",
+        -5
+      )
+    ),
+
+    // Finance
+    q(
+      "Finance",
+      "Customer complaints include fees tied to delays. How should Finance handle reversals while maintaining both fairness and defensibility?",
+      buildChoices(
+        "Implement a temporary, criteria-based waiver/reversal policy with audit logging, approvals, and reporting so totals and rationale can be explained externally.",
+        "Balances customer remediation with control and traceability.",
+        10,
+
+        "Handle reversals case-by-case with manager discretion and track totals centrally for later analysis.",
+        "Flexible, but inconsistent decisions can create new complaints.",
+        5,
+
+        "Pause all reversals until the bank confirms whether the incident qualifies for any remediation policy.",
+        "Escalates frustration and increases regulator interest in customer harm.",
+        -5,
+
+        "Reverse all fees automatically to reduce complaints quickly, then reconcile later once the incident is understood.",
+        "Creates abuse risk and weakens the bank’s ability to justify decisions.",
+        -5
+      )
+    ),
+
+    // Loans
+    q(
+      "Loans",
+      "Loan customers report delayed postings and conflicting guidance. What approach keeps remediation consistent while operations are still stabilizing?",
+      buildChoices(
+        "Use a standard remediation playbook (scripts, decision criteria, documentation), route exceptions through an approval path, and proactively identify impacted loan segments.",
+        "Reduces inconsistency and creates defensible records.",
+        10,
+
+        "Provide general guidance and allow lenders to tailor remediation to the customer relationship while tracking outcomes.",
+        "Some consistency, but relationship-based exceptions can look unfair.",
+        5,
+
+        "Only address issues when customers complain to avoid creating additional workload during stabilization.",
+        "Misses silent impacts and increases regulator concern about harm.",
+        -5,
+
+        "Delay remediation until regulators provide explicit expectations to avoid rework or second-guessing.",
+        "Signals lack of customer-first controls and increases scrutiny.",
+        -5
+      )
+    ),
+
+    // Accounting
+    q(
+      "Accounting",
+      "Regulators request support for fee reversals, posting corrections, and customer impact. What documentation posture best holds up under review?",
+      buildChoices(
+        "Compile reconciliations, exception logs, and credit rationales with a clear timeline and approvals.",
+        "Defensible record of actions and rationale.",
+        10,
+
+        "Provide summarized reconciliations first, then add details as requested.",
+        "Usable but thinner at the outset.",
+        5,
+
+        "Wait to produce documentation until operational recovery is complete so the record can be finalized once.",
+        "Reactive and will look opaque during the incident.",
+        -5,
+
+        "Rely on verbal explanations from SMEs supported by a few key reports rather than building full documentation.",
+        "Weak audit position and easy to challenge.",
+        -5
+      )
+    )
+
+  ]
+};
+
+/* ------------------------- SCENARIO: Data Unverifiable ------------------------- */
+const SCENARIO_DATA_UNVERIFIABLE = {
+  key: "customer-data-correct-unverifiable",
+  title: "Customer Data Appears Correct but Cannot Be Fully Verified",
+  description:
+    "Customers report incorrect balances and transaction histories. Core systems reconcile internally, but supporting logs needed to independently verify accuracy are incomplete due to a prior retention misconfiguration.",
+  questions: [
+
+    // CEO / SVPs
+    q(
+      "CEO/SVPs",
+      "How should leadership balance confidence in internal data with the inability to fully prove accuracy to customers and regulators?",
+      buildChoices(
+        "Acknowledge the verification gap, explain validation steps underway, avoid definitive claims, and commit to remediation if discrepancies are identified.",
+        "Maintains credibility by separating confidence from proof.",
+        10,
+
+        "State that systems reconcile internally and emphasize confidence in accuracy while additional validation work continues.",
+        "Reassuring, but risks appearing dismissive of evidentiary gaps.",
+        5,
+
+        "Delay external communication until validation work is complete and evidence gaps are resolved.",
+        "Reduces retraction risk but allows speculation to grow.",
+        -5,
+
+        "Assert that the data is correct and treat the lack of logs as an internal documentation issue.",
+        "Overconfidence increases regulatory and reputational exposure.",
+        -5
+      )
+    ),
+
+    // IT / Security
+    q(
+      "IT/Security",
+      "What is the most defensible way to validate data integrity when primary logs are incomplete?",
+      buildChoices(
+        "Correlate alternative system records, reconstruct timelines where possible, and document both findings and validation limits.",
+        "Demonstrates diligence despite incomplete evidence.",
+        10,
+
+        "Rely on system reconciliation results and anomaly detection outputs to support data accuracy.",
+        "Technically sound but weaker without independent corroboration.",
+        5,
+
+        "Pause validation until missing logs can be recovered or recreated.",
+        "Delays resolution without guaranteeing better evidence.",
+        -5,
+
+        "Conclude validation is unnecessary since no active discrepancies are visible.",
+        "Creates exposure if later inconsistencies emerge.",
+        -5
+      )
+    ),
+
+    // HR
+    q(
+      "HR",
+      "How should HR respond to employee stress and accountability concerns arising from customer-facing uncertainty?",
+      buildChoices(
+        "Clarify expectations, reinforce escalation paths, and provide support resources while investigations continue.",
+        "Reduces fear-driven errors and protects morale.",
+        10,
+
+        "Remind staff to follow existing procedures and direct questions to management.",
+        "Maintains order but may not address anxiety.",
+        5,
+
+        "Limit communication to avoid distracting staff during remediation work.",
+        "Silence increases uncertainty and rumor.",
+        -5,
+
+        "Emphasize disciplinary consequences for errors to reinforce accountability.",
+        "Erodes trust and discourages transparency.",
+        -5
+      )
+    ),
+
+    // Finance
+    q(
+      "Finance",
+      "How should Finance assess financial exposure when transaction accuracy cannot be fully substantiated?",
+      buildChoices(
+        "Develop estimated exposure ranges with documented assumptions and clear limitations.",
+        "Balances decision-making needs with defensibility.",
+        10,
+
+        "Provide point estimates based on reconciled balances and adjust if discrepancies emerge.",
+        "Useful operationally but weaker for audit scrutiny.",
+        5,
+
+        "Avoid quantifying exposure until full verification is possible.",
+        "Limits misstatement risk but delays risk awareness.",
+        -5,
+
+        "Assume no exposure exists until errors are proven.",
+        "Creates blind spots and regulatory concern.",
+        -5
+      )
+    ),
+
+    // Loans
+    q(
+      "Loans",
+      "How should loan payoff disputes be handled when supporting transaction history cannot be fully verified?",
+      buildChoices(
+        "Review available records, disclose verification limits, and offer structured dispute escalation.",
+        "Balances fairness with operational control.",
+        10,
+
+        "Allow lenders discretion to resolve disputes using their judgment.",
+        "Flexible but inconsistent across customers.",
+        5,
+
+        "Address disputes only if customers escalate beyond first contact.",
+        "Misses silent or less assertive customers.",
+        -5,
+
+        "Defer all dispute resolution until validation is complete.",
+        "Increases customer frustration and complaint risk.",
+        -5
+      )
+    ),
+
+    // Accounting
+    q(
+      "Accounting",
+      "How should Accounting support auditability when transaction evidence is incomplete?",
+      buildChoices(
+        "Compile available documentation, clearly identify evidence gaps, and explain compensating controls.",
+        "Strengthens audit defensibility despite limitations.",
+        10,
+
+        "Provide summarized reconciliations without detailing validation gaps.",
+        "Technically accurate but lacks transparency.",
+        5,
+
+        "Wait for auditors to request specific documentation before acting.",
+        "Appears reactive and unprepared.",
+        -5,
+
+        "Rely on verbal explanations supported by system confidence.",
+        "Weakens audit position and credibility.",
+        -5
+      )
+    )
+
+  ]
+};
 /* ------------------------- SCENARIO 8 ------------------------- */
 const SCENARIO_INSIDER_FRAUD = {
   key: "insider-fraud-discovered-operations",
@@ -1302,6 +1599,8 @@ const SCENARIOS = [
   SCENARIO_WEATHER,
   SCENARIO_INSIDER,
   SCENARIO_VENDOR_OUTAGE,
+  SCENARIO_REGULATORY_INQUIRY,
+  SCENARIO_DATA_UNVERIFIABLE,
   SCENARIO_INSIDER_FRAUD,
   SCENARIO_ACH_FAILURE,
 ];
