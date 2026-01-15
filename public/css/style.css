@@ -105,13 +105,19 @@ body {
 
 /* Department icon fallback: image preferred, emoji fallback */
 .ttsg .department-icon-img {
-  width: 48px; /* larger department image */
-  height: 48px;
+  width: 64px; /* larger department image */
+  height: 64px;
   display: none;
   margin-bottom: 12px;
 }
 .ttsg .department-card.has-image .department-icon-img { display: inline-block; }
 .ttsg .department-card.has-image .department-icon { display: none; }
+
+/* Enlarge emoji fallback size */
+.ttsg .department-card .department-icon {
+  font-size: 2.9rem !important;
+  margin-bottom: 12px !important;
+}
 .cmg .q-progress {
   font-size: 0.95rem;
   color: #64748b;
