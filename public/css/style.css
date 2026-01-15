@@ -76,9 +76,23 @@ body {
   color: #333;
 }
 
+/* Header layout for game page: center title, fixed logo left */
+.header {
+  position: relative;
+  margin-bottom: 16px;
+}
+.header .title {
+  text-align: center;
+}
+
 .header img {
-  width: 120px;
-  height: auto;
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 /* Dark mode styles: only active if user prefers dark mode */
