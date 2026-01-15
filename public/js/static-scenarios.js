@@ -419,10 +419,10 @@ const SCENARIO_BEC_WIRE = {
       "Local-only methods", "Inconsistent.", -5
     )),
     q("Accounting", "What documentation supports later review?", buildChoices(
-      "Centralized case/exception logs with approvals", "Traceable.", 10,
-      "Email threads only", "Messy.", 5,
-      "No documentation", "Risky.", -5,
-      "Personal notebooks", "Risky.", -5
+      "Centralized exception/case log with approvals, evidence, and timestamps", "Traceable.", 10,
+      "Shared recap memo capturing decisions; attach key artifacts later", "Usable but less structured.", 5,
+      "Defer documentation until after the incident", "Gaps and audit risk.", -5,
+      "Personal notes kept locally without controls", "Inconsistent and risky.", -5
     )),
 
     q("Deposits", "How should teller verification change?", buildChoices(
@@ -844,10 +844,10 @@ const SCENARIO_INSIDER = {
       "Local-only tracking", "Inconsistent.", -5
     )),
     q("Accounting", "What documentation is important?", buildChoices(
-      "Central case log with approvals and actions", "Traceable.", 10,
-      "Email chains only", "Messy.", 5,
-      "No documentation", "Risky.", -5,
-      "Personal notes", "Inconsistent.", -5
+      "Central incident log capturing approvals, actions, and artifacts", "Traceable.", 10,
+      "Email recap with highlights; formalize once operations stabilize", "Usable but messy.", 5,
+      "Rely on memory; no formal record", "Risky.", -5,
+      "Personal notes kept by individuals", "Inconsistent.", -5
     )),
 
     q("Deposits", "How should high-risk account changes be reviewed?", buildChoices(
@@ -1261,10 +1261,10 @@ const SCENARIO_ACH_FAILURE = {
       "Local ad-hoc methods", "Inconsistent.", -5
     )),
     q("Accounting", "What documentation should be produced?", buildChoices(
-      "Incident summary with controls, impacts, and approvals", "Supports later review.", 10,
-      "Only GL entries", "Thin.", 5,
-      "No documentation", "Risky.", -5,
-      "Share sensitive docs externally", "Risky.", -5
+      "Incident summary with controls, impacts, approvals, and reconciliation notes", "Supports later review.", 10,
+      "Record GL entries with brief annotations; compile a formal summary later", "Thin but workable.", 5,
+      "Defer documentation until stabilization", "Risky.", -5,
+      "Distribute sensitive incident materials externally without review", "Risky.", -5
     )),
     q("Accounting", "How to handle service credits?", buildChoices(
       "Track separately with rationale and incident tags", "Transparent.", 10,
