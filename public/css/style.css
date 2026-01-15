@@ -299,8 +299,12 @@ body {
   justify-content: center;
   align-items: center;
   margin-top: 0;
-  margin-bottom: 24px;
-  width: 100%;
+  margin-bottom: 32px;
+  width: auto;
+  background: none;
+  box-shadow: none;
+  border-radius: 0;
+  padding: 0;
 }
 
 /* Generate Scenario button: professional and centered at bottom */
