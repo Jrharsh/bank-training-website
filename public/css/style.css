@@ -287,23 +287,23 @@ body {
   padding: 32px 0 0 0;
 }
 .department {
-  width: 160px;
-  height: 160px;
-  min-width: 160px;
-  min-height: 160px;
-  max-width: 160px;
-  max-height: 160px;
+  width: 180px;
+  height: 180px;
+  min-width: 180px;
+  min-height: 180px;
+  max-width: 180px;
+  max-height: 180px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   background: #fff;
-  border-radius: 16px;
-  box-shadow: 0 2px 12px rgba(30,41,59,0.08);
+  border-radius: 18px;
+  box-shadow: 0 2px 14px rgba(30,41,59,0.10);
   font-weight: 600;
   font-size: 1.08rem;
   color: #222;
-  border: 2px solid #e0e6ed;
+  border: 2.5px solid #e0e6ed;
   transition: box-shadow 0.2s, transform 0.2s;
   cursor: pointer;
   box-sizing: border-box;
