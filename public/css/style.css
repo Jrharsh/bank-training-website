@@ -274,7 +274,7 @@ body {
   box-shadow: 0 4px 16px rgba(30,41,59,0.10);
 }
 
-/* Restore department grid to horizontal layout */
+/* Department grid: evenly across two rows */
 #departmentGrid {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
@@ -291,6 +291,16 @@ body {
     grid-template-rows: repeat(5, 1fr);
     gap: 18px;
   }
+}
+
+/* Generate Scenario button: professional and centered below departments */
+.generate-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 0;
+  margin-bottom: 24px;
+  width: 100%;
 }
 
 /* Generate Scenario button: professional and centered at bottom */
