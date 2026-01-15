@@ -91,9 +91,15 @@ body {
   margin-bottom: 18px;
 }
 .ttsg .header img {
-  width: 96px;
-  height: 96px;
+  width: 112px;
+  height: 112px;
   object-fit: contain;
+}
+.ttsg .back-menu-btn {
+  position: fixed;
+  top: 16px;
+  left: 16px;
+  z-index: 1000;
 }
 
 /* Department icon fallback: image preferred, emoji fallback */
