@@ -315,6 +315,8 @@
                     justify-content: flex-start;
                 }
             }
+
+            /* Grid styles removed to allow explicit two-row flex layout */
         </style>
     </head>
     <body class="ttsg">
@@ -406,8 +408,8 @@ function updateStatus(message, isError = false) {
 function createDepartmentCards() {
     const grid = document.getElementById('departmentGrid');
     grid.innerHTML = '';
-    
-    departments.forEach(dept => {
+
+    departments.forEach((dept, index) => {
         const card = document.createElement('div');
         card.className = 'department-card';
 
@@ -417,18 +419,22 @@ function createDepartmentCards() {
         const iconWrap = document.createElement('div');
         iconWrap.className = 'department-icon';
         iconWrap.textContent = dept.icon;
+        // sizing handled by CSS
 
         const name = document.createElement('div');
         name.className = 'department-name';
         name.textContent = dept.name;
+        // spacing handled by CSS
 
         iconCircle.appendChild(iconWrap);
         card.appendChild(iconCircle);
         card.appendChild(name);
 
         card.addEventListener('click', () => selectDepartment(dept.id, card));
+
         grid.appendChild(card);
     });
+    // Grid enforces 5 columns; 10 cards render as 5 top + 5 bottom
     
     updateStatus(`${departments.length} departments loaded`);
 }
