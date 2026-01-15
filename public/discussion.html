@@ -411,30 +411,17 @@ function createDepartmentCards() {
         const card = document.createElement('div');
         card.className = 'department-card';
 
-        // icon circle wrapper with image + emoji fallback
+        // emoji-only icon (no image assets required)
         const iconCircle = document.createElement('div');
         iconCircle.className = 'department-icon-circle';
         const iconWrap = document.createElement('div');
         iconWrap.className = 'department-icon';
         iconWrap.textContent = dept.icon;
 
-        const img = document.createElement('img');
-        const slug = dept.id.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
-        img.src = `/images/departments/${slug}.png`;
-        img.alt = `${dept.name} icon`;
-        img.className = 'department-icon-img';
-        img.addEventListener('load', () => {
-            card.classList.add('has-image');
-        });
-        img.addEventListener('error', () => {
-            // keep emoji fallback
-        });
-
         const name = document.createElement('div');
         name.className = 'department-name';
         name.textContent = dept.name;
-        
-        iconCircle.appendChild(img);
+
         iconCircle.appendChild(iconWrap);
         card.appendChild(iconCircle);
         card.appendChild(name);
