@@ -1,24 +1,49 @@
-/* Department grid branding: SSB TX colors */
+/* Remove department-grid container styling */
 .department-grid {
-  background: linear-gradient(120deg, #002147 0%, #d51c29 100%) !important;
-  box-shadow: 0 2px 32px rgba(0,33,71,0.18);
-  border: 2px solid #d51c29;
+  background: none !important;
+  box-shadow: none;
+  border: none;
 }
+
 @media (prefers-color-scheme: dark) {
   .department-grid {
-    background: linear-gradient(120deg, #002147 0%, #d51c29 100%) !important;
-    box-shadow: 0 2px 32px rgba(0,33,71,0.18);
-    border: 2px solid #d51c29;
-  }
-  .department-name {
-    color: #fff !important;
-    font-weight: 600;
-  }
-  .department-icon {
-    color: #ffe082 !important;
-    filter: brightness(1.2) drop-shadow(0 0 2px #fff2);
+    background: none !important;
+    box-shadow: none;
+    border: none;
   }
 }
+
+/* Make Generate Scenario button light and vibrant */
+.generate-btn {
+  background: linear-gradient(120deg, #60a5fa 0%, #28d17c 100%) !important;
+  color: #fff !important;
+}
+.generate-btn:hover:not(:disabled) {
+  background: linear-gradient(120deg, #2563eb 0%, #1e874b 100%) !important;
+  color: #fff !important;
+}
+
+/* Back to Main Menu button styling */
+.back-menu-btn {
+  padding: 10px 22px;
+  font-size: 1rem;
+  border-radius: 8px;
+  background: #2563eb;
+  color: #fff;
+  border: none;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(37,99,235,0.10);
+  transition: background 0.18s, box-shadow 0.18s, transform 0.12s;
+  cursor: pointer;
+  display: inline-block;
+}
+.back-menu-btn:hover {
+  background: #1e40af;
+  color: #fff;
+  transform: translateY(-1px) scale(1.03);
+  box-shadow: 0 4px 16px rgba(37,99,235,0.18);
+}
+
 * {
   box-sizing: border-box;
 }
@@ -58,51 +83,104 @@ body {
   }
   .choice-btn {
     background: #232a36;
-    color: #ffe082;
+    color: #f3f6fa;
     border: 1px solid #374151;
   }
   .choice-btn:hover {
-    background: #232a36;
-    border-color: #ffe082;
+    background: #2a3140;
+    border-color: #4b5563;
   }
   .choice-btn.selected {
-    background: #374151;
-    border-color: #ffe082;
+    background: #1e293b;
+    border-color: #60a5fa;
   }
   .choice-btn.correct {
     background-color: #27ae60;
     color: #fff;
   }
   .choice-btn.incorrect {
-    background-color: #e74c3c;
+    background-color: #c0392b;
     color: #fff;
   }
   .point-badge {
     background: #232a36;
     color: #ffe082;
-    border: 1px solid #ffe082;
+    border: 1px solid #374151;
+  }
+  .point-badge.good { border-color: #27ae60; background: #1e293b; color: #27ae60; }
+  .point-badge.ok   { border-color: #60a5fa; background: #1e293b; color: #60a5fa; }
+  .point-badge.bad  { border-color: #c0392b; background: #1e293b; color: #ffb4a2; }
+  .explain-box {
+    background: #232a36;
+    color: #f3f6fa;
   }
   .controls button {
-    background: #374151;
-    color: #ffe082;
+    background: #27ae60;
+    color: #fff;
   }
   .controls button:hover {
-    background: #232a36;
-    color: #fff;
+    background: #219150;
   }
   .winner-card {
     background: #181c23;
     color: #ffe082;
-    border: 1px solid #ffe082;
+    border: 1px solid #232a36;
+  }
+  .winner-hero {
+    background: linear-gradient(135deg, #232a36 0%, #181c22 100%);
   }
   .winner-pill {
     background: #232a36;
     color: #ffe082;
-    border: 1px solid #ffe082;
+    border: 1px solid #374151;
   }
   .winner-pill .badge {
     background: #ffe082;
     color: #232a36;
+  }
+  .podium-card {
+    background: #232a36;
+    color: #ffe082;
+    border: 1px solid #374151;
+  }
+  .podium-card.first {
+    background: #ffb34733;
+    border-color: #ffb347;
+  }
+  .podium-card.first .pts { color: #ffb347; }
+  .podium-card.second .pts { color: #60a5fa; }
+  .podium-card.third .pts { color: #ffb4a2; }
+  .results-title {
+    color: #ffe082;
+  }
+  .result-row {
+    background: #232a36;
+    border: 1px solid #374151;
+  }
+  .result-row.top {
+    background: #ffb34733;
+    border-color: #ffb347;
+  }
+  .rank {
+    background: #232a36;
+    color: #ffe082;
+  }
+  .result-row.top .rank {
+    background: #ffb347;
+    color: #232a36;
+  }
+  .dept-name {
+    color: #ffe082;
+  }
+  .dept-sub {
+    color: #ffe08299;
+  }
+  .result-score {
+    color: #27ae60;
+  }
+  .winner-actions .primary {
+    background: linear-gradient(135deg, #27ae60, #219150);
+    color: #ffe082;
   }
   .winner-actions .secondary {
     background: #232a36;
@@ -114,16 +192,6 @@ body {
     border: 1px solid #ffe082;
     color: #ffe082;
   }
-}
-.header {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  margin-bottom: 20px;
-}
-.header img {
-  height: 60px;
 }
 
 /* --- Enhanced Card Design --- */

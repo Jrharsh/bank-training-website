@@ -96,7 +96,7 @@
                         background: linear-gradient(120deg, #e3eafc 0%, #fbe3e3 100%) !important;
                         border-radius: 14px;
                         padding: 18px 0 10px 0;
-                        border: 1.5px solid #222b36;
+                        border: none !important;
             }
             .department-grid {
                 display: grid;
@@ -189,10 +189,13 @@
                 display: flex;
                 justify-content: center;
                 margin: 0 auto 0 auto;
+                background: #fff;
+                border-radius: 12px;
+                box-shadow: 0 2px 12px rgba(0,0,0,0.08);
             }
             .generate-btn {
-                background: linear-gradient(135deg, #28d17c, #1abc9c);
-                color: #fff;
+                background: linear-gradient(135deg, #e3eafc, #fbe3e3);
+                color: #222;
                 border: none;
                 padding: 16px 48px;
                 border-radius: 12px;
@@ -316,7 +319,7 @@
     </head>
     <body>
     <div class="container">
-        <a href="/" class="back-btn">← Back to Main Menu</a>
+        <a href="/" class="back-menu-btn">← Back to Main Menu</a>
         
         <div class="header">
             <h1>Tabletop Scenario Generator</h1>
@@ -342,7 +345,7 @@
         </div>
 
         <div class="scenario-output" id="scenarioOutput" style="display:none;">
-            <div class="scenario-header">
+            <div class="scenario-header" style="background:#fff; border-radius:12px; box-shadow:0 2px 12px rgba(0,0,0,0.08); padding:24px; color:#222;">
                 <div class="scenario-icon" id="scenarioIcon">🏢</div>
                 <div class="scenario-title">
                     <h3 id="scenarioTitle">Scenario Title</h3>
@@ -351,11 +354,11 @@
                 <button class="refresh-btn" onclick="generateScenario()">🔄 Generate New</button>
             </div>
 
-            <div class="scenario-content" id="scenarioContent">
+            <div class="scenario-content" id="scenarioContent" style="background:#fff; border-radius:12px; box-shadow:0 2px 12px rgba(0,0,0,0.08); color:#222; margin-top:18px; padding:18px;">
                 <!-- AI-generated scenario will appear here -->
             </div>
 
-            <div class="discussion-points" id="discussionSection">
+            <div class="discussion-points" id="discussionSection" style="background:#fff; border-radius:12px; box-shadow:0 2px 12px rgba(0,0,0,0.08); color:#222; margin-top:18px; padding:18px;">
                 <h4>💭 Discussion Points</h4>
                 <ul id="discussionPoints">
                     <!-- AI-generated discussion points will appear here -->
