@@ -282,7 +282,7 @@ body {
   gap: 32px 32px;
   margin-bottom: 0;
   justify-items: center;
-  align-items: center;
+  align-items: stretch;
   width: 100%;
   padding: 32px 0 0 0;
 }
@@ -306,6 +306,7 @@ body {
   border: 2px solid #e0e6ed;
   transition: box-shadow 0.2s, transform 0.2s;
   cursor: pointer;
+  box-sizing: border-box;
 }
 .department:hover {
   box-shadow: 0 6px 24px rgba(30,41,59,0.13);
@@ -318,7 +319,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 32px 0 0 0;
+  margin: 64px 0 0 0;
   width: 100%;
   background: none !important;
   box-shadow: none !important;
