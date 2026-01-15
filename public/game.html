@@ -225,7 +225,7 @@ function renderQuestion() {
       <div id="reasonBox" class="hidden"></div>
 
       <div class="next-button">
-        <button id="nextBtn" class="hidden" onclick="nextQuestion()">Next Question</button>
+        <button id="nextBtn" disabled onclick="nextQuestion()">Next Question</button>
       </div>
     </div>
   `;
@@ -263,7 +263,9 @@ function pickAnswer(btn, dept) {
     </div>
   `;
 
-  $("nextBtn").classList.remove("hidden");
+  const nb = $("nextBtn");
+  nb.disabled = false;
+  nb.classList.remove("hidden");
 }
 
 /* ================================
