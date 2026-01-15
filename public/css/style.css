@@ -293,6 +293,7 @@ body {
   min-height: 180px !important;
   max-width: 180px !important;
   max-height: 180px !important;
+  aspect-ratio: 1 / 1 !important;
   display: flex !important;
   flex-direction: column !important;
   align-items: center !important;
@@ -310,17 +311,20 @@ body {
   margin: 0 !important;
   padding: 0 !important;
   overflow: hidden !important;
+  justify-items: center !important;
+  text-align: center !important;
 }
 .department:hover {
   box-shadow: 0 6px 24px rgba(30,41,59,0.13);
   transform: translateY(-2px) scale(1.04);
   border-color: #60a5fa;
-  max-width: 64px;
-  max-height: 64px;
-  margin-bottom: 12px;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
+  max-width: 64px !important;
+  max-height: 64px !important;
+  margin-bottom: 12px !important;
+  display: block !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  flex-shrink: 0 !important;
 }
 
 /* Generate Scenario button: clean and centered */
@@ -335,6 +339,11 @@ body {
   border-radius: 0 !important;
   padding: 0 !important;
   border: none !important;
+  display: block !important;
+  width: 100% !important;
+  text-align: center !important;
+  margin: 0 auto !important;
+  flex-shrink: 0 !important;
 }
 .generate-btn {
   padding: 12px 32px !important;
