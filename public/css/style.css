@@ -82,6 +82,17 @@ body {
 /* ================================
    Crisis Management Game — UI polish
 ================================ */
+.ttsg .header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+.ttsg .header img {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+}
 .cmg .q-progress {
   font-size: 0.95rem;
   color: #64748b;
