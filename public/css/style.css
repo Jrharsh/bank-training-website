@@ -122,6 +122,28 @@ body {
 /* ================================
    TTSG — Card and Grid polish
 ================================ */
+.ttsg .department-icon-circle {
+  width: 72px;
+  height: 72px;
+  border-radius: 999px;
+  background: radial-gradient(circle at 45% 35%, #f8fafc, #eef2f7);
+  border: 1px solid #e5e9f2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 12px auto;
+  box-shadow: 0 2px 8px rgba(30,41,59,0.06);
+}
+.ttsg .department-icon-circle .department-icon-img {
+  width: 40px;
+  height: 40px;
+}
+.ttsg .department-icon-circle .department-icon {
+  font-size: 1.9rem !important;
+  margin: 0 !important;
+}
+.ttsg .department-card.has-image .department-icon-circle .department-icon-img { display: block; }
+.ttsg .department-card.has-image .department-icon-circle .department-icon { display: none; }
 .ttsg #departmentGrid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
@@ -135,7 +157,7 @@ body {
   border: 1px solid #e0e6ed;
   border-radius: 16px;
   box-shadow: 0 2px 12px rgba(30,41,59,0.08);
-  padding: 22px 12px 18px;
+  padding: 18px 12px 18px;
   text-align: center;
   transition: box-shadow 0.18s ease, transform 0.12s ease, border-color 0.18s ease;
 }

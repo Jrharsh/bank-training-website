@@ -411,7 +411,9 @@ function createDepartmentCards() {
         const card = document.createElement('div');
         card.className = 'department-card';
 
-        // icon container with image fallback
+        // icon circle wrapper with image + emoji fallback
+        const iconCircle = document.createElement('div');
+        iconCircle.className = 'department-icon-circle';
         const iconWrap = document.createElement('div');
         iconWrap.className = 'department-icon';
         iconWrap.textContent = dept.icon;
@@ -431,9 +433,10 @@ function createDepartmentCards() {
         const name = document.createElement('div');
         name.className = 'department-name';
         name.textContent = dept.name;
-
-        card.appendChild(img);
-        card.appendChild(iconWrap);
+        
+        iconCircle.appendChild(img);
+        iconCircle.appendChild(iconWrap);
+        card.appendChild(iconCircle);
         card.appendChild(name);
 
         card.addEventListener('click', () => selectDepartment(dept.id, card));
