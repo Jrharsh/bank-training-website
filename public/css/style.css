@@ -277,8 +277,8 @@ body {
 /* Department grid: evenly spaced, professional look */
 #departmentGrid {
   display: grid;
-  grid-template-columns: repeat(5, 140px);
-  grid-template-rows: repeat(2, 140px);
+  grid-template-columns: repeat(1, 140px);
+  grid-template-rows: repeat(10, 140px);
   gap: 8px;
   margin-bottom: 0;
   justify-items: center;
@@ -325,7 +325,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 450px 0 0 0;
+  margin: 500px 0 0 0;
   width: 100%;
   background: none !important;
   box-shadow: none !important;
