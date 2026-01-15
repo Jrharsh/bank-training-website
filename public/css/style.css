@@ -76,23 +76,27 @@ body {
   color: #333;
 }
 
-/* Header layout for game page: center title, fixed logo left */
+/* Header layout for game page: logo + centered title */
 .header {
-  position: relative;
-  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 12px;
 }
 .header .title {
   text-align: center;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 2rem; /* slightly smaller so it’s not overpowering */
+  margin: 0;
 }
 
 .header img {
-  width: 80px;
-  height: 80px;
+  width: 64px;
+  height: 64px;
   object-fit: contain;
-  position: absolute;
-  left: 20px;
-  top: 50%;
-  transform: translateY(-50%);
 }
 
 /* Dark mode styles: only active if user prefers dark mode */
