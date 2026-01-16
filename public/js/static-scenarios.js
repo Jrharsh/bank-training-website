@@ -556,9 +556,9 @@ const SCENARIO_REG_EXAM = {
     )),
     q("Accounting", "How to track exam-related adjustments?", buildChoices(
       "Separate log with rationale and approvals", "Audit-ready.", 10,
-      "Mix into monthly file", "Opaque.", 5,
-      "No tracking until later", "Risky.", -5,
-      "Local spreadsheets only", "Inconsistent.", -5
+      "Record within the monthly close workbook on a dedicated tab with annotations", "Usable but harder to audit consistently across periods.", 5,
+      "Defer formal tracking until scope stabilizes; retain approvals in email", "Plausible in the moment but creates gaps and rework.", -5,
+      "Let each team keep its own tracker and supply weekly snapshots", "Looks organized but produces inconsistency and control gaps.", -5
     )),
     q("Accounting", "What stance on documentation requests?", buildChoices(
       "Provide accurate, curated docs with context", "Efficient and clear.", 10,
@@ -1635,6 +1635,12 @@ function rewriteChoiceText(text, score) {
     [/Promise instant( resolutions| fixes)?/i, 'Offer firm commitments on immediate resolution'],
     [/Share internal (dashboards|tools|maps)/i, 'Increase transparency by sharing high‑level internal views'],
     [/Mass notice/i, 'Proactively notify broadly to ensure consistent awareness'],
+    [/No tracking until later/i, 'Defer formal tracking until scope stabilizes; keep approvals in email'],
+    [/Local spreadsheets only/i, 'Allow team-level trackers with periodic snapshots to Accounting'],
+    [/Mix into monthly file/i, 'Record within the monthly close workbook with annotations'],
+    [/Emails only/i, 'Summarize via email recaps; attach artifacts later'],
+    [/No docs/i, 'Rely on system reports and institutional knowledge for now'],
+    [/Weekly only/i, 'Provide weekly rollups to minimize noise'],
   ];
   let out = t;
   if (score >= 10) {
