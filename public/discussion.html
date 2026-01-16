@@ -7,14 +7,7 @@
         <link rel="stylesheet" href="/css/style.css">
         <script src="js/discussion-scenarios.js"></script>
         <script>
-        // Detect user color scheme and set body class
-        function applyColorScheme() {
-            const darkScheme = window.matchMedia('(prefers-color-scheme: dark)').matches;
-            document.body.classList.toggle('dark-mode', darkScheme);
-            document.body.classList.toggle('light-mode', !darkScheme);
-        }
-        window.addEventListener('DOMContentLoaded', applyColorScheme);
-        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', applyColorScheme);
+        // Keep minimal: theme.js will handle toggle and OS scheme
         </script>
         <style>
             body {
@@ -607,5 +600,6 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log('[DEBUG] Initialization complete');
 });
     </script>
+    <script src="/js/theme.js"></script>
     </body>
 </html>
