@@ -47,8 +47,6 @@
 ================================ */
 // When false, do not reveal scores or color hints on choices
 const REVEAL_POINTS = false;
-// Difficulty: 'normal' | 'hard' — hard softens wording so weak options sound plausible
-const DIFFICULTY = 'hard';
 const DEPARTMENTS = [
   "CEO/SVPs","IT/Security","HR",
   "Finance","Loans","Accounting","Deposits"
@@ -223,18 +221,14 @@ function renderQuestion() {
       <h2 class="question-title">${escapeHtml(q.questionText)}</h2>
 
       <div class="choices">
-        ${shuffle(q.choices).map((c,i) => {
-          const label = escapeHtml(obscureChoiceLabel(c.text, c.score));
-          const title = escapeHtml(c.text);
-          return `
-            <button class="choice-btn"
-              data-score="${c.score}"
-              title="${title}"
-              onclick="pickAnswer(this,'${q.department}')">
-              ${label}
-            </button>
-          `;
-        }).join("")}
+        ${shuffle(q.choices).map((c,i) => `
+          <button class="choice-btn"
+            data-score="${c.score}"
+            title="${escapeHtml(c.text)}"
+            onclick="pickAnswer(this,'${q.department}')">
+            ${escapeHtml(c.text)}
+          </button>
+        `).join("")}
       </div>
 
       <div id="reasonBox" class="hidden"></div>
@@ -439,37 +433,7 @@ document.getElementById("genBtn").addEventListener("click", loadScenario);
 loadScenario();
 </script>
 
-<script>
-// Make weaker options read more plausible in hard mode without changing scoring
-function obscureChoiceLabel(text, score){
-  if (DIFFICULTY !== 'hard') return text || '';
-  const t = (text||'').trim();
-  if (score >= 10) {
-    return t
-      .replace(/Activate Incident Command and name a single spokesperson/i, 'Stand up a coordinated response with clear ownership')
-      .replace(/Acknowledge service impact, what’s known, and provide update cadence/i, 'Provide a factual update and outline next steps')
-      .replace(/Re-verify all change requests via trusted channels/i, 'Reconfirm change requests using trusted channels and dual control')
-      .replace(/Staged restore with integrity checks and rollback plan/i, 'Restore services in phases with checks and contingency')
-      .replace(/Talking points on BEC and verification steps/i, 'Offer structured guidance and verification steps to support staff');
-  }
-  // Make low/negative scores sound more appealing but still neutral
-  let s = t
-    .replace(/No comms[^.,]*/i, 'Limit outward messaging until facts stabilize')
-    .replace(/Promise( exact)? (recovery|restore|reopen|fix|timelines|times)/i, 'Offer firm commitments on timing to reassure stakeholders')
-    .replace(/Share screenshots[^.,]*/i, 'Provide visual examples to increase transparency')
-    .replace(/Blame [^.,]*/i, 'Be explicit about external responsibility to set expectations')
-    .replace(/Suspend handling/i, 'Temporarily pause processing to avoid compounding issues')
-    .replace(/Treat as normal/i, 'Maintain standard processing to avoid confusion')
-    .replace(/Downplay concerns/i, 'Reassure customers that impact is limited')
-    .replace(/Ask to (call back|return) later/i, 'Advise customers to follow up as capacity allows')
-    .replace(/Skip checks for trusted customers/i, 'Streamline checks for trusted customers to improve experience')
-    .replace(/Unlimited overtime/i, 'Maximize availability through broad overtime flexibility')
-    .replace(/Disable logging/i, 'Reduce non-essential telemetry temporarily to manage noise')
-    .replace(/Share internal (tools|dashboards|maps)/i, 'Increase transparency by showing internal views at a high level')
-    .replace(/Mass notice/i, 'Proactively notify broadly to ensure consistent awareness');
-  return s;
-}
-</script>
+<!-- Choice text is now plausibly rewritten at source (static-scenarios.js). -->
 
 </body>
 </html>

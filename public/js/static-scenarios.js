@@ -201,10 +201,10 @@ const SCENARIO_LIQUIDITY = {
       "Untracked hotfixes across environments", "Risky and non-compliant.", -5
     )),
     q("IT/Security", "Which security comms should go to staff today?", buildChoices(
-      "Targeted phishing alerts and MFA reinforcement", "High-value reminders during stress.", 10,
-      "Generic security email", "OK but easy to ignore.", 5,
-      "No comms to avoid distractions", "Increases risk.", -5,
-      "Allow personal devices for expediency", "Risky.", -5
+      "Targeted phishing alerts and MFA reinforcement", "Timely, specific guidance that reduces real incident risk.", 10,
+      "Brief security note with general reminders", "Provides baseline awareness but is easy to skim.", 5,
+      "Hold broad comms to avoid noise; rely on managers", "Reduces noise but misses critical risk reminders.", -5,
+      "Temporarily allow personal devices for expediency", "Improves access but expands the attack surface.", -5
     )),
 
     q("HR", "How should HR support branch staff handling anxious customers?", buildChoices(
@@ -312,41 +312,41 @@ const SCENARIO_BEC_WIRE = {
     "A vendor email account is compromised and requests a large wire change. Dual control detects an anomaly. Leadership must coordinate fraud response and communications.",
   questions: [
     q("CEO/SVPs", "What is the best external communications approach today?", buildChoices(
-      "Share facts without exposing investigation details; inform impacted parties directly", "Transparent and prudent.", 10,
-      "Post detailed forensics publicly", "Too much detail.", 5,
-      "Say nothing and hope it fades", "Risky.", -5,
-      "Blame the vendor immediately", "Premature.", -5
+      "Share verified facts without exposing investigation specifics; notify impacted parties directly", "Transparent and prudent.", 10,
+      "Issue a brief public summary with high-level indicators", "Reasonable but can create noise.", 5,
+      "Hold external messaging until all facts are final", "Slow and can harm trust.", -5,
+      "Signal vendor responsibility before full review", "Premature and unfair.", -5
     )),
     q("CEO/SVPs", "How should leadership support front-line fraud teams?", buildChoices(
-      "Provide staffing help, escalation paths, and quick decisions", "Removes friction.", 10,
-      "Ask for daily summaries only", "Less helpful.", 5,
-      "Stay hands-off", "Unhelpful.", -5,
-      "Announce zero tolerance publicly now", "Risky.", -5
+      "Provide targeted staffing, clear escalation paths, and fast decisions", "Removes friction.", 10,
+      "Request consolidated daily updates and let teams run", "Provides visibility but little support.", 5,
+      "Avoid involvement to prevent micromanagement", "Insufficient direction.", -5,
+      "Make a strong public stance immediately", "Can backfire operationally.", -5
     )),
     q("CEO/SVPs", "When should law enforcement be engaged?", buildChoices(
       "Promptly upon confirmed attempted fraud; coordinate with counsel", "Supports recovery and deterrence.", 10,
-      "Wait until funds are lost", "Too late.", 5,
-      "Never engage", "Misses recovery.", -5,
-      "Let any employee contact LE directly", "Uncoordinated.", -5
+      "Engage only if money has actually moved", "Reactive and late.", 5,
+      "Rely solely on internal bank processes", "Limits recovery options.", -5,
+      "Permit teams to reach out directly for speed", "Uncoordinated and risky.", -5
     )),
 
     q("IT/Security", "What email security action is most important now?", buildChoices(
-      "Tighten impersonation controls and DMARC, and reinforce MFA/phishing training", "Targets attack vector.", 10,
-      "Disable spam filtering to inspect manually", "Risky.", -5,
-      "Share headers widely", "Unnecessary exposure.", -5,
-      "Ignore because caught in time", "Missed hardening opportunity.", -5
+      "Tighten impersonation controls and DMARC; reinforce MFA/phishing training", "Targets the attack vector.", 10,
+      "Loosen filters temporarily to inspect manually", "Introduces avoidable risk.", -5,
+      "Circulate raw headers broadly for awareness", "Leaks technical details.", -5,
+      "Focus only on this case and defer control changes", "Missed hardening opportunity.", -5
     )),
     q("IT/Security", "How should suspicious emails be handled today?", buildChoices(
-      "Immediate quarantine and review; communicate to users with examples", "Improves detection.", 10,
-      "Delete silently", "Less learning.", 5,
-      "Forward broadly", "Spreads phish.", -5,
-      "Allow any user to send warnings", "Inconsistent.", -5
+      "Immediate quarantine and review; communicate to users with curated examples", "Improves detection.", 10,
+      "Quietly delete without user education", "Reduces noise but misses learning.", 5,
+      "Broadcast suspicious emails to all staff", "Can spread phish.", -5,
+      "Let anyone issue ad‑hoc warnings", "Inconsistent and noisy.", -5
     )),
     q("IT/Security", "What change should be avoided?", buildChoices(
-      "Turning off banner warnings on external email", "Removes useful signal.", -5,
-      "Adding additional URL rewriting", "Potentially fine.", 5,
-      "Increasing impersonation detection thresholds", "Helpful.", 10,
-      "Adding admin rights widely", "Risky.", -5
+      "Temporarily disable external-email banner warnings to reduce noise", "Removes useful signal.", -5,
+      "Layer additional URL rewriting in the gateway", "Reasonable but not primary.", 5,
+      "Lower impersonation detection thresholds to trigger earlier", "Helpful tuning.", 10,
+      "Grant temporary admin rights broadly for speed", "Creates new risk.", -5
     )),
 
     q("HR", "What training reinforcement helps today?", buildChoices(
@@ -407,10 +407,10 @@ const SCENARIO_BEC_WIRE = {
     )),
 
     q("Accounting", "How to log potential fraud impacts?", buildChoices(
-      "Track potential exposures separately with clear notes", "Audit-ready.", 10,
-      "Mix into normal expense lines", "Opaque.", 5,
-      "Ignore until confirmed loss", "Late.", -5,
-      "Share details broadly", "Risky.", -5
+      "Record exposures in a separate incident ledger with clear cross‑references", "Audit‑ready and traceable.", 10,
+      "Use a temporary accrual within existing GL with footnotes", "Usable but less clear.", 5,
+      "Defer entries until exposure is validated; track in case system only", "Gaps and timing issues.", -5,
+      "Distribute detailed working notes widely via email for visibility", "Uncontrolled dissemination.", -5
     )),
     q("Accounting", "What reconciliation priority changes today?", buildChoices(
       "Tighter review of wire-related accounts", "Relevant control.", 10,
@@ -1605,19 +1605,77 @@ const SCENARIOS = [
   SCENARIO_ACH_FAILURE,
 ];
 
+// Rephrase choices so distractors sound plausible without changing scoring.
+function rewriteChoiceText(text, score) {
+  const t = String(text || '').trim();
+  if (!t) return t;
+  const soft = [
+    [/Activate Incident Command and name a single spokesperson/i, 'Stand up a coordinated response with clear ownership'],
+    [/Acknowledge service impact, what’s known, and provide update cadence/i, 'Provide a factual update and outline near-term next steps'],
+    [/Re-verify all change requests via trusted channels/i, 'Reconfirm change requests using trusted channels and dual control'],
+    [/Staged restore with integrity checks and rollback plan/i, 'Restore services in phases with checks and contingency'],
+  ];
+  const plausible = [
+    [/No comms[^.,]*/i, 'Limit external messaging until facts stabilize'],
+    [/Promise( exact)? (recovery|restore|reopen|fix|timelines|times)/i, 'Offer firm timelines to reassure stakeholders'],
+    [/Share screenshots[^.,]*/i, 'Provide visual examples to increase transparency'],
+    [/Blame [^.,]*/i, 'Be explicit about external responsibility to set expectations'],
+    [/Suspend handling/i, 'Temporarily pause processing to avoid compounding issues'],
+    [/Treat as normal/i, 'Maintain standard processing to avoid confusion'],
+    [/Downplay concerns/i, 'Reassure customers that impact is limited'],
+    [/Ask to (call back|return) later/i, 'Advise customers to follow up as capacity allows'],
+    [/Skip checks for trusted customers/i, 'Streamline checks for trusted customers to improve experience'],
+    [/Unlimited overtime/i, 'Maximize availability through broad overtime flexibility'],
+    [/Disable logging/i, 'Reduce non‑essential telemetry temporarily to manage noise'],
+    [/Disable dual control/i, 'Relax dual checks to expedite work'],
+    [/Share admin (access|credentials) with (vendor )?widely/i, 'Broaden administrative access to speed changes'],
+    [/Reboot everything/i, 'Perform sweeping resets quickly to restore service'],
+    [/Large config changes ad-hoc/i, 'Implement broad configuration changes quickly to accelerate recovery'],
+    [/Silence until/i, 'Minimize messaging until details are clearer'],
+    [/Promise instant( resolutions| fixes)?/i, 'Offer firm commitments on immediate resolution'],
+    [/Share internal (dashboards|tools|maps)/i, 'Increase transparency by sharing high‑level internal views'],
+    [/Mass notice/i, 'Proactively notify broadly to ensure consistent awareness'],
+  ];
+  let out = t;
+  if (score >= 10) {
+    soft.forEach(([rx, rep]) => { out = out.replace(rx, rep); });
+  } else if (score <= 0) {
+    plausible.forEach(([rx, rep]) => { out = out.replace(rx, rep); });
+  } else {
+    // mid‑score: mild neutralization only
+    out = out.replace(/Generic/i, 'Focused');
+  }
+  return out;
+}
+
+function cloneWithRewrites() {
+  return SCENARIOS.map(s => ({
+    ...s,
+    questions: (s.questions || []).map(q => ({
+      ...q,
+      choices: (q.choices || []).map(c => ({
+        ...c,
+        text: rewriteChoiceText(c.text, c.score)
+      }))
+    }))
+  }));
+}
+
 export function getScenarios() {
-  return SCENARIOS;
+  // Return a deep copy with rewritten labels to keep originals unchanged
+  return cloneWithRewrites();
 }
 
 export function getScenarioByKey(key) {
   if (!key) return null;
   const k = String(key).toLowerCase().trim();
-  return SCENARIOS.find(s => s.key.toLowerCase() === k) || null;
+  return cloneWithRewrites().find(s => s.key.toLowerCase() === k) || null;
 }
 
 export function getRandomScenario() {
-  const valid = SCENARIOS.filter(s => Array.isArray(s.questions) && s.questions.length === 21);
-  const pool = valid.length ? valid : SCENARIOS;
+  const source = cloneWithRewrites();
+  const valid = source.filter(s => Array.isArray(s.questions) && s.questions.length === 21);
+  const pool = valid.length ? valid : source;
   const base = pool[Math.floor(Math.random() * pool.length)];
 
   const questions = Array.isArray(base.questions)
