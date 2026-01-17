@@ -1454,140 +1454,336 @@ const SCENARIO_INSIDER_FRAUD = {
 const SCENARIO_ACH_FAILURE = {
   key: "failed-ach-file-sent-to-fed",
   title: "Failed ACH File Sent to Federal Reserve",
-  description: "An ACH file was transmitted to the Fed with errors, causing settlement issues and customer confusion. Teams must coordinate remediation, notifications, and reconciliation.",
+  description: "At 6:47 AM, the overnight ACH origination file transmitted to the Federal Reserve contained corrupted batch headers affecting 4,200 transactions worth $12.3M. The Fed rejected the file at 7:15 AM but 847 transactions from a prior window had already settled with incorrect effective dates. Payroll credits for 23 commercial clients are delayed, consumer bill payments are failing at merchant endpoints, and your call center is experiencing 340% normal volume. The Fed's next processing window closes in 90 minutes.",
   questions: [
-    q("CEO/SVPs", "What should leadership do first?", buildChoices(
-      "Activate incident coordination and define external/internal comms cadence", "Provides structure.", 10,
-      "Hold off until ACH returns", "Too slow.", 5,
-      "Announce exact fix times", "Risky.", -5,
-      "Blame Ops publicly", "Unhelpful.", -5
-    )),
-    q("CEO/SVPs", "What external posture is appropriate today?", buildChoices(
-      "Acknowledge issue, what is known, and provide updates; avoid exact times", "Credible.", 10,
-      "Silence to avoid panic", "Rumors spread.", 5,
-      "Share detailed file errors", "Unnecessary.", -5,
-      "Promise blanket credits immediately", "Premature.", -5
-    )),
-    q("CEO/SVPs", "How should law enforcement/regulator comms be handled?", buildChoices(
-      "Through counsel and compliance with factual summaries", "Prudent.", 10,
-      "Any staff can reach out directly", "Inconsistent.", 5,
-      "No outreach", "Risky.", -5,
-      "Publicly share regulator feedback", "Risky.", -5
-    )),
+    // CEO/SVPs
+    q("CEO/SVPs", "The Fed operations desk calls asking whether you want to resubmit before the 9:00 AM window closes or wait for the afternoon window. Your operations team says they can prepare a corrected file in 60 minutes but hasn't identified root cause. What approach is most appropriate?",
+      buildChoices(
+        "Request the afternoon window to allow time for root cause identification and file validation, while implementing manual processing for time-critical payrolls through Fedwire.",
+        "Afternoon window provides validation time; Fedwire backup addresses urgent items; root cause knowledge prevents repeat failure.",
+        10,
+        "Submit the corrected file for the 9:00 AM window since the 60-minute timeline allows for basic validation and delays compound customer impact.",
+        "Speed addresses customer urgency but submitting without root cause understanding risks another rejection and greater reputational damage.",
+        5,
+        "Split the file—submit validated low-risk transactions for the 9:00 AM window and hold higher-value items for afternoon processing.",
+        "Splitting seems efficient but creates reconciliation complexity and the validation that cleared low-risk items may not have caught the original error.",
+        -5,
+        "Request the Fed extend the 9:00 AM window deadline given the circumstances to allow more time for correction and validation.",
+        "Extension requests are rarely granted for operational errors; the ask may damage the relationship without providing benefit.",
+        -5
+      )),
+    q("CEO/SVPs", "A board member calls after seeing social media complaints about 'bounced paychecks.' They want to know why they're learning about this from Twitter instead of management. What approach is most appropriate?",
+      buildChoices(
+        "Acknowledge the communication gap, provide a concise situation briefing, explain that formal board notification was being prepared, and commit to a defined update schedule going forward.",
+        "Acknowledgment accepts responsibility; briefing addresses their immediate need; explanation provides context; schedule prevents recurrence.",
+        10,
+        "Explain that the incident command was focused on resolution and board communication was queued after customer notification priorities.",
+        "Prioritization explanation is accurate but may sound defensive; acknowledging the gap while explaining is more appropriate.",
+        5,
+        "Remind the board member that operational incidents are management matters and board involvement at this stage could slow decision-making.",
+        "Governance boundary argument may be technically correct but dismisses a legitimate concern about communication during a visible incident.",
+        -5,
+        "Immediately convene an emergency board call to ensure all directors receive simultaneous briefing before any further external developments.",
+        "Emergency call may seem responsive but diverts leadership attention from resolution; structured update is more appropriate than real-time board involvement.",
+        -5
+      )),
+    q("CEO/SVPs", "Your largest payroll client—a hospital system with 2,400 employees—calls the CEO directly. Their employees didn't receive direct deposits and the hospital's HR director is demanding to know when staff will be paid. What approach is most appropriate?",
+      buildChoices(
+        "Commit to same-day resolution through Fedwire for their payroll specifically, assign a dedicated contact for the relationship, and have treasury confirm completion directly with their CFO.",
+        "Specific commitment with backup method addresses their urgent need; dedicated contact shows relationship priority; CFO confirmation closes the loop appropriately.",
+        10,
+        "Assure them the file will be corrected and resubmitted in the afternoon window, putting them at the front of the processing queue.",
+        "Afternoon resubmission may resolve the issue but doesn't guarantee same-day availability depending on their employees' banks; manual backup is more certain.",
+        5,
+        "Explain that all affected clients are being treated equally and prioritizing one client over others would be unfair to the remaining 22 impacted payrolls.",
+        "Equal treatment sounds principled but relationship size and employee impact warrant differentiated response; rigid equality may lose a key client.",
+        -5,
+        "Transfer the call to the treasury operations manager who can provide technical details about the correction timeline.",
+        "Technical transfer may seem efficient but CEO-to-CEO escalation warrants CEO-level response; transfer appears to diminish the relationship.",
+        -5
+      )),
 
-    q("IT/Security", "What technical action is key?", buildChoices(
-      "Identify root-cause and validate resend logic in a sandbox", "Prevents repeat.", 10,
-      "Resend immediately without validation", "Risky.", -5,
-      "Disable logging", "Risky.", -5,
-      "Share logs externally without agreements", "Risky.", 5
-    )),
-    q("IT/Security", "How to prevent recurrence?", buildChoices(
-      "Add validation checks and dual control on file creation", "Strengthens process.", 10,
-      "Trust manual checks only", "Error-prone.", 5,
-      "No changes", "Risk remains.", -5,
-      "Allow personal scripts", "Risky.", -5
-    )),
-    q("IT/Security", "What comms to staff are useful?", buildChoices(
-      "Clear steps for reporting anomalies and temporary workarounds", "Practical.", 10,
-      "Generic note", "Light.", 5,
-      "None", "Confusion.", -5,
-      "Share sensitive logs widely", "Risky.", -5
-    )),
+    // IT/Security
+    q("IT/Security", "Initial analysis shows the file corruption occurred after the ACH origination system handed off to the file transfer platform. The transfer platform vendor claims their logs show a clean handoff. Your logs are ambiguous. What approach is most appropriate?",
+      buildChoices(
+        "Capture forensic snapshots of both systems immediately, engage the vendor in joint log analysis with timestamps correlated to the microsecond, and document the chain of custody for any dispute resolution.",
+        "Forensic preservation protects evidence; joint analysis addresses the ambiguity; timestamp correlation identifies the actual failure point; documentation supports any needed escalation.",
+        10,
+        "Accept the vendor's position for now and focus internal investigation on the origination system since that's within your direct control.",
+        "Internal focus is practical but accepting vendor claims without verification may miss the actual cause and leave you exposed to repeat failures.",
+        5,
+        "Escalate to the vendor's executive team and demand they prove their system wasn't responsible before you'll continue joint investigation.",
+        "Executive escalation may be needed eventually but adversarial posture before completing joint analysis damages the working relationship.",
+        -5,
+        "Implement additional validation checks between the systems to prevent recurrence while continuing to investigate root cause in parallel.",
+        "Preventive controls are appropriate but implementing changes before understanding the cause may not address the actual vulnerability.",
+        -5
+      )),
+    q("IT/Security", "The corrected file is ready for the afternoon window. Your standard change management process requires 24-hour review for production file changes. The business is pressing for immediate submission. What approach is most appropriate?",
+      buildChoices(
+        "Invoke emergency change procedures with documented justification, require sign-off from both IT and business leadership, implement enhanced monitoring for the submission, and schedule post-incident review.",
+        "Emergency procedures exist for this situation; dual sign-off maintains accountability; enhanced monitoring catches issues quickly; post-incident review addresses process improvement.",
+        10,
+        "Follow standard 24-hour review since the process exists to prevent exactly this kind of error, and another day's delay is preferable to another failed file.",
+        "Process adherence is generally correct but emergency procedures exist for genuine emergencies; rigid adherence causes unnecessary customer harm.",
+        5,
+        "Submit the file with business leadership approval only, since the change management delay is an IT bureaucracy issue that shouldn't impact customers.",
+        "Business-only approval bypasses IT controls that exist for good reason; emergency procedures should involve both functions.",
+        -5,
+        "Have a developer manually validate the file contents and submit directly, bypassing the automated pipeline that may have caused the original issue.",
+        "Manual bypass avoids the suspected system but introduces human error risk and creates an undocumented process that can't be repeated reliably.",
+        -5
+      )),
+    q("IT/Security", "During the incident, you discover the ACH origination system has been running on an unsupported operating system version for 8 months due to a delayed upgrade project. This wasn't the root cause but could complicate regulatory discussions. What approach is most appropriate?",
+      buildChoices(
+        "Document the finding in the incident record, assess whether it contributed to the failure, accelerate the upgrade project timeline, and prepare talking points for potential regulatory questions.",
+        "Transparent documentation maintains integrity; contribution assessment is appropriate due diligence; accelerated upgrade addresses the gap; preparation enables consistent response.",
+        10,
+        "Note the finding internally but keep the incident report focused on the actual root cause since the unsupported OS wasn't a contributing factor.",
+        "Root cause focus is appropriate but omitting a relevant system condition from the record could appear as concealment if discovered later.",
+        5,
+        "Immediately prioritize the OS upgrade over incident remediation to close the vulnerability before regulators ask questions.",
+        "Upgrade urgency is understandable but diverting resources from active incident remediation creates customer harm; sequencing should address both.",
+        -5,
+        "Delay documenting the OS finding until the upgrade is complete so the incident record shows the issue was already being addressed.",
+        "Documentation timing manipulation could be viewed as concealment; contemporaneous documentation of what was known when is more defensible.",
+        -5
+      )),
 
-    q("HR", "How should staffing be managed during reconciliation surge?", buildChoices(
-      "Temporary reassignments and pre-approved overtime with wellness guidance", "Balances needs.", 10,
-      "No changes", "Strain.", 5,
-      "Mandatory extended hours for all", "Burnout.", -5,
-      "Cancel all PTO indefinitely", "Overreach.", -5
-    )),
-    q("HR", "What employee guidance helps most?", buildChoices(
-      "Talking points, do/don'ts, and escalation contacts", "Reduces errors.", 10,
-      "Ask teams to figure it out", "Inconsistent.", 5,
-      "Share customer account examples", "Privacy risk.", -5,
-      "Silence", "Rumors.", -5
-    )),
-    q("HR", "How to support impacted teams?", buildChoices(
-      "Manager check-ins and EAP reminders", "Helpful.", 10,
-      "Ignore concerns", "Missed support.", 5,
-      "Public blame messaging", "Counterproductive.", -5,
-      "Mandatory overtime", "Burnout.", -5
-    )),
+    // HR
+    q("HR", "Operations staff have been working since 5:00 AM when the rejection was discovered. It's now 2:00 PM and the afternoon file has been submitted. The team wants to know if they can go home, but reconciliation work remains and tomorrow's file needs preparation. What approach is most appropriate?",
+      buildChoices(
+        "Release non-critical staff with instructions to be available by phone, keep a core team for reconciliation with commitment to relief by a specific time, and bring in fresh staff for tomorrow's file preparation.",
+        "Tiered release addresses fatigue while maintaining capability; specific relief commitment provides certainty; fresh staff for new work prevents errors.",
+        10,
+        "Keep the full team until reconciliation is complete since they understand the situation and handoff to fresh staff would take time to brief.",
+        "Continuity has value but fatigued staff make errors; structured handoff with documentation is preferable to exhausted experts.",
+        5,
+        "Tell staff that everyone needs to stay until the situation is fully resolved, but authorize dinner delivery and promise compensatory time off later.",
+        "Meals and comp time don't address fatigue-related error risk; staggered release is more appropriate than indefinite retention.",
+        -5,
+        "Let individuals decide whether they can continue working based on their own assessment of their fatigue levels.",
+        "Self-assessment sounds respectful but fatigued people often misjudge their own impairment; management should make staffing decisions.",
+        -5
+      )),
+    q("HR", "A call center supervisor reports that two representatives broke down crying during difficult customer calls. Call volume remains elevated and the representatives want to continue working. What approach is most appropriate?",
+      buildChoices(
+        "Rotate the affected representatives to back-office support tasks, ensure manager check-ins occur, make EAP resources visible to all call center staff, and monitor overall team stress indicators.",
+        "Task rotation provides relief while keeping staff productive; check-ins show care; EAP visibility addresses broader need; monitoring prevents cascade.",
+        10,
+        "Allow the representatives to decide whether they want to continue taking calls since they know their own capacity best.",
+        "Autonomy sounds respectful but staff in distress may not make optimal decisions; supportive reassignment protects them and customers.",
+        5,
+        "Send both representatives home for the day with pay and bring in backup staff to maintain call center capacity.",
+        "Home release may be appropriate but doesn't address the broader team stress or provide alternatives; rotation is more proportionate.",
+        -5,
+        "Thank the representatives for their dedication and encourage them to take a short break before returning to the phones.",
+        "Short breaks don't address the underlying stress; returning to the same triggering environment without role change is unlikely to help.",
+        -5
+      )),
+    q("HR", "An operations employee posts on LinkedIn that the bank 'had a major ACH meltdown due to management cutting corners on system upgrades.' The post is factually inaccurate but gaining traction. What approach is most appropriate?",
+      buildChoices(
+        "Have the employee's manager address the post privately, remind all staff of social media policies without singling anyone out, and assess whether legitimate concerns underlie the inaccurate claims.",
+        "Private conversation addresses the specific issue; general reminder prevents escalation; concern assessment may surface valid feedback.",
+        10,
+        "Request the employee remove the post immediately and document the policy violation for later performance discussion.",
+        "Removal request is appropriate but documenting for discipline during an active incident may chill future issue reporting.",
+        5,
+        "Have corporate communications post a public response correcting the factual errors in the employee's claims.",
+        "Public response engages with an employee dispute publicly, amplifying the story and creating an adversarial dynamic.",
+        -5,
+        "Ignore the post since engaging with it draws more attention and the employee has free speech rights outside of work.",
+        "Ignoring allows misinformation to spread; employees have speech rights but not to make false public statements about their employer.",
+        -5
+      )),
 
-    q("Finance", "What financial controls are needed now?", buildChoices(
-      "Track exposure and credits separately with approvals", "Audit-ready.", 10,
-      "Normal processing only", "Slow.", 5,
-      "Pause all postings", "Too blunt.", -5,
-      "Share ledgers externally", "Risky.", -5
-    )),
-    q("Finance", "How to communicate with customers with returned ACH?", buildChoices(
-      "Explain issue, next steps, and credits where applicable", "Builds trust.", 10,
-      "Generic 'working on it'", "Vague.", 5,
-      "Exact fix times", "Risky.", -5,
-      "Share internal error codes", "Confusing.", -5
-    )),
-    q("Finance", "What reporting cadence helps?", buildChoices(
-      "Daily status on counts, credits, and backlog", "Keeps alignment.", 10,
-      "Weekly only", "Slow.", 5,
-      "None", "Opaque.", -5,
-      "Raw dumps", "Noisy.", -5
-    )),
+    // Finance
+    q("Finance", "The Fed settlement for the rejected file didn't occur, but your correspondent bank funded customer accounts based on expected settlement. You now have a $12.3M position mismatch that will correct with the afternoon file, but your correspondent is calling about the daylight overdraft. What approach is most appropriate?",
+      buildChoices(
+        "Explain the situation to the correspondent with expected resolution timing, confirm you'll cover any overdraft charges incurred, document the arrangement, and escalate internally if the position extends beyond today.",
+        "Transparent explanation maintains relationship; charge coverage addresses their concern; documentation supports reconciliation; escalation protocol addresses extended exposure.",
+        10,
+        "Transfer $12.3M from your Fed account to the correspondent immediately to clear the position, then reconcile when the afternoon settlement completes.",
+        "Immediate transfer clears their position but may create your own Fed account issues depending on balances; explanation with commitment is cleaner.",
+        5,
+        "Remind the correspondent that they funded based on their own processes and the position will clear with afternoon settlement as normal.",
+        "Technically accurate but dismissive of a legitimate concern from a key partner; relationship maintenance warrants more engagement.",
+        -5,
+        "Escalate to your treasurer to handle the correspondent call since this is a treasury relationship matter, not an incident management issue.",
+        "Treasury involvement is appropriate but the escalation framing suggests avoidance; incident management includes managing financial impacts.",
+        -5
+      )),
+    q("Finance", "Commercial clients are asking for fee credits due to the delayed payrolls. Some are demanding compensation for their own costs—employee complaints, HR overtime, manual check processing. Total credit requests are approaching $180,000. What approach is most appropriate?",
+      buildChoices(
+        "Establish a tiered credit framework: automatic credits for direct bank fees, documented review process for reasonable consequential costs, and clear criteria for what qualifies—with authority limits for approvals.",
+        "Framework provides consistency; tiered approach addresses different claim types appropriately; criteria and authority limits maintain control.",
+        10,
+        "Credit all direct bank fees automatically and tell clients that consequential damages require legal review before any commitment.",
+        "Automatic fee credits are appropriate but legal framing for all other costs may seem adversarial; reasonable cost review is more customer-friendly.",
+        5,
+        "Offer standardized credits based on transaction volume without requiring documentation, to resolve claims quickly and avoid prolonged disputes.",
+        "Speed has value but undocumented credits may over-compensate some and under-compensate others; reasonable documentation supports fairness.",
+        -5,
+        "Deny consequential damage claims categorically since the bank's service agreement limits liability to direct damages only.",
+        "Legal position may be defensible but rigid enforcement during a service failure damages relationships; goodwill has value.",
+        -5
+      )),
+    q("Finance", "The CFO asks for a financial impact summary for the board. Direct costs are clear but reputational impact and potential client attrition are uncertain. The board meeting is in 4 hours. What approach is most appropriate?",
+      buildChoices(
+        "Present quantified direct costs, describe potential indirect impacts with ranges and assumptions, identify metrics to track for actual impact measurement, and commit to updated analysis as data emerges.",
+        "Quantified directs provide concrete information; ranged indirects acknowledge uncertainty appropriately; metrics enable tracking; update commitment maintains engagement.",
+        10,
+        "Present only the direct costs that can be quantified and note that indirect impacts will be assessed over the coming weeks as patterns emerge.",
+        "Direct-only focus is conservative but board may want some indication of potential magnitude even if uncertain; ranges with caveats are appropriate.",
+        5,
+        "Delay the financial summary until more data is available since presenting uncertain numbers could mislead the board about actual impact.",
+        "Delay leaves board without financial context for a material incident; presenting with appropriate caveats is preferable to silence.",
+        -5,
+        "Present a comprehensive estimate including projected client attrition and reputational damage to ensure the board understands worst-case exposure.",
+        "Comprehensive projection sounds thorough but speculative worst-case numbers may alarm unnecessarily; ranges with assumptions are more appropriate.",
+        -5
+      )),
 
-    q("Loans", "How to handle loan payments impacted by the file?", buildChoices(
-      "Identify and correct; communicate options to borrowers", "Customer-friendly.", 10,
-      "Wait for customers to complain", "Reactive.", 5,
-      "Reverse everything broadly", "Over-correction.", -5,
-      "Share borrower data widely", "Risky.", -5
-    )),
-    q("Loans", "What borrower comms are appropriate?", buildChoices(
-      "If impacted, provide specific steps and timelines", "Professional.", 10,
-      "Mass notice to all borrowers", "Overkill.", 5,
-      "No notice even if impacted", "Risky.", -5,
-      "Promise exact dates", "Risky.", -5
-    )),
-    q("Loans", "What changes to LOS controls are helpful?", buildChoices(
-      "Temporary restrictions on automated postings tied to ACH until validated", "Reduces risk.", 10,
-      "None", "Risk remains.", 5,
-      "Disable LOS entirely", "Too blunt.", -5,
-      "Give more admins", "Risky.", -5
-    )),
+    // Loans
+    q("Loans", "Several auto loan payments that were in the failed file have now missed their due dates. The loan system has automatically assessed late fees and sent notices to borrowers who thought they had paid. What approach is most appropriate?",
+      buildChoices(
+        "Immediately reverse all late fees for affected accounts, send corrected notices explaining the bank error, suppress any negative credit reporting, and document the remediation for compliance purposes.",
+        "Immediate reversal addresses customer harm; corrected notices explain the situation; credit reporting suppression prevents lasting damage; documentation supports audit trail.",
+        10,
+        "Reverse late fees upon customer request and expedite the complaint process for affected borrowers who contact the bank.",
+        "Request-based reversal helps those who call but misses borrowers who don't realize the bank erred; proactive reversal is more appropriate.",
+        5,
+        "Wait until the corrected file settles to confirm which payments actually post, then assess remediation based on final payment status.",
+        "Waiting provides certainty but leaves late fees and notices in place longer than necessary; parallel remediation is possible.",
+        -5,
+        "Send a general communication to all loan customers about the ACH issue without specifically identifying affected accounts.",
+        "General communication is vague; affected borrowers deserve specific notification that their account was impacted and remediated.",
+        -5
+      )),
+    q("Loans", "A mortgage payment in the failed file was for a borrower on a loss mitigation plan with strict payment timing requirements. Missing the payment deadline could technically default them out of the program. What approach is most appropriate?",
+      buildChoices(
+        "Document that the bank's operational error caused the timing issue, maintain the borrower's loss mitigation status, ensure the payment posts with the original intended date for program purposes, and note the exception.",
+        "Bank-error documentation establishes cause; maintained status protects borrower; backdated posting for program purposes is appropriate given circumstances; exception notation maintains records.",
+        10,
+        "Contact the borrower immediately to explain the situation and have them make a replacement payment today through an alternative channel to meet the deadline.",
+        "Borrower contact is appropriate but asking them to pay again shifts the burden for the bank's error; internal remediation is more appropriate.",
+        5,
+        "Process the payment when the corrected file settles and evaluate at that point whether the borrower remains eligible for loss mitigation.",
+        "Standard processing may technically default the borrower for the bank's error; proactive protection is warranted.",
+        -5,
+        "Flag the account for supervisor review once the file settles since loss mitigation decisions require careful documentation.",
+        "Supervisor review is appropriate but waiting until after settlement may be too late to prevent program default; immediate action is needed.",
+        -5
+      )),
+    q("Loans", "The failed file included escrow disbursements for property tax payments with a county deadline of today. If taxes aren't received by the county by 5:00 PM, borrowers will incur penalties. What approach is most appropriate?",
+      buildChoices(
+        "Identify all escrow disbursements with today's deadline, initiate wire transfers to the relevant taxing authorities immediately, absorb the wire costs, and reconcile against the corrected ACH file when it settles.",
+        "Wire transfer meets the deadline; bank absorbs costs appropriately for its error; reconciliation maintains accounting integrity.",
+        10,
+        "Contact the county tax offices to explain the situation and request deadline extensions for the affected payments.",
+        "Extension requests may help but counties may not accommodate; wire transfer backup ensures deadlines are met regardless.",
+        5,
+        "Include the tax payments in the corrected afternoon file and communicate with borrowers if penalties are incurred about remediation.",
+        "Afternoon file may not settle at county in time for deadline; penalties create customer harm that proactive wire prevents.",
+        -5,
+        "Advise affected borrowers to pay their property taxes directly today and the bank will reimburse them when the escrow payment clears.",
+        "Borrower payment shifts the burden for bank's error and requires them to have funds available; bank should solve its own problem.",
+        -5
+      )),
 
-    q("Accounting", "How to reconcile the error efficiently?", buildChoices(
-      "Central exception log and daily true-up plan", "Controls and speed.", 10,
-      "Normal cadence only", "Slow.", 5,
-      "Suspend reconciliation", "Risky.", -5,
-      "Local ad-hoc methods", "Inconsistent.", -5
-    )),
-    q("Accounting", "What documentation should be produced?", buildChoices(
-      "Incident summary with controls, impacts, approvals, and reconciliation notes", "Supports later review.", 10,
-      "Record GL entries with brief annotations; compile a formal summary later", "Thin but workable.", 5,
-      "Defer documentation until stabilization", "Risky.", -5,
-      "Distribute sensitive incident materials externally without review", "Risky.", -5
-    )),
-    q("Accounting", "How to handle service credits?", buildChoices(
-      "Track separately with rationale and incident tags", "Transparent.", 10,
-      "Lump later", "Opaque.", 5,
-      "Ignore", "Backlog.", -5,
-      "Offset arbitrarily", "Non-compliant.", -5
-    )),
+    // Accounting
+    q("Accounting", "The failed and corrected files will create reconciliation complexity—some transactions will appear twice, some once, some with different effective dates. The suspense account is already growing. What approach is most appropriate?",
+      buildChoices(
+        "Create a dedicated reconciliation workspace for incident-related transactions, establish clear matching rules for the various scenarios, assign specific staff ownership, and set a target clearance date with daily progress tracking.",
+        "Dedicated workspace isolates complexity; matching rules ensure consistency; ownership creates accountability; target date with tracking ensures completion.",
+        10,
+        "Process all transactions through normal reconciliation procedures since existing processes handle exceptions and special handling creates additional complexity.",
+        "Normal procedures may work eventually but don't account for the volume and complexity; dedicated handling accelerates resolution.",
+        5,
+        "Hold all incident-related transactions in suspense until the full picture is clear, then reconcile in a single pass once all settlements complete.",
+        "Single-pass approach seems efficient but extended suspense creates audit concerns and delays identifying specific issues.",
+        -5,
+        "Assign the reconciliation to whoever is available and let them work through it at their own pace since it will eventually clear.",
+        "Unstructured assignment may result in inconsistent treatment and extended timelines; structured approach is necessary for this volume.",
+        -5
+      )),
+    q("Accounting", "External auditors are currently on-site for quarterly procedures. They've heard about the incident and are asking for documentation. The incident is still being resolved. What approach is most appropriate?",
+      buildChoices(
+        "Provide auditors with current documentation including the incident timeline, remediation actions taken, and financial impacts identified so far, noting that the situation is ongoing and updates will follow.",
+        "Current documentation demonstrates transparency; timeline and actions show control; ongoing status with update commitment sets expectations.",
+        10,
+        "Ask auditors to defer their documentation requests until the incident is resolved so they can receive a complete and accurate package.",
+        "Deferral may seem practical but auditors have legitimate need for timely information; ongoing status can be communicated with current documents.",
+        5,
+        "Provide auditors with the incident summary only and note that detailed documentation will be available after internal review is complete.",
+        "Summary-only may appear to limit auditor access; underlying documentation should be available subject to completion status.",
+        -5,
+        "Refer auditor requests to legal counsel since incident documentation may have litigation implications that require privilege review.",
+        "Legal involvement may be appropriate for some documents but routing routine auditor requests through legal appears obstructive.",
+        -5
+      )),
+    q("Accounting", "Late in the day, you discover that the original file and the corrected file both partially settled for a subset of transactions, creating duplicate credits for approximately $890,000 across 340 customer accounts. What approach is most appropriate?",
+      buildChoices(
+        "Identify all duplicate credit accounts immediately, assess the reversal process and customer notification requirements, consult with compliance on Reg E implications, and develop a remediation plan before initiating reversals.",
+        "Immediate identification establishes scope; process assessment ensures correct approach; compliance consultation addresses regulatory requirements; planned remediation prevents ad-hoc errors.",
+        10,
+        "Initiate reversals for all duplicate credits immediately to correct the bank's balance sheet position before end of day.",
+        "Speed seems appropriate but customer notification requirements and regulatory considerations should be addressed before reversals.",
+        5,
+        "Wait until tomorrow to address the duplicates since staff are fatigued and errors in the reversal process could compound the problem.",
+        "Fatigue concern is valid but unresolved duplicates create overnight exposure; fresh staff can handle the reversals today.",
+        -5,
+        "Post a journal entry to record the expected reversal and process the actual reversals through normal procedures over the next few days.",
+        "Accrual addresses accounting but doesn't resolve the customer-facing issue; reversals need timely processing with appropriate notices.",
+        -5
+      )),
 
-    q("Deposits", "What to tell customers at branches?", buildChoices(
-      "Provide talking points, alternatives, and expected next steps", "Reduces friction.", 10,
-      "Ask to come back later", "Weak.", 5,
-      "Promise instant fixes", "Risky.", -5,
-      "Share internal error codes", "Confusing.", -5
-    )),
-    q("Deposits", "How to handle debit card/ACH confusion?", buildChoices(
-      "Explain differences and what was impacted; provide options", "Educates.", 10,
-      "Say everything is fine", "Often wrong.", 5,
-      "No guidance", "Confusing.", -5,
-      "Share screenshots", "Risky.", -5
-    )),
-    q("Deposits", "What dispute handling approach fits?", buildChoices(
-      "Flag incident-related disputes and prioritize", "Traceable.", 10,
-      "Treat as normal", "Slow.", 5,
-      "Suspend handling", "Harmful.", -5,
-      "Share internal screens", "Risky.", -5
-    )),
+    // Deposits
+    q("Deposits", "Branch managers report that customers whose bill payments failed are bringing in disconnect notices from utilities and demanding the bank fix the situation. Some customers have been charged late fees and reconnection fees by their billers. What approach is most appropriate?",
+      buildChoices(
+        "Empower branch managers to provide immediate credits for documented biller fees up to a defined limit, establish an escalation path for larger amounts, and provide talking points for customer conversations.",
+        "Immediate authority enables resolution at point of contact; limits maintain control; escalation path handles exceptions; talking points ensure consistency.",
+        10,
+        "Have customers submit documentation of fees incurred and process credits through the normal dispute resolution process with expedited handling.",
+        "Documentation is reasonable but normal dispute process may seem bureaucratic during the bank's service failure; faster resolution is appropriate.",
+        5,
+        "Explain that the bill payment failed due to the ACH issue and customers should contact their billers to request fee waivers given the bank's error.",
+        "Biller contact may work but shifts the burden to customers for the bank's error; bank should make customers whole directly.",
+        -5,
+        "Provide customers with a letter documenting the bank's error that they can use with their billers to request fee refunds.",
+        "Letters may help but don't address customers' immediate out-of-pocket costs; direct credits are more appropriate.",
+        -5
+      )),
+    q("Deposits", "A small business customer whose payroll was in the failed file is at the branch with employees who can't access their pay. The business owner is demanding cash to pay employees manually. The amount requested is $47,000. What approach is most appropriate?",
+      buildChoices(
+        "Verify the business's payroll amount against records, confirm their available balance supports the withdrawal, process the cash withdrawal with appropriate documentation, and note the exceptional circumstance.",
+        "Verification protects both parties; balance confirmation ensures funds availability; documented exception is appropriate given circumstances.",
+        10,
+        "Explain that the afternoon file should credit employee accounts by end of day and ask the business owner to have employees return tomorrow.",
+        "Tomorrow resolution doesn't help employees who need funds today; the business owner's urgent request warrants accommodation.",
+        5,
+        "Process the withdrawal but require the business owner to sign an indemnification agreement acknowledging the bank isn't responsible for the delay.",
+        "Indemnification seems defensive during the bank's service failure and doesn't change the business owner's legal position anyway.",
+        -5,
+        "Decline the large cash withdrawal citing branch cash limits and offer a cashier's check instead that can be cashed at their bank.",
+        "Branch limits may exist but the customer's urgent need warrants exception handling; check doesn't help employees needing immediate cash.",
+        -5
+      )),
+    q("Deposits", "Call center representatives report that some customers are threatening to close accounts and 'go to the press' about the failed payroll deposits. Volume of these calls is increasing as the day progresses. What approach is most appropriate?",
+      buildChoices(
+        "Provide representatives with retention talking points that acknowledge the error and specific remediation steps, authorize modest retention offers within guidelines, and escalate media threats to communications team for monitoring.",
+        "Talking points enable consistent response; authorized offers address retention; media threat escalation enables preparation without over-reacting.",
+        10,
+        "Have supervisors take over calls from customers threatening media contact to prevent representatives from making commitments the bank can't keep.",
+        "Supervisor escalation is appropriate for difficult calls but media-threat criteria may route too many calls and not address the underlying frustration.",
+        5,
+        "Document all customers threatening media contact and have relationship managers call them back to address concerns and prevent escalation.",
+        "Callback list may be appropriate but treating media threats as the escalation trigger may miss equally upset customers who don't threaten.",
+        -5,
+        "Remind representatives that customers threatening media contact are trying to manipulate the situation and should be treated like any other complaint.",
+        "Standard treatment dismisses the legitimate anger; customers affected by bank errors warrant acknowledgment and remediation regardless of tactics.",
+        -5
+      )),
   ]
 };
 
