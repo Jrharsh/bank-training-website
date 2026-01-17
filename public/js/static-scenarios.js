@@ -1,4 +1,4 @@
-// public/js/static-scenarios.js
+﻿// public/js/static-scenarios.js
 // Browser-usable copy of the static scenarios with local randomization.
 // This removes any dependency on the /api/scenarios endpoint.
 
@@ -733,141 +733,337 @@ const SCENARIO_WEATHER = {
 /* ------------------------- SCENARIO 6 ------------------------- */
 const SCENARIO_INSIDER = {
   key: "insider-threat-terminated-employee",
-  title: "Insider Threat—Terminated Employee",
-  description: "A recently terminated employee with elevated access attempted to log in remotely and may have retained customer data. Security, legal, and HR must coordinate response.",
+  title: "Insider ThreatTerminated Employee",
+  description: "A senior loan operations manager was terminated yesterday for performance issues after 12 years with the bank. At 2:47 AM, Security detected multiple failed VPN login attempts from their personal device, followed by successful authentication using a service account the employee had documented 'for emergencies.' Log analysis shows 340MB of data was downloaded before access was revoked at 3:12 AM. The data includes commercial loan files, customer contact lists, and internal pricing models. The employee's LinkedIn now shows them as 'Consultant' at a competing regional bank that launched last month. Legal has confirmed the employee signed an NDA but no non-compete.",
   questions: [
-    q("CEO/SVPs", "What should leadership do in the first hour?", buildChoices(
-      "Activate incident response, appoint a spokesperson, and align with legal", "Sets structure and reduces missteps.", 10,
-      "Let Security run it and wait for a summary", "Slower alignment and comms.", 5,
-      "Say nothing until forensics is complete", "Creates rumor risk and confusion.", -5,
-      "Tell teams to change all passwords immediately", "Disruptive and may hinder forensics.", -5
-    )),
-    q("CEO/SVPs", "What’s the correct external stance today?", buildChoices(
-      "Share facts only if customer data exposure is likely; align with counsel/regulators", "Balanced and compliant.", 10,
-      "Say nothing regardless of exposure", "Risky.", 5,
-      "Blame the ex-employee publicly", "Risky and potentially defamatory.", -5,
-      "Provide technical details of detection tooling", "Unnecessary and risky.", -5
-    )),
-    q("CEO/SVPs", "How should leadership support teams?", buildChoices(
-      "Provide resources, approvals, and remove blockers with clear cadence", "Keeps momentum.", 10,
-      "Request daily email summaries only", "Less helpful.", 5,
-      "No involvement", "Unhelpful.", -5,
-      "Mandate all-hands daily townhalls", "Disruptive.", -5
-    )),
+    // CEO/SVPs
+    q("CEO/SVPs", "Legal advises that pursuing the former employee aggressively could trigger a wrongful termination countersuit, as the performance issues were disputed. The employee's attorney has already reached out 'to discuss a mutually agreeable resolution.' What approach is most appropriate?",
+      buildChoices(
+        "Document all evidence of unauthorized access thoroughly, engage outside counsel specializing in trade secrets, assess the strength of both potential claims, and develop a negotiation strategy that protects critical business interests.",
+        "Thorough documentation preserves options; specialized counsel provides expertise; claim assessment informs strategy; negotiation focus addresses business reality.",
+        10,
+        "Pause legal escalation and engage with their attorney to understand what resolution they're proposing before committing to a confrontational approach.",
+        "Understanding their position has value but engaging without full evidence documentation may weaken your position; preparation should precede negotiation.",
+        5,
+        "Immediately file for injunctive relief to prevent the employee from using any downloaded data, establishing a strong legal posture from the outset.",
+        "Aggressive action may be warranted but premature filing without full evidence assessment could be unsuccessful and trigger the countersuit.",
+        -5,
+        "Accept that the data is likely already shared and focus resources on customer notification rather than futile legal action against a former employee.",
+        "Defeatist approach abandons legitimate legal remedies; data may not yet be shared and injunctive relief could prevent future harm.",
+        -5
+      )),
+    q("CEO/SVPs", "The competing bank's CEO calls your CEO directly, claiming they knew nothing about the data access and offering to 'cooperate fully.' They suggest keeping the matter private to avoid 'embarrassing both institutions.' What approach is most appropriate?",
+      buildChoices(
+        "Thank them for the call, make no commitments about confidentiality, document the conversation thoroughly, and consult with counsel before any substantive response or agreement.",
+        "Professional acknowledgment maintains options; no commitments preserve flexibility; documentation creates record; counsel consultation ensures informed decisions.",
+        10,
+        "Accept their offer of cooperation and agree to handle the matter privately, since public disclosure would harm both banks' reputations and customer confidence.",
+        "Private resolution may be appropriate but agreeing without counsel involvement and evidence review could waive important rights or remedies.",
+        5,
+        "Refuse to speak with them directly and route all communication through attorneys to avoid any appearance of improper coordination between competitors.",
+        "Legal channels may ultimately be appropriate but refusing a cooperative outreach without consideration may escalate unnecessarily.",
+        -5,
+        "Demand they immediately terminate the former employee and return all data, threatening regulatory complaints and public disclosure if they refuse.",
+        "Aggressive demands in the initial call may be premature and could damage a potentially cooperative resolution; measured response is more appropriate.",
+        -5
+      )),
+    q("CEO/SVPs", "A board member who championed the terminated employee's hiring 12 years ago calls asking for details about 'what went wrong.' They hint that they may raise concerns about management's handling at the next board meeting. What approach is most appropriate?",
+      buildChoices(
+        "Provide a factual briefing appropriate for board members, acknowledge this will be formally presented at the board meeting, and avoid relitigating the termination decision in informal conversation.",
+        "Factual briefing respects their role; formal presentation commitment ensures proper governance; avoiding termination debate keeps focus on the incident.",
+        10,
+        "Defer all discussion until the formal board presentation to ensure all directors receive the same information simultaneously.",
+        "Equal information is appropriate but stonewalling a board member asking legitimate questions may increase their concerns.",
+        5,
+        "Provide full details about both the termination reasoning and the data incident to address their concerns comprehensively and prevent board-level conflict.",
+        "Full details in informal conversation may create inconsistency with formal presentation; personnel matters warrant careful handling.",
+        -5,
+        "Remind the board member that operational personnel decisions are management's responsibility and board second-guessing undermines executive authority.",
+        "Governance boundaries exist but dismissing board member concerns about a significant incident may escalate rather than resolve the situation.",
+        -5
+      )),
 
-    q("IT/Security", "What immediate controls are needed?", buildChoices(
-      "Disable all accounts, revoke tokens/keys, and review access logs", "Core containment.", 10,
-      "Only disable the main AD account", "Incomplete.", 5,
-      "Wait to confirm activity before revoking", "Risky.", -5,
-      "Share logs widely for review", "Privacy/risk.", -5
-    )),
-    q("IT/Security", "What data handling action is key?", buildChoices(
-      "Inventory potential data exfil paths and enable DLP blocks", "Focuses on the highest risk.", 10,
-      "Turn off logging to reduce noise", "Destroys evidence.", -5,
-      "Assume encryption solves it", "False sense of security.", 5,
-      "Perform laptop wipe without imaging", "Destroys evidence.", -5
-    )),
-    q("IT/Security", "How should MFA/SSO be handled?", buildChoices(
-      "Invalidate all tokens and check for registered personal devices", "Closes gaps.", 10,
-      "Leave tokens active for a day", "Risky.", 5,
-      "Disable MFA temporarily for speed", "Risky.", -5,
-      "Share admin creds for quick changes", "Never.", -5
-    )),
+    // IT/Security
+    q("IT/Security", "Forensic analysis reveals the 'emergency' service account was created by the employee 18 months ago with IT management approval for a specific project, but was never decommissioned. The account had broader access than documented. What approach is most appropriate?",
+      buildChoices(
+        "Immediately audit all service accounts for similar issues, implement mandatory expiration and access reviews, document this gap for the incident record, and assess whether IT management failures contributed to the breach.",
+        "Immediate audit addresses systemic risk; mandatory controls prevent recurrence; documentation maintains integrity; management assessment ensures accountability.",
+        10,
+        "Focus on decommissioning this specific account and strengthening service account procedures going forward without conducting a broader historical audit.",
+        "Forward-looking approach addresses future risk but may leave other orphaned accounts with excessive access; broader audit is warranted.",
+        5,
+        "Treat this as an isolated incident resulting from the employee's deception rather than a systemic control failure, since the original approval was documented.",
+        "Original approval doesn't excuse the control gap in decommissioning and access review; systemic issues should be acknowledged.",
+        -5,
+        "Immediately terminate the IT manager who approved the account creation to demonstrate accountability for the control failure.",
+        "Termination may be premature before understanding full context; knee-jerk accountability doesn't address the process failures.",
+        -5
+      )),
+    q("IT/Security", "The downloaded data includes a spreadsheet titled 'Customer_Contacts_Export.xlsx' with 12,000 records. Legal asks whether this constitutes a data breach requiring customer notification. The data includes names, phone numbers, and loan amounts but no SSNs. What approach is most appropriate?",
+      buildChoices(
+        "Assess notification requirements under applicable state laws (which vary by data elements), document the analysis, consult with privacy counsel, and prepare draft notifications in case they're required.",
+        "State-by-state assessment addresses legal variation; documentation supports decisions; counsel consultation ensures compliance; draft preparation enables rapid response if needed.",
+        10,
+        "Conclude that notification isn't required since SSNs weren't included and the data elements exposed don't meet most breach notification thresholds.",
+        "Threshold analysis may be correct in many states but some jurisdictions have broader requirements; full assessment is needed before concluding.",
+        5,
+        "Notify all 12,000 customers immediately to demonstrate the bank takes data protection seriously, regardless of legal requirements.",
+        "Proactive notification sounds responsible but may create unnecessary alarm and legal exposure if notification language is imprecise.",
+        -5,
+        "Wait to see if the data actually appears publicly before making notification decisions, since notification would only be harmful if misuse occurs.",
+        "Waiting for evidence of misuse doesn't satisfy legal notification timelines and may allow preventable harm; proactive assessment is required.",
+        -5
+      )),
+    q("IT/Security", "Security identifies that the employee also had access to the bank's GitHub repository containing proprietary loan pricing algorithms. Download logs are ambiguousthey may or may not have accessed this code. What approach is most appropriate?",
+      buildChoices(
+        "Assume the code was accessed given their demonstrated intent, rotate any embedded credentials, assess whether the algorithms provide competitive advantage if disclosed, and include this in the legal assessment.",
+        "Conservative assumption matches demonstrated behavior; credential rotation addresses immediate risk; competitive assessment informs legal strategy; comprehensive approach is warranted.",
+        10,
+        "Conclude the code wasn't accessed since logs don't confirm it, and focus investigation resources on the confirmed data exfiltration.",
+        "Absence of evidence isn't evidence of absence when dealing with a demonstrated bad actor; conservative assumption is more appropriate.",
+        5,
+        "Immediately rewrite all loan pricing algorithms to eliminate any competitive value the employee could derive from the potentially stolen code.",
+        "Algorithm rewrite may eventually be warranted but immediate rewrite is resource-intensive and may not be necessary if access didn't occur.",
+        -5,
+        "Disable the GitHub repository entirely until a full code audit can be completed to ensure no backdoors were introduced.",
+        "Repository disable is overly disruptive; the concern is data exfiltration, not code modification, given the employee's access pattern.",
+        -5
+      )),
 
-    q("HR", "What should HR coordinate with IT and Legal?", buildChoices(
-      "Exit checklist validation, access confirmation, and NDAs acknowledgment", "Reduces gaps.", 10,
-      "Assume standard exit was done", "Risky.", 5,
-      "Share personnel file widely", "Privacy risk.", -5,
-      "Conduct public blame messaging", "Inappropriate.", -5
-    )),
-    q("HR", "What staff communications are most helpful?", buildChoices(
-      "Guidance on reporting suspicious activity and confidentiality reminders", "Practical.", 10,
-      "Generic note about the termination", "Light.", 5,
-      "No comms", "Rumors spread.", -5,
-      "Share details about the individual", "Privacy risk.", -5
-    )),
-    q("HR", "What support might be needed for impacted teams?", buildChoices(
-      "EAP reminders and manager check-ins", "Helps morale.", 10,
-      "None", "Missed support.", 5,
-      "Public 'lessons learned' naming individual", "Inappropriate.", -5,
-      "Mandatory overtime", "Burnout.", -5
-    )),
+    // HR
+    q("HR", "The terminated employee's former direct reports are asking HR why their manager 'really' left. Rumors are circulating that the termination was unfair and the data incident is being used to justify a bad decision. What approach is most appropriate?",
+      buildChoices(
+        "Acknowledge that the departure and subsequent incident are being handled appropriately, reinforce that personnel matters are confidential, and provide EAP resources for staff processing the transition.",
+        "Appropriate acknowledgment without details respects confidentiality; EAP resources address legitimate employee stress; professional handling maintains trust.",
+        10,
+        "Share the facts about the unauthorized access to counter the unfair termination narrative and protect the bank's reputation with staff.",
+        "Fact-sharing may seem defensive and could violate the former employee's privacy rights; confidentiality should be maintained.",
+        5,
+        "Tell staff that the rumors are false without providing specifics, trusting that a clear denial will end speculation.",
+        "Denial without context may not be credible and could intensify speculation; acknowledgment with confidentiality boundaries is better.",
+        -5,
+        "Ignore the rumors since engaging with them gives them credibility and they'll die down once the situation is resolved.",
+        "Ignoring allows harmful narratives to solidify; appropriate acknowledgment with boundaries is more effective than silence.",
+        -5
+      )),
+    q("HR", "The employee's emergency contacttheir spousecalls HR demanding to know why their husband/wife was 'treated so unfairly' and threatening to 'go to the media' about the bank's 'toxic management.' What approach is most appropriate?",
+      buildChoices(
+        "Listen respectfully, explain that personnel matters are confidential and you cannot discuss details, provide contact information for the employee's attorney if one is involved, and document the call.",
+        "Respectful listening acknowledges their distress; confidentiality explanation is accurate; attorney referral is appropriate; documentation protects the bank.",
+        10,
+        "Explain that the employee's unauthorized access after termination justifies the bank's position and they should advise their spouse to cooperate with the investigation.",
+        "Sharing investigation details with family members is inappropriate and could compromise legal position; confidentiality must be maintained.",
+        5,
+        "Transfer the call to legal to handle, since this appears to be a precursor to litigation and HR shouldn't be involved.",
+        "Legal involvement may be appropriate but abrupt transfer without human acknowledgment may escalate the situation; initial HR response is appropriate.",
+        -5,
+        "Tell them that media contact would be inadvisable given what the bank knows about their spouse's actions, implying the bank could make counter-disclosures.",
+        "Threatening counter-disclosure is inappropriate and potentially defamatory; professional response without implied threats is required.",
+        -5
+      )),
+    q("HR", "Exit interview notes from two months ago show the employee expressed frustration about being 'passed over' for promotion and feeling 'undervalued.' These notes weren't escalated as a potential insider threat indicator. What approach is most appropriate?",
+      buildChoices(
+        "Review the exit interview process for threat indicators that should trigger escalation, implement enhanced screening procedures, but avoid punishing the HR staff member who conducted the interview for not predicting this outcome.",
+        "Process review addresses systemic gap; enhanced procedures improve future detection; avoiding punishment recognizes that hindsight identification is easier than real-time.",
+        10,
+        "Accept that exit interviews aren't designed to identify insider threats and this indicator wouldn't have been actionable at the time anyway.",
+        "Acceptance may be partially accurate but dismissing the learning opportunity misses a chance to improve threat detection.",
+        5,
+        "Implement mandatory exit interview escalation for any negative sentiment to ensure potential threats are identified, even if this increases false positives significantly.",
+        "Mandatory escalation for all negative sentiment would overwhelm security resources and stigmatize normal employee frustrations.",
+        -5,
+        "Discipline the HR staff member who conducted the exit interview for failing to recognize and escalate the warning signs.",
+        "Discipline for not predicting unpredictable behavior is unfair and will discourage thorough exit interviews in the future.",
+        -5
+      )),
 
-    q("Finance", "What financial controls are relevant today?", buildChoices(
-      "Review high-risk transactions for the individual’s access window", "Targets potential impacts.", 10,
-      "Normal monthly review only", "Slow.", 5,
-      "Freeze unrelated GL accounts", "Unnecessary.", -5,
-      "Share customer data for analysis widely", "Risky.", -5
-    )),
-    q("Finance", "How to handle vendor access tied to the user?", buildChoices(
-      "Verify and revoke any third-party access the user managed", "Closes gaps.", 10,
-      "Assume vendors are fine", "Risky.", 5,
-      "Disable all vendors", "Too blunt.", -5,
-      "Share contract details externally", "Risky.", -5
-    )),
-    q("Finance", "What reporting cadence helps leadership?", buildChoices(
-      "Daily status with risks and actions", "Keeps alignment.", 10,
-      "Weekly summary only", "Slow.", 5,
-      "None", "Opaque.", -5,
-      "Forward raw logs", "Noisy.", -5
-    )),
+    // Finance
+    q("Finance", "The downloaded pricing models could allow the competing bank to undercut your commercial loan pricing. Early analysis suggests potential revenue impact of $2-5M annually if the models are used. Insurance may cover some losses but litigation is required. What approach is most appropriate?",
+      buildChoices(
+        "Quantify the competitive exposure with documented assumptions, assess insurance coverage and litigation costs, develop pricing response scenarios, and present the board with strategic options including their financial implications.",
+        "Quantified exposure informs decisions; insurance assessment identifies recovery options; pricing scenarios address competition; board presentation enables governance.",
+        10,
+        "Immediately adjust pricing to eliminate the competitive advantage the stolen models could provide, accepting margin compression to protect market position.",
+        "Immediate pricing changes may be premature before understanding whether the models will actually be used; reactive changes have their own costs.",
+        5,
+        "Focus on litigation to recover damages rather than pricing changes, since the competitor's use of stolen models should be stoppable through legal action.",
+        "Litigation focus is appropriate but relying solely on legal remedies ignores the business reality that injunctions take time; parallel planning is needed.",
+        -5,
+        "Accept the revenue loss as a cost of the incident and focus resources on customer retention rather than pricing competition or litigation.",
+        "Defeatist approach abandons legitimate remedies and competitive response options; proactive strategy development is appropriate.",
+        -5
+      )),
+    q("Finance", "The former employee had approval authority for fee waivers up to $10,000. Audit wants to review all waivers they approved in the past 12 months for potential patterns that weren't previously flagged. This will require significant staff time. What approach is most appropriate?",
+      buildChoices(
+        "Approve the review with appropriate scopingfocus on unusual patterns, customer relationships, and waivers near the authority limitrather than examining every transaction with equal depth.",
+        "Scoped review balances thoroughness with efficiency; focus areas target highest-risk waivers; risk-based approach is more effective than comprehensive review.",
+        10,
+        "Conduct a complete review of all waivers regardless of characteristics to ensure nothing is missed and the audit is defensible.",
+        "Complete review is thorough but may not be cost-effective; risk-based scoping is more appropriate for this type of review.",
+        5,
+        "Defer the waiver review until the primary data exfiltration investigation is complete to avoid distracting from the main incident.",
+        "Deferral may miss time-sensitive patterns; parallel investigation with appropriate scoping is manageable.",
+        -5,
+        "Decline the review as outside the scope of the current incident since there's no evidence the employee engaged in fee waiver fraud.",
+        "Absence of evidence doesn't mean fraud didn't occur; an employee who stole data may have engaged in other misconduct worth examining.",
+        -5
+      )),
+    q("Finance", "The incident response and potential litigation costs are estimated at $150-300K, which wasn't budgeted. The CFO asks how to account for this and whether board notification of the unbudgeted expense is required. What approach is most appropriate?",
+      buildChoices(
+        "Fund from operational contingency with documented justification, provide the board finance committee with expense estimates as part of the incident briefing, and update projections to reflect the financial impact.",
+        "Contingency funding is appropriate; board notification through normal governance is warranted for this magnitude; updated projections maintain accuracy.",
+        10,
+        "Absorb the costs within existing department budgets by deferring other planned expenses, avoiding formal contingency usage and board notification.",
+        "Absorption may work mechanically but obscures the true cost of the incident and may defer important planned work.",
+        5,
+        "Request emergency board approval before incurring any costs to ensure proper governance of unbudgeted expenditure.",
+        "Emergency approval for incident response costs may delay necessary actions; contingency exists for this purpose with appropriate documentation.",
+        -5,
+        "Book the costs as incurred and explain the variance in the next regular financial review rather than proactive disclosure.",
+        "Reactive disclosure of significant unbudgeted costs may raise governance concerns; proactive communication is more appropriate.",
+        -5
+      )),
 
-    q("Loans", "What should be verified for loan systems?", buildChoices(
-      "Confirm recent changes to loan terms and rates", "Targets fraud risks.", 10,
-      "Take no additional verification steps", "Misses risk.", 5,
-      "Pause all loan processing activities", "Too blunt.", -5,
-      "Permit one person to approve changes", "Risky.", -5
-    )),
-    q("Loans", "How should borrower communications be handled?", buildChoices(
-      "Only if directly impacted; coordinated and factual", "Prudent.", 10,
-      "Mass notices to all borrowers", "Overkill.", 5,
-      "No notices even if impacted", "Risky.", -5,
-      "Promise specific details prematurely", "Risky.", -5
-    )),
-    q("Loans", "What to do about privileged screens in LOS?", buildChoices(
-      "Limit to need-to-know and enhance monitoring", "Reduces risk.", 10,
-      "Leave as is", "Risk remains.", 5,
-      "Give more admins to speed checks", "Risky.", -5,
-      "Disable logging for performance", "Risky.", -5
-    )),
+    // Loans
+    q("Loans", "The downloaded files include detailed pricing and terms for 47 pending commercial loan proposals. Several of these deals are in competitive situations where the other bank being considered is the one that hired your former employee. What approach is most appropriate?",
+      buildChoices(
+        "Contact affected prospects to inform them of the situation without disclosing competitive details, offer to re-evaluate their proposals if they have concerns, and assess whether any pricing adjustments are warranted to retain the relationships.",
+        "Prospect notification shows transparency; re-evaluation offer demonstrates commitment; pricing assessment addresses competitive reality.",
+        10,
+        "Immediately match or beat any competing offers from the other bank to prevent losing deals due to the stolen information.",
+        "Reactive matching may be premature and could unnecessarily reduce margins on deals that weren't at risk; assessment before action is better.",
+        5,
+        "Say nothing to prospects since disclosing the incident might cause them to lose confidence in the bank's security and move to competitors anyway.",
+        "Non-disclosure may seem protective but prospects who later learn their confidential information was compromised will feel deceived.",
+        -5,
+        "Withdraw from the competitive situations entirely since you can't compete fairly against your own stolen pricing information.",
+        "Withdrawal abandons relationships and revenue without exploring options; competitive response is possible even with information disadvantage.",
+        -5
+      )),
+    q("Loans", "A commercial borrower whose loan file was downloaded calls asking if their information was stolen. They're concerned because they're in the middle of a contentious business dispute and their loan terms are confidential. What approach is most appropriate?",
+      buildChoices(
+        "Confirm their file was among those accessed, explain what information was included, describe the steps being taken to protect their interests, and offer to discuss any specific concerns they have.",
+        "Honest confirmation respects their right to know; information description enables their own assessment; protection steps show action; discussion offer addresses their specific situation.",
+        10,
+        "Tell them you're not able to confirm or deny specific files but that the bank is taking all appropriate steps to address the situation.",
+        "Non-confirmation when you know their file was accessed is misleading; they have a right to know their information was compromised.",
+        5,
+        "Assure them that even if their file was accessed, it won't be misused because legal action is being taken against the former employee.",
+        "Legal action doesn't guarantee non-misuse; false assurance about protection you can't guarantee is inappropriate.",
+        -5,
+        "Advise them to consult their own attorney about any concerns and that the bank cannot provide legal advice about their situation.",
+        "Attorney referral is appropriate but deflecting without first confirming what happened and what the bank is doing appears evasive.",
+        -5
+      )),
+    q("Loans", "The loan operations team asks whether they should change any procedures given what happened. The former employee's access was appropriate for their rolethe problem was post-termination access through the service account. What approach is most appropriate?",
+      buildChoices(
+        "Acknowledge the access control gap was the primary issue, but also review whether role-based access was appropriately scoped, implement enhanced termination procedures, and use this as a training opportunity.",
+        "Gap acknowledgment is accurate; access review may identify improvements; enhanced procedures prevent recurrence; training opportunity strengthens culture.",
+        10,
+        "Confirm that no operational procedure changes are needed since the employee's pre-termination access was appropriate and the failure was in access deprovisioning.",
+        "Deprovisioning was the primary failure but declining any procedure review misses opportunity to strengthen overall controls.",
+        5,
+        "Implement significant restrictions on loan operations access to prevent any future employee from having this level of data access.",
+        "Broad restrictions may impair operations; the issue was termination controls, not excessive operational access.",
+        -5,
+        "Require dual control for all loan system access to ensure no single employee can access sensitive data without oversight.",
+        "Dual control for routine access would significantly impair productivity; the issue was post-termination access, not operational access levels.",
+        -5
+      )),
 
-    q("Accounting", "How to log potential financial impact?", buildChoices(
-      "Track suspected exposure separately with approvals", "Audit-ready.", 10,
-      "Mix into normal ops", "Opaque.", 5,
-      "Ignore until proven", "Late.", -5,
-      "Share data widely", "Risky.", -5
-    )),
-    q("Accounting", "What reconciliation posture helps?", buildChoices(
-      "Enhanced review of accounts user could affect", "Focused.", 10,
-      "Normal only", "May miss issues.", 5,
-      "Suspend recon", "Risky.", -5,
-      "Local-only tracking", "Inconsistent.", -5
-    )),
-    q("Accounting", "What documentation is important?", buildChoices(
-      "Central incident log capturing approvals, actions, and artifacts", "Traceable.", 10,
-      "Email recap with highlights; formalize once operations stabilize", "Usable but messy.", 5,
-      "Rely on memory; no formal record", "Risky.", -5,
-      "Personal notes kept by individuals", "Inconsistent.", -5
-    )),
+    // Accounting
+    q("Accounting", "External auditors are on-site and have heard about the incident. They're asking whether it affects their assessment of internal controls over financial reporting. The data stolen was operational, not financial systems. What approach is most appropriate?",
+      buildChoices(
+        "Explain the incident scope, distinguish between operational and financial system access, provide documentation of the access control gap and remediation, and let auditors draw their own conclusions about control implications.",
+        "Transparent explanation enables auditor assessment; scope distinction is relevant; documentation demonstrates responsiveness; auditor independence is respected.",
+        10,
+        "Assure auditors that the incident has no implications for financial reporting controls since no financial systems were accessed or compromised.",
+        "Assurance may be accurate but making the determination for auditors rather than providing facts for their assessment is inappropriate.",
+        5,
+        "Request auditors defer their control assessment until the incident investigation is complete to avoid drawing conclusions on incomplete information.",
+        "Deferral may seem reasonable but auditors have their own timelines; providing available information is more appropriate than requesting delays.",
+        -5,
+        "Minimize discussion of the incident with auditors since it's an operational matter being handled by security and legal.",
+        "Minimizing suggests concealment; auditors should receive appropriate information to make their own assessments.",
+        -5
+      )),
+    q("Accounting", "Legal asks Accounting to track all incident-related costs separately for potential insurance claims and litigation support. The costs are spread across multiple departments and some are staff time that wouldn't normally be tracked. What approach is most appropriate?",
+      buildChoices(
+        "Establish a dedicated cost code, implement time tracking for key personnel involved in incident response, coordinate with departments on expense coding, and document the methodology for insurance and legal purposes.",
+        "Dedicated tracking enables claims; time tracking captures otherwise hidden costs; coordination ensures completeness; methodology documentation supports defensibility.",
+        10,
+        "Track only direct out-of-pocket costs like legal fees and forensics since staff time is difficult to quantify and may not be recoverable.",
+        "Direct costs only may understate true impact; staff time is often recoverable with proper documentation and methodology.",
+        5,
+        "Begin tracking from today forward and don't attempt to reconstruct costs already incurred since the documentation would be imprecise.",
+        "Forward-only tracking misses potentially significant costs already incurred; reasonable reconstruction is better than abandoning past costs.",
+        -5,
+        "Estimate total costs at a round number based on similar incidents rather than detailed tracking, since precision isn't possible anyway.",
+        "Round number estimation may not be supportable for insurance claims; documented actual costs, even if imprecise, are more defensible.",
+        -5
+      )),
+    q("Accounting", "The former employee's final paycheck and accrued PTO payout were processed before the data theft was discovered. Legal asks whether these amounts can be recovered or offset against any claim. What approach is most appropriate?",
+      buildChoices(
+        "Document the amounts paid, consult with counsel on recovery options under employment law and the pending legal action, but don't assume recovery is possible or initiate offset without legal guidance.",
+        "Documentation preserves options; counsel consultation addresses legal complexities; avoiding assumptions prevents inappropriate actions.",
+        10,
+        "Place a hold on any future payments to the employee and offset the final paycheck amounts against any damages claimed in litigation.",
+        "Unilateral offset may violate employment law regardless of the employee's misconduct; legal guidance is required before any recovery action.",
+        5,
+        "Write off the amounts as unrecoverable since pursuing recovery of routine final payments would appear petty and complicate settlement negotiations.",
+        "Write-off may be premature; the amounts may be legitimately recoverable as part of broader litigation resolution.",
+        -5,
+        "Demand immediate repayment of all amounts paid after the misconduct began, since the employee obtained them through continued employment they should have forfeited.",
+        "Repayment demands without legal basis could create additional claims; employment law doesn't generally work this way.",
+        -5
+      )),
 
-    q("Deposits", "How should high-risk account changes be reviewed?", buildChoices(
-      "Secondary review for changes initiated by the individual", "Reduces risk.", 10,
-      "No changes", "Too blunt.", 5,
-      "Trust prior activity", "Risky.", -5,
-      "Allow ad-hoc exceptions", "Risky.", -5
-    )),
-    q("Deposits", "What customer communications are appropriate?", buildChoices(
-      "Only if specific customers are impacted and with counsel", "Prudent.", 10,
-      "Mass notice to all", "Overkill.", 5,
-      "No notice even if impacted", "Risky.", -5,
-      "Share investigative details", "Risky.", -5
-    )),
-    q("Deposits", "What to do with branch gossip?", buildChoices(
-      "Reinforce confidentiality and facts-only guidance", "Reduces risk.", 10,
-      "Ignore it", "Rumors spread.", 5,
-      "Name the individual in examples", "Risky.", -5,
-      "Discuss performance publicly", "Inappropriate.", -5
-    )),
+    // Deposits
+    q("Deposits", "A branch manager reports that the terminated employee came into a branch yesterday (before the data theft was discovered) and withdrew $5,000 from their personal account. The manager wonders if this should have been flagged. What approach is most appropriate?",
+      buildChoices(
+        "Confirm the withdrawal was from the employee's own funds which they were entitled to access, document the inquiry, and use this as a teaching moment about the difference between suspicious activity and normal banking.",
+        "Entitlement confirmation is accurate; documentation creates record; teaching moment addresses the confusion without criticism.",
+        10,
+        "Review all of the former employee's personal account activity for potential patterns that might indicate advance planning or illicit funds.",
+        "Activity review may be warranted but should be done through proper channels, not triggered by a routine personal withdrawal.",
+        5,
+        "Criticize the branch manager for not flagging the visit of a recently terminated employee as suspicious activity.",
+        "Criticism is unfair since personal banking by former employees is normal; the manager had no way to know about the later data theft.",
+        -5,
+        "Place a hold on the former employee's personal accounts pending investigation to preserve any potential assets.",
+        "Account holds without legal basis could expose the bank to liability; personal accounts aren't related to the employment dispute.",
+        -5
+      )),
+    q("Deposits", "Customer-facing staff are asking what to say if customers mention seeing news coverage of the 'data breach' at the bank. Local media has picked up the story with some inaccuracies. What approach is most appropriate?",
+      buildChoices(
+        "Provide staff with accurate talking points that acknowledge the incident involved a former employee and internal data, clarify it wasn't a hacking or system breach, and emphasize customer account security wasn't compromised.",
+        "Talking points ensure consistency; acknowledgment shows transparency; clarification corrects inaccuracies; customer security emphasis addresses their likely concern.",
+        10,
+        "Instruct staff to say they can't comment on matters under investigation and direct customers to the bank's official statement.",
+        "Investigation deflection may seem safe but comes across as evasive for a story already in the news; prepared talking points are better.",
+        5,
+        "Tell staff to explain that media coverage is inaccurate and the bank's systems were never breached by hackers.",
+        "Correction focus may come across as defensive; leading with acknowledgment and then clarification is more effective.",
+        -5,
+        "Advise staff to avoid the topic entirely and redirect conversations to the customer's banking needs.",
+        "Topic avoidance when customers raise concerns appears dismissive; addressing their questions maintains trust.",
+        -5
+      )),
+    q("Deposits", "A customer who runs a small business asks whether their confidential financial information could have been accessed. They're not a commercial loan customertheir relationship is deposit-only. The downloaded data was from the loan system. What approach is most appropriate?",
+      buildChoices(
+        "Confirm that the accessed data was from the commercial loan system and their deposit relationship information wasn't included, while offering to answer any other questions they have about the incident.",
+        "Accurate confirmation addresses their specific concern; scope clarification is reassuring; question offer demonstrates openness.",
+        10,
+        "Tell them you can't confirm or deny what specific data was accessed but their deposits are safe and FDIC insured.",
+        "Non-confirmation when you can provide accurate reassurance is unnecessarily evasive; deposit safety is different from data access.",
+        5,
+        "Explain that you can't discuss the incident with customers due to the ongoing investigation and legal proceedings.",
+        "Blanket refusal to discuss with a customer asking legitimate questions appears secretive and may damage the relationship.",
+        -5,
+        "Suggest they review their account statements and credit reports to check for any signs of identity theft or fraud.",
+        "Identity theft monitoring advice implies their data may have been compromised when it wasn't; this creates unnecessary alarm.",
+        -5
+      )),
   ]
 };
 
