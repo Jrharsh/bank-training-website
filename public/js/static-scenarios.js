@@ -1905,142 +1905,341 @@ const SCENARIO_DATA_UNVERIFIABLE = {
 const SCENARIO_INSIDER_FRAUD = {
   key: "insider-fraud-discovered-operations",
   title: "Insider Fraud Discovered in Operations",
-  description: "Unusual reconciliation variances reveal a potential insider fraud scheme in Operations. Leadership must coordinate investigation, controls, and communications while maintaining service.",
+  description:
+    "Your internal audit team discovered unusual patterns during a routine reconciliation: over the past 9 months, a senior operations specialist has been manipulating dormant account records to divert small amounts ($50-$500) to external accounts. Total identified losses are $127,000 across 340 customer accounts. The employee has been with the bank for 12 years with excellent performance reviews and recently received a promotion. They have administrative access to core banking and wire systems. The employee's manager is their brother-in-law. Preliminary evidence suggests at least one other employee may have been aware. No customers have complained yet because the amounts are small and accounts are inactive. Your external auditors begin their annual fieldwork in 3 weeks.",
   questions: [
-    q("CEO/SVPs", "What is leadership’s first move?", buildChoices(
-      "Activate incident governance with legal and define comms cadence", "Provides structure and control.", 10,
-      "Quiet internal huddle only", "Less structured.", 5,
-      "Silence until everything is known", "Rumors and risk.", -5,
-      "Publicly blame a department", "Unprofessional and risky.", -5
-    )),
-    q("CEO/SVPs", "How should public communication be handled?", buildChoices(
-      "Share nothing publicly unless customer impact exists; coordinate with counsel/regulators", "Balanced.", 10,
-      "Issue a press release", "Likely premature.", 5,
-      "Detail the suspected employee actions", "Risky.", -5,
-      "Promise law enforcement arrests", "Premature.", -5
-    )),
-    q("CEO/SVPs", "What support should be given to impacted teams?", buildChoices(
-      "Resources, approvals, and immediate risk mitigations", "Keeps operations safe.", 10,
-      "Request weekly summaries only", "Slow.", 5,
-      "No support", "Unhelpful.", -5,
-      "Public finger-pointing", "Counterproductive.", -5
-    )),
+    // CEO/SVPs
+    q("CEO/SVPs", "It's Monday morning and internal audit just briefed you on the findings. The suspected employee is currently at their desk. Their brother-in-law (the manager) is in a meeting. Your General Counsel is traveling. The audit committee chair has a standing request to be notified of any fraud findings. What's your immediate sequence of actions?",
+      buildChoices(
+        "Have security discreetly escort the employee to HR for an administrative meeting while IT simultaneously disables their system access. Reach General Counsel by phone regardless of travel. Brief the audit committee chair with known facts. Instruct the manager's meeting to continue without interruption until counsel advises on their handling.",
+        "Simultaneous employee removal and access termination prevents evidence destruction or flight; counsel involvement is essential before manager conversation given family relationship; audit committee notification fulfills governance obligation; controlled manager handling preserves investigation options.",
+        10,
+        "Wait for General Counsel to return tomorrow before taking any action, continuing normal monitoring of the employee's activity to gather additional evidence.",
+        "Counsel involvement is wise but 24-hour delay with an employee who has admin access to wire systems creates significant risk; monitoring may not catch real-time evidence destruction; delay after audit discovery also looks bad.",
+        5,
+        "Immediately confront both the employee and their manager-brother-in-law together to get their explanations before deciding on next steps.",
+        "Joint confrontation allows coordination of stories and tips off both that an investigation is underway; family relationship complicates dynamics; this isn't how fraud investigations should be conducted.",
+        -5,
+        "Convene the full executive team to discuss the findings and build consensus on an approach before taking any action that might expose the bank to litigation.",
+        "Consensus-building seems prudent but executive team meeting takes time during which the suspected fraudster has wire system access; speed matters more than broad alignment at this stage.",
+        -5
+      )),
+    q("CEO/SVPs", "After the employee is placed on administrative leave, their spouse (who doesn't work at the bank) calls the CEO's office threatening to 'go to the media' if their partner isn't immediately reinstated, claiming this is retaliation for a discrimination complaint filed last month. You weren't aware of any discrimination complaint. What approach do you take?",
+      buildChoices(
+        "Don't engage substantively with the spouse. Direct the call to HR with instruction to document the contact. Immediately verify with HR whether a discrimination complaint exists. Regardless of whether it does, continue the fraud investigation on its own merits while ensuring all actions are thoroughly documented. Brief employment counsel on the retaliation allegation.",
+        "Non-engagement with spouse is appropriate as they aren't an employee; HR documentation creates a record; verifying complaint existence is important for risk assessment; continuing investigation on merits demonstrates non-retaliatory basis; employment counsel protects against litigation risk.",
+        10,
+        "Explain to the spouse that their partner was placed on leave due to a serious matter unrelated to any discrimination complaint, and that the bank follows fair processes.",
+        "Explanation seems reasonable but sharing any information about an employee matter with their spouse is problematic; even denying retaliation implicitly confirms an adverse action and invites further dialogue.",
+        5,
+        "Have HR immediately investigate the discrimination complaint before proceeding further with the fraud investigation to ensure the bank isn't exposed to retaliation claims.",
+        "Investigating the complaint has merit but pausing the fraud investigation gives the impression that allegations can be used as a shield; discrimination and fraud are separate matters that should proceed in parallel.",
+        -5,
+        "Engage your media relations team to prepare a response in case the spouse follows through on their threat, getting ahead of the story.",
+        "Media preparation is premature and may escalate a situation that might not materialize; preparing for publicity also increases the chance of leaks; focus should be on the investigation, not external communications.",
+        -5
+      )),
+    q("CEO/SVPs", "External auditors are scheduled to begin fieldwork in 3 weeks. Your CFO suggests delaying notification until you've completed your internal investigation so you can present a complete picture. Your General Counsel suggests immediate disclosure because the auditors will likely discover it anyway. The identified losses are below your audit materiality threshold. What's your approach?",
+      buildChoices(
+        "Notify the external auditors promptly through a formal communication documenting what you know, what you're investigating, and what remediation is underway. Being proactive, even for below-materiality amounts, demonstrates governance integrity and prevents the appearance of concealment.",
+        "Proactive notification prevents later appearance of hiding information; auditors discovering undisclosed fraud damages the relationship more than the fraud itself; below-materiality doesn't mean below-disclosure for matters involving employee misconduct and control failures.",
+        10,
+        "Notify auditors at the start of their fieldwork in 3 weeks, by which time you'll have more complete information and can present a clearer picture of scope and remediation.",
+        "Waiting for fieldwork start is a reasonable middle ground but creates a 3-week window where auditors could learn from other sources; timing the disclosure to your convenience may appear calculated.",
+        5,
+        "Don't proactively notify since the amounts are below materiality; if auditors discover the matter during fieldwork, provide full cooperation at that point.",
+        "Materiality argument has technical merit but auditors expect to be informed of known fraud regardless of amount; waiting to be discovered damages trust and invites questions about what else wasn't disclosed.",
+        -5,
+        "Complete the internal investigation before engaging auditors so you can demonstrate that the situation is under control and doesn't require additional audit procedures.",
+        "Presenting a resolved situation seems cleaner but auditors should be involved in assessing control implications and may want to perform their own procedures; delayed disclosure suggests prioritizing optics over transparency.",
+        -5
+      )),
 
-    q("IT/Security", "What controls are critical now?", buildChoices(
-      "Access review and logging for accounts tied to the scheme", "Targets risk.", 10,
-      "No changes until confirmed", "Late.", 5,
-      "Disable broad systems", "Overly disruptive.", -5,
-      "Share logs widely", "Risky.", -5
-    )),
-    q("IT/Security", "How to preserve evidence?", buildChoices(
-      "Forensic imaging and chain-of-custody procedures", "Essential.", 10,
-      "Delete suspicious data", "Destroys evidence.", -5,
-      "Let staff copy data to review", "Risky.", -5,
-      "Share images externally without agreements", "Risky.", -5
-    )),
-    q("IT/Security", "What monitoring should be added?", buildChoices(
-      "Targeted alerts on relevant transactions and access", "Focused.", 10,
-      "None", "Missed detection.", 5,
-      "Everything everywhere", "Noisy.", -5,
-      "Disable logs to reduce noise", "Risky.", -5
-    )),
+    // IT/Security
+    q("IT/Security", "The suspected employee had administrator-level access to core banking, wire transfer systems, and the data warehouse. Their access was terminated when they were escorted out, but you need to assess what evidence might exist and what damage could have occurred. Where do you focus first?",
+      buildChoices(
+        "Immediately image the employee's workstation and preserve all system access logs for accounts they touched. Review wire transfer history for any unusual patterns. Assess data warehouse queries they ran to identify potential reconnaissance of other accounts. Document chain of custody for all evidence.",
+        "Workstation imaging captures local evidence before changes; access logs provide investigation foundation; wire review addresses highest-risk systems; data warehouse queries reveal scope; chain of custody is essential for potential criminal prosecution.",
+        10,
+        "Focus on the specific accounts identified in the audit finding since that's where known fraud occurred, expanding the review only if initial analysis reveals additional concerns.",
+        "Focused approach seems efficient but administrator access means the identified accounts may be only a fraction of the activity; narrow scope may miss related misconduct or accomplices.",
+        5,
+        "Have the employee's former colleagues review their recent work to identify anything unusual, leveraging their knowledge of normal processes.",
+        "Colleague review sounds practical but at least one other employee may have been aware of the scheme; involving colleagues before understanding who knew what risks tipping off accomplices or compromising evidence.",
+        -5,
+        "Reset all administrator passwords across the environment as an immediate security measure since we don't know what the employee may have shared.",
+        "Mass password reset seems prudent but is disruptive and may destroy evidence of unauthorized access attempts; also doesn't address the investigation need to understand what access actually occurred.",
+        -5
+      )),
+    q("IT/Security", "Forensic analysis reveals the employee ran data warehouse queries over the past year that returned information on 12,000 dormant accounts - far more than the 340 accounts with confirmed manipulation. You can't tell from logs alone whether they actually used this data. What do you recommend?",
+      buildChoices(
+        "Expand the investigation scope to include analysis of all 12,000 accounts for patterns consistent with the known scheme. This is resource-intensive but necessary to understand true exposure. Simultaneously, develop a proactive customer communication plan in case the scope proves larger.",
+        "Expanded analysis is necessary because absence of evidence isn't evidence of absence; the queried accounts represent potential undiscovered fraud; proactive communication planning prepares for worst case while hoping for best.",
+        10,
+        "Sample the 12,000 accounts statistically to determine whether the fraud pattern extends beyond the known 340, escalating to full review only if sampling reveals additional issues.",
+        "Statistical sampling is a legitimate audit technique but may miss fraud that targeted specific account characteristics; sampling efficiency doesn't justify the risk of leaving customer harm undiscovered.",
+        5,
+        "Focus remediation on the confirmed 340 accounts and monitor the 12,000 queried accounts going forward for any suspicious activity.",
+        "Forward monitoring doesn't address fraud that may have already occurred; if the employee manipulated more accounts, customers are currently experiencing losses you're choosing not to look for.",
+        -5,
+        "Treat the additional queries as concerning but explainable by their job duties, documenting the finding for the investigation file without expanding scope.",
+        "Job duties explanation requires validation; 12,000 dormant account queries when only 340 were manipulated is a significant anomaly that demands investigation, not documentation and dismissal.",
+        -5
+      )),
+    q("IT/Security", "The investigation reveals the employee was using a generic 'operations support' account for some of the fraudulent transactions rather than their personal credentials. Three other employees also have access to this generic account. What immediate actions are warranted?",
+      buildChoices(
+        "Disable the generic account immediately and require all operations to use individual credentials with appropriate access. Audit all historical transactions through the generic account for the investigation period. Assess whether the three other employees with access have any knowledge of or involvement in the scheme.",
+        "Generic account elimination is a fundamental control improvement; historical audit addresses the evidence gap; assessing other users is necessary for complete investigation - shared credentials don't mean shared culpability, but it must be examined.",
+        10,
+        "Keep the generic account active but add enhanced monitoring to detect any further suspicious use while the investigation continues.",
+        "Continued use of shared credentials is a control failure that shouldn't persist; monitoring doesn't compensate for the inability to attribute actions to individuals.",
+        5,
+        "Interview the three other employees immediately to determine whether they knew about the fraudulent activity before making any system changes.",
+        "Interviews are needed but before making system changes leaves the control gap open; also, interviewing without coordinating with counsel and HR could compromise the investigation or create employment issues.",
+        -5,
+        "Document the generic account as a finding for the control remediation plan and address it as part of overall security improvements after the investigation concludes.",
+        "Deferring remediation of a known control weakness that enabled fraud is inappropriate; this should be fixed immediately regardless of investigation timeline.",
+        -5
+      )),
 
-    q("HR", "What HR actions are appropriate?", buildChoices(
-      "Coordinate with legal; place individuals on leave if warranted", "Balanced.", 10,
-      "Public shaming", "Inappropriate.", -5,
-      "Immediate terminations without process", "Risky.", -5,
-      "Ignore until concluded", "Risky.", 5
-    )),
-    q("HR", "What communications to staff are helpful?", buildChoices(
-      "Facts-only internal note about enhanced controls and reporting paths", "Sets expectations.", 10,
-      "Detailed allegations", "Risky.", 5,
-      "No communication", "Rumors grow.", -5,
-      "Share PII widely", "Risky.", -5
-    )),
-    q("HR", "How to support team morale?", buildChoices(
-      "Manager check-ins and EAP reminders", "Helpful.", 10,
-      "Ignore concerns", "Missed support.", 5,
-      "Mandate overtime", "Burnout.", -5,
-      "Accuse teams broadly", "Harmful.", -5
-    )),
+    // HR
+    q("HR", "The suspected employee's brother-in-law (their manager) insists he had no knowledge of the scheme and wants to cooperate fully. However, audit findings show he approved the employee's recent promotion and signed off on reconciliations that should have detected the variances. He has 18 years of tenure and strong relationships across the bank. How should HR handle his situation?",
+      buildChoices(
+        "Place the manager on paid administrative leave pending investigation, recognizing this is precautionary and not a presumption of guilt. Engage outside investigative counsel to interview him given the conflict of interest that in-house resources would have. Preserve his system access logs and email for review.",
+        "Administrative leave is appropriate given his relationship to the suspect and supervisory role over the failed controls; outside counsel avoids conflicts and adds credibility; log preservation maintains investigation integrity.",
+        10,
+        "Allow the manager to continue working in a modified role with no supervisory duties while the investigation proceeds, demonstrating good faith in his claimed innocence.",
+        "Continued presence in the workplace, even modified, creates awkwardness for the team and may influence witnesses; administrative leave is the standard practice for personnel involved in fraud investigations.",
+        5,
+        "Accept his statement of non-involvement and focus investigation resources on the actual perpetrator, since there's no direct evidence he participated in the scheme.",
+        "Absence of direct evidence isn't exoneration when he had supervisory responsibility for controls that failed; family relationship also requires heightened scrutiny regardless of his statements.",
+        -5,
+        "Terminate his employment for supervisory failure regardless of whether he knew about the fraud, since the reconciliation failures occurred on his watch.",
+        "Termination without completing the investigation exposes the bank to wrongful termination claims; supervisory failure may warrant discipline but the degree depends on investigation findings.",
+        -5
+      )),
+    q("HR", "Word has spread through the operations department that a long-tenured employee was escorted out and their manager is on leave. Rumors are circulating about embezzlement. Some employees are anxious about whether they'll be implicated. Others are angry that someone they trusted apparently committed fraud. What communication approach do you recommend?",
+      buildChoices(
+        "Issue a factual statement to the operations department acknowledging that an investigation is underway, that appropriate personnel actions have been taken, and that the investigation will determine facts before conclusions. Remind employees of confidentiality expectations and provide EAP resources for anyone experiencing stress. Establish a hotline for anyone with relevant information.",
+        "Factual acknowledgment stops speculation without oversharing; confidentiality reminder protects investigation; EAP addresses emotional impact; hotline may surface additional witnesses or victims.",
+        10,
+        "Say nothing to staff and allow the investigation to proceed confidentially, addressing rumors only if they become disruptive to operations.",
+        "Silence allows rumors to flourish and may signal to employees with relevant information that management doesn't want to hear from them; also appears to be hiding something.",
+        5,
+        "Share the full details of the fraud with the department so employees understand exactly what happened and can assist in identifying any other suspicious activity.",
+        "Full disclosure compromises the investigation, could defame individuals not yet proven culpable, and isn't necessary for employees to provide relevant information; oversharing creates legal risk.",
+        -5,
+        "Emphasize in communications that management is confident no other employees are involved to calm anxiety and maintain morale.",
+        "Confidence statement before investigation is complete could prove false; if additional involvement is discovered, management credibility is damaged; assurances should await facts.",
+        -5
+      )),
+    q("HR", "During the investigation, another employee comes forward claiming they raised concerns about the suspected employee's reconciliation practices six months ago to their supervisor, but nothing was done. If true, this suggests a pattern of dismissed warnings. The employee is worried about retaliation. How do you handle this?",
+      buildChoices(
+        "Thank the employee for coming forward and document their account thoroughly. Assure them of non-retaliation protections and provide a direct HR contact if they experience any adverse treatment. Investigate the prior complaint handling as a separate but related matter. Include the whistleblower protection practices in the overall remediation recommendations.",
+        "Documentation preserves the record; non-retaliation assurance is legally and ethically required; investigating prior complaint handling addresses potential systemic issues; systemic recommendations prevent recurrence.",
+        10,
+        "Add the employee's information to the investigation file and let the investigative counsel determine whether to interview them as part of the overall review.",
+        "Including in investigation is appropriate but the employee came forward with concerns about retaliation that need immediate acknowledgment; passive routing to counsel doesn't address their immediate needs.",
+        5,
+        "Ask the employee to provide their concerns in writing to ensure accurate documentation, and explain that HR will review after the current investigation concludes.",
+        "Writing requirement creates a barrier for someone already nervous about retaliation; deferring to after investigation dismisses concerns that may be material to current findings.",
+        -5,
+        "Interview the supervisor who allegedly dismissed the prior concerns to get their perspective before determining how to proceed with the employee's claims.",
+        "Supervisor interview may be needed but interviewing them first, before fully documenting the employee's account, may allow the supervisor to prepare a response or retaliate against the employee.",
+        -5
+      )),
 
-    q("Finance", "What financial controls should tighten immediately?", buildChoices(
-      "Dual control and enhanced approvals on affected processes", "Reduces risk.", 10,
-      "No change", "Risky.", 5,
-      "Single person overrides", "Risky.", -5,
-      "Pause all operations", "Too blunt.", -5
-    )),
-    q("Finance", "What reporting cadence helps leadership?", buildChoices(
-      "Daily metrics on affected accounts and exceptions", "Keeps alignment.", 10,
-      "Weekly only", "Slow.", 5,
-      "None", "Opaque.", -5,
-      "Raw ledger dumps", "Noisy.", -5
-    )),
-    q("Finance", "How to coordinate with law enforcement/regulators?", buildChoices(
-      "Through counsel, sharing necessary facts and documentation", "Prudent.", 10,
-      "Direct sharing by any staff", "Risky.", 5,
-      "No coordination", "Risky.", -5,
-      "Promise arrests publicly", "Premature.", -5
-    )),
+    // Finance
+    q("Finance", "You need to determine the full financial impact for board reporting and regulatory notification. The confirmed losses are $127,000, but the investigation isn't complete. External auditors will expect a loss provision estimate. How do you approach the quantification?",
+      buildChoices(
+        "Establish a range: confirmed losses of $127,000 at minimum, with an estimated upper bound based on the 12,000 queried accounts and average manipulation amount. Document all assumptions clearly. Update the estimate as investigation proceeds. Reserve based on the midpoint of the range with disclosure of uncertainty.",
+        "Range approach acknowledges uncertainty while providing decision-useful information; documented assumptions enable auditor review; midpoint reserve is defensible; disclosure of uncertainty is transparent.",
+        10,
+        "Book the confirmed $127,000 as the loss provision and adjust as additional losses are identified, avoiding speculation about amounts not yet verified.",
+        "Confirmed-only approach seems conservative but likely understates exposure given the 12,000 queried accounts; auditors may challenge whether provision is adequate; GAAP requires estimating probable losses.",
+        5,
+        "Wait until the investigation is complete before booking any loss provision to ensure the amount is accurate and doesn't require subsequent adjustment.",
+        "Waiting for completeness delays financial reporting and may not be possible given board and regulatory timelines; estimated provisions are standard practice when losses are probable.",
+        -5,
+        "Book a large provision covering the maximum possible exposure to demonstrate conservative accounting and avoid criticism for understatement.",
+        "Maximum provision may be overly conservative and misleading if actual losses are much lower; provisions should reflect probable losses, not worst-case scenarios; excess reserves create their own problems.",
+        -5
+      )),
+    q("Finance", "The $127,000 in identified losses came from 340 customer accounts. These customers need to be made whole. The amounts range from $50 to $2,100 per account. What restitution approach do you recommend?",
+      buildChoices(
+        "Credit all affected accounts promptly, even before investigation is complete, since the customer harm is clear regardless of legal proceedings. Calculate interest for the period funds were missing. Send individual notifications to account holders explaining that an error was identified and corrected. Document all restitution for regulatory reporting.",
+        "Prompt restitution is the right customer outcome and demonstrates good faith to regulators; interest makes customers completely whole; individual notification is respectful; documentation supports compliance.",
+        10,
+        "Wait for investigation completion and legal review before making any restitution payments to ensure the amounts are accurate and the bank's legal position is protected.",
+        "Legal caution is understandable but customers shouldn't bear the cost of delays; amounts are confirmed by audit; restitution doesn't require legal proceedings to be complete.",
+        5,
+        "Credit the accounts but don't proactively notify customers since the amounts are small and notification might create more questions than it answers.",
+        "Silent crediting avoids questions but isn't transparent; customers deserve to know their accounts were affected; lack of notification could appear as a cover-up if later discovered.",
+        -5,
+        "Offer restitution only to customers who complain, since most won't notice the small amounts and proactive restitution increases the bank's costs unnecessarily.",
+        "Complaint-only approach is ethically wrong and likely regulatory violation; customers are victims regardless of whether they noticed; 'unnecessary costs' framing is problematic.",
+        -5
+      )),
+    q("Finance", "Your primary regulator needs to be notified of the fraud. You have 30 days under SAR filing requirements, but there's also a question of proactive supervisory notification given the internal control implications. Your compliance officer recommends immediate notification; your General Counsel prefers waiting until the investigation is more complete. How do you decide?",
+      buildChoices(
+        "Notify the regulator proactively now with known facts, the investigation status, and remediation steps underway. Proactive transparency typically generates better regulatory outcomes than delayed disclosure, even when facts are incomplete. File the SAR within required timeframes with whatever additional information is available.",
+        "Proactive notification demonstrates good governance and builds regulatory trust; complete information isn't required for initial notification; SAR filing is a separate compliance requirement; transparency serves the bank better than strategic timing.",
+        10,
+        "Wait two weeks to allow investigation progress, then notify the regulator with a more complete picture while still meeting the 30-day SAR requirement.",
+        "Two-week delay is within SAR timeframes but proactive supervisory notification is different from SAR filing; waiting when you have material information invites questions about why you didn't notify sooner.",
+        5,
+        "File the SAR within 30 days as required and let that serve as regulatory notification, avoiding separate supervisory contact that might invite additional scrutiny.",
+        "SAR-only approach meets minimum requirements but misses the opportunity to demonstrate proactive governance; regulators distinguish between minimum compliance and partnership.",
+        -5,
+        "Consult with the regulator informally before making any formal notification to gauge their expected response and tailor your communication accordingly.",
+        "Informal consultation to gauge response appears to be managing the regulator rather than transparent reporting; regulators generally don't appreciate being pre-socialized on fraud notifications.",
+        -5
+      )),
 
-    q("Loans", "What LOS changes are appropriate?", buildChoices(
-      "Restrict risky functions and add reviews", "Focused.", 10,
-      "No change", "Risk remains.", 5,
-      "Disable LOS entirely", "Too blunt.", -5,
-      "Grant broader admin rights", "Risky.", -5
-    )),
-    q("Loans", "How should borrower comms be treated?", buildChoices(
-      "Only if impacted; coordinated with counsel", "Prudent.", 10,
-      "Proactive mass notice", "Overkill.", 5,
-      "No notice regardless", "Risky.", -5,
-      "Share internal allegations", "Risky.", -5
-    )),
-    q("Loans", "What to do with suspicious adjustments?", buildChoices(
-      "Freeze and review with dual approvals", "Controls risk.", 10,
-      "Allow small adjustments", "Risky.", 5,
-      "Proceed with history-based trust", "Risky.", -5,
-      "Let borrowers self-verify", "Risky.", -5
-    )),
+    // Loans
+    q("Loans", "Review of the suspected employee's activities shows they processed 47 loan payoff adjustments in the past year. These adjustments reduced payoff amounts by small amounts ($100-$400) with the differences diverted to external accounts. Borrowers received the benefit of lower payoffs. How do you address this?",
+      buildChoices(
+        "Do not attempt to recover the small amounts from borrowers who received the benefit unknowingly - they are not at fault. Write off the losses as part of the fraud. However, review all 47 loans for any other irregularities and correct borrower records to reflect accurate accounting. Document the decision rationale.",
+        "Customer-friendly approach is appropriate since borrowers were unwitting beneficiaries; recovery attempts would be costly and create ill will; accurate records still matter for regulatory and accounting purposes; documented rationale supports the decision.",
+        10,
+        "Contact all 47 borrowers to explain the situation and request repayment of the excess credits they received, offering a payment plan if needed.",
+        "Recovery attempt seems fair but borrowers didn't do anything wrong; pursuit of small amounts from innocent customers creates significant reputation risk and likely costs more than recovered.",
+        5,
+        "Correct the loan records to reflect accurate balances, resulting in small amounts owed by borrowers, and let them discover the change on their next statement.",
+        "Silent correction is less disruptive but borrowers will be confused by balance changes; lack of explanation appears deceptive; this approach may generate complaints and regulatory concerns.",
+        -5,
+        "Leave loan balances as-is since the amounts are immaterial and changing them creates customer confusion and system reconciliation issues.",
+        "Leaving incorrect records is poor practice regardless of materiality; loan balances should be accurate; the fraud impact should be recognized through proper loss accounting, not ignored.",
+        -5
+      )),
+    q("Loans", "The investigation reveals the suspected employee also had approval authority for loan modifications up to $250,000. There's no evidence of modification fraud yet, but the access existed. Your Chief Credit Officer wants to re-underwrite all modifications the employee approved. That's 156 loan modifications over 2 years. What do you recommend?",
+      buildChoices(
+        "Conduct a risk-based review: prioritize modifications with unusual characteristics (borrower complaints, early re-default, significant payment reduction without clear hardship documentation). Full re-underwriting of all 156 may not be necessary if targeted review doesn't reveal issues, but the decision should be based on initial findings, not assumed.",
+        "Risk-based approach balances thoroughness with efficiency; unusual characteristics are indicators of potential problems; willingness to expand based on findings demonstrates appropriate caution without assuming worst case.",
+        10,
+        "Re-underwrite all 156 modifications since the employee has demonstrated willingness to commit fraud and we can't assume modifications were handled properly.",
+        "Comprehensive review seems prudent but may be excessive if initial review doesn't reveal concerning patterns; resource-intensive approach should be based on evidence, not assumption.",
+        5,
+        "Review only modifications that have defaulted since those are the only ones with evident harm; performing modifications are unlikely to have been fraudulent.",
+        "Default-only review is too narrow; fraudulent modifications could be performing due to favorable terms rather than borrower capacity; the fraud evidence warrants broader review.",
+        -5,
+        "Don't review modifications since there's no evidence of modification fraud, and reviewing could create liability if problems are found that should have been caught at approval.",
+        "Avoiding review to avoid finding problems is indefensible; duty to investigate when a known fraudster had modification authority; 'creating liability' thinking is backwards.",
+        -5
+      )),
+    q("Loans", "A borrower calls asking why they received a letter about an 'account review' for their loan modification that was approved 18 months ago. They're current on payments and worried something is wrong. The letter was part of the investigation-related review. How should the call be handled?",
+      buildChoices(
+        "Explain that the bank periodically reviews modifications to ensure quality and accuracy, that their account appears to be in good standing, and that no action is needed from them. Document the call but don't disclose investigation details. If they press, offer a callback from a supervisor.",
+        "General explanation is truthful without disclosing investigation; reassurance addresses their concern; documentation maintains records; supervisor callback option addresses persistent questions appropriately.",
+        10,
+        "Tell the borrower that there was a fraud investigation and their loan was reviewed to make sure it wasn't affected, assuring them everything is fine.",
+        "Fraud disclosure is more information than necessary and may alarm the borrower; investigation details shouldn't be shared with customers; this creates unnecessary anxiety.",
+        5,
+        "Apologize for the letter being sent in error and tell them to disregard it, since the review found no issues with their loan.",
+        "Calling it an error is a lie that could create problems if the review had found issues; untrue statements to customers are never appropriate.",
+        -5,
+        "Transfer them to the investigation team since they're asking about something related to the fraud case.",
+        "Investigation team shouldn't be fielding routine customer calls; this escalates a simple question inappropriately and may disclose investigation existence unnecessarily.",
+        -5
+      )),
 
-    q("Accounting", "How to log potential losses?", buildChoices(
-      "Track separately; preserve evidence and approvals", "Audit-ready.", 10,
-      "Mix into normal expenses", "Opaque.", 5,
-      "Ignore until confirmed", "Late.", -5,
-      "Share broadly", "Risky.", -5
-    )),
-    q("Accounting", "What reconciliation changes are needed?", buildChoices(
-      "Tighter review on impacted accounts/processes", "Focused.", 10,
-      "Normal cadence only", "May miss issues.", 5,
-      "Suspend recon entirely", "Risky.", -5,
-      "Local-only tracking", "Inconsistent.", -5
-    )),
-    q("Accounting", "What documentation posture helps later reviews?", buildChoices(
-      "Central exception logs and case notes", "Traceable.", 10,
-      "Emails only", "Messy.", 5,
-      "No docs", "Risky.", -5,
-      "Personal notebooks", "Inconsistent.", -5
-    )),
+    // Accounting
+    q("Accounting", "The fraud losses will appear in your financial statements. Your controller asks how to classify and disclose them. The amounts ($127,000 confirmed, potentially more) are below materiality for your institution. However, the fraud and control failures may require disclosure regardless. What accounting treatment do you recommend?",
+      buildChoices(
+        "Record the confirmed losses as an operating expense with appropriate internal classification that identifies them as fraud-related for tracking and reporting purposes. Prepare disclosure language addressing the fraud and control environment for management discussion, even if quantitatively immaterial, since qualitative factors may warrant disclosure. Consult with external auditors on disclosure adequacy.",
+        "Operating expense treatment is appropriate; internal fraud classification enables tracking; qualitative disclosure may be necessary regardless of amount; auditor consultation ensures appropriate treatment.",
+        10,
+        "Record the losses as a miscellaneous expense without special classification, avoiding creation of a 'fraud loss' category that invites questions.",
+        "Miscellaneous classification obscures the nature of the loss; creating appropriate categories improves transparency, not questions; hiding classification suggests discomfort with facts.",
+        5,
+        "Defer recognition until investigation is complete to ensure the amount is accurate, booking the loss in the quarter when final findings are available.",
+        "Deferral isn't appropriate when losses are known; GAAP requires recognition when probable and estimable; timing to avoid current quarter impact isn't a valid accounting reason.",
+        -5,
+        "Net the losses against a reserve or other income line to minimize visibility of the fraud-related expense.",
+        "Netting to minimize visibility is inappropriate presentation; fraud losses should be transparent, not buried; this approach invites audit and regulatory criticism.",
+        -5
+      )),
+    q("Accounting", "The external auditors have arrived for their annual fieldwork. You previously notified them of the fraud. They're now asking to expand their testing of internal controls significantly, which will increase audit fees by an estimated $75,000. Your CFO questions whether this expansion is necessary given the fraud has been identified and addressed. How do you respond?",
+      buildChoices(
+        "Support the expanded testing as appropriate professional skepticism given the control environment concerns. The incremental cost is justified by the assurance value, and resistance may raise auditor concerns about management's commitment to controls. Use the expanded testing as validation of remediation effectiveness.",
+        "Expanded testing is a reasonable auditor response to identified fraud; resistance creates relationship tension and suggests management isn't taking controls seriously; viewing testing as validation reframes it constructively.",
+        10,
+        "Negotiate the scope of expanded testing to focus on the specific control areas affected by the fraud rather than a broad expansion, balancing thoroughness with cost efficiency.",
+        "Negotiation is reasonable but auditors have professional judgment about appropriate response to fraud; significant pushback on scope may raise independence concerns.",
+        5,
+        "Accept the expanded testing but make clear to the auditors that management disagrees with the necessity and will document that disagreement.",
+        "Documented disagreement about auditor professional judgment is unusual and may signal adversarial relationship; accepting while disagreeing is awkward posture that helps no one.",
+        -5,
+        "Refuse the expanded testing scope and ask the audit firm to justify each incremental procedure, escalating to the audit committee if they won't reduce scope.",
+        "Refusal and escalation creates significant tension with auditors and may result in qualified opinion or auditor withdrawal; audit committee generally supports auditor independence.",
+        -5
+      )),
+    q("Accounting", "During expanded testing, auditors discover that the generic 'operations support' account used by the fraudster had been flagged in a prior-year management letter as a segregation of duties concern. The finding was marked 'management disagrees' and no remediation occurred. How does this affect your response?",
+      buildChoices(
+        "Acknowledge that the prior finding should have been remediated and that the disagreement was inappropriate in hindsight. Include this in your control remediation plan with a commitment to address all outstanding management letter items. Brief the audit committee on the connection between the dismissed finding and the fraud.",
+        "Acknowledging error demonstrates integrity; remediation commitment shows learning; audit committee briefing is appropriate governance given the significance of the prior dismissal.",
+        10,
+        "Explain that the prior-year finding was a judgment call at the time and that hindsight shouldn't be used to second-guess decisions that seemed reasonable then.",
+        "Hindsight argument has some merit but the finding proved prescient; defensive posture about a decision that enabled fraud isn't a good look; accountability is more appropriate.",
+        5,
+        "Point out that the auditors themselves accepted the management disagreement in the prior year without escalating, suggesting shared responsibility for the control gap.",
+        "Shared responsibility argument may have factual basis but blaming auditors for accepting your disagreement is adversarial; you made the decision not to remediate.",
+        -5,
+        "Minimize the connection between the prior finding and the fraud, noting that the specific fraud methodology wasn't contemplated by the original segregation of duties concern.",
+        "Minimization of a clear control failure that enabled fraud damages credibility; even if the specific fraud wasn't anticipated, the generic account access was the mechanism.",
+        -5
+      )),
 
-    q("Deposits", "What changes to account maintenance are warranted?", buildChoices(
-      "Dual review on high-risk changes and freeze suspicious activity", "Reduces risk.", 10,
-      "No changes", "Risk remains.", 5,
-      "Disable account maintenance entirely", "Too blunt.", -5,
-      "Allow wide exceptions", "Risky.", -5
-    )),
-    q("Deposits", "How to respond to customer inquiries?", buildChoices(
-      "Only if impacted; provide factual guidance", "Professional.", 10,
-      "Proactive mass statements", "Overkill.", 5,
-      "No responses", "Harmful.", -5,
-      "Share internal details", "Risky.", -5
-    )),
-    q("Deposits", "What internal guidance helps branches?", buildChoices(
-      "Facts-only talking points and escalation paths", "Prepares staff.", 10,
-      "Let branches improvise", "Inconsistent.", 5,
-      "No guidance", "Confusing.", -5,
-      "Share sensitive case info", "Risky.", -5
-    )),
+    // Deposits
+    q("Deposits", "The 340 affected customer accounts are all dormant. Many haven't had activity in 2+ years. Under your state's escheatment laws, some of these accounts may be approaching the dormancy period for unclaimed property reporting. How does the fraud affect your escheatment obligations?",
+      buildChoices(
+        "The fraud-related activity shouldn't reset the dormancy clock since it wasn't customer-initiated. Review each account's dormancy status based on last legitimate customer activity. However, your outreach to affected customers regarding the fraud and restitution will likely generate customer contact that does reset dormancy legitimately.",
+        "Correct legal interpretation that fraudulent activity doesn't constitute customer contact for dormancy purposes; however, restitution notifications will generate responses that legitimately reset accounts; comprehensive approach addresses both considerations.",
+        10,
+        "Use the fraud investigation and restitution process as an opportunity to do outreach that resets dormancy on all affected accounts, reducing your near-term escheatment obligations.",
+        "Using fraud remediation to strategically reset dormancy may work but is ethically questionable; escheatment laws exist to protect customers and shouldn't be circumvented through creative interpretation of 'contact.'",
+        5,
+        "Treat the fraud-related transactions as account activity that resets the dormancy period, since there was actual monetary movement regardless of the source.",
+        "Incorrect interpretation; fraudulent transactions shouldn't benefit the bank by resetting dormancy; this approach could face regulatory scrutiny if challenged.",
+        -5,
+        "Exclude all affected accounts from the next escheatment reporting cycle while the fraud investigation is pending to avoid complications.",
+        "Exclusion from escheatment reporting isn't appropriate without legal basis; investigation status doesn't suspend statutory obligations; this creates compliance risk.",
+        -5
+      )),
+    q("Deposits", "Branch staff are asking how to handle the situation if they recognize the name of the employee on administrative leave from news coverage or word of mouth. They're uncertain whether to discuss with customers who might ask, or with each other. What guidance do you provide?",
+      buildChoices(
+        "Issue clear guidance: staff should not discuss personnel matters or ongoing investigations with customers or among themselves beyond what's officially communicated. If customers ask, staff should redirect to 'I'm not able to discuss personnel matters.' Explain that speculation or sharing information could compromise the investigation or create legal issues for individuals.",
+        "Clear prohibition with rationale helps staff understand expectations; customer redirect script gives them a tool; explanation of why (investigation and legal) makes the request reasonable rather than arbitrary.",
+        10,
+        "Trust staff to use good judgment about what to share and with whom, providing general guidance to be discreet without over-specifying.",
+        "Judgment-based approach sounds reasonable but people define discretion differently; lack of clear guidance leads to inconsistent behavior and potential leaks or speculation.",
+        5,
+        "Prohibit all discussion with threat of discipline for anyone who discusses the matter, ensuring complete information control.",
+        "Threat-based approach may ensure compliance but damages trust and morale; people will discuss despite threats, just more covertly; explanation works better than intimidation.",
+        -5,
+        "Prepare detailed talking points that staff can share with customers who ask, ensuring consistent and accurate information reaches the public.",
+        "Detailed talking points for customer consumption is inappropriate for an ongoing investigation involving personnel matters; staff shouldn't be sharing investigation details with customers.",
+        -5
+      )),
+    q("Deposits", "One of the 340 affected customers is a personal account belonging to a state legislator who has been publicly critical of the banking industry. If they're notified of the fraud and restitution along with other customers, there's risk they could publicize it. Your government affairs team suggests handling their notification separately with a personal call from leadership. How do you proceed?",
+      buildChoices(
+        "Treat the legislator the same as all other affected customers - same notification, same restitution, same timing. Special treatment for a public figure could appear to be seeking favorable treatment or could backfire if the differential handling becomes known. Document the decision to ensure consistency.",
+        "Equal treatment is the right principle; special handling for a potential critic appears to be currying favor or managing them specially; consistency is defensible, favoritism is not.",
+        10,
+        "Have leadership make a courtesy call to the legislator after the standard notification is sent, not to provide different treatment but to ensure any questions can be answered directly.",
+        "Follow-up call after standard notification is a reasonable middle ground but may still appear as special treatment if disclosed; the rationale of 'ensuring questions are answered' applies to all customers.",
+        5,
+        "Delay the legislator's notification until after other customers have been notified to allow time to prepare for potential public response.",
+        "Delayed notification for one customer is differential treatment that could become a story itself if discovered; timing manipulation based on public profile is inappropriate.",
+        -5,
+        "Notify the legislator first with enhanced explanation and apology to preempt criticism and demonstrate the bank takes the matter seriously.",
+        "First notification for a critic appears to be managing them rather than treating all customers fairly; enhanced explanation suggests other customers are getting less; this is exactly the wrong approach.",
+        -5
+      )),
   ]
 };
+
+
 
 /* ------------------------- SCENARIO 9 ------------------------- */
 const SCENARIO_ACH_FAILURE = {
