@@ -1467,142 +1467,341 @@ const SCENARIO_INSIDER = {
 const SCENARIO_VENDOR_OUTAGE = {
   key: "third-party-core-vendor-outage",
   title: "Third-Party Core Vendor Outage",
-  description: "A critical core vendor experiences a prolonged outage affecting core processing, online banking, and debit card authorizations. The bank must coordinate response with limited control over restoration timelines.",
+  description:
+    "At 4:23 AM, your core banking vendor's primary data center experienced a cascading failure. Your core processing, online banking, mobile app, and debit card authorization systems are all offline. The vendor's status page shows 'investigating' with no ETA. 127 other financial institutions are affected. Your vendor relationship manager isn't responding, and the emergency hotline has a 90-minute hold time. Customers are waking up to declined debit cards at gas stations and grocery stores. Your ATMs are dispensing cash from local reserves but can't verify balances. Social media complaints are mounting, and a local news station has already called asking for a statement. The vendor's last major outage in 2019 lasted 14 hours.",
   questions: [
-    q("CEO/SVPs", "What’s the leadership posture on day one?", buildChoices(
-      "Activate incident command with vendor liaison and update cadence", "Provides structure and clear comms.", 10,
-      "Let vendor lead entirely without internal structure", "Loss of control and slower internal response.", 5,
-      "Stay silent until vendor resolves everything", "Creates confusion and harms trust.", -5,
-      "Promise recovery times publicly based on vendor guesses", "High risk and often wrong.", -5
-    )),
-    q("CEO/SVPs", "How to handle media inquiries about the vendor?", buildChoices(
-      "Acknowledge impact and steps; avoid blaming; focus on customer options", "Professional and credible.", 10,
-      "Blame vendor by name and share ticket details", "Risky and unprofessional.", 5,
-      "Say nothing at all", "Perceived evasiveness.", -5,
-      "Promise credits before analysis", "Risky.", -5
-    )),
-    q("CEO/SVPs", "What board comms cadence fits?", buildChoices(
-      "Daily concise updates on status, risks, and actions", "Keeps governance aligned.", 10,
-      "Weekly only", "Too slow.", 5,
-      "No updates", "Opaque.", -5,
-      "Raw vendor tickets forwarded", "Noisy and risky.", -5
-    )),
+    // CEO/SVPs
+    q("CEO/SVPs", "It's now 6:00 AM and you have no reliable information from the vendor about cause or restoration timeline. Your board chair is calling, customers are flooding social media, and branch managers are asking what to tell staff arriving for the 8:00 AM opening. What's your immediate leadership approach?",
+      buildChoices(
+        "Activate incident command immediately with clear roles: assign someone to continuously attempt vendor contact through all channels, designate a customer communications lead, prepare branch guidance for opening, and brief the board chair with known facts while acknowledging the uncertainty. Don't wait for vendor information to start your response.",
+        "Parallel activation across all fronts is essential when you can't control the timeline; waiting for vendor information cedes the initiative; board chair deserves to know what you know even if it's limited; branch guidance can't wait for perfect information.",
+        10,
+        "Focus all efforts on reaching the vendor for information before activating broader response, since any communications without knowing the restoration timeline could prove inaccurate.",
+        "Vendor information is valuable but waiting for it paralyzes your response; you can communicate uncertainty and still be helpful; your customers are affected now regardless of when the vendor responds.",
+        5,
+        "Immediately issue a public statement blaming the vendor for the outage to set customer expectations that this is outside your control.",
+        "Blame-shifting may be factually accurate but damages the vendor relationship you need for resolution and appears to deflect rather than help customers; you chose the vendor and customers hold you accountable.",
+        -5,
+        "Delay branch opening until you have clarity from the vendor to avoid staff facing customers without answers.",
+        "Delayed opening may seem prudent but customers will arrive regardless; closed branches with no explanation creates worse optics than open branches with limited service; your people can help even without complete information.",
+        -5
+      )),
+    q("CEO/SVPs", "By noon, the vendor has provided three different restoration estimates, each pushed back within hours of being given. Customer complaints are now trending on social media, and a regional newspaper is preparing a story about 'local banks leaving customers stranded.' The vendor's CEO has offered to do a joint statement with affected banks. What's your approach?",
+      buildChoices(
+        "Decline the joint statement and issue your own communication focused on what YOUR customers can do: branch locations with available services, ATM access, alternative payment methods, and how you'll make affected customers whole. Own your customer relationship regardless of vendor failures.",
+        "Individual response keeps you in control of your customer narrative; joint statement dilutes accountability; customers care about their bank, not vendor industry dynamics; action-oriented communication is more valuable than explanations.",
+        10,
+        "Participate in the joint statement to present a unified industry response and share the reputational burden across the 127 affected institutions.",
+        "Joint response has some efficiency but your customers chose you, not an industry consortium; collective messaging often becomes lowest-common-denominator and delays action.",
+        5,
+        "Wait for the vendor to resolve the issue before making any public statements, since any commitment now could prove wrong given the unreliable timeline estimates.",
+        "Silence during an extended outage is worse than statements that need updating; customers expect acknowledgment and help, not silence until everything is fixed.",
+        -5,
+        "Use social media to publicly pressure the vendor by tagging their executives and demanding accountability, showing customers you're fighting for them.",
+        "Public vendor confrontation may generate brief customer sympathy but damages the working relationship you need for resolution and makes you look out of control; fight privately, serve publicly.",
+        -5
+      )),
+    q("CEO/SVPs", "It's now 8:00 PM on day one - the outage has lasted 16 hours with no clear end in sight. Your primary regulator calls asking about your business continuity plans and why you don't have a backup core provider. They hint at potential supervisory concerns about vendor concentration risk. How do you handle this conversation?",
+      buildChoices(
+        "Acknowledge the valid concern about vendor concentration, explain your existing BCP provisions and their limitations in this scenario, describe immediate steps being taken to serve customers, and commit to a post-incident review of vendor risk management. Don't be defensive about a legitimate regulatory concern.",
+        "Regulatory acknowledgment without defensiveness builds credibility; BCP transparency shows you've thought about resilience even if it has gaps; post-incident review commitment demonstrates learning orientation.",
+        10,
+        "Explain that single-vendor concentration is industry-standard for community banks and that maintaining redundant core systems isn't economically feasible for your institution size.",
+        "Industry-standard argument may be accurate but sounds defensive; regulators are aware of economics but are asking about YOUR risk management; comparison to peers doesn't address the customer impact.",
+        5,
+        "Point out that the vendor passed the third-party risk assessment required by regulators, implying that regulatory requirements were followed.",
+        "Compliance-checkbox response misses the point; passing an assessment didn't prevent this outage; regulators are asking about real resilience, not paper compliance.",
+        -5,
+        "Suggest that the regulator should be investigating the vendor rather than questioning your bank's risk management practices.",
+        "Deflection to vendor investigation may have merit but antagonizes the regulator during an active incident; your risk management choices are legitimately in scope regardless of vendor failures.",
+        -5
+      )),
 
-    q("IT/Security", "What technical focus is key?", buildChoices(
-      "Monitor interfaces, failovers, and fraud vectors; prepare staged restore", "Manages risk proactively.", 10,
-      "Turn off monitoring to reduce noise", "Risky.", -5,
-      "Large config changes ad-hoc", "Risky.", -5,
-      "Share admin access with vendor widely", "Risky.", -5
-    )),
-    q("IT/Security", "What should be logged carefully?", buildChoices(
-      "Manual workarounds and exceptions with approvals", "Supports later reconciliation.", 10,
-      "Nothing beyond normal", "Missed traceability.", 5,
-      "Raw system dumps to external parties", "Risky.", -5,
-      "Disable logs for performance", "Risky.", -5
-    )),
-    q("IT/Security", "How to handle customer data shared with vendor?", buildChoices(
-      "Ensure minimum necessary data and proper agreements", "Reduces risk.", 10,
-      "Share freely for speed", "Risky.", -5,
-      "Refuse any sharing", "May block recovery.", 5,
-      "Use personal channels", "Risky.", -5
-    )),
+    // IT/Security
+    q("IT/Security", "Your ATMs are running on local cash reserves and cached authorization data, but the cache is getting stale. Some customers are seeing 'balance unavailable' messages while others are getting declined for transactions that should approve. You estimate the ATM network can continue degraded operations for another 6 hours before the cache becomes dangerously unreliable. What's your recommendation?",
+      buildChoices(
+        "Continue ATM operations with clear on-screen messaging about potential issues and a conservative approach to approvals (authorize known good patterns, decline uncertain ones). Prepare to shift ATMs to 'cash advance' mode with fixed limits if cache reliability degrades further. Monitor fraud patterns closely.",
+        "Continued degraded service is better than no service; transparent messaging manages expectations; conservative approvals balance customer access with risk; having a next-phase plan ready prevents reactive decisions.",
+        10,
+        "Shift ATMs to cash-advance mode immediately with a fixed $200 limit for all customers regardless of account status, eliminating the cache reliability concern entirely.",
+        "Fixed limit mode is a viable fallback but implementing it preemptively denies customers with legitimate higher needs; save this option for when cache reliability actually degrades.",
+        5,
+        "Take all ATMs offline until core connectivity is restored to prevent any possibility of incorrect authorizations or fraud.",
+        "Offline ATMs during a payment system outage compounds customer harm dramatically; some access with risk controls is better than no access; your fraud controls can manage the elevated risk.",
+        -5,
+        "Continue current operations without changes since the 6-hour estimate provides buffer and the vendor may restore service before then.",
+        "Hoping for vendor resolution without preparation leaves you scrambling if it doesn't happen; the estimate is uncertain and preparing fallback options now is prudent.",
+        -5
+      )),
+    q("IT/Security", "The vendor's technical team asks for remote access to your firewall management console to troubleshoot why your connection isn't restoring while other banks are coming back online. They say it's urgent and will significantly speed your restoration. Your security team is concerned about granting this access during an active incident when you can't verify the vendor's environment security. What do you recommend?",
+      buildChoices(
+        "Offer a supervised alternative: your network team will share screens and execute commands the vendor specifies, maintaining control of your security perimeter while enabling their troubleshooting. Document all actions taken. This is slower but maintains security boundaries.",
+        "Supervised access preserves security controls while enabling troubleshooting; screen sharing accomplishes the technical goal without granting direct access; documentation creates audit trail; small speed sacrifice for significant risk reduction.",
+        10,
+        "Grant the access since the vendor is a trusted partner with existing agreements, and the business need to restore service outweighs the incremental security risk.",
+        "Trust and agreements are relevant but the vendor is experiencing an uncharacterized security incident; their environment may be compromised; granting access during their incident is exactly when you shouldn't.",
+        5,
+        "Refuse any vendor access to your security infrastructure and troubleshoot the connection issue entirely with internal resources.",
+        "Complete refusal may be overly rigid if the vendor genuinely needs to see something to help; supervised alternatives exist that don't require granting access.",
+        -5,
+        "Grant temporary access with a plan to rotate all credentials after the incident, balancing immediate need with post-incident security hygiene.",
+        "Post-incident rotation doesn't address real-time risks during the access window; if the vendor environment is compromised, damage occurs during access, not after credentials are rotated.",
+        -5
+      )),
+    q("IT/Security", "By day two, your connectivity is restored but you're discovering data synchronization issues: some transactions processed through manual workarounds haven't reconciled with the restored core system, and customer balance displays are showing inconsistencies. The vendor wants to run an automated reconciliation script across your production database. What's your position?",
+      buildChoices(
+        "Require the vendor to provide the script for your team's review before execution, run it first in a test environment if possible, execute it during low-volume hours with your DBAs present, and maintain the ability to roll back. This is your production data and you need to understand what's being done to it.",
+        "Script review ensures you understand what will be modified; test execution catches problems; your DBA presence maintains control; rollback capability is essential for production changes; vendor expertise doesn't eliminate your responsibility.",
+        10,
+        "Allow the vendor to run their standard reconciliation script since they've done this for 127 other banks and have the expertise to handle it correctly.",
+        "Other bank experience is relevant but doesn't mean the script is appropriate for your specific data state; standard scripts may not account for your specific manual workarounds.",
+        5,
+        "Refuse the automated script entirely and reconcile all discrepancies manually to maintain complete control over your customer data.",
+        "Complete manual reconciliation may be appropriate for small volumes but at scale introduces more errors than automated approaches; the goal is accuracy, not control theater.",
+        -5,
+        "Let the vendor run the script immediately since customers are seeing wrong balances and speed of correction matters more than process.",
+        "Customer impact creates urgency but wrong script execution could make things worse; a few hours for review and testing is worth preventing a second data quality incident.",
+        -5
+      )),
 
-    q("HR", "How to support customer-facing staff?", buildChoices(
-      "Talking points, escalation paths, and wellness guidance", "Practical support.", 10,
-      "No support; let managers handle", "Inconsistent.", 5,
-      "Daily mandatory townhalls", "Disruptive.", -5,
-      "Public blame messaging", "Risky.", -5
-    )),
-    q("HR", "What scheduling guidance helps?", buildChoices(
-      "Pre-approved overtime with central tracking and breaks", "Balances service and well-being.", 10,
-      "Unlimited overtime", "Burnout.", 5,
-      "Ban overtime", "Service suffers.", -5,
-      "No guidance", "Chaotic.", -5
-    )),
-    q("HR", "How to address misinformation internally?", buildChoices(
-      "Frequent factual updates; encourage reporting rumors", "Reduces confusion.", 10,
-      "Weekly summary only", "Slow.", 5,
-      "Silence to avoid panic", "Rumors grow.", -5,
-      "Share vendor details widely", "Risky.", -5
-    )),
+    // HR
+    q("HR", "Branch staff have been handling frustrated customers for 10 hours with no system access. Several tellers have reported crying in the break room, one manager walked off the job mid-shift, and calls from employees asking whether they can go home are increasing. You still have 2 hours until normal closing time. How do you handle staffing?",
+      buildChoices(
+        "Authorize managers to release non-essential staff early with pay, keep skeleton crews for remaining customers, deploy any available support staff to relieve the most stressed employees, and communicate that mental health support is available. Document that early release was authorized so employees don't worry about consequences.",
+        "Early release with pay acknowledges the extraordinary circumstances; skeleton crews maintain service; relieving stressed employees prevents worse outcomes; mental health resources address real needs; documented authorization removes fear of repercussions.",
+        10,
+        "Keep all scheduled staff until normal closing time but gather everyone for a brief thank-you acknowledgment and remind them that difficult days happen in banking.",
+        "Acknowledgment is appropriate but forcing exhausted staff to stay when volume may not require it prioritizes schedule over wellbeing; 'difficult days happen' minimizes a genuinely exceptional situation.",
+        5,
+        "Close branches early since systems are down anyway and staff clearly can't continue effectively.",
+        "Early closing may be necessary in extreme cases but closing before attempting other options abandons customers who are coming to branches precisely because digital channels are down.",
+        -5,
+        "Remind employees that this is their job and the situation, while difficult, is temporary, encouraging them to maintain professional composure.",
+        "Professionalism reminders during a genuine crisis may come across as dismissive; employees are managing real customer distress and deserve support, not lectures.",
+        -5
+      )),
+    q("HR", "The manager who walked off mid-shift sends a text message saying they quit and aren't coming back. They were a 7-year employee with strong performance history and were visibly overwhelmed before leaving. Their departure has created a coverage gap for tomorrow. How do you respond?",
+      buildChoices(
+        "Have a senior HR leader call them personally (not text) to express concern for their wellbeing, not to pressure them to return. Indicate that no decisions need to be made right now and that you'd like to talk when they're ready. Fill tomorrow's coverage gap through other means. Leave the door open for a conversation once emotions settle.",
+        "Personal call demonstrates genuine concern; not pressuring preserves relationship; wellbeing focus is appropriate; coverage gap is a separate operational problem; leaving door open recognizes this may be a crisis reaction, not a permanent decision.",
+        10,
+        "Accept the resignation via reply text and immediately begin recruiting for the position to ensure continuity.",
+        "Quick acceptance may be premature; 7-year employees rarely quit via text under normal circumstances; accepting without conversation treats a crisis reaction as a final decision.",
+        5,
+        "Have their direct supervisor call to discuss what happened and ask them to reconsider given their strong history and the temporary nature of the situation.",
+        "Supervisor call seems logical but they were overwhelmed by the supervisor's operational demands; having the same chain ask them to reconsider may feel like pressure rather than support.",
+        -5,
+        "Send a formal resignation acceptance letter noting that walking off during a shift is job abandonment and may affect their eligibility for rehire or unemployment benefits.",
+        "Formal letter with punitive language transforms a reachable situation into a permanent break; 7-year employees in crisis deserve a conversation, not a legal notice.",
+        -5
+      )),
+    q("HR", "After the outage is resolved, several employees express frustration that they weren't compensated for the exceptional stress and extended hours, noting they received regular pay for an extraordinarily difficult period. The HR director mentions that crisis pay premiums weren't budgeted. What do you recommend?",
+      buildChoices(
+        "Implement a one-time recognition payment for employees who worked during the outage, even if it wasn't pre-budgeted. The cost is small compared to the value of employee retention and morale. Communicate it as appreciation for exceptional performance, not an entitlement for future incidents.",
+        "One-time payment recognizes genuine exceptional effort; budget constraints are real but discretionary spending exists; framing as appreciation rather than entitlement prevents precedent concerns while acknowledging reality.",
+        10,
+        "Offer comp time or extra PTO instead of cash, allowing employees to recover without impacting the unbudgeted expense category.",
+        "Comp time is a valid recognition form but some employees may prefer cash; offering only non-cash options when cash is what was asked may feel like a workaround rather than genuine recognition.",
+        5,
+        "Explain that compensation structures are set in advance and crisis situations are part of banking, noting that employees are already paid for their roles which include handling difficult situations.",
+        "Technically accurate but tone-deaf to employees who experienced an exceptional event; 'part of banking' framing dismisses a genuinely unusual situation; this response increases attrition risk.",
+        -5,
+        "Promise to include crisis premium provisions in the next budget cycle so employees are protected in future incidents.",
+        "Future promise doesn't address current employee frustration; they worked through this crisis and are asking about this crisis; deferring to next budget cycle feels dismissive.",
+        -5
+      )),
 
-    q("Finance", "How to treat fee credits?", buildChoices(
-      "Define criteria and track incident-related credits separately", "Audit-ready.", 10,
-      "Case-by-case only", "Inconsistent.", 5,
-      "No credits regardless", "Reputation risk.", -5,
-      "Promise blanket credits", "Risky.", -5
-    )),
-    q("Finance", "What liquidity stance fits?", buildChoices(
-      "Increase buffers; monitor outflows/inflows closely", "Prudent.", 10,
-      "No changes", "Risky.", 5,
-      "Sell assets at discount immediately", "Value loss.", -5,
-      "Ignore liquidity for a week", "Dangerous.", -5
-    )),
-    q("Finance", "What reporting helps leadership?", buildChoices(
-      "Daily status on impacts, credits, and risks", "Alignment.", 10,
-      "Weekly only", "Slow.", 5,
-      "None", "Opaque.", -5,
-      "Raw logs", "Noisy.", -5
-    )),
+    // Finance
+    q("Finance", "Your merchant services customers (businesses that process card payments through you) have lost 16+ hours of payment processing capability. Several are claiming significant revenue losses and asking about compensation. Your merchant services contract has a force majeure clause for vendor outages, but enforcing it strictly may damage relationships. How do you approach this?",
+      buildChoices(
+        "Proactively offer merchant statement credits covering fees for the outage period, even though the contract doesn't require it. For merchants claiming revenue losses, express sympathy but explain that revenue guarantees aren't something any payment processor provides. Document all accommodations. The fee credits cost less than merchant attrition.",
+        "Proactive fee credits demonstrate partnership; distinguishing fees (within your control) from revenue losses (not) is appropriate; documentation supports consistency; retention economics favor accommodation over contractual enforcement.",
+        10,
+        "Review each merchant claim individually on a case-by-case basis, making accommodations where the relationship warrants it.",
+        "Case-by-case review is fair but creates inconsistency and is resource-intensive; merchants talk to each other and different treatment becomes visible; criteria-based approach scales better.",
+        5,
+        "Point all merchants to the force majeure clause and explain that vendor outages are contractually excluded from service guarantees.",
+        "Contract enforcement is your right but exercising it after a genuine crisis damages relationships; merchants chose you over alternatives and feel abandoned when you hide behind legal terms.",
+        -5,
+        "Offer to compensate documented revenue losses to maintain relationships, establishing a process for merchants to submit claims.",
+        "Revenue loss compensation sounds generous but is practically unlimited exposure; every business will claim maximum losses; you're accepting liability the contract and common practice don't require.",
+        -5
+      )),
+    q("Finance", "The CFO asks for an estimate of total incident costs for the board meeting tomorrow. You have confirmed fee waivers of $47,000, estimated productivity losses around $85,000, and potential merchant credits of unknown amount. There may be regulatory costs if examination findings result. Insurance may cover some losses but you haven't filed a claim yet. How do you present the financial impact?",
+      buildChoices(
+        "Present what's known with confidence levels: confirmed costs of $47K, estimated costs of $85K with methodology explained, and identified but unquantified categories (merchant credits, regulatory, legal) with explanation of when estimates will be available. Note insurance recovery potential without assuming proceeds.",
+        "Confidence-level presentation gives board actionable information while being transparent about uncertainty; explaining methodology enables board to evaluate estimates; noting unquantified categories sets expectation of updates.",
+        10,
+        "Provide a single total estimate that represents your best judgment, acknowledging it may need adjustment as more information becomes available.",
+        "Single number seems cleaner for board consumption but conflates known and estimated amounts; board can't assess what's firm versus speculative; appears more certain than warranted.",
+        5,
+        "Wait until all costs are finalized to present a complete picture, noting that preliminary estimates would likely need significant revision.",
+        "Waiting for completeness may not be possible given board timeline; boards understand estimates and prefer visibility over delay; 'significant revision' caveat undermines confidence in your financial controls.",
+        -5,
+        "Present worst-case scenario figures to ensure the board isn't surprised, building in contingency for all uncertain categories.",
+        "Worst-case presentation creates unnecessary alarm and may trigger board decisions (cost cutting, vendor termination) that aren't warranted by actual exposure; estimates should be realistic, not conservative.",
+        -5
+      )),
+    q("Finance", "Your cyber insurance policy potentially covers business interruption from vendor outages, but the deductible is $100,000 and estimated quantifiable losses are around $132,000. Filing a claim may increase future premiums and require significant documentation effort. The CFO is uncertain whether to file. What do you recommend?",
+      buildChoices(
+        "File the claim with thorough documentation. The $32,000 net recovery is worth having, premium impacts from a single claim are typically modest, and the documentation process forces disciplined cost tracking that benefits future incidents. Not filing sets a precedent of self-insuring losses the policy should cover.",
+        "Filing is appropriate when losses exceed deductible; premium impact is a factor but shouldn't drive under-recovery; documentation discipline has independent value; self-insuring covered losses wastes the premium already paid.",
+        10,
+        "Don't file given the modest net recovery and premium impact; treat this as a cost of doing business and reserve insurance claims for larger incidents.",
+        "Premium preservation logic seems financially prudent but effectively increases your deductible to whatever threshold you're willing to file at; you paid for coverage starting at $100K.",
+        5,
+        "Wait to see if any additional costs emerge that would increase the claim value before initiating the documentation-intensive filing process.",
+        "Waiting for larger losses hopes things get worse; file with current amounts and supplement if more costs emerge; delay risks policy notice deadlines.",
+        -5,
+        "File an inflated claim that includes estimated reputational damage and customer attrition to maximize recovery against the deductible.",
+        "Inflated claims are insurance fraud; reputational and attrition estimates aren't typically covered categories anyway; this approach risks policy cancellation and legal consequences.",
+        -5
+      )),
 
-    q("Loans", "How should LOS operations adjust?", buildChoices(
-      "Prioritize critical funding with dual verification", "Balances service and risk.", 10,
-      "Pause everything", "Too blunt.", 5,
-      "Proceed normally", "Risky.", -5,
-      "Single-approver overrides", "Risky.", -5
-    )),
-    q("Loans", "How to handle vendor-dependent steps?", buildChoices(
-      "Use interim controls; track exceptions", "Practical.", 10,
-      "Ignore vendor impact", "Risky.", 5,
-      "Accept emailed docs without validation", "Risky.", -5,
-      "Promise instant funding", "Risky.", -5
-    )),
-    q("Loans", "What borrower comms fit?", buildChoices(
-      "Explain outage impacts and options", "Sets expectations.", 10,
-      "Generic updates only", "Light.", 5,
-      "None", "Confusing.", -5,
-      "Share internal vendor data", "Risky.", -5
-    )),
+    // Loans
+    q("Loans", "You have a $2.3 million commercial real estate closing scheduled for today - the largest of the quarter. The title company is ready, the borrower has a rate lock expiring, and construction financing starts Monday. Your loan origination system is completely down and you can't access the final documentation or verify the wire instructions. The borrower's attorney is calling every 30 minutes. What do you do?",
+      buildChoices(
+        "Contact your title company and settlement attorney to explain the situation and work together on alternatives: can closing proceed with the title company holding funds in escrow until your systems verify and release? Can the rate lock be extended at no cost given circumstances outside anyone's control? Explore every path to close today with appropriate safeguards.",
+        "Collaborative problem-solving with closing partners may find solutions you can't create alone; escrow holding is a legitimate mechanism; rate lock extension is reasonable given force majeure; exploring all paths before declining serves the customer.",
+        10,
+        "Postpone the closing until systems are restored, apologize profusely, and commit to honoring the rate lock regardless of market movement.",
+        "Postponement may be necessary but trying alternatives first serves the customer better; rate lock honor is appropriate but doesn't address the borrower's construction timeline pressure.",
+        5,
+        "Proceed with the closing using the documentation you have from prior system access, verifying what you can manually and accepting some risk to meet the customer's critical deadline.",
+        "Customer focus is admirable but $2.3M closing without system verification creates unacceptable operational and fraud risk; manual verification of wire instructions specifically is dangerous.",
+        -5,
+        "Advise the borrower to close with another lender if their timeline is critical, offering to reimburse any rate differential or fees they incur.",
+        "Alternative lender suggestion abandons a customer at their most critical moment for a problem you caused; even with reimbursement, the relationship damage is severe; this is a last resort, not a first response.",
+        -5
+      )),
+    q("Loans", "Several mortgage borrowers with payments due today are calling concerned because they can't access online banking to make their payments and don't want to be reported late. Your payment processing is down so you can't actually post payments even if they could submit them. How do you handle the payment due date issue?",
+      buildChoices(
+        "Issue immediate guidance: no borrower will be reported late or charged late fees for payments due during the outage period, with a grace period extending several days after restoration. Document this policy clearly. Accept payments through any channel available (branch cash, phone with card, mail) and post them with original due dates once systems restore.",
+        "Clear policy eliminates borrower anxiety; grace period extension is appropriate for system failure; accepting through alternative channels maintains payment flow; back-dating posts to due dates protects credit reporting accuracy.",
+        10,
+        "Extend the grace period for late fees but note that credit reporting will reflect actual payment receipt dates per standard bureau reporting requirements.",
+        "Grace period for fees helps but credit reporting concern is what most borrowers actually worry about; bureau requirements are real but you control what you report and can report based on payment tender date, not posting date.",
+        5,
+        "Advise borrowers to mail checks immediately so they have proof of payment attempt, and note that postmark dates will be honored.",
+        "Mail suggestion provides some protection but is slow and uncertain; borrowers calling want immediate resolution, not multi-day workarounds; phone or branch alternatives are faster.",
+        -5,
+        "Explain that due dates are contractual and can't be modified, but that you'll work with any borrower who experiences credit impact to submit corrections.",
+        "Contractual rigidity during your system failure is tone-deaf; working with impacted borrowers after the fact creates unnecessary credit damage that correction processes can't fully undo.",
+        -5
+      )),
+    q("Loans", "A commercial borrower calls saying they need to draw $500,000 from their line of credit today to meet payroll - their employees get paid tomorrow and the funds need to clear overnight. Your loan system is down so you can't verify available credit or process the draw normally. The relationship manager confirms verbally that the line should have sufficient availability. What's your approach?",
+      buildChoices(
+        "Process the draw using emergency manual procedures: have the relationship manager document the credit availability verification from whatever records are accessible, require dual officer approval for the manual disbursement, process via wire with appropriate verification of destination account, and reconcile when systems restore. Payroll obligations are critical.",
+        "Emergency procedures exist for this scenario; RM verification with documentation provides reasonable assurance; dual approval maintains control; wire processing is available even without loan system; payroll criticality justifies controlled risk-taking.",
+        10,
+        "Ask the borrower to use an alternative funding source for payroll and commit to processing their draw first thing when systems restore, plus covering any bridge financing costs they incur.",
+        "Alternative funding suggestion may not be feasible on 24-hour notice; covering costs is generous but doesn't solve their immediate problem; committed line of credit exists precisely for situations like this.",
+        5,
+        "Decline the draw until systems restore since you can't verify credit availability, explaining that proper controls protect both parties.",
+        "Control protection sounds prudent but failing to fund a committed facility when the borrower has an immediate need is potentially a default on your commitment; verbal verification plus documentation is reasonable assurance.",
+        -5,
+        "Process the draw based on the relationship manager's verbal confirmation without additional documentation, trusting the long-standing relationship.",
+        "Trust is valuable but $500K without documentation creates problems: what if RM memory is wrong? What if fraud is involved? Verbal confirmation plus contemporaneous documentation is the right balance.",
+        -5
+      )),
 
-    q("Accounting", "How to track manual workarounds?", buildChoices(
-      "Central log with approvals and evidence", "Audit trail.", 10,
-      "Local spreadsheets only", "Inconsistent.", 5,
-      "No tracking", "Risky.", -5,
-      "Share ledgers externally", "Risky.", -5
-    )),
-    q("Accounting", "What to do with variances tied to the outage?", buildChoices(
-      "Track separately with incident tags and rationale", "Transparent.", 10,
-      "Book lump-sum later", "Opaque.", 5,
-      "Ignore until month-end", "Backlog.", -5,
-      "Offset arbitrarily", "Non-compliant.", -5
-    )),
-    q("Accounting", "What cadence of updates helps?", buildChoices(
-      "Daily incident cost/variance summaries", "Keeps alignment.", 10,
-      "Weekly only", "Slow.", 5,
-      "None", "Opaque.", -5,
-      "Raw dumps", "Noisy.", -5
-    )),
+    // Accounting
+    q("Accounting", "It's day two and you've been processing transactions through manual workarounds: paper tickets, spreadsheets, and email authorizations. You estimate 3,400 transactions worth $8.7 million have been processed outside normal systems. Some entries have incomplete information. Systems may restore later today. How do you prepare for reconciliation?",
+      buildChoices(
+        "Halt new manual processing except for genuinely critical items. Assign a team to organize and digitize all manual records now, before systems restore, creating a structured reconciliation queue. Categorize by transaction type and completeness. Identify items with incomplete information and attempt to complete them while memories are fresh and source documents are available.",
+        "Halting manual processing limits the reconciliation scope; digitizing now prevents lost paperwork; categorization enables systematic processing; completing incomplete records now is easier than reconstructing later.",
+        10,
+        "Continue manual processing to maintain customer service and plan to reconcile everything comprehensively once systems restore, when you'll have full visibility into both manual and system records.",
+        "Continued processing adds to the backlog; post-restoration reconciliation seems logical but the volume and incomplete records will make it extremely difficult; some preparation now reduces post-restoration chaos.",
+        5,
+        "Stop taking any new transactions until systems restore to prevent the reconciliation problem from growing larger.",
+        "Transaction freeze limits growth but abandons customers still needing service; the 3,400 transactions already processed still need reconciliation regardless of whether you add more.",
+        -5,
+        "Wait for systems to restore and rely on the vendor's reconciliation tools to identify and resolve discrepancies automatically.",
+        "Vendor tools may help but they can't reconcile manual records they don't know about; reconciliation requires matching your manual records to their system records, which requires your preparation.",
+        -5
+      )),
+    q("Accounting", "Systems are restored but the reconciliation reveals a $47,000 discrepancy between your manual records and the restored core system. Despite significant effort, you can't identify the source. The month-end close is in 3 days. Your external auditors are asking about the outage's impact on financial statement reliability. How do you proceed?",
+      buildChoices(
+        "Book the $47,000 discrepancy to a suspense account with detailed documentation of reconciliation efforts undertaken. Continue investigation but don't let an unresolved variance block the close. Disclose the situation transparently to auditors including your control response and ongoing investigation. $47,000 is likely immaterial but the control implications matter.",
+        "Suspense accounting is appropriate for unresolved variances; documented efforts demonstrate diligence; close shouldn't be blocked by investigation; auditor transparency maintains relationship; distinguishing dollar materiality from control materiality is appropriate.",
+        10,
+        "Extend the close deadline to allow more time for reconciliation, since booking an unexplained variance is poor accounting practice.",
+        "Extended close seems thorough but unresolved variances happen; the question is whether you've done reasonable diligence, not whether you've achieved perfection; close extension has its own costs and may not produce resolution.",
+        5,
+        "Book the discrepancy as an incident-related expense and move on, since the amount is immaterial and extended investigation isn't worth the cost.",
+        "Expensing unreconciled amounts without investigation is improper; even immaterial amounts deserve reasonable effort to understand; auditors will question why you didn't try harder.",
+        -5,
+        "Split the discrepancy across multiple accounts to keep any single variance below investigation thresholds and avoid highlighting the reconciliation failure.",
+        "Splitting to avoid thresholds is manipulation that conceals problems rather than addressing them; this approach will generate audit findings when detected.",
+        -5
+      )),
+    q("Accounting", "The vendor is offering a 15% service credit on your monthly core processing fees for the next 12 months as compensation for the outage. This credit is worth approximately $180,000. Your CFO asks how to account for it. What's the appropriate treatment?",
+      buildChoices(
+        "Recognize the credits as a reduction of expense over the 12-month period as they're earned, matching the benefit to the periods in which the underlying services are received. Disclose the arrangement and total expected benefit. This treatment aligns with how the original services are expensed.",
+        "Period matching is appropriate accounting; recognizing credits as earned aligns with service consumption; disclosure provides transparency; this treatment is consistent with GAAP guidance on vendor consideration.",
+        10,
+        "Recognize the full $180,000 as income in the current period when the agreement is signed, since the obligation to provide credits is now established.",
+        "Current recognition seems to accelerate a known benefit but the credits are contingent on future service consumption; recognizing before earning overstates current period results.",
+        5,
+        "Net the credits against the incident costs already booked to show the true net financial impact in the period when the incident occurred.",
+        "Netting seems intuitive but the credits relate to future services, not past incident costs; netting mixes different periods and different transaction types.",
+        -5,
+        "Don't record the credits until actually received as bill credits, following a cash-basis approach for vendor considerations.",
+        "Cash basis isn't appropriate for accrual-basis entities; waiting for billing credits delays recognition of a known and measurable benefit.",
+        -5
+      )),
 
-    q("Deposits", "How to support branches during outage?", buildChoices(
-      "Talking points, alternatives, and queue mgmt", "Reduces friction.", 10,
-      "Ask customers to return later", "Weak.", 5,
-      "Promise normal service", "Risky.", -5,
-      "Share vendor tickets", "Risky.", -5
-    )),
-    q("Deposits", "What to communicate about debit authorizations?", buildChoices(
-      "Explain intermittent declines and alternatives; updates cadence", "Sets expectations.", 10,
-      "Say it's fine", "Often wrong.", 5,
-      "No comms", "Confusing.", -5,
-      "Exact time promises", "Risky.", -5
-    )),
-    q("Deposits", "How to process dispute volume?", buildChoices(
-      "Flag incident-related disputes and prioritize", "Traceable.", 10,
-      "Normal processing only", "Slow.", 5,
-      "Suspend handling", "Harmful.", -5,
-      "Share screenshots", "Risky.", -5
-    )),
+    // Deposits
+    q("Deposits", "Branch lobbies are filling with customers who can't use ATMs, can't use debit cards, and can't access online banking. Your tellers can do basic transactions using paper records and signature cards but can't verify balances or transaction history. Some customers are demanding to withdraw their entire balances but you can't confirm what those balances are. How do you handle large withdrawal requests?",
+      buildChoices(
+        "Establish a reasonable maximum for unverified withdrawals (perhaps $500-1,000) available to any customer with proper ID, explaining that larger withdrawals require balance verification that isn't currently possible. Offer to take contact information and call customers when systems restore if they need larger amounts urgently. Document all unverified transactions meticulously.",
+        "Reasonable maximum balances customer access with prudent risk management; explanation is honest about the limitation; callback offer shows commitment to service; documentation enables post-restoration reconciliation.",
+        10,
+        "Honor any withdrawal request where the customer can provide a recent statement showing sufficient balance, using the statement as verification.",
+        "Statement verification is creative but statements can be outdated or manipulated; this creates fraud opportunity for people with old statements from closed or low-balance accounts.",
+        5,
+        "Refuse all withdrawals until systems restore since you can't verify customer authority to access accounts without system validation.",
+        "Refusing all withdrawals during a multi-day outage is untenable; customers have legitimate needs and some access with controls is better than none; this approach will generate regulatory complaints.",
+        -5,
+        "Trust long-standing customers for larger withdrawals based on teller recognition and relationship history, while being more cautious with less familiar customers.",
+        "Relationship-based differential treatment seems reasonable but creates fair lending concerns if recognition correlates with protected characteristics; also creates fraud opportunity if fraudsters are 'recognized' by mistake.",
+        -5
+      )),
+    q("Deposits", "A business customer calls saying they're a restaurant and need to make their daily deposit of $12,000 in cash - they have no secure place to hold it overnight and their insurance doesn't cover cash on premises. Your vault systems are down so you can't process deposits normally. They're a 15-year customer. What do you offer?",
+      buildChoices(
+        "Accept the deposit using a manual receipt and secured physical storage in your vault. Document thoroughly with multiple witnesses and photos. Process the deposit to their account first thing when systems restore. The physical security of a bank vault is available even when systems aren't.",
+        "Manual receipt with documentation creates an appropriate record; vault physical security exists independent of systems; witness documentation protects both parties; prompt processing commitment maintains trust; 15-year customers deserve accommodation.",
+        10,
+        "Accept the deposit but explain it won't post to their account until systems restore, which could be several days, and they won't earn interest for that period.",
+        "Accepting is good but the delay and interest stipulation is unnecessarily punitive; posting delay is a system limitation but interest treatment is a choice; customer is solving a problem you created.",
+        5,
+        "Explain that you can't accept deposits during the outage and suggest they find a secure alternative like a night drop at another bank or a safe deposit box rental.",
+        "Alternative suggestions may be impractical at 6 PM with $12K cash; directing a 15-year customer to a competitor for a service you physically can provide damages the relationship; your vault works even if your systems don't.",
+        -5,
+        "Accept the deposit but require them to sign a hold-harmless agreement waiving any claims if the funds are lost or misposted during the manual process.",
+        "Hold-harmless requirement transfers risk to the customer for your system failure; legal protection shouldn't come at the cost of customer goodwill; your internal controls should manage the risk, not waivers.",
+        -5
+      )),
+    q("Deposits", "After systems restore, you discover that 23 customers were incorrectly charged overdraft fees during the outage due to timing issues with pending transactions. Total fees are $1,840. Your operations manager suggests reversing the fees proactively before customers complain. Your compliance officer is concerned that some of those overdrafts were legitimately incurred regardless of the outage. What do you do?",
+      buildChoices(
+        "Reverse all 23 fees proactively - the outage created conditions where customer behavior couldn't account for system timing, and distinguishing 'legitimate' from 'outage-caused' overdrafts isn't practically possible. The $1,840 is immaterial compared to customer goodwill. Document the decision rationale and communicate to affected customers.",
+        "Proactive reversal is the customer-right answer; trying to distinguish legitimate overdrafts is hair-splitting that creates inconsistency; immaterial cost supports simple resolution; documentation creates an auditable record; customer communication closes the loop.",
+        10,
+        "Review each overdraft individually to determine whether it was caused by outage timing or would have occurred anyway, reversing only those clearly outage-related.",
+        "Individual review seems fair but is resource-intensive and creates arbitrary distinctions; some cases will be ambiguous and different reviewers will decide differently; blanket reversal is cleaner.",
+        5,
+        "Wait for customers to complain and reverse fees for those who contact you, since many customers may not notice the small charges.",
+        "Complaint-based reversal saves money on customers who don't notice but isn't customer-centric; you know the charges may be unfair but are only fixing it if caught; this approach generates regulatory risk if discovered.",
+        -5,
+        "Retain the fees since overdraft disclosures make clear that fees apply regardless of circumstances, and the outage doesn't change the contractual terms.",
+        "Contractual argument is technically defensible but completely misses the customer relationship point; enforcing contract terms that result from your system failure is a bad look.",
+        -5
+      )),
   ]
 };
+
+
 
 /* ------------------------- SCENARIO: Regulatory Inquiry ------------------------- */
 const SCENARIO_REGULATORY_INQUIRY = {
