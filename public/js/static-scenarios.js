@@ -360,147 +360,345 @@ const SCENARIO_RANSOMWARE = {
 
 
 
+
 /* ------------------------- SCENARIO 2 ------------------------- */
 const SCENARIO_LIQUIDITY = {
   key: "liquidity-stress-event",
   title: "Liquidity Stress Triggered by Market News",
   description:
-    "Breaking market news triggers unusual withdrawal activity and increased customer inquiries about the bank’s strength. Leadership activates the Liquidity Playbook.",
+    "Breaking market news triggers unusual withdrawal activity and increased customer inquiries about the bank's strength. Leadership activates the Liquidity Playbook.",
   questions: [
-    q("CEO/SVPs", "What message should leadership provide publicly today?", buildChoices(
-      "Transparent statement about liquidity position and contingency funding, with update cadence", "Builds trust and reduces speculation.", 10,
-      "Short statement acknowledging market volatility", "Helpful but light on substance.", 5,
-      "No statement to avoid drawing attention", "Rumors can worsen; perceived evasiveness.", -5,
-      "Blame competitors for fearmongering", "Unprofessional and risky.", -5
-    )),
-    q("CEO/SVPs", "What is the near-term governance approach for decisions?", buildChoices(
-      "Daily (or twice daily) liquidity council with clear decision logs", "Keeps actions aligned and documented.", 10,
-      "Ad-hoc approvals by email", "Inconsistent and harder to track.", 5,
-      "Single-person decisions without documentation", "Risky and non-transparent.", -5,
-      "Defer decisions to next board meeting", "Too slow in a stress event.", -5
-    )),
-    q("CEO/SVPs", "Should you release liquidity metrics externally?", buildChoices(
-      "Share appropriate, accurate ranges with counsel/regulators aligned", "Balanced transparency.", 10,
-      "Share granular daily balances publicly", "May be misleading/risky.", 5,
-      "Share nothing at all", "May increase speculation.", -5,
-      "Post raw internal dashboards", "Confusing and risky.", -5
-    )),
+    // CEO/SVPs
+    q("CEO/SVPs", "It's 7:15 AM and you're seeing alarming social media posts: a regional bank in your state was closed by regulators last night, and Twitter threads are claiming 'community banks are next.' Your branch managers are already texting - customers are lined up before opening asking to withdraw funds. Your online banking shows a 340% spike in login attempts. Local TV news is setting up outside your main branch. What's your immediate action?",
+      buildChoices(
+        "Convene your crisis leadership team immediately for a 30-minute standup. Verify your actual liquidity position with Treasury. Draft a factual customer message emphasizing your bank's specific strength indicators (capital ratios, deposit insurance, no exposure to the failed bank's issues). Deploy to branches before opening with talking points. Designate a media spokesperson.",
+        "Crisis team convening provides coordinated response; Treasury verification ensures you're speaking from facts; specific strength indicators differentiate you from the failed bank; branch deployment before opening arms frontline staff; spokesperson designation prevents conflicting messages.",
+        10,
+        "Wait to see how the morning develops before making any statements - the social media panic might subside on its own.",
+        "Waiting cedes the narrative to speculation and social media; customers lined up and TV cameras present require immediate response; panic that might subside could also escalate rapidly.",
+        5,
+        "Immediately post on social media that your bank is strong and customers shouldn't worry - speed is essential in a crisis.",
+        "Speed without accuracy is dangerous; 'we're strong, don't worry' without specifics sounds like what every troubled bank says; uncoordinated rapid response may conflict with what branches are telling customers in person.",
+        -5,
+        "Focus entirely on the operational response - get more cash to branches and extend hours. The news cycle will move on.",
+        "Operational response is necessary but insufficient; customers need information, not just access to their money; ignoring the communication need allows the narrative to be controlled by speculation.",
+        -5
+      )),
+    q("CEO/SVPs", "By noon, you've handled the morning rush successfully - no customer was unable to access funds. However, withdrawal volume is 8x normal. Your Treasury team reports that if this pace continues for 3 days, you'll need to tap your contingency credit line with the FHLB. A board member calls asking if the bank is in trouble. A reporter is requesting an interview. Your regulator's examiner calls asking for a status update. How do you prioritize?",
+      buildChoices(
+        "All three communications are important and interconnected. Brief the board member first with facts (morning handled, liquidity adequate, contingency plans ready, monitoring situation). Return the regulator call promptly with the same factual update - they should hear from you, not news reports. For the reporter, provide a brief statement through your spokesperson - overcommunicating beats being seen as hiding.",
+        "Board member needs information to fulfill governance role; regulator communication maintains the relationship and prevents them from forming concerns based on external information; reporter statement provides your perspective rather than 'bank declined to comment.'",
+        10,
+        "Focus on the regulator call first since they have authority over your bank; the board member and reporter can wait.",
+        "Regulator is important but not so urgent it should delay a 5-minute board member briefing; making the board member wait when they're concerned creates governance tension; all three can be handled within an hour.",
+        5,
+        "Decline the reporter interview and focus on the board and regulator - media coverage will only amplify the concern.",
+        "Declining media requests when cameras are at your branch means the story runs without your input; 'bank declined to comment' sounds worse than a factual statement; you don't control whether coverage happens, only whether you participate.",
+        -5,
+        "Delegate all three communications to others so you can focus on managing the operational crisis.",
+        "Some delegation is appropriate but CEO/SVP voice is important for all three audiences during a crisis; board member calling the CEO expects to speak with the CEO; regulator and reporter may also expect senior leadership.",
+        -5
+      )),
+    q("CEO/SVPs", "It's Day 3. Withdrawal activity has slowed to 2x normal, which is sustainable. However, a community Facebook group is circulating a rumor that your bank is 'about to be sold to a big bank' and that's why people should move their money before accounts are frozen. The rumor is completely false - you have no sale discussions. Your marketing team wants to post a denial. Your lawyer advises saying nothing to avoid dignifying the rumor. What do you decide?",
+      buildChoices(
+        "Address it directly but strategically: post a clear, factual statement that no sale discussions exist and the bank remains committed to the community. Don't engage in back-and-forth with rumor sources. Have branch staff prepared to address the rumor if customers ask. The 'don't dignify it' advice works when rumors are contained - this one is driving behavior.",
+        "Direct address stops the rumor's spread; factual statement is defensible; not engaging in back-and-forth avoids amplification; branch preparation ensures consistent response; recognizing the rumor is driving behavior distinguishes this from ignorable noise.",
+        10,
+        "Post a detailed history of the bank's community commitment and all the reasons you'd never sell to a big bank.",
+        "Overly detailed response looks defensive and may amplify the rumor more than a simple denial; detailed 'we'd never sell' statements may also be remembered if circumstances ever change.",
+        5,
+        "Follow the lawyer's advice and say nothing - engaging with social media rumors is a losing game.",
+        "Legal caution is understandable but the rumor is causing real-world behavior (withdrawals); letting false information spread unchallenged when it's affecting your business is worse than the risk of engaging.",
+        -5,
+        "Threaten legal action against the people spreading the rumor to show you're serious about protecting your reputation.",
+        "Legal threats against community members on Facebook will backfire spectacularly; it will become the story instead of your bank's stability; this is how small crises become PR disasters.",
+        -5
+      )),
 
-    q("IT/Security", "What monitoring action is most important today?", buildChoices(
-      "Enhanced anomaly detection on online banking and large funds transfers", "High-risk fraud and outflow vectors.", 10,
-      "Disable all monitoring to reduce noise", "Risky and counterproductive.", -5,
-      "Only monitor branch activity", "Misses major channels.", -5,
-      "Share logs with third parties freely", "Security and privacy risk.", -5
-    )),
-    q("IT/Security", "What change management posture fits the situation?", buildChoices(
-      "Heightened change control with rollback plans for critical fixes", "Keeps stability while enabling response.", 10,
-      "Normal change control", "May be fine but lacks heightened caution.", 5,
-      "Freeze all changes for a week", "Overly rigid; can block needed fixes.", -5,
-      "Untracked hotfixes across environments", "Risky and non-compliant.", -5
-    )),
-    q("IT/Security", "Which security comms should go to staff today?", buildChoices(
-      "Targeted phishing alerts and MFA reinforcement", "Timely, specific guidance that reduces real incident risk.", 10,
-      "Brief security note with general reminders", "Provides baseline awareness but is easy to skim.", 5,
-      "Hold broad comms to avoid noise; rely on managers", "Reduces noise but misses critical risk reminders.", -5,
-      "Temporarily allow personal devices for expediency", "Improves access but expands the attack surface.", -5
-    )),
+    // IT/Security
+    q("IT/Security", "The 340% spike in online banking logins is creating performance issues. Page load times have tripled and some customers are getting timeout errors, which is fueling fears that the bank is 'locking people out of their accounts.' Your team can add server capacity, but it will take 4-6 hours. Alternatively, you could implement rate limiting that would slow down heavy users. What's your approach?",
+      buildChoices(
+        "Implement both: begin the capacity expansion immediately AND deploy intelligent rate limiting that slows automated/bot traffic while preserving normal customer access. Prioritize login and balance-check functions over less critical features. Communicate proactively that you're experiencing high volume and expanding capacity - don't let customers discover issues without explanation.",
+        "Both actions work faster together than either alone; intelligent rate limiting preserves legitimate access; prioritizing critical functions focuses resources; proactive communication prevents 'locked out' narrative.",
+        10,
+        "Focus only on adding capacity - rate limiting will make customers feel restricted at exactly the wrong time.",
+        "Capacity-only means 4-6 hours of degraded service during a crisis; intelligent rate limiting can distinguish between customers checking balances and bots hammering your systems; the goal is preserving access, not avoiding any controls.",
+        5,
+        "Implement aggressive rate limiting immediately to stabilize the system - customers can wait a few seconds for pages to load.",
+        "Aggressive rate limiting without distinguishing traffic types may block legitimate customers; 'customers can wait' during a bank run is dangerous thinking; this could worsen the situation.",
+        -5,
+        "The performance issues aren't severe enough to warrant emergency action - monitor and address during the normal change window tonight.",
+        "Waiting for normal change windows during a crisis that's being affected by system performance is inappropriate; timeout errors during a bank run create exactly the panic narrative you're trying to avoid.",
+        -5
+      )),
+    q("IT/Security", "Your security team notices that concurrent with the legitimate traffic spike, there's an uptick in credential stuffing attempts - attackers are apparently using the crisis as cover to try to break into accounts using stolen credentials from other breaches. Normally you'd implement additional authentication challenges, but your customer service lines are already overwhelmed. What do you do?",
+      buildChoices(
+        "Implement risk-based authentication that triggers additional verification only for genuinely suspicious patterns (new device + new location + rapid repeated attempts) rather than broad challenges. This catches the actual attacks while minimizing friction for legitimate customers who are already anxious. Brief your fraud team on the pattern.",
+        "Risk-based approach balances security and customer experience; targeting genuinely suspicious patterns catches attackers without burdening legitimate users; fraud team briefing ensures coordinated response.",
+        10,
+        "Implement additional authentication for all logins to ensure security - customers will understand given the circumstances.",
+        "Universal challenges during a crisis will drive more calls to overwhelmed service lines and may convince customers the bank is 'making it hard to get my money'; this adds friction when you need to reduce it.",
+        5,
+        "Disable the additional security measures temporarily to prioritize customer access - you can address fraud later.",
+        "Disabling security during a crisis when attackers are specifically targeting you is extremely risky; fraud losses during this period could be substantial; 'address fraud later' may mean significant losses.",
+        -5,
+        "Let the credential stuffing continue since your existing controls will catch most of it - focus resources on legitimate customer access.",
+        "Letting attacks continue when you've detected them is negligent; existing controls catch 'most' means some succeed; if accounts are compromised during the crisis, it adds a fraud incident to your liquidity incident.",
+        -5
+      )),
+    q("IT/Security", "Day 2: A local tech blogger posts that they ran a speed test on your mobile app and it's 'failing' - they've posted screenshots showing slow load times and error messages. The post is getting shared by the same Facebook groups spreading the sale rumor. Your app is actually performing normally now that you've added capacity. Do you engage?",
+      buildChoices(
+        "Respond factually and briefly: acknowledge the issues experienced on Day 1, explain that capacity was added, and note current performance is normal. Invite the blogger to re-test and offer to answer technical questions. Don't be defensive - they documented a real problem, even if it's now resolved.",
+        "Factual acknowledgment doesn't deny the real problem they captured; explaining the fix shows responsiveness; inviting re-test demonstrates confidence; not being defensive builds credibility.",
+        10,
+        "Ignore it - engaging with tech bloggers and Facebook groups isn't worth the time and may amplify the story.",
+        "Ignoring leaves their narrative as the only one; the connection to existing rumor groups means it's already amplified; a factual response from you is better than the story spreading unchallenged.",
+        5,
+        "Have your legal team send a demand that they take down the post since the information is now outdated and misleading.",
+        "Legal demands to take down factual (if outdated) information will backfire; the blogger will post about the legal threat and it becomes a bigger story; this is reputation damage disguised as reputation protection.",
+        -5,
+        "Post your own speed test results showing the app working perfectly to prove they were wrong.",
+        "Proving they were 'wrong' when they documented a real problem makes you look dishonest; the screenshots show what actually happened on Day 1; this isn't about winning an argument, it's about maintaining credibility.",
+        -5
+      )),
 
-    q("HR", "How should HR support branch staff handling anxious customers?", buildChoices(
-      "Provide talking points, de-escalation tips, and escalation paths", "Practical support.", 10,
-      "Ask managers to improvise", "Inconsistent and stressful.", 5,
-      "No HR support needed", "Unhelpful and risky.", -5,
-      "Share customer PII examples in training", "Privacy risk.", -5
-    )),
-    q("HR", "What guidance should HR give about overtime?", buildChoices(
-      "Pre-approved overtime with central tracking and wellness guidance", "Balances service and staff well-being.", 10,
-      "Unlimited overtime if needed", "Burnout and errors.", 5,
-      "Ban overtime entirely", "May worsen service levels.", -5,
-      "No guidance", "Chaos and inconsistency.", -5
-    )),
-    q("HR", "How should internal rumor control be handled?", buildChoices(
-      "Frequent factual updates; encourage reporting of misinformation", "Reduces confusion and fear.", 10,
-      "One update at week’s end", "Too infrequent.", 5,
-      "Silence until things calm down", "Rumors flourish.", -5,
-      "Allow managers to share all details", "Inconsistent and risky.", -5
-    )),
+    // HR
+    q("HR", "Your branch staff are exhausted and stressed. They've handled 5x normal customer volume for two days, many customers were upset or frightened, and several employees have reported being yelled at. One teller broke down crying during lunch break. A branch manager asks if they can close early today 'for employee wellbeing.' You're concerned about what early closure would signal during a liquidity event. How do you respond?",
+      buildChoices(
+        "Don't close early - the signal would be harmful. Instead, provide immediate support: send additional staff from back office to help, authorize overtime premiums, bring in food, and have an HR representative visit to provide support and recognize their efforts. Schedule a debrief session for after hours. The teller who broke down should be offered EAP resources and excused if needed without stigma.",
+        "Avoiding early closure prevents harmful signal; additional staff reduces burden on existing team; overtime premiums and food show appreciation tangibly; HR presence provides support; EAP referral helps the individual without forcing them to struggle through.",
+        10,
+        "Approve the early closure - employee wellbeing must come first, and customers can use ATMs and online banking.",
+        "Early closure during a liquidity event signals that something is wrong; 'customers can use other channels' when customers want face-to-face reassurance misses the point; wellbeing matters but there are ways to support it without closing.",
+        5,
+        "Tell the branch manager that everyone needs to push through - this is what they signed up for when they took bank jobs.",
+        "'Push through' without support is how you get turnover and breakdowns; 'what they signed up for' is dismissive of genuine stress; this response will damage morale further.",
+        -5,
+        "Replace the stressed staff with employees from other branches who haven't been dealing with the volume.",
+        "Removing staff who've been handling the situation may feel punitive to them; new staff won't know the customers or the context; rotation can help but wholesale replacement is disruptive.",
+        -5
+      )),
+    q("HR", "The next morning, three employees call in sick, including an experienced teller at your busiest branch. You suspect at least some of these are stress-related absences. Your operations manager wants to require documentation for any sick calls this week given the critical situation. You're concerned about the legal and morale implications. What's your guidance?",
+      buildChoices(
+        "Don't require additional documentation - it's legally risky and the message it sends during a crisis is 'we don't trust you.' Instead, have managers reach out supportively to check on the employees. Authorize temp staffing or reallocate from other functions if needed. Address the root cause (stress) rather than policing the symptom (absences).",
+        "Documentation requirements during crisis are legally and morally problematic; supportive outreach shows care while gathering information; temp staffing addresses the operational need; root cause focus is correct approach.",
+        10,
+        "Implement the documentation requirement for this week only, given the extraordinary circumstances, and communicate the reason clearly.",
+        "Even time-limited documentation requirements during a crisis send the wrong message; 'extraordinary circumstances' sounds like threatening employees during their hardest week; this may increase stress-related absences.",
+        5,
+        "Mark the absences as unexcused and have managers counsel employees when they return about commitment during difficult times.",
+        "Punitive treatment of stress-related absences will spread through your workforce instantly; 'commitment counseling' after employees struggled through a crisis is toxic; this creates long-term retention problems.",
+        -5,
+        "Call the absent employees at home to verify they're actually sick before approving the sick time.",
+        "Calling employees at home to verify sickness is invasive, potentially illegal depending on jurisdiction, and signals profound distrust; this will damage your culture far beyond the current crisis.",
+        -5
+      )),
+    q("HR", "A week later, things have stabilized. Your marketing team wants to recognize the 'heroes' who worked through the crisis with a social media campaign featuring employee photos and quotes. Your HR manager is concerned that employees who called in sick or struggled might feel excluded or shamed. How do you approach recognition?",
+      buildChoices(
+        "Recognize the team's effort broadly rather than highlighting individuals as heroes. Internal recognition (team lunch, CEO thank-you, small bonuses) is more appropriate than external social media featuring specific employees. Thank everyone who contributed, acknowledging it was difficult for all. External 'hero' campaigns can create internal resentment.",
+        "Team recognition is inclusive; internal recognition avoids the problems of external campaigns; acknowledging difficulty validates everyone's experience; avoiding hero narratives prevents creating implicit villains.",
+        10,
+        "Proceed with the social media campaign featuring employees who want to participate - it's good for morale and marketing.",
+        "Voluntary participation still creates visible in-group/out-group; employees who struggled may feel coerced to participate or shamed for not being featured; mixing employee recognition with marketing has risks.",
+        5,
+        "Skip recognition entirely - everyone was just doing their jobs and special recognition sets unrealistic expectations for the next crisis.",
+        "No recognition after an extremely difficult period is demoralizing; 'just doing their jobs' dismisses genuine above-and-beyond effort; this approach damages engagement.",
+        -5,
+        "Use the recognition to subtly message that the employees who called in sick during the crisis let their teammates down.",
+        "Using recognition to shame absent employees is toxic; this guarantees turnover and creates a culture of fear; employees will remember this messaging forever.",
+        -5
+      )),
 
-    q("Finance", "What liquidity action should be considered today?", buildChoices(
-      "Increase on-balance sheet liquidity and test contingency lines", "Prudent positioning.", 10,
-      "Wait and see for a few days", "May be acceptable but risky.", 5,
-      "Sell assets immediately at deep discounts", "Value destruction.", -5,
-      "Ignore metrics until month-end", "Dangerous.", -5
-    )),
-    q("Finance", "How should pricing be decided?", buildChoices(
-      "Small, targeted pricing adjustments with defined review intervals", "Balances stability and competitiveness.", 10,
-      "Large, reactive price swings daily", "Confusing and risky.", 5,
-      "No changes regardless of conditions", "May lose deposits.", -5,
-      "Let each branch manager change rates", "Inconsistent and risky.", -5
-    )),
-    q("Finance", "How should vendor dependencies be tracked?", buildChoices(
-      "Review critical vendor status and SLAs daily", "Supports stability and planning.", 10,
-      "Assume vendors are fine", "Risky.", 5,
-      "Blame vendors publicly", "Counterproductive.", -5,
-      "Share vendor incident tickets externally", "Confidentiality risk.", -5
-    )),
+    // Finance
+    q("Finance", "Your Treasury team reports that you've drawn down $8 million in cash reserves over two days to meet withdrawal demand. Your total liquidity buffer is $45 million, so you're not in danger, but the burn rate is concerning. You have an untested $20 million line with the FHLB. Your CFO wants to draw $10 million from the FHLB line preemptively. The rate is 75bps higher than your cost of funds. What's your recommendation?",
+      buildChoices(
+        "Draw the $10 million now. The carrying cost (roughly $75K annually if you hold it a year) is insurance against uncertainty. More importantly, it tests your contingency funding source - you'd rather discover any operational issues with the FHLB draw now than when you desperately need it. The rate differential is worth the peace of mind and proven access.",
+        "Drawing now provides liquidity buffer and tests the process; carrying cost is reasonable insurance premium; discovering operational issues proactively is valuable; proven access gives confidence for further draws if needed.",
+        10,
+        "Wait until you've used another $10 million in reserves before drawing on the FHLB line - you have buffer remaining.",
+        "Waiting until you're deeper into reserves to test contingency funding is backward; if the FHLB draw has issues, you want to discover them with $35M remaining, not $25M; proactive positioning is better than reactive.",
+        5,
+        "Draw the full $20 million to maximize your liquidity buffer during the uncertainty.",
+        "Full draw may be excessive and expensive; it may also signal to the FHLB that you're more concerned than you are; measured draw is more appropriate than maximum draw.",
+        -5,
+        "Avoid using the FHLB line since it will show up in your financials and might cause concern if anyone notices.",
+        "Avoiding contingency funding to manage appearances is exactly backward; contingency lines exist to be used; not using available funding during a stress event to avoid disclosure is poor risk management.",
+        -5
+      )),
+    q("Finance", "Day 4: The immediate crisis has passed but your deposit base is down $12 million from the previous week (about 2.5% of total deposits). Your marketing team proposes a 'welcome back' CD special at 50bps above market to recapture departed deposits. Your CFO is concerned about the rate impact on margin. How do you evaluate this?",
+      buildChoices(
+        "Analyze the deposits that left: were they rate-sensitive jumbo CDs or stable core checking accounts? If stable accounts left, a CD special won't bring them back - they left for confidence reasons, not rate reasons. Focus on customer outreach and confidence-building rather than rate competition. If rate-sensitive money left, let it go - it would have left eventually anyway.",
+        "Deposit analysis determines the right response; rate specials don't address confidence departures; customer outreach addresses actual concerns; recognizing rate-sensitive money isn't worth chasing protects margin.",
+        10,
+        "Launch the CD special immediately to show the market you're competing for deposits and the crisis is over.",
+        "CD special as a signal is expensive signaling; competing for deposits through rate when the issue was confidence is ineffective; 'crisis is over' messaging through a rate special is mixed at best.",
+        5,
+        "Don't try to recapture any deposits - let the situation stabilize naturally over time.",
+        "Complete passivity may be appropriate for rate-sensitive departures but ignores customers who left due to fear and might return with outreach; some proactive effort is warranted.",
+        -5,
+        "Match the highest CD rate in the market to ensure you're the most attractive option for returning depositors.",
+        "Rate matching race to recapture confidence-driven departures is expensive and ineffective; if customers left because they were scared, the highest rate in the market won't bring them back; this destroys margin.",
+        -5
+      )),
+    q("Finance", "Your board requests a post-incident analysis of your liquidity stress performance. As you prepare the report, you realize that your Contingency Funding Plan assumed a maximum daily outflow of 3% of deposits - you experienced 5% on Day 1. Your triggers for activating the liquidity playbook were technically met but the thresholds felt too high. What do you recommend to the board?",
+      buildChoices(
+        "Present an honest assessment: the CFP's assumptions were too conservative for a social media-accelerated bank run scenario. Recommend recalibrating outflow assumptions based on this experience, lowering activation triggers to enable earlier response, and adding social media monitoring as an early warning indicator. The plan worked but revealed improvement opportunities.",
+        "Honest assessment builds credibility; recalibration based on real experience is appropriate; earlier triggers enable faster response; social media monitoring addresses the specific acceleration factor.",
+        10,
+        "Report that the CFP performed well - you managed the event successfully, which proves the plan was adequate.",
+        "Successful outcome doesn't mean the plan was optimal; assumptions were exceeded, which is worth examining; 'it worked' framing avoids useful analysis of what could be improved.",
+        5,
+        "Blame the inaccurate assumptions on the original plan authors and recommend a complete CFP overhaul.",
+        "Blame assignment isn't constructive; complete overhaul implies the plan failed when it actually worked; this framing doesn't help the board understand what happened or what to improve.",
+        -5,
+        "Minimize the assumption misses in your report - highlighting them might make the board lose confidence in your planning.",
+        "Minimizing findings to manage board perception is poor governance; board needs accurate information to oversee risk; if the CFO is managing information to protect their reputation, that's a problem.",
+        -5
+      )),
 
-    q("Loans", "How should loan pipeline communications be handled?", buildChoices(
-      "Set expectations with borrowers; provide clear timelines and contacts", "Improves trust and reduces churn.", 10,
-      "Generic updates only", "Less helpful.", 5,
-      "No updates to avoid alarm", "Confusing and harmful.", -5,
-      "Promise aggressive timelines without certainty", "Backfires.", -5
-    )),
-    q("Loans", "What exception handling makes sense today?", buildChoices(
-      "Structured exceptions with approvals and documentation", "Keeps control while serving needs.", 10,
-      "Ad-hoc exceptions via email", "Inconsistent.", 5,
-      "No exceptions allowed", "Rigid.", -5,
-      "Unlimited exceptions by team leads", "Risky.", -5
-    )),
-    q("Loans", "How should collateral reviews proceed?", buildChoices(
-      "Continue critical reviews; document delays and mitigation", "Balanced approach.", 10,
-      "Pause all reviews", "Too blunt.", 5,
-      "Accept informal valuations", "Risky.", -5,
-      "Skip reviews for small loans", "Non-compliant.", -5
-    )),
+    // Loans
+    q("Loans", "During the liquidity stress, you had to slow loan origination to preserve cash. Now that things have stabilized, you have a $3.2 million commercial loan that was ready to close last week - the borrower is frustrated by the delay. Your loan officer says the borrower is threatening to go to a competitor. You've verified the loan is fully approved and creditworthy. How do you proceed?",
+      buildChoices(
+        "Close the loan promptly - you delayed for legitimate liquidity reasons, not credit concerns, and those reasons have passed. Have your loan officer call the borrower personally to apologize for the delay, explain (generally) that the bank was managing through unusual conditions, and confirm you're ready to close. A small relationship gesture (waiving a minor fee) may help.",
+        "Prompt closing is appropriate now that conditions allow; personal outreach addresses relationship damage; general explanation provides context without oversharing; relationship gesture acknowledges the inconvenience.",
+        10,
+        "Hold off another week to ensure the liquidity situation is truly stable before committing $3.2 million.",
+        "Another week's delay after telling the borrower you're ready will likely lose the relationship; if you're confident the crisis has passed, continued delay is excessive caution; you need to resume normal business.",
+        5,
+        "Let the borrower go to a competitor if they're that impatient - you don't want borrowers who don't understand that banks face occasional constraints.",
+        "Losing a creditworthy $3.2M relationship because the borrower was frustrated by crisis-driven delays is poor customer management; 'don't want impatient borrowers' is rationalizing relationship loss.",
+        -5,
+        "Offer to reduce the loan rate significantly to compensate the borrower for the delay and ensure they don't leave.",
+        "Significant rate reduction for a delay you've already explained punishes you for prudent liquidity management; this sets a precedent that delays equal price concessions; a minor gesture is different from a material rate cut.",
+        -5
+      )),
+    q("Loans", "Your mortgage pipeline has 47 loans in process that were delayed by the liquidity event. Rate locks are expiring on 12 of them, and borrowers are asking whether the bank will honor the original rates or require re-locks at current (higher) rates. Your secondary market team notes that honoring expired locks will cost approximately $85,000 in hedge losses. What's your policy?",
+      buildChoices(
+        "Honor the original rates for locks that expired solely due to your delay - you caused the expiration, not the borrowers. Communicate this policy proactively to all affected borrowers before they ask. The $85K cost is a reasonable price for maintaining your reputation and avoiding 12 potential complaints or lost customers. Document the decision clearly for audit purposes.",
+        "Honoring bank-caused expirations is fair; proactive communication builds trust; $85K cost is justified by reputation and relationship value; documentation protects against future questions.",
+        10,
+        "Honor locks only for borrowers who specifically complain - those who don't ask will accept the re-lock rate.",
+        "Inconsistent treatment based on who complains is unfair and risky; borrowers talk to each other and to real estate agents; when word spreads that some got honored rates and others didn't, you'll face bigger problems.",
+        5,
+        "Require all borrowers to re-lock at current rates - the delays were due to force majeure and you shouldn't bear the cost of market movements.",
+        "Force majeure framing for a self-created liquidity stress is weak; borrowers met their obligations and your delay caused the lock expirations; requiring them to bear market risk you created damages relationships and reputation.",
+        -5,
+        "Split the difference - offer to share the rate increase 50/50 with borrowers as a compromise.",
+        "Splitting costs for your own delay isn't really fair to borrowers; it's mathematically convenient but philosophically wrong; if you caused the problem, you should bear the cost.",
+        -5
+      )),
+    q("Loans", "A commercial borrower who drew their entire $500,000 line of credit during the liquidity stress (to 'make sure they had access') now wants to pay it back. They've been a good customer for 8 years and have never previously drawn the line. They clearly panicked along with everyone else. Should you charge the interest for the period they held the funds?",
+      buildChoices(
+        "Charge the interest - they borrowed money, and borrowing money costs interest. However, use this as a relationship touchpoint: have their relationship manager call to discuss what drove the draw, reassure them about the bank's stability, and thank them for their long relationship. Don't punish, but don't give away interest income either.",
+        "Charging interest is appropriate for actual borrowing; relationship touchpoint addresses the underlying concern; not punishing shows understanding while maintaining normal business terms.",
+        10,
+        "Waive the interest as a gesture of goodwill - they've been a good customer and the draw was driven by your bank's situation, not their need.",
+        "Waiving interest for panic draws sets a problematic precedent; the bank's situation was real but managed appropriately; waiving costs for customers who panicked penalizes those who stayed calm.",
+        5,
+        "Charge a penalty rate for the panic draw to discourage this behavior in future stress events.",
+        "Penalty for a customer scared by a real (if overblown) concern about your bank is counterproductive; this guarantees losing an 8-year relationship and becoming a negative word-of-mouth story.",
+        -5,
+        "Reduce their line of credit availability since they demonstrated they'll draw opportunistically during stress.",
+        "Reducing a line for a customer who used it as intended (credit availability during uncertainty) punishes them for your product working as designed; this damages an 8-year relationship over one understandable action.",
+        -5
+      )),
 
-    q("Accounting", "How should daily reconciliation be managed?", buildChoices(
-      "Tight variance tracking and exception logs", "Maintains control.", 10,
-      "Weekly-only recon", "Too slow.", 5,
-      "Suspend recon until calm", "Risky.", -5,
-      "Local ad-hoc methods", "Inconsistent.", -5
-    )),
-    q("Accounting", "How should credits/fees be tracked?", buildChoices(
-      "Separate tracking with rationale and incident tag", "Good audit trail.", 10,
-      "Bulk adjustments later", "Opaque.", 5,
-      "Ignore until later", "Backlog.", -5,
-      "Mix into unrelated accounts", "Non-compliant.", -5
-    )),
-    q("Accounting", "What reporting cadence should accounting adopt?", buildChoices(
-      "Daily incident metrics to leadership", "Keeps alignment.", 10,
-      "Twice weekly updates", "Slower.", 5,
-      "Weekly update only", "Too slow.", -5,
-      "No updates", "Lack of visibility.", -5
-    )),
+    // Accounting
+    q("Accounting", "During the three-day liquidity stress, your staff made numerous account adjustments - waiving fees for customers who complained, reversing ATM charges, crediting service fees as goodwill gestures. The volume was so high that normal documentation was abbreviated. Now your controller is concerned about the audit trail. You estimate approximately $23,000 in fee waivers and credits were granted. How do you address this?",
+      buildChoices(
+        "Conduct a post-incident reconciliation: identify all fee waivers and credits from the period, document the reason for each (crisis-related customer accommodation), and create a summary memo explaining the circumstances and total amount. The $23K is a reasonable crisis-response cost, but it needs proper documentation even if created after the fact.",
+        "Post-incident reconciliation creates the needed documentation; individual identification enables proper accounting; summary memo provides context; acknowledging reasonable cost frames appropriately.",
+        10,
+        "The amounts are immaterial and proper documentation during a crisis is unrealistic - note it in a memo and move on.",
+        "Materiality doesn't eliminate documentation requirements; 'unrealistic during crisis' is understandable but the documentation can be created now; a memo without reconciliation doesn't provide adequate trail.",
+        5,
+        "Reverse all the fee waivers and credits that weren't properly documented - staff need to learn that shortcuts aren't acceptable.",
+        "Reversing customer accommodations after the crisis is over is terrible customer relations; 'teaching staff a lesson' at customers' expense is wrong; the issue is documentation, not the decision to waive fees.",
+        -5,
+        "Don't create documentation after the fact - that could look like fabricating records. Just note that crisis conditions prevented normal procedures.",
+        "Creating documentation after events isn't fabrication if it accurately reflects what happened; 'crisis conditions prevented normal procedures' without reconciliation leaves the gap; reconstructing records from system data is appropriate.",
+        -5
+      )),
+    q("Accounting", "Your insurance coverage includes 'bank operations disruption' coverage that might apply to some of the liquidity event costs (overtime, temporary staff, expedited cash delivery). The claim would be approximately $45,000 but requires demonstrating that the event constituted a covered 'disruption.' Your CFO wants to file the claim. Your operations team is hesitant because it might raise questions about whether the bank experienced an actual crisis. What's your recommendation?",
+      buildChoices(
+        "File the claim - you purchased the insurance for situations like this and $45K is material. The coverage question is for the insurer to determine. Document your costs thoroughly. If the claim is approved, you recover costs you legitimately incurred. If denied, you've lost nothing but time. Your hesitancy about acknowledging a 'crisis' shouldn't override recovering covered costs.",
+        "Filing is appropriate since you purchased coverage for this purpose; insurer makes coverage determination; thorough documentation supports the claim; recognizing the hesitancy but proceeding anyway is correct prioritization.",
+        10,
+        "File the claim but characterize the event as a minor operational disruption rather than a liquidity crisis to maximize approval chances.",
+        "Characterizing the claim inconsistently with what actually happened is problematic; if the insurer investigates and finds your public statements about 'managing well' don't match a claim for crisis coverage, credibility suffers.",
+        5,
+        "Don't file the claim because the $45K isn't worth the questions it might raise with your board, regulators, or customers.",
+        "Not recovering $45K in legitimate costs because you're worried about acknowledging you had extra costs is overly cautious; you've already publicly managed the event, and insurance recovery is normal business.",
+        -5,
+        "File the claim with maximum possible costs including items you're not sure were actually related to the event.",
+        "Inflating a claim with uncertain items is inappropriate and potentially fraudulent; insurance claims should reflect actual, documented costs; this creates legal and regulatory risk far exceeding $45K.",
+        -5
+      )),
+    q("Accounting", "During quarterly close, your external auditors ask about the liquidity event and whether it should be disclosed in financial statement notes or MD&A. The event lasted 3 days, you remained well above regulatory minimums throughout, and deposits have substantially recovered. The auditors note that some peer banks have disclosed similar events while others haven't. What's your position?",
+      buildChoices(
+        "Disclose in MD&A: a brief factual description of the event, how it was managed, and current status. Skip the financial statement notes since there was no material financial impact. Disclosure provides transparency without overstating significance. The fact that peers have disclosed similar events suggests this is becoming expected practice.",
+        "MD&A disclosure is appropriate for a significant event even without material financial impact; financial statement notes aren't warranted without material impact; peer disclosure trends support inclusion; brief factual description avoids both under and over-disclosure.",
+        10,
+        "Defer to the auditors' recommendation - they understand disclosure requirements better than we do.",
+        "Auditors advise but management decides disclosure; deferring entirely abdicates management responsibility; you should form your own view and discuss it with auditors, not just accept whatever they suggest.",
+        5,
+        "Avoid any disclosure since the event had no material financial impact and disclosure might alarm investors.",
+        "Avoiding disclosure of a significant operational event to prevent investor concern prioritizes message management over transparency; if investors later learn of an undisclosed liquidity event, trust is damaged.",
+        -5,
+        "Provide extensive disclosure including detailed day-by-day metrics to demonstrate how well the bank handled the situation.",
+        "Extensive day-by-day disclosure goes beyond what's needed and may suggest the event was more significant than it was; appropriate disclosure is factual and proportionate, not a detailed defense.",
+        -5
+      )),
 
-    q("Deposits", "What branch guidance helps most today?", buildChoices(
-      "Clear talking points, escalation paths, and alternatives", "Supports service.", 10,
-      "Ask customers to wait", "Weak.", 5,
-      "Downplay concerns", "Trust risk.", -5,
-      "Share internal dashboards", "Confusing/risky.", -5
-    )),
-    q("Deposits", "How to handle ACH impact?", buildChoices(
-      "Communicate delays with options and timeframes", "Sets expectations.", 10,
-      "Tell customers to retry later", "Vague.", 5,
-      "Promise exact restore times", "Risky.", -5,
-      "Use insecure channels for details", "Risky.", -5
-    )),
-    q("Deposits", "How to process dispute volume spikes?", buildChoices(
-      "Flag incident-related cases and prioritize", "Efficient and traceable.", 10,
-      "Treat as normal", "Hard to analyze later.", 5,
-      "Suspend dispute handling", "Harmful.", -5,
-      "Share screenshots with customers", "Risky.", -5
-    )),
+    // Deposits
+    q("Deposits", "It's 9:15 AM on Day 1. A customer in your main branch lobby is loudly telling other waiting customers that they saw on the news this bank is 'in trouble' and everyone should get their money out. Several customers look alarmed. Your branch manager asks how to handle this. What's your guidance?",
+      buildChoices(
+        "The branch manager should approach the customer calmly and privately, acknowledge their concern, offer to discuss it one-on-one, and provide factual information about the bank's condition. Don't argue publicly or try to silence them. If they continue to disrupt, calmly note that you're happy to serve all customers but the lobby isn't the place for speculation. Have another staff member attend to the alarmed customers with reassurance.",
+        "Calm private approach de-escalates without public confrontation; acknowledging concern validates feelings; factual information addresses the actual worry; not arguing publicly avoids making it a scene; attending to other customers prevents fear spreading.",
+        10,
+        "Ask the customer to leave if they're going to spread rumors - you can't allow that behavior in your branch.",
+        "Asking them to leave will be seen by other customers and look like you're suppressing information; it may also escalate the situation; the customer has a right to their opinion even if it's wrong.",
+        5,
+        "Make an announcement to the lobby explaining that the bank is financially sound and there's no reason for concern.",
+        "Public announcement in response to one customer's comments may amplify rather than diminish the concern; it makes the issue bigger than one person's comments; handle individually rather than broadcasting.",
+        -5,
+        "Ignore the customer and trust that other customers will recognize unfounded rumors - engaging will only give them attention.",
+        "Ignoring while other customers are visibly alarmed lets fear spread unchallenged; the branch manager's silence may be interpreted as confirmation; some response is necessary.",
+        -5
+      )),
+    q("Deposits", "By mid-afternoon on Day 1, your branches have paid out significantly more cash than normal. One branch is running low and needs a cash delivery. Your normal armored carrier can deliver tomorrow morning. You can arrange an emergency same-day delivery for $2,500, or you could transfer cash from another branch using your own staff (against your normal security procedures). What do you decide?",
+      buildChoices(
+        "Pay the $2,500 for same-day delivery. A branch running out of cash during a liquidity scare - even for an hour - would be catastrophic for confidence. Don't compromise your security procedures for internal transfer. The $2,500 is excellent insurance against a 'bank ran out of money' story that could trend on social media within minutes.",
+        "$2,500 is cheap insurance against confidence catastrophe; maintaining security procedures is important; recognizing the social media speed of potential damage justifies the cost.",
+        10,
+        "Use the normal carrier tomorrow morning - running slightly low isn't the same as running out, and $2,500 is expensive for a few hours of cushion.",
+        "Slightly low during a bank run is dangerous - you don't know what the afternoon will bring; $2,500 against the reputational cost of running out is trivial; this is false economy.",
+        5,
+        "Transfer cash from another branch using your staff - the security procedures are guidelines, not laws, and this is an emergency.",
+        "Security procedures exist for good reasons; staff cash transfers create liability exposure; if something goes wrong during the transfer, you've added a security incident to your liquidity incident.",
+        -5,
+        "Close the low-cash branch early to prevent running out, explaining that you're doing so for 'operational reasons.'",
+        "Closing a branch during a bank run for any stated reason will be interpreted as 'they ran out of money'; this is the worst possible outcome; pay for the delivery.",
+        -5
+      )),
+    q("Deposits", "Post-crisis, you're analyzing what happened. You discover that 40% of the elevated withdrawals came from customers who had been with the bank less than 2 years, and specifically those who opened accounts through your online channel (no branch relationship). Longer-tenured customers and those with branch relationships were significantly calmer. What strategic insight do you draw?",
+      buildChoices(
+        "Digital-only customer relationships are more fragile during stress events - they lack the personal connection and trust that branch relationships provide. This doesn't mean you should abandon digital acquisition, but you should invest in relationship-building touches for digital customers (personal outreach, video calls, branch invitations) to build loyalty that survives stress events.",
+        "Recognizing the relationship fragility insight is valuable; not abandoning digital is realistic; relationship-building for digital customers addresses the gap; loyalty that survives stress is the goal.",
+        10,
+        "Focus future marketing on branch-based customers since they're more loyal - digital customers aren't worth the volatility.",
+        "Abandoning digital acquisition because of stress-event behavior ignores that digital is the industry's future; the insight is about relationship investment, not channel abandonment.",
+        5,
+        "Implement higher balance requirements for digital-only accounts to ensure only committed customers open them.",
+        "Balance requirements don't create loyalty, relationships do; this is a barrier to growth that doesn't address the actual issue; many loyal customers started with small balances.",
+        -5,
+        "The analysis just shows that newer customers are less loyal, which is obvious - there's no meaningful strategic insight here.",
+        "Dismissing the digital-relationship correlation as 'obvious' misses the actionable insight; tenure and channel are different factors; the finding that channel matters independently is useful.",
+        -5
+      )),
   ]
 };
+
 
 /* ------------------------- SCENARIO 3 ------------------------- */
 const SCENARIO_BEC_WIRE = {
