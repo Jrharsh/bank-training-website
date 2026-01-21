@@ -649,142 +649,339 @@ const SCENARIO_REG_EXAM = {
   key: "regulatory-exam-announced",
   title: "Regulatory Exam Announced with Short Notice",
   description:
-    "A regulatory agency announces an exam with short notice. Preparation efforts must be coordinated across departments under tight timelines.",
+    "It's Friday at 4:30 PM when you receive a call from your primary regulator: a full-scope safety and soundness examination will begin Monday at 8:00 AM. The exam team of 6 examiners will be on-site for 3 weeks. The Examiner-in-Charge mentions they'll be focusing on credit quality, BSA/AML compliance, IT controls, and liquidity management. Your last exam was 18 months ago with some findings that were due for validation. Your BSA Officer resigned 6 weeks ago and the position is still vacant. Several policy documents haven't been updated since the last exam. Key managers have PTO scheduled for next week, and your annual audit is also scheduled to begin in 2 weeks.",
   questions: [
-    q("CEO/SVPs", "What is the first leadership action?", buildChoices(
-      "Establish exam prep command with owners and timeline", "Creates structure and clarity.", 10,
-      "Email managers to start gathering docs", "Less structured.", 5,
-      "Wait for more details", "Delays prep.", -5,
-      "Assign to a single manager informally", "Too narrow.", -5
-    )),
-    q("CEO/SVPs", "Should a communication go to the board?", buildChoices(
-      "Yes: concise status, risks, and plan with cadence", "Keeps governance aligned.", 10,
-      "Only at week’s end", "Slow.", 5,
-      "No board comms", "Opaque.", -5,
-      "Share raw internal notes", "Messy.", -5
-    )),
-    q("CEO/SVPs", "How to handle scope questions from regulators?", buildChoices(
-      "Central point to triage and ensure consistent answers", "Prevents confusion.", 10,
-      "Let managers answer directly", "Inconsistent.", 5,
-      "Delay responses for days", "Frustrating.", -5,
-      "Share preliminary drafts externally", "Risky.", -5
-    )),
+    // CEO/SVPs
+    q("CEO/SVPs", "It's now 5:00 PM Friday. You have the weekend to prepare for examiners arriving Monday. Your BSA Officer position is vacant and BSA/AML is a stated exam focus. Your Chief Credit Officer is on vacation until Wednesday. Several senior managers have flights booked for Monday. What's your immediate prioritization?",
+      buildChoices(
+        "Immediately designate an acting BSA Officer from qualified staff for the exam duration. Contact the CCO to brief them and determine if they can return early - don't mandate, but explain the situation. Ask managers with Monday travel to delay if possible but don't cancel family commitments. Convene available leadership Saturday morning to establish exam command structure.",
+        "Acting BSA designation addresses the most visible gap; CCO contact respects their time while communicating urgency; manager request balances exam needs with employee wellbeing; Saturday meeting uses available time without requiring Friday night chaos.",
+        10,
+        "Send an all-hands email requiring everyone to cancel PTO and be on-site Monday, given the importance of the exam.",
+        "Mandatory PTO cancellation may be legally problematic, damages morale, and signals panic; some staff may have non-refundable travel or family obligations that make compliance impossible.",
+        5,
+        "Focus the weekend on document preparation and worry about staffing gaps when examiners actually ask questions that reveal the gaps.",
+        "Document prep is important but visible gaps like vacant BSA Officer will be noticed immediately; reactive approach to staffing suggests poor preparation and lack of control.",
+        -5,
+        "Call the Examiner-in-Charge back and request a 2-week delay to allow proper preparation given the short notice.",
+        "Delay requests are rarely granted and signal to regulators that you're not examination-ready; the short notice may itself be a message about regulatory concerns; better to demonstrate preparedness.",
+        -5
+      )),
+    q("CEO/SVPs", "Saturday morning, your board chair calls asking why they weren't notified Friday evening about the examination. They learned about it from another board member who heard from a bank employee. The board chair is upset about the communication breakdown and wants to know the plan. How do you handle this?",
+      buildChoices(
+        "Apologize sincerely for the communication gap - you should have contacted the board chair Friday evening regardless of the hour. Provide a concise briefing on scope, known focus areas, key risks (BSA vacancy, stale policies), and your preparation plan. Commit to daily updates during the exam and ask what level of information they want.",
+        "Sincere apology acknowledges the legitimate concern without making excuses; comprehensive briefing demonstrates you have a handle on the situation; asking their preference respects the governance relationship.",
+        10,
+        "Explain that you were focused on preparation activities Friday evening and planned to brief the board on Monday before examiners arrived.",
+        "Explanation sounds like excuse-making; board should know before examiners arrive, not the same morning; Friday evening call was appropriate regardless of how busy you were.",
+        5,
+        "Point out that the board member who shared the information violated confidentiality expectations about exam notifications.",
+        "Deflecting to the leak rather than addressing the communication gap appears defensive; the board chair's concern about not being told is legitimate regardless of how they learned.",
+        -5,
+        "Suggest that regulatory exams are operational matters and board involvement should wait until there are actual findings to discuss.",
+        "Governance framing is incorrect; boards should be informed promptly of regulatory examinations; suggesting they wait for findings signals you might try to manage information.",
+        -5
+      )),
+    q("CEO/SVPs", "On Day 2 of the exam, the Examiner-in-Charge requests a private meeting with you. She expresses concern that several document requests haven't been fulfilled, staff seem unprepared for interviews, and the acting BSA Officer couldn't answer basic questions about transaction monitoring. She asks whether the bank is taking the examination seriously. How do you respond?",
+      buildChoices(
+        "Acknowledge the concerns directly without making excuses. Explain the specific challenges (BSA vacancy, short notice) while taking ownership of the preparation gaps. Commit to specific remediation: document fulfillment timeline, better interview preparation, and bringing in BSA expertise. Ask what would demonstrate appropriate seriousness going forward.",
+        "Direct acknowledgment shows you're listening; explaining challenges provides context without excuse-making; specific commitments demonstrate action orientation; asking for guidance shows partnership rather than defensiveness.",
+        10,
+        "Explain that the short notice made adequate preparation impossible and that the bank shouldn't be judged based on Day 2 performance.",
+        "Short notice explanation may have merit but sounds like excuse-making to regulators; asking not to be judged suggests you expect findings and are positioning for a narrative battle.",
+        5,
+        "Assure her that the bank takes the examination very seriously and that any gaps are temporary issues that will be resolved.",
+        "Assurances without specifics are empty; 'temporary issues' minimizes concerns she's raised; this response doesn't address her specific observations.",
+        -5,
+        "Push back on the characterization, noting that your staff have been working hard and that the exam team's expectations may be unreasonable given the circumstances.",
+        "Defensive pushback damages the relationship; questioning examiner expectations rarely ends well; hard work doesn't equal effective preparation.",
+        -5
+      )),
 
-    q("IT/Security", "What should be prepared first?", buildChoices(
-      "Updated policies, network diagrams, and control evidence", "Foundational materials.", 10,
-      "All logs for last year", "Overkill.", 5,
-      "New tooling", "Not needed immediately.", -5,
-      "Stop all other work", "Impractical.", -5
-    )),
-    q("IT/Security", "What about vulnerability management evidence?", buildChoices(
-      "Recent scans, remediation tracking, and change approvals", "Core exam items.", 10,
-      "Only latest scan report", "Insufficient.", 5,
-      "None unless requested", "Risky.", -5,
-      "Share admin credentials for review", "Never.", -5
-    )),
-    q("IT/Security", "How to respond to ad-hoc examiner questions?", buildChoices(
-      "Central intake with SMEs and quality review", "Consistent/accurate.", 10,
-      "Any SME can reply directly", "Inconsistent.", 5,
-      "Ask them to wait a week", "Unhelpful.", -5,
-      "Provide raw config files", "Risky.", -5
-    )),
+    // IT/Security
+    q("IT/Security", "The IT examiner requests your complete vulnerability scan results for the past 12 months, including all identified vulnerabilities and remediation status. You know that 23 critical vulnerabilities from 8 months ago were closed late (outside policy timeframes), and 4 critical vulnerabilities identified 6 weeks ago remain open. What do you provide?",
+      buildChoices(
+        "Provide complete, unredacted scan results for the full 12 months as requested. Prepare a separate summary document showing your vulnerability management metrics, remediation timeframes, and explanations for the late closures and currently open items including remediation plans and compensating controls. Transparency with context is better than transparency alone.",
+        "Complete disclosure is required; attempting to hide or filter information will be discovered and damage credibility far more than the findings themselves; contextual summary shows you understand and manage your risk.",
+        10,
+        "Provide the scan results but exclude the report showing remediation timeframes to avoid highlighting the late closures unless specifically asked.",
+        "Selective disclosure is risky; examiners will likely request remediation timeframes anyway and discovering you omitted them intentionally is worse than the original finding.",
+        5,
+        "Provide only the most recent 6 months of scans, explaining that older data isn't readily accessible and offering to retrieve it if specifically needed.",
+        "Partial response to a clear request signals you're hiding something; 'not readily accessible' for 12-month-old IT data isn't credible; this approach invites deeper scrutiny.",
+        -5,
+        "Request clarification on what they're actually looking for to avoid providing more information than necessary for their review.",
+        "Clarification requests for straightforward document requests appear to be stalling; they asked for 12 months of scan results, which is a clear request.",
+        -5
+      )),
+    q("IT/Security", "An examiner is interviewing your network administrator about access controls. Afterward, your admin tells you the examiner asked several questions about a shared administrator account that's used for emergency system access. The admin explained it honestly - the account exists and is used occasionally. You know this account wasn't documented in your policies and violates your access management standards. What do you do?",
+      buildChoices(
+        "Don't attempt to coach or 'correct' the admin's testimony after the fact. Prepare documentation about the shared account: when it was created, why, how it's used, who has access, and what compensating controls exist (logging, password management). Proactively provide this to the examiner as supplemental information. Begin remediation planning immediately.",
+        "Post-interview coaching could be seen as witness tampering; proactive documentation demonstrates transparency and control awareness; remediation planning shows you're addressing the gap regardless of exam outcome.",
+        10,
+        "Brief the admin on how to answer if asked follow-up questions, emphasizing the compensating controls and limited use of the account.",
+        "Coaching testimony appears to be coordinating stories; if the examiner asks the admin again and gets a different answer, credibility is damaged for both the admin and management.",
+        5,
+        "Wait to see if the examiner raises the shared account as a finding before providing any additional information about it.",
+        "Waiting appears to hide known issues; examiners respect proactive disclosure more than defensive reaction to findings they've already identified.",
+        -5,
+        "Explain to the examiner that the admin may have been confused and that the 'shared account' is actually a properly documented emergency access process.",
+        "Contradicting your own staff's honest testimony to examiners is extremely risky; if the examiner asks the admin again or reviews documentation, the contradiction exposes a credibility problem.",
+        -5
+      )),
+    q("IT/Security", "The examiner asks to observe a live demonstration of your incident response procedures by having your team respond to a simulated phishing attack. Your IR procedures are documented but haven't been tested in 9 months - the last test revealed several gaps that were supposed to be addressed but weren't. What's your response?",
+      buildChoices(
+        "Agree to the demonstration while being transparent: explain that your last formal test was 9 months ago and identified gaps that are still being addressed. Propose showing the documented procedures along with an honest walkthrough of how a real incident would be handled, acknowledging where execution might differ from documentation.",
+        "Transparency about test history and known gaps is better than demonstrating and having those gaps exposed; honest walkthrough shows self-awareness; this approach manages examiner expectations while showing good faith.",
+        10,
+        "Request time to prepare the team before the demonstration, explaining that you want to ensure the best possible representation of your capabilities.",
+        "Preparation request may be reasonable but signals you're not confident in day-to-day readiness; examiners want to see actual capabilities, not rehearsed performances.",
+        5,
+        "Explain that IR procedures are sensitive and a live demonstration could compromise security controls, offering to walk through documentation instead.",
+        "Security sensitivity argument is weak for a simulated exercise with regulators; this appears to be avoiding a test you fear failing; documentation walkthrough doesn't demonstrate actual capability.",
+        -5,
+        "Conduct the demonstration confidently, hoping the team performs better than the last test and that gaps aren't obvious to the examiner.",
+        "Hope isn't a strategy; if the test reveals gaps, you've demonstrated poor capability AND lack of awareness; better to acknowledge gaps upfront than have them discovered.",
+        -5
+      )),
 
-    q("HR", "What HR evidence is priority?", buildChoices(
-      "Training records, org charts, and role-based access reviews", "Core exam materials.", 10,
-      "Only org chart", "Insufficient.", 5,
-      "No prep", "Risky.", -5,
-      "Share PII widely", "Privacy risk.", -5
-    )),
-    q("HR", "How to coordinate interviews with examiners?", buildChoices(
-      "Schedule SMEs with briefing notes and expectations", "Efficient and consistent.", 10,
-      "Let examiners ping anyone", "Interrupts work and risky.", 5,
-      "Cancel other meetings for a week", "Disruptive.", -5,
-      "No coordination", "Chaotic.", -5
-    )),
-    q("HR", "What staff guidance is useful?", buildChoices(
-      "Professional conduct, accurate answers, and escalation paths", "Supports a smooth exam.", 10,
-      "Tell staff to avoid examiners", "Unprofessional.", 5,
-      "Share everything openly", "Risky.", -5,
-      "Silence", "Confusion.", -5
-    )),
+    // HR
+    q("HR", "An examiner wants to interview the employee who handles BSA suspicious activity report (SAR) filings. This employee has been covering BSA duties since the BSA Officer resigned but hasn't been formally designated, trained, or given authority. They're nervous about the interview and worried about saying the wrong thing. How do you prepare them?",
+      buildChoices(
+        "Be honest with the employee: acknowledge they've been put in a difficult position, assure them their job isn't at risk for honest answers, and prepare them to answer truthfully including saying 'I don't know' or 'I haven't been trained on that.' Brief them on what their actual responsibilities have been versus what the former BSA Officer handled. Don't coach specific answers.",
+        "Honest acknowledgment reduces employee stress; job security assurance prevents fear-driven answers; permission to say 'I don't know' is important; distinguishing actual vs expected responsibilities enables accurate testimony.",
+        10,
+        "Provide the employee with documentation about BSA requirements and coach them on the key concepts so they can answer questions more confidently.",
+        "Crash-course training before an exam interview doesn't create actual competence; if the employee gives textbook answers that don't match their actual practice, follow-up questions will expose the gap.",
+        5,
+        "Have a more senior manager sit in on the interview to help answer questions the employee can't handle.",
+        "Manager presence may intimidate the employee and can appear to be monitoring testimony; examiners typically prefer unaccompanied interviews for honest answers; this signals concern about what the employee might say.",
+        -5,
+        "Request that the examiner interview the acting BSA Officer instead since they're the appropriate person to answer BSA questions.",
+        "Redirecting may seem logical but the examiner chose to interview this specific person for a reason; refusing access to requested staff creates friction and suggests you're controlling information.",
+        -5
+      )),
+    q("HR", "During the second week, staff morale is deteriorating. Examiners have been critical in several interviews, a rumor is spreading that the bank 'failed' the exam, and two employees have asked whether they should start looking for other jobs. Your exam coordinator is overwhelmed and snapped at an examiner yesterday. How do you address the organizational stress?",
+      buildChoices(
+        "Hold a brief all-staff communication acknowledging the stress, clarifying that exams don't 'pass/fail,' and thanking everyone for their efforts. Privately check on the exam coordinator and ensure they have support or backup. Address the snap incident with the examiner directly - acknowledge it happened, apologize, and ensure it won't recur. Consider bringing in temporary support for the remaining week.",
+        "Staff communication addresses rumor and morale broadly; coordinator support prevents further incidents; direct examiner acknowledgment shows accountability; temporary support addresses root cause of being overwhelmed.",
+        10,
+        "Send an email reminding everyone that exams are normal and that professionalism is expected regardless of pressure.",
+        "Reminder email may seem like scolding during an already stressful time; doesn't address the specific rumor or the coordinator incident; professionalism reminder without support doesn't help.",
+        5,
+        "Focus entirely on getting through the remaining week and plan to address morale issues after examiners leave.",
+        "Deferring morale issues allows problems to compound; more incidents could occur; employees asking about job hunting need immediate reassurance, not post-exam attention.",
+        -5,
+        "Remove the exam coordinator from their role given the unprofessional behavior with the examiner.",
+        "Removal during the exam is disruptive and may be disproportionate; the coordinator may be overwhelmed due to inadequate support; punitive response to stress doesn't address the root cause.",
+        -5
+      )),
+    q("HR", "After the exam concludes, you receive word that findings will include criticism of inadequate staffing in compliance functions, specifically noting the vacant BSA Officer position and undertrained backup staff. The board wants to know why the position wasn't filled before the exam. What do you tell them?",
+      buildChoices(
+        "Provide an honest timeline: when the position became vacant, what recruiting efforts were made, why the hire hasn't closed, and what interim measures were implemented. Acknowledge that the gap created exam risk and present a concrete plan with timeline for filling the role and addressing training deficiencies. Don't shift blame to HR processes or market conditions.",
+        "Honest timeline enables board to understand the situation; acknowledging risk shows awareness; concrete plan demonstrates action orientation; avoiding blame-shifting maintains credibility.",
+        10,
+        "Explain that the BSA Officer market is highly competitive and qualified candidates are difficult to find, which caused the extended vacancy.",
+        "Market conditions may be real but sound like an excuse; doesn't address what interim measures were taken; boards expect management to solve difficult problems, not cite them as reasons for gaps.",
+        5,
+        "Note that the regulatory exam was surprise timing and that the position would have been filled under normal circumstances.",
+        "Blaming exam timing implies you were planning to fill the position eventually but weren't treating it as urgent; suggests compliance staffing depends on exam schedule, not risk management.",
+        -5,
+        "Suggest that the exam finding is overstated since the bank has never had a BSA enforcement action and day-to-day operations continued without incident.",
+        "Challenging finding validity to the board is deflecting; no enforcement action history doesn't mean current staffing is adequate; 'without incident' may not be accurate if issues weren't detected.",
+        -5
+      )),
 
-    q("Finance", "What financial evidence is key?", buildChoices(
-      "GL reconciliations, allowance methodologies, and liquidity metrics", "Exam staples.", 10,
-      "Only financial statements", "Insufficient.", 5,
-      "Future budgets only", "Irrelevant.", -5,
-      "Share raw workpapers", "Risky.", -5
-    )),
-    q("Finance", "How to handle examiner requests that seem off-scope?", buildChoices(
-      "Clarify scope politely via central coordinator", "Keeps focus.", 10,
-      "Ignore the request", "Risky.", 5,
-      "Argue in email", "Unhelpful.", -5,
-      "Give everything requested immediately", "May be unnecessary.", -5
-    )),
-    q("Finance", "What reporting cadence to leadership works?", buildChoices(
-      "Daily progress and risk log", "Keeps alignment.", 10,
-      "Weekly summary only", "Slow.", 5,
-      "No updates", "Opaque.", -5,
-      "Raw dump of requests", "Noisy.", -5
-    )),
+    // Finance
+    q("Finance", "Examiners are reviewing your Allowance for Credit Losses (ACL) methodology and have questions about your qualitative adjustment factors. Your Q-factors were increased 18 months ago during economic uncertainty but haven't been adjusted since, even as conditions improved. The examiner asks why qualitative factors that were supposed to be temporary haven't been reconsidered. What's your response?",
+      buildChoices(
+        "Acknowledge that the Q-factors should have been formally reconsidered even if the conclusion was to maintain them. Explain your current credit quality metrics and economic outlook assessment. Commit to implementing a formal quarterly Q-factor review process with documentation. Don't argue that holding factors constant was the right call - focus on process improvement.",
+        "Acknowledging the process gap is appropriate; current metrics provide context; committing to quarterly review addresses the systemic issue; avoiding defensive arguments about the outcome keeps focus on improvement.",
+        10,
+        "Explain that you chose to maintain conservative reserve levels given continued economic uncertainty, which is a prudent credit risk management approach.",
+        "Conservative explanation may be substantively reasonable but doesn't address the process question - the issue is lack of documented reconsideration, not the outcome of maintaining factors.",
+        5,
+        "Point out that the reserve levels are well above peer averages, suggesting that the methodology produces appropriate results regardless of the Q-factor review frequency.",
+        "Peer comparison deflects from the process question; 'appropriate results' doesn't mean appropriate process; examiners care about methodology governance, not just outcome levels.",
+        -5,
+        "Argue that Q-factors, once established, should be maintained consistently rather than adjusted frequently to avoid manipulation of reserve levels.",
+        "Consistency argument misunderstands the purpose of qualitative factors - they're supposed to reflect changing conditions; avoiding adjustment 'to prevent manipulation' suggests you don't understand the methodology.",
+        -5
+      )),
+    q("Finance", "The liquidity examiner asks about your contingency funding plan. Upon review, you realize the plan hasn't been updated in 14 months and still references credit facilities that have been modified, assumptions that are outdated, and contact information for people who've left the bank. What do you do?",
+      buildChoices(
+        "Don't try to update the document while examiners are present. Acknowledge that the CFP needs updating and provide a current verbal summary of your actual liquidity position, available facilities, and contingency actions. Commit to a complete CFP refresh within 30 days and offer to share the updated version. The examiner knows you can't fix 14 months of neglect in real-time.",
+        "Acknowledging the gap is necessary since they've already seen the document; verbal summary demonstrates current awareness; committed timeline shows action orientation; real-time updating would be obvious and insulting.",
+        10,
+        "Quickly update the most obvious errors (contact information, facility details) and provide the corrected version, explaining that you identified some administrative updates that were needed.",
+        "Real-time corrections appear to be covering up the staleness; 'administrative updates' minimizes what are substantive gaps; examiners will note the timing of your 'discovery' of needed updates.",
+        5,
+        "Explain that the core plan is sound and the outdated details are minor issues that don't affect the viability of the contingency strategy.",
+        "Minimizing outdated information as 'minor' suggests you don't understand why current planning matters; facility modifications could materially change available liquidity; this response invites deeper scrutiny.",
+        -5,
+        "Note that liquidity has been strong so the contingency plan hasn't needed to be activated, which is why updates weren't prioritized.",
+        "Strong liquidity argument misses the point - contingency plans are for when things aren't strong; not prioritizing updates because you haven't had a crisis is exactly the attitude that leads to crises being worse.",
+        -5
+      )),
+    q("Finance", "On the last day, the Examiner-in-Charge mentions that the exam will include a Matter Requiring Attention (MRA) related to liquidity risk management practices, specifically the contingency funding plan. She asks if you'd like to discuss the proposed language before the report is finalized. What's your approach?",
+      buildChoices(
+        "Accept the opportunity to discuss. Your goals: ensure the MRA accurately describes the issue (not overstated or understated), understand the specific expectations for remediation, and propose a realistic timeline. Don't argue against having an MRA - you know the CFP was deficient. Use the discussion to show you understand the issue and are committed to addressing it.",
+        "Discussion opportunity is valuable and shouldn't be declined; accuracy ensures you're addressing the right issue; understanding expectations prevents future disagreement; realistic timeline prevents over-commitment; accepting the finding appropriately shows maturity.",
+        10,
+        "Accept the discussion and try to negotiate the finding down to a Recommendation rather than an MRA, given that no actual liquidity stress occurred.",
+        "Negotiating severity based on 'nothing bad happened' misses the point of supervisory findings; attempting to minimize may irritate the EIC and suggest you don't take the issue seriously.",
+        5,
+        "Decline the discussion, noting that you prefer to receive the formal written finding and respond through official channels.",
+        "Declining a courtesy opportunity to discuss appears rigid or confrontational; official channels still exist, but pre-report discussion can clarify expectations and build relationship.",
+        -5,
+        "Accept the discussion but push back strongly on the MRA, arguing that your liquidity position has been consistently strong and a planning documentation issue doesn't warrant formal supervisory action.",
+        "Pushback on a finding the examiner has already decided to issue rarely changes the outcome and damages the relationship; strong position arguments don't address the process failures they've documented.",
+        -5
+      )),
 
-    q("Loans", "How to adjust underwriting during the exam week?", buildChoices(
-      "Maintain standards; document any exceptions tightly", "Balanced.", 10,
-      "Pause all underwriting", "Too blunt.", 5,
-      "Lower standards to keep volume", "Risky.", -5,
-      "Allow wide exceptions", "Risky.", -5
-    )),
-    q("Loans", "What to do with examiner questions to loan officers?", buildChoices(
-      "Coordinate via central channel and prep officers", "Consistent and accurate.", 10,
-      "Let them reply ad-hoc", "Inconsistent.", 5,
-      "Ask examiners to wait days", "Unhelpful.", -5,
-      "Share internal private notes", "Risky.", -5
-    )),
-    q("Loans", "How to handle loan documentation gaps found during prep?", buildChoices(
-      "Remediate quickly with evidence and track in a log", "Proactive and transparent.", 10,
-      "Ignore until after exam", "Risky.", 5,
-      "Hide gaps from examiners", "Very risky.", -5,
-      "Blame prior team", "Unhelpful.", -5
-    )),
+    // Loans
+    q("Loans", "The credit examiner is reviewing your largest criticized assets and asks for the credit file on a $3.2 million commercial real estate loan that was downgraded to Substandard 4 months ago. You know this file has documentation gaps - the most recent appraisal is 2 years old, financial statements are 18 months stale, and the workout notes are incomplete. What do you do?",
+      buildChoices(
+        "Provide the file as it exists. Simultaneously brief the credit examiner: acknowledge the documentation gaps, explain your current assessment of the credit and collateral position, and describe actions you're taking to address the gaps (updated appraisal ordered, financial statement request sent). Trying to 'fix' the file before providing it will be transparent.",
+        "Providing the actual file is required; proactive acknowledgment of gaps shows awareness; current assessment demonstrates active management despite documentation issues; remediation actions show you're addressing the problem.",
+        10,
+        "Provide the file but prepare a supplemental memo explaining the documentation gaps and your current understanding of the borrower's status.",
+        "Supplemental memo is good but should be discussed verbally with the examiner before they review the file; letting them discover gaps and then reading your explanation feels like damage control rather than transparency.",
+        5,
+        "Request a day to prepare the file for examiner review, using the time to update documentation where possible.",
+        "Day delay is obvious stalling; whatever you 'prepare' will look like you created it for the exam; examiners want to see actual practices, not exam-ready presentations.",
+        -5,
+        "Explain that this particular credit is in active workout and documentation practices differ during the workout phase.",
+        "Workout explanation may have some merit but doesn't excuse 2-year-old appraisals or 18-month stale financials; this response sounds like excuse-making for poor credit administration.",
+        -5
+      )),
+    q("Loans", "The examiner identifies 3 loans totaling $1.8 million that they believe should be downgraded from Pass to Special Mention based on borrower financial deterioration. Your loan officers disagree - they've met with these borrowers and believe the situations are improving. The examiner's analysis is based solely on financial statement ratios. How do you handle the disagreement?",
+      buildChoices(
+        "Prepare a written response for each credit that includes: acknowledgment of the financial ratio concerns, additional qualitative factors supporting your classification (recent borrower meetings, pipeline, market conditions), and any available updates since the financial statements. Request a meeting to discuss. Be prepared that you may not prevail on all three but present your case professionally.",
+        "Written response creates a record; acknowledging ratio concerns shows you've considered their analysis; qualitative factors provide complete picture; meeting enables dialogue; accepting you may not win everything shows reasonableness.",
+        10,
+        "Accept the examiner's classifications to avoid conflict, planning to re-evaluate the loans after the exam concludes.",
+        "Automatic acceptance may seem cooperative but abandons loans that may be correctly classified; post-exam re-evaluation suggests you're managing the exam, not the credits.",
+        5,
+        "Escalate to the Examiner-in-Charge immediately, arguing that the credit examiner is substituting their judgment for bank management's without adequate basis.",
+        "Escalation over the examiner's head on a substantive credit disagreement is aggressive; credit classification disagreements are normal and should be worked through, not escalated as grievances.",
+        -5,
+        "Point out that the examiner hasn't met with the borrowers and therefore lacks the relationship context that informs your classification decisions.",
+        "Relationship context argument, while partially valid, sounds like you're saying examiners can't evaluate credits they haven't personally visited; financial deterioration is observable from statements regardless of relationship.",
+        -5
+      )),
+    q("Loans", "Near the end of the exam, you learn that the credit examiner intends to classify a $4.7 million relationship as Loss (requiring immediate charge-off) that you have classified as Doubtful. The difference is approximately $2.1 million in additional charge-off that would materially impact quarterly earnings. The examiner's position is that the collateral liquidation value doesn't support the current carrying amount. What's your approach?",
+      buildChoices(
+        "Request a meeting with the credit examiner and your CCO to understand their collateral valuation analysis. Bring your own collateral support documentation. This is a significant enough disagreement that it warrants thorough discussion before the finding is finalized. If you can't resolve it, understand the appeal process but recognize that exercising it has relationship implications.",
+        "Meeting request is appropriate for material differences; CCO involvement shows senior attention; understanding their analysis before arguing enables productive dialogue; knowing the appeal process is prudent; recognizing relationship implications shows maturity.",
+        10,
+        "Immediately engage an independent appraisal firm to provide an updated collateral valuation that you can submit before the report is finalized.",
+        "Rush appraisal may be appropriate but feels like trying to create favorable evidence; appraisers chosen and paid by the bank during a classification dispute may face credibility questions.",
+        5,
+        "Escalate to the Examiner-in-Charge, arguing that a classification requiring $2.1 million in charge-offs should receive more senior examiner review before being finalized.",
+        "Escalation may be warranted for material issues but framing it as 'should receive senior review' implies the credit examiner isn't qualified to make the call; better to work the substance than the process.",
+        -5,
+        "Accept the Loss classification for now and file a formal appeal after the examination, when you'll have more time to prepare supporting documentation.",
+        "Post-exam appeal is an option but deferring without attempting pre-report discussion wastes an opportunity; some discussions are more productive before positions are officially documented.",
+        -5
+      )),
 
-    q("Accounting", "What accounting artifacts should be prepped?", buildChoices(
-      "Recent close package, reconciliations, and exception logs", "Core items.", 10,
-      "Only monthly statements", "Insufficient.", 5,
-      "Future budgets", "Less relevant.", -5,
-      "Share editable ledgers", "Risky.", -5
-    )),
-    q("Accounting", "How to track exam-related adjustments?", buildChoices(
-      "Separate log with rationale and approvals", "Audit-ready.", 10,
-      "Record within the monthly close workbook on a dedicated tab with annotations", "Usable but harder to audit consistently across periods.", 5,
-      "Defer formal tracking until scope stabilizes; retain approvals in email", "Plausible in the moment but creates gaps and rework.", -5,
-      "Let each team keep its own tracker and supply weekly snapshots", "Looks organized but produces inconsistency and control gaps.", -5
-    )),
-    q("Accounting", "What stance on documentation requests?", buildChoices(
-      "Provide accurate, curated docs with context", "Efficient and clear.", 10,
-      "Dump raw folders", "Noisy.", 5,
-      "Delay responses", "Frustrating.", -5,
-      "Provide editable templates", "Risky.", -5
-    )),
+    // Accounting
+    q("Accounting", "The examiner reviewing your audit function asks about the status of internal audit findings from the past 18 months. You know that 12 of 47 findings remain open past their original remediation dates, and 3 of those are over 6 months past due. How do you present this information?",
+      buildChoices(
+        "Provide a complete aging schedule of all findings with original dates, current status, revised remediation dates where applicable, and explanations for the past-due items. For the 3 significantly past-due findings, prepare specific status updates showing what's been done and what remains. Examiners expect some open findings - it's the awareness and management that matters.",
+        "Complete disclosure is necessary since they'll likely see the information anyway; aging schedule shows organized tracking; explanations for past-due items demonstrate awareness; acknowledging this is normal shows appropriate perspective.",
+        10,
+        "Provide the findings list but emphasize that all critical findings have been addressed and the remaining open items are lower priority.",
+        "Prioritization framing may be accurate but could be seen as minimizing; if examiners disagree with your priority assessment, you've positioned yourself badly; let the facts speak without spin.",
+        5,
+        "Request time to update the status of all findings before providing the information, ensuring the data is current.",
+        "Update request signals the tracking isn't current, which is a finding in itself; providing what you have with acknowledgment of currency limitations is better than delayed, suspiciously-timed updates.",
+        -5,
+        "Explain that the audit function has been focused on current-year work and historical finding remediation has been deprioritized appropriately.",
+        "Deprioritization of remediation is exactly the wrong message; it suggests findings aren't taken seriously; audit functions should both conduct current work AND track remediation.",
+        -5
+      )),
+    q("Accounting", "During the exam, examiners identify what they believe is an error in your Call Report from two quarters ago - a classification issue that would shift approximately $800,000 between line items. The dollar impact is small relative to your balance sheet but the examiners expect you to file an amendment. Your CFO thinks the original classification was defensible and doesn't want to file an amendment that suggests an error. What do you recommend?",
+      buildChoices(
+        "Review the specific classification guidance with your CFO. If the examiners' interpretation is reasonable even if yours was also defensible, file the amendment. Regulatory reports should reflect the regulator's interpretation when ambiguity exists. The relationship cost of arguing over a non-material classification isn't worth it. Document your analysis regardless of the outcome.",
+        "Guidance review ensures you understand the issue; regulator interpretation deference is appropriate for Call Reports; relationship cost analysis is practical; documentation protects you either way.",
+        10,
+        "File the amendment immediately as requested without pushback to demonstrate cooperation and avoid creating friction.",
+        "Immediate compliance seems cooperative but abandoning a defensible position without review may set a precedent; you should understand the issue before deciding, even if you ultimately comply.",
+        5,
+        "Maintain your original classification and document why you believe it's correct, offering to discuss with the examiner's supervisor if they disagree.",
+        "Standing firm on an $800K non-material classification creates friction disproportionate to the issue; supervisor escalation over interpretive differences this small is rarely productive.",
+        -5,
+        "Note that Call Report amendments for prior quarters create questions from analysts and investors, and the cost of those questions outweighs the regulatory preference.",
+        "External communication concern is real but shouldn't drive regulatory reporting accuracy; this response suggests you're prioritizing market perception over regulatory compliance.",
+        -5
+      )),
+    q("Accounting", "On the final day, examiners provide a list of documents they're taking copies of for their workpapers. You notice the list includes internal emails between your CFO and CCO discussing the appropriateness of certain loan classifications, including some candid language about 'examiner expectations' and 'picking our battles.' These were responsive to a broad document request. What's your reaction?",
+      buildChoices(
+        "Don't attempt to withdraw or redact the documents - they've already been identified and any attempt to remove them will draw more attention and suggest concealment. Note internally that candid email language about regulatory matters can become part of examination records. Going forward, consider that any document could become an examiner workpaper.",
+        "Withdrawal attempt would backfire; documents are part of the record now; internal noting addresses the future behavior without creating current conflict; this is a lesson about email candor, not an action item.",
+        10,
+        "Request a meeting with the Examiner-in-Charge to provide context for the emails before they become part of the official workpapers.",
+        "Context meeting may seem proactive but highlights documents that might otherwise receive routine treatment; drawing attention to 'examiner expectations' language invites questions about what you meant.",
+        5,
+        "Object to the inclusion of internal deliberative communications that weren't directly requested and ask that they be removed from the document list.",
+        "Objection is unlikely to succeed and creates adversarial dynamic on the final day; 'deliberative' characterization doesn't provide privilege protection in examination context; this makes the emails more notable, not less.",
+        -5,
+        "Contact legal counsel to assert privilege over internal communications and prevent their inclusion in examiner workpapers.",
+        "Privilege assertion in banking examination context is very limited; attempting it for candid but non-privileged emails will fail and damage the regulatory relationship; this looks like you have something to hide.",
+        -5
+      )),
 
-    q("Deposits", "What customer comms might be needed?", buildChoices(
-      "None publicly; prepare internal talking points", "Prudent.", 10,
-      "Share exam details with customers", "Inappropriate.", 5,
-      "Announce potential findings", "Risky.", -5,
-      "Post internal schedules", "Not applicable.", -5
-    )),
-    q("Deposits", "How to keep service steady during prep?", buildChoices(
-      "Staff cross-coverage and clear priorities", "Maintains service.", 10,
-      "Let service levels drop", "Harmful.", 5,
-      "Cancel all other work", "Disruptive.", -5,
-      "Share customer PII internally for examples", "Risky.", -5
-    )),
-    q("Deposits", "What internal guidance helps frontline?", buildChoices(
-      "Talking points and escalation paths during examiner presence", "Prepares staff.", 10,
-      "Tell them to avoid examiners", "Unprofessional.", 5,
-      "No guidance", "Confusion.", -5,
-      "Share internal sensitive docs", "Risky.", -5
-    )),
+    // Deposits
+    q("Deposits", "Examiners want to observe branch operations and customer interactions. Your branches have been informed of the exam but not specifically prepared for examiner visits. Your branch operations manager is concerned that a particular branch has had recent customer complaints and employee turnover - it may not present well. Do you try to influence which branch the examiner visits?",
+      buildChoices(
+        "Don't attempt to steer examiners away from problematic branches - this will be obvious and create worse impressions than whatever they might see. Instead, brief the troubled branch manager honestly: examiners may visit, be professional, answer questions truthfully, and don't try to hide problems. If issues surface, you want them handled with integrity.",
+        "Steering attempts are transparent and insulting to examiners; honest briefing prepares staff without coaching dishonesty; integrity during observation is more valuable than curated presentation.",
+        10,
+        "Suggest that the examiner visit your strongest performing branch to see your operations at their best, offering to arrange a tour.",
+        "Best-branch suggestion is obvious steering; examiners may visit multiple branches or specifically avoid your suggestion; appearing to curate their experience undermines trust.",
+        5,
+        "Provide a list of all branches and let the examiner choose, but note that some branches are more convenient to your main office where they're based.",
+        "Convenience suggestion is subtle steering; examiners understand logistics and will see through 'helpful' suggestions that happen to avoid problem locations.",
+        -5,
+        "Quickly address the most visible issues at the troubled branch before examiner visits can occur - clean up the lobby, brief staff on key messages, review recent transactions for documentation.",
+        "Exam-motivated cleanup is obvious and suggests day-to-day operations differ from exam-ready presentation; if the cleanup is noticed, it raises questions about normal practices.",
+        -5
+      )),
+    q("Deposits", "An examiner observing branch operations witnesses a teller override a system warning on a cash transaction just below the CTR threshold. The teller explains they know the customer and the amount is slightly under $10,000 for a legitimate business purpose. The examiner takes notes and later asks you about your structuring monitoring and CTR training. How do you respond?",
+      buildChoices(
+        "Take the question seriously - the observed behavior is a BSA red flag regardless of the teller's intent. Explain your current training program and monitoring systems honestly. Commit to reviewing the specific transaction, the teller's history of sub-threshold transactions, and your training effectiveness. The examiner has identified a potential control weakness that needs investigation.",
+        "Taking the question seriously shows you understand BSA risk; honest explanation of current controls is appropriate; commitment to review demonstrates you'll act on what they observed; recognizing the control weakness is more important than defending current practices.",
+        10,
+        "Explain that the teller is experienced and exercises appropriate judgment for regular customers, and that your monitoring systems would catch actual structuring patterns.",
+        "Experienced teller judgment defense doesn't address the training gap that allowed a system warning override without appropriate skepticism; monitoring systems catching patterns isn't the same as preventing facilitation.",
+        5,
+        "Note that the transaction was under $10,000 so no CTR was required, and the customer's legitimate business purpose was known to the teller.",
+        "Under-threshold defense completely misses the point - the examiner is concerned about potential structuring facilitation and inadequate training, not whether a CTR was filed.",
+        -5,
+        "Express surprise that the examiner would question the teller's judgment and note that you trust your employees to make appropriate decisions with customers they know.",
+        "Surprise and trust defense is exactly the wrong response to a BSA observation; willful blindness can result from misplaced trust; this response suggests you don't understand structuring risk.",
+        -5
+      )),
+    q("Deposits", "After the examination concludes, you receive the preliminary findings. One finding criticizes your deposit account opening procedures for inadequate CIP verification, citing 3 accounts opened in the past year where beneficial ownership wasn't properly verified for business accounts. The finding recommends enhanced training and procedure updates. Your operations team believes 2 of the 3 accounts were actually properly documented but the files were disorganized. How do you respond?",
+      buildChoices(
+        "Prepare a response that: acknowledges the CIP concern is valid and commits to training and procedure updates, provides additional documentation for the 2 accounts you believe were proper (if truly available), and accepts the finding on the third account. Partial factual correction paired with acceptance of the underlying concern is appropriate.",
+        "Acknowledging the concern shows responsiveness; providing documentation demonstrates the actual situation; accepting what you can't dispute is appropriate; this balanced response neither capitulates entirely nor argues excessively.",
+        10,
+        "Provide the missing documentation for all 3 accounts and request that the finding be removed since the verification was actually performed.",
+        "Requesting finding removal based on 'actually performed' verification puts you in opposition to the examiner's conclusion; even if documentation exists, the finding about procedure effectiveness has merit if files are disorganized.",
+        5,
+        "Accept the entire finding without factual correction to demonstrate cooperation and avoid appearing argumentative.",
+        "Full acceptance when you have evidence that 2 accounts were proper abandons a legitimate factual position; cooperation doesn't require agreeing with incorrect facts.",
+        -5,
+        "Challenge the finding methodology, noting that 3 accounts out of thousands opened represents a de minimis error rate that doesn't warrant a formal finding.",
+        "De minimis argument misunderstands CIP compliance - it's a per-account requirement, not a statistical threshold; this response suggests you don't take beneficial ownership verification seriously.",
+        -5
+      )),
   ]
 };
+
 
 /* ------------------------- SCENARIO 5 ------------------------- */
 const SCENARIO_WEATHER = {
