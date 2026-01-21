@@ -1,4 +1,4 @@
-Ôªø// public/js/static-scenarios.js
+// public/js/static-scenarios.js
 // Browser-usable copy of the static scenarios with local randomization.
 // This removes any dependency on the /api/scenarios endpoint.
 
@@ -27,7 +27,7 @@ const SCENARIO_RANSOMWARE = {
   description:
     "A ransomware event encrypts key servers supporting core processing and online banking. ACH files are delayed and customers report failed logins. Incident Command is activated.",
   questions: [
-    q("CEO/SVPs", "What is leadership‚Äôs first move in the first 30 minutes?", buildChoices(
+    q("CEO/SVPs", "What is leadershipís first move in the first 30 minutes?", buildChoices(
       "Activate Incident Command and name a single spokesperson", "Fast alignment, clear ownership, consistent messaging.", 10,
       "Hold an internal exec huddle before activating command", "Coordination helps, but delays response structure.", 5,
       "Stay silent until IT confirms full scope", "Creates a vacuum; rumors and confusion grow.", -5,
@@ -40,10 +40,10 @@ const SCENARIO_RANSOMWARE = {
       "Ignore the issue and hope it resolves", "Worsens operational/reputational damage.", -5
     )),
     q("CEO/SVPs", "What should leadership communicate to customers today?", buildChoices(
-      "Acknowledge service impact, what‚Äôs known, and provide update cadence", "Builds trust and reduces call volume/speculation.", 10,
+      "Acknowledge service impact, whatís known, and provide update cadence", "Builds trust and reduces call volume/speculation.", 10,
       "Issue a brief holding statement with a promise of updates", "Better than silence, but less helpful without cadence/detail.", 5,
       "Publicly blame a specific vendor", "Legal and reputational risk; often premature.", -5,
-      "Say ‚Äúeverything is normal‚Äù to avoid panic", "If inaccurate, credibility collapses.", -5
+      "Say ìeverything is normalî to avoid panic", "If inaccurate, credibility collapses.", -5
     )),
 
     q("IT/Security", "What is the first containment action?", buildChoices(
@@ -69,7 +69,7 @@ const SCENARIO_RANSOMWARE = {
       "Official internal update, phishing reminder, and how to report issues", "Reduces mistakes and improves incident reporting.", 10,
       "Send a short message telling staff to be cautious and await updates", "Some value, but lacks actionable reporting steps.", 5,
       "Allow personal email/file sharing to keep work moving", "Creates data leakage/compliance risk.", -5,
-      "No guidance until it‚Äôs fixed", "Rumors/anxiety increase and errors rise.", -5
+      "No guidance until itís fixed", "Rumors/anxiety increase and errors rise.", -5
     )),
     q("HR", "What staffing posture is appropriate during incident response?", buildChoices(
       "Documented coverage plan with shifts and breaks", "Reduces burnout and errors; supports continuity.", 10,
@@ -167,7 +167,7 @@ const SCENARIO_LIQUIDITY = {
   key: "liquidity-stress-event",
   title: "Liquidity Stress Triggered by Market News",
   description:
-    "Breaking market news triggers unusual withdrawal activity and increased customer inquiries about the bank‚Äôs strength. Leadership activates the Liquidity Playbook.",
+    "Breaking market news triggers unusual withdrawal activity and increased customer inquiries about the bankís strength. Leadership activates the Liquidity Playbook.",
   questions: [
     q("CEO/SVPs", "What message should leadership provide publicly today?", buildChoices(
       "Transparent statement about liquidity position and contingency funding, with update cadence", "Builds trust and reduces speculation.", 10,
@@ -221,7 +221,7 @@ const SCENARIO_LIQUIDITY = {
     )),
     q("HR", "How should internal rumor control be handled?", buildChoices(
       "Frequent factual updates; encourage reporting of misinformation", "Reduces confusion and fear.", 10,
-      "One update at week‚Äôs end", "Too infrequent.", 5,
+      "One update at weekís end", "Too infrequent.", 5,
       "Silence until things calm down", "Rumors flourish.", -5,
       "Allow managers to share all details", "Inconsistent and risky.", -5
     )),
@@ -340,7 +340,7 @@ const SCENARIO_BEC_WIRE = {
       "Immediate quarantine and review; communicate to users with curated examples", "Improves detection.", 10,
       "Quietly delete without user education", "Reduces noise but misses learning.", 5,
       "Broadcast suspicious emails to all staff", "Can spread phish.", -5,
-      "Let anyone issue ad‚Äëhoc warnings", "Inconsistent and noisy.", -5
+      "Let anyone issue ad-hoc warnings", "Inconsistent and noisy.", -5
     )),
     q("IT/Security", "What change should be avoided?", buildChoices(
       "Temporarily disable external-email banner warnings to reduce noise", "Removes useful signal.", -5,
@@ -407,7 +407,7 @@ const SCENARIO_BEC_WIRE = {
     )),
 
     q("Accounting", "How to log potential fraud impacts?", buildChoices(
-      "Record exposures in a separate incident ledger with clear cross‚Äëreferences", "Audit‚Äëready and traceable.", 10,
+      "Record exposures in a separate incident ledger with clear cross-references", "Audit-ready and traceable.", 10,
       "Use a temporary accrual within existing GL with footnotes", "Usable but less clear.", 5,
       "Defer entries until exposure is validated; track in case system only", "Gaps and timing issues.", -5,
       "Distribute detailed working notes widely via email for visibility", "Uncontrolled dissemination.", -5
@@ -461,7 +461,7 @@ const SCENARIO_REG_EXAM = {
     )),
     q("CEO/SVPs", "Should a communication go to the board?", buildChoices(
       "Yes: concise status, risks, and plan with cadence", "Keeps governance aligned.", 10,
-      "Only at week‚Äôs end", "Slow.", 5,
+      "Only at weekís end", "Slow.", 5,
       "No board comms", "Opaque.", -5,
       "Share raw internal notes", "Messy.", -5
     )),
@@ -593,142 +593,340 @@ const SCENARIO_WEATHER = {
   key: "severe-weather-branch-closures",
   title: "Severe Weather Causes Branch Closures and Outages",
   description:
-    "A severe weather system causes wide power outages and several branch closures. Alternate operations and communications must be coordinated.",
+    "A Category 2 hurricane made landfall 18 hours ago causing widespread damage across your market area. 6 of 14 branches have no power with restoration estimates of 3-7 days. Two branches sustained roof damage with water intrusion into customer areas. Cell towers are overloaded causing intermittent mobile banking failures. Your core processor's regional data center switched to generator power 12 hours ago. Local emergency management has issued a 48-hour shelter-in-place advisory for three counties where 40% of your staff reside. Media is reporting customers waiting hours at competitor ATMs. Your insurance carrier requires damage documentation within 72 hours for expedited claims processing.",
   questions: [
-    q("CEO/SVPs", "What‚Äôs the right first step?", buildChoices(
-      "Activate business continuity and set update cadence", "Provides structure and visibility.", 10,
-      "Let branches decide locally", "Inconsistent.", 5,
-      "Wait for power company updates", "Slow.", -5,
-      "Announce 'open as usual'", "Unrealistic and confusing.", -5
-    )),
-    q("CEO/SVPs", "What external comms help customers most?", buildChoices(
-      "Post closure list, alternative options, and update times", "Sets expectations.", 10,
-      "Short 'we're monitoring' post", "Light on details.", 5,
-      "No comms until resolved", "Confusion.", -5,
-      "Promise full reopen times", "Risky.", -5
-    )),
-    q("CEO/SVPs", "How to coordinate with emergency services?", buildChoices(
-      "Central liaison and resource requests as needed", "Efficient.", 10,
-      "Ad-hoc outreach by branches", "Inconsistent.", 5,
-      "No outreach", "Missed support.", -5,
-      "Share internal maps publicly", "Risky.", -5
-    )),
+    // CEO/SVPs
+    q("CEO/SVPs", "It's now 6 AM the morning after landfall. Your Business Continuity Plan calls for an 8 AM executive briefing, but your Chief Operations Officer is unreachable (likely no cell service), two board members are calling for immediate updates, and the local news station wants a statement for their 7 AM broadcast. How do you proceed?",
+      buildChoices(
+        "Delegate a senior VP to gather status from available department heads, provide board members a brief holding statement with a commitment to a full briefing by 10 AM, and give media a short statement acknowledging the situation and directing customers to digital channels while deferring operational details.",
+        "Addresses multiple stakeholder needs proportionally while buying time for accurate information; holding statements manage expectations without committing to unverified details.",
+        10,
+        "Proceed with the 8 AM briefing as planned with whoever is available, ask board members to join that call, and decline media interviews until you have complete information.",
+        "Following established protocol has merit, but rigidly adhering to timing when key leaders are unavailable may produce an incomplete picture; declining media entirely misses an opportunity to reassure customers.",
+        5,
+        "Immediately call an emergency all-hands with available executives, provide the board a detailed preliminary damage assessment, and give media a comprehensive interview to demonstrate leadership visibility.",
+        "Acting decisively appears strong but preliminary assessments shared broadly often require correction; detailed media interviews without verified facts can create liability and confusion.",
+        -5,
+        "Focus first on reaching the COO through alternate means since they own branch operations, ask board members to wait for the scheduled briefing, and have Marketing draft a media statement for your review.",
+        "Prioritizing the COO seems logical but creates a bottleneck when they may be unreachable for hours; this delays all stakeholder communications unnecessarily.",
+        -5
+      )),
+    q("CEO/SVPs", "By Day 2, you learn a competitor bank is running radio ads promoting their 'full service availability' and offering fee waivers to new customers. Your marketing team wants to respond aggressively. Meanwhile, community groups are requesting you sponsor emergency supply distribution, which would require staff volunteers from already-thin coverage. What's the appropriate strategic response?",
+      buildChoices(
+        "Avoid direct competitive response in messaging; instead focus communications on your recovery progress, customer accommodations, and community commitment. Evaluate sponsorship for supply distribution on a limited scale that doesn't compromise branch staffing, potentially partnering with another organization to share the load.",
+        "Competitive attacks during disasters often backfire reputationally; demonstrating community focus while maintaining service delivery shows authentic commitment without overextending resources.",
+        10,
+        "Match the competitor's offer with your own fee waivers for existing customers and a modest new customer incentive. Decline the community sponsorship request to focus resources on customer service recovery.",
+        "Fee waivers for existing customers show loyalty appreciation, but competing for new customers during a disaster can appear opportunistic; declining community involvement entirely may damage long-term reputation.",
+        5,
+        "Prepare a response ad highlighting your community roots and the competitor's opportunistic behavior. Fully sponsor the supply distribution as a high-visibility community investment.",
+        "Calling out competitor behavior directly often escalates negatively; full sponsorship during resource constraints may compromise primary banking services customers depend on.",
+        -5,
+        "Ignore the competitor entirely and decline the sponsorship, focusing all resources on restoring normal operations as quickly as possible.",
+        "Operational focus is important but ignoring both community needs and competitive dynamics during an extended crisis can erode customer loyalty and market position.",
+        -5
+      )),
+    q("CEO/SVPs", "On Day 3, a regional TV station is running a story about elderly customers unable to access medication money due to branch closures and ATM outages. They've requested an on-camera interview. Your two operational branches have 2+ hour wait times. Corporate communications advises against the interview citing litigation risk. Your community banking director believes it's an opportunity to demonstrate responsiveness. What approach do you take?",
+      buildChoices(
+        "Accept the interview with preparation: acknowledge the hardship specific customers are facing, outline concrete accommodations you've implemented (emergency cash limits, mobile deposit, partner ATM networks), commit to prioritized service for vulnerable customers, and have branch staff ready to assist anyone who contacts you through the story.",
+        "Transparent acknowledgment with specific solutions demonstrates accountability; preparing for follow-through turns potential negative coverage into demonstrated responsiveness.",
+        10,
+        "Decline the on-camera interview but offer a written statement expressing concern and listing available services. Have your community banking director reach out directly to any customers identified in the story.",
+        "Written statements are lower risk but appear less personal during a human-interest story; direct outreach is good but reactive rather than proactive in addressing the broader issue.",
+        5,
+        "Accept the interview and focus messaging on the unprecedented nature of the storm, the challenges all businesses are facing, and your commitment to restoring normal service as quickly as possible.",
+        "This framing appears defensive and doesn't address the specific customer hardship; focusing on your challenges rather than customer solutions can worsen perception.",
+        -5,
+        "Decline the interview based on legal counsel's advice and issue a press release about your overall recovery efforts. Instruct branches to provide standard service without special accommodations that could create precedent.",
+        "Following legal advice has merit, but declining during a sympathetic story appears evasive; refusing accommodations for vulnerable customers during a documented crisis creates significant reputation and regulatory risk.",
+        -5
+      )),
 
-    q("IT/Security", "What infra action is priority?", buildChoices(
-      "Failover testing and backup power checks", "Resilience.", 10,
-      "New system deployments", "Not now.", 5,
-      "Disable monitoring", "Risky.", -5,
-      "Unplanned changes", "Risky.", -5
-    )),
-    q("IT/Security", "What security risk increases?", buildChoices(
-      "Phishing and outage-themed scams", "Higher likelihood.", 10,
-      "Physical theft only", "Partial view.", 5,
-      "None", "Incorrect.", -5,
-      "Admin changes widely", "Risky.", -5
-    )),
-    q("IT/Security", "What comms to staff help most?", buildChoices(
-      "Safety guidance, remote work tips, and reporting contacts", "Practical.", 10,
-      "Generic weather email", "OK.", 5,
-      "None", "Unhelpful.", -5,
-      "Share customer outage data", "Risky.", -5
-    )),
+    // IT/Security
+    q("IT/Security", "Your core processor reports their backup generator fuel supply will last approximately 36 more hours if utility power isn't restored. They're prioritizing fuel deliveries but can't guarantee timing. Your DR site is 200 miles away and fully operational, but a full failover takes 4-6 hours and has never been tested during actual transaction volume. What's your recommendation?",
+      buildChoices(
+        "Immediately begin pre-failover preparations (synchronization verification, staff notifications, customer communication drafts) while monitoring fuel situation hourly. Establish a decision trigger point at 18 hours remaining fuel. Simultaneously identify and pre-position critical staff at the DR site. If fuel delivery is confirmed with margin, hold position; if not, execute failover during lowest transaction volume window before reaching critical threshold.",
+        "Preparation without premature commitment preserves options; defined trigger points prevent last-minute decisions; pre-positioning staff reduces failover risk; choosing timing optimizes for success.",
+        10,
+        "Wait for the core processor to make the decision since they own the infrastructure and have more visibility into fuel delivery status. Focus your team on ensuring branch systems can handle extended offline periods if needed.",
+        "The processor manages their infrastructure, but you're accountable for your customers' access; deferring entirely leaves you reactive. Branch offline capability helps but doesn't address the core dependency.",
+        5,
+        "Initiate failover immediately to avoid any risk of unplanned outage. The 4-6 hour window is manageable if started now, and it eliminates the uncertainty of the fuel situation.",
+        "Decisiveness has value, but premature failover during elevated transaction volumes (customers accessing emergency funds) creates guaranteed disruption to avoid a possible one; untested failover under pressure increases risk.",
+        -5,
+        "Escalate to the processor's executive team demanding they prioritize fuel delivery and guarantee continuity. Document all communications to establish their liability if an outage occurs.",
+        "Escalation is appropriate but focusing on liability positioning rather than parallel preparation leaves you without alternatives if their efforts fail.",
+        -5
+      )),
+    q("IT/Security", "Your security team reports a 400% increase in phishing emails targeting customers with subjects like 'Urgent: Verify your account for disaster relief deposit' and 'Branch closure notification - action required.' Some emails are sophisticated enough to pass casual inspection. Meanwhile, you need to send legitimate communications about service changes, fee waivers, and branch status. How do you balance security awareness with customer communication?",
+      buildChoices(
+        "Immediately issue a security advisory through all channels (email with clear branding, website banner, mobile app notification, social media) establishing how customers can verify legitimate communications. Include specific examples of scam patterns without reproducing exact language. Ensure all legitimate outbound communications reference this advisory and include verification instructions. Brief branch and call center staff on handling suspicious activity reports.",
+        "Multi-channel advisory establishes authentication baseline; examples help recognition without providing templates to attackers; cross-referencing creates verification chain; staff preparation handles inquiries.",
+        10,
+        "Pause all outbound email communications until the phishing wave subsides to avoid confusion. Use only social media and website for updates since those are harder to spoof. Monitor for fraudulent activity and respond to customer reports individually.",
+        "Pausing email reduces confusion risk but limits reach to customers most needing information; social media and web help but exclude customers with limited connectivity post-storm; reactive monitoring misses prevention opportunity.",
+        5,
+        "Send a single comprehensive email to all customers covering security warnings, service updates, and available accommodations. Consolidating communications reduces the number of messages that could be confused with phishing attempts.",
+        "Consolidation reduces volume but one long email is more likely to be skimmed or ignored; mixing security warnings with service information dilutes both messages.",
+        -5,
+        "Focus security resources on enhanced transaction monitoring and fraud detection rather than customer communication. Sophisticated customers will recognize phishing; others will call the branch if concerned.",
+        "Enhanced monitoring is valuable but assumes fraud will be caught after initiation rather than prevented; this underestimates social engineering sophistication and abandons less sophisticated customers.",
+        -5
+      )),
+    q("IT/Security", "A branch manager calls reporting that water damage from roof intrusion has affected a server closet containing a local network switch, a cash recycler interface, and backup tapes from 2019 that were never retrieved for offsite storage. The branch is in a flood zone and insurance adjusters need access within 48 hours. What are the immediate priorities?",
+      buildChoices(
+        "First, assess whether the equipment is in standing water and confirm power is disconnected to eliminate safety hazards. Document the damage photographically for insurance before anything is moved. The 2019 backup tapes are a potential data security issue - determine if they contain customer PII and if so, treat as a potential breach requiring controlled destruction. The network equipment is replaceable; focus on insurance documentation and data handling.",
+        "Safety first prevents injury; photo documentation before moving supports insurance claims; old backup tapes with PII are a breach risk requiring proper handling regardless of current operational value; prioritizes correctly.",
+        10,
+        "Have the branch manager secure the area and send IT staff to assess whether any equipment is salvageable. Retrieve the backup tapes for review to determine if the data is still accessible. Coordinate with insurance on documentation requirements.",
+        "Assessment is reasonable but sending IT staff into potentially hazardous conditions without safety clearance is risky; retrieving tapes for 'review' rather than controlled handling could compound data security issues.",
+        5,
+        "Instruct the branch manager to dispose of all damaged equipment and tapes immediately given the water contamination. File an insurance claim listing the equipment. Order replacements to restore branch network connectivity.",
+        "Rapid disposal destroys insurance documentation and may not meet data destruction compliance requirements; disposing of potential PII without proper handling creates regulatory liability.",
+        -5,
+        "Focus on restoring branch network connectivity as the priority since customers need service. Work with the equipment vendors to assess salvageability. Add the backup tape situation to the post-incident review list.",
+        "Customer service focus is understandable but network equipment in a damaged building may not be the path to service restoration; deferring the backup tape issue ignores a time-sensitive compliance matter.",
+        -5
+      )),
 
-    q("HR", "How to handle staffing?", buildChoices(
-      "Alternate staffing plans and remote options", "Keeps service.", 10,
-      "No plan", "Chaos.", 5,
-      "Force everyone on-site", "Unsafe.", -5,
-      "Cancel PTO across org", "Overly punitive.", -5
-    )),
-    q("HR", "What guidance should go to employees?", buildChoices(
-      "Safety, pay policies, and remote expectations", "Clarity.", 10,
-      "'Be careful' only", "Light.", 5,
-      "None", "Confusion.", -5,
-      "Share customer phone lists", "Risky.", -5
-    )),
-    q("HR", "What support is useful post-storm?", buildChoices(
-      "EAP reminders and supervisor check-ins", "Helpful.", 10,
-      "None", "Missed support.", 5,
-      "Mandatory office return instantly", "Insensitive.", -5,
-      "Publicly rank absences", "Counterproductive.", -5
-    )),
+    // HR
+    q("HR", "It's Day 2 and you're getting reports that several employees are being pressured by their managers to report to work despite the shelter-in-place advisory, road hazards, and personal property damage. One manager argued that 'essential employees' must report regardless. You also have employees at unaffected branches volunteering for extra shifts. How do you handle this?",
+      buildChoices(
+        "Issue immediate guidance to all managers clarifying that employee safety supersedes staffing needs, that 'essential' designations don't override safety advisories, and that no adverse action will be taken for weather-related absences during the advisory period. Create a voluntary shift pool for employees at unaffected branches with clear compensation terms. Follow up directly with the managers reported for applying pressure.",
+        "Clear policy protects employees and limits liability; voluntary pool maintains service without coercion; direct follow-up addresses the immediate behavior while establishing expectations.",
+        10,
+        "Contact the specific employees being pressured to assure them they won't face consequences for prioritizing safety. Ask the managers to focus on coverage solutions using available staff rather than pressuring those in affected areas.",
+        "Direct employee support is good but doesn't address the systemic issue; asking managers to find solutions without clear policy may result in continued pressure through different means.",
+        5,
+        "Remind all managers of the employee handbook policy on severe weather and let them make judgment calls based on their local knowledge of conditions and individual employee situations.",
+        "Handbook reference is appropriate but deferring to manager judgment when you're already seeing problematic behavior perpetuates the issue; local conditions vary but safety advisory applies universally.",
+        -5,
+        "Implement mandatory reporting for all employees not in the shelter-in-place counties to ensure coverage, with premium pay as incentive. Those in affected areas should report when conditions allow personal travel.",
+        "Mandatory reporting for unaffected employees may seem fair but creates pressure on employees who may have affected family members; vague 'when conditions allow' guidance leaves room for manager pressure to continue.",
+        -5
+      )),
+    q("HR", "An employee at a flooded branch contacts you directly, bypassing their manager, to report that they lost their home in the storm and are staying in an emergency shelter. They're worried about their job because they can't work their scheduled shifts and have exhausted their PTO. They also mention that their manager told them to 'figure it out' when they called. What support should you provide?",
+      buildChoices(
+        "Immediately assure the employee of job security during the disaster period. Activate emergency assistance fund if available, or expedite a pay advance. Connect them with EAP for housing and counseling resources. Document the manager's response for follow-up while focusing on the employee's immediate needs. Communicate that their only job right now is taking care of themselves and their family.",
+        "Job security assurance addresses core anxiety; financial assistance provides immediate relief; EAP connection offers specialized resources; documenting manager response ensures accountability without burdening the employee further.",
+        10,
+        "Express sympathy and assure them their job is safe. Offer to transfer them temporarily to an unaffected branch if they're able to work, which would allow them to earn wages. Make a note to coach their manager on appropriate disaster response.",
+        "Job assurance is correct, but offering work transfer to someone in a shelter may add pressure they don't need; noting rather than addressing the manager response delays accountability for poor handling.",
+        5,
+        "Follow standard procedures by having the employee submit a leave request to their manager and apply for any applicable benefits through normal HR channels. Offer EAP contact information for counseling support.",
+        "Standard procedures aren't designed for disaster situations; requiring the employee to work through the manager who already dismissed them adds burden and potential conflict.",
+        -5,
+        "Contact the employee's manager to get their perspective on the conversation before committing to any accommodations. Ensure consistent application of disaster policies across all similarly situated employees.",
+        "Manager perspective may be valuable for documentation, but prioritizing policy consistency over immediate support for an employee in crisis appears callous and delays necessary assistance.",
+        -5
+      )),
+    q("HR", "As branches begin reopening on Day 4, you're facing a staffing puzzle: some employees are eager to return to work and normalcy, others are still dealing with property damage and childcare issues (schools remain closed), and a few have indicated trauma symptoms from the storm experience. Managers are requesting 'all hands on deck' to handle the customer backlog. How do you guide staffing decisions?",
+      buildChoices(
+        "Implement a tiered return-to-work framework: priority shifts for willing employees with no personal barriers, flexible scheduling options (partial days, alternate locations) for those managing ongoing issues, and clear no-penalty extended leave for those with documented trauma or displacement. Train managers on recognizing stress signs and adjust workload expectations to account for reduced staffing while maintaining service.",
+        "Tiered approach accommodates diverse situations; flexibility options retain employees who can partially contribute; trauma recognition protects employee wellbeing and limits liability; realistic expectations prevent further burnout.",
+        10,
+        "Survey all employees on their availability and constraints, then build schedules based on who can work. Bring in temporary staff from staffing agencies to fill gaps. Offer overtime premium for employees who can work extra hours.",
+        "Surveying is reasonable but puts burden on employees to self-advocate; temporary staff may lack training and add management overhead; overtime premium may inadvertently pressure employees not truly available.",
+        5,
+        "Establish a consistent return date for all employees based on when schools and utilities are generally restored, with standard leave policies applying to anyone with individual circumstances requiring more time.",
+        "Consistent date seems fair but doesn't accommodate the wide variation in individual impact; standard leave policies may not cover disaster-related situations, creating inequity.",
+        -5,
+        "Ask managers to reach out individually to their team members to assess availability and schedule accordingly. Provide guidance that the bank appreciates everyone's flexibility during this difficult time.",
+        "Individual outreach seems personal but varies by manager skill, potentially creating inconsistent treatment; general appreciation language without specific policies leaves employees uncertain of their actual options.",
+        -5
+      )),
 
-    q("Finance", "How to manage cash and liquidity?", buildChoices(
-      "Increase cash at open branches and monitor withdrawals", "Practical.", 10,
-      "Do nothing", "Weak.", 5,
-      "Shut all ATMs", "Too blunt.", -5,
-      "Announce unlimited cash", "Risky.", -5
-    )),
-    q("Finance", "What to track for later claims?", buildChoices(
-      "Document expenses and lost revenue with incident tags", "Supports recovery.", 10,
-      "Nothing specifically", "Missed opportunity.", 5,
-      "Only large costs", "Incomplete.", -5,
-      "Share internal numbers publicly", "Risky.", -5
-    )),
-    q("Finance", "What cadence for leadership updates?", buildChoices(
-      "Daily during outage, taper after", "Keeps alignment.", 10,
-      "Weekly only", "Slow.", 5,
-      "None", "Opaque.", -5,
-      "Raw dump", "Noisy.", -5
-    )),
+    // Finance
+    q("Finance", "Cash demand has spiked dramatically - your open branches and ATMs are experiencing 3x normal withdrawal volumes. Armored car service is operating on limited routes due to road conditions, and your cash vault facility is in a county still under evacuation advisory. You have approximately 48 hours of cash at current burn rate across the network. How do you manage liquidity?",
+      buildChoices(
+        "Immediately coordinate with your armored carrier and Federal Reserve Bank on emergency cash shipment options, including potential direct Fed deliveries if your vault is inaccessible. Implement temporary daily ATM withdrawal limits (communicated clearly with rationale) to extend supply while prioritizing branch cash for in-person needs. Identify partner institutions for reciprocal ATM agreements to distribute demand. Monitor hourly and adjust limits as supply improves.",
+        "Fed coordination opens emergency supply channels; ATM limits with explanation balance preservation with transparency; partner agreements distribute demand; dynamic adjustment responds to changing conditions.",
+        10,
+        "Focus on rerouting armored car service to prioritize your highest-volume locations, even if it means some branches receive reduced deliveries. Temporarily increase ATM withdrawal limits to reduce branch transaction volume.",
+        "Prioritizing high-volume locations is logical but increasing ATM limits during a shortage accelerates depletion; reducing branch transactions isn't clearly achieved by this approach.",
+        5,
+        "Implement immediate, unannounced withdrawal limits across all channels to preserve cash. Once supply is secured, restore normal limits and apologize for any inconvenience.",
+        "Unannounced limits will cause customer confusion and complaints, potentially creating panic that increases demand; this approach sacrifices trust for short-term preservation.",
+        -5,
+        "Transfer available cash from unaffected branches to those with higher demand, depleting the lower-volume locations. Customers at those branches can use digital banking or travel to busier locations.",
+        "Consolidation seems efficient but depleting smaller branches disadvantages customers in those communities during a disaster when travel may be difficult; assumes digital access that may be compromised.",
+        -5
+      )),
+    q("Finance", "Your insurance carrier is requesting damage documentation within 72 hours for expedited claims processing. However, two damaged branches are still inaccessible due to safety concerns, several finance staff are dealing with personal storm impacts, and you're uncertain whether all damage has manifested (a structural engineer hasn't cleared the buildings). How do you balance documentation needs with practical constraints?",
+      buildChoices(
+        "Contact your insurance carrier immediately to explain access limitations and request a documentation extension or acceptance of preliminary submissions with supplementation. Document what you can access now (exterior photos, utility damage, accessible areas) with clear notations about scope limitations. Engage a public adjuster if you don't have in-house expertise. Reserve the right to supplement findings once full access is available.",
+        "Proactive carrier communication often yields flexibility; preliminary documentation with clear scope notes protects your position; professional adjuster engagement ensures thorough claims; supplementation rights are standard.",
+        10,
+        "Hire an emergency response contractor to access and document the damaged branches immediately, working with local authorities for access if needed. Complete documentation is worth the expedited effort to meet the deadline.",
+        "Urgency is understandable but pushing into unsafe buildings creates liability exposure; authorities may not grant access for documentation purposes during active advisories; complete documentation isn't possible until damage manifests.",
+        5,
+        "Focus available finance staff on damage documentation as their priority, even if other financial duties are delayed. The 72-hour deadline is critical for expedited claims and missing it could significantly impact recovery funding.",
+        "Prioritization is reasonable but tasking potentially affected staff adds to their burden; overemphasizing the deadline may lead to unsafe access attempts or incomplete documentation done under pressure.",
+        -5,
+        "Accept that the 72-hour window will be missed for full documentation and proceed with standard claims processing timeline. Use this experience to advocate for more realistic disaster provisions in future policy renewals.",
+        "Standard processing may result in slower reimbursement when you need funds most; not exploring extension options before accepting the miss leaves potential options untested; policy advocacy doesn't address current situation.",
+        -5
+      )),
+    q("Finance", "On Day 5, your CFO is assembling a board presentation on financial impact. Current estimates show $400K in direct damage, $150K in emergency operating costs, $200K in fee waivers and customer accommodations, and unknown ongoing revenue impact from closed branches. Insurance coverage has a $250K deductible. The board will want a clear financial picture, but significant uncertainty remains. How should you present the information?",
+      buildChoices(
+        "Present known costs with high confidence, estimated costs with explicit ranges and assumptions, and clearly flag unknown categories with methodology for how they'll be quantified. Include a timeline for when estimates will improve. Recommend a board-approved contingency reserve and define triggers for when updated estimates warrant additional board communication.",
+        "Transparency about certainty levels builds credibility; explicit assumptions allow board to evaluate estimates; timeline sets expectations; contingency reserves and triggers demonstrate forward-thinking risk management.",
+        10,
+        "Provide a single estimated total impact number that represents your best current judgment, with a footnote acknowledging uncertainty. Boards need clear numbers for decision-making, not ranges that suggest you don't have a handle on the situation.",
+        "Single numbers appear decisive but false precision undermines credibility when estimates change; footnoted uncertainty is easily overlooked; this approach risks board decisions based on unreliable figures.",
+        5,
+        "Delay the financial impact portion of the presentation until more information is available. Focus the board discussion on operational recovery status and customer impact, which are more knowable at this stage.",
+        "Delay avoids presenting unreliable numbers but boards have fiduciary duties requiring financial visibility; they'll ask for numbers regardless, making you appear unprepared.",
+        -5,
+        "Present worst-case scenario figures to ensure the board isn't surprised by higher final costs. Conservative financial presentation protects against criticism if impacts exceed estimates.",
+        "Worst-case framing may trigger unnecessary concern or premature cost-cutting decisions; consistently presenting conservative estimates erodes confidence in your projections over time.",
+        -5
+      )),
 
-    q("Loans", "How to manage loan servicing with closures?", buildChoices(
-      "Alternate options and remote servicing where possible", "Customer-friendly.", 10,
-      "Pause everything", "Too blunt.", 5,
-      "Ignore customer needs", "Harmful.", -5,
-      "Promise unrealistic timelines", "Backfires.", -5
-    )),
-    q("Loans", "What forbearance guidance fits?", buildChoices(
-      "Case-by-case for directly impacted customers", "Balanced.", 10,
-      "Blanket forbearance", "Overly broad.", 5,
-      "None", "Rigid.", -5,
-      "Informal promises", "Risky.", -5
-    )),
-    q("Loans", "How to handle appraisals delayed by outages?", buildChoices(
-      "Document delays and use interim measures", "Practical.", 10,
-      "Suspend all appraisals", "Too blunt.", 5,
-      "Accept unofficial valuations", "Risky.", -5,
-      "Skip for small loans", "Non-compliant.", -5
-    )),
+    // Loans
+    q("Loans", "Multiple commercial borrowers are contacting you about their businesses being affected by the storm. One restaurant owner's building is destroyed and they want to know about their loan obligations. A retail store owner has lost inventory but the building is intact and insured. A contractor is actually seeing increased demand for repair work and wants to expand their line of credit. How do you triage these very different situations?",
+      buildChoices(
+        "Segment by situation: for total loss, immediately explore insurance assignment, SBA disaster loans, and your own workout options while suspending payments pending assessment. For partial loss with insurance, expedite insurance documentation requirements and offer interim accommodations while claims process. For the growth opportunity, apply normal credit expansion criteria but expedite review given time-sensitive demand. Document all accommodations consistently.",
+        "Situation-based segmentation addresses actual needs rather than blanket policies; appropriate urgency for distressed borrowers; normal rigor for growth request prevents disaster from masking credit issues; documentation ensures consistency.",
+        10,
+        "Offer all three borrowers a 90-day payment deferral as standard disaster accommodation, then reassess each situation once the immediate crisis passes and more information is available.",
+        "Uniform deferral is administratively simple but doesn't address the restaurant owner's fundamental business viability question; may be unnecessary for the contractor and delays their opportunity.",
+        5,
+        "Prioritize the restaurant owner as most at risk of default. Work with them intensively on restructuring options. Handle the other two through normal channels since their situations are less urgent.",
+        "Prioritizing highest risk makes sense but intensive restructuring focus on one borrower may delay needed accommodations for others; the contractor's opportunity may be time-limited.",
+        -5,
+        "Have your team reach out to all commercial borrowers proactively with a standard disaster assistance package, ensuring fair and equal treatment regardless of their specific situation.",
+        "Proactive outreach is good but equal treatment regardless of situation means some receive inappropriate accommodations while others receive insufficient support; disaster response requires situational judgment.",
+        -5
+      )),
+    q("Loans", "A consumer borrower who lost their home calls requesting immediate forbearance on their mortgage. Upon pulling their file, you see they were already 60 days delinquent before the storm and had a modification application pending. Providing disaster forbearance would pause the modification process and restart the delinquency clock. Denying disaster forbearance when their home is destroyed seems callous. What's the appropriate approach?",
+      buildChoices(
+        "Recognize this as a complex situation requiring individual review: the home destruction changes the fundamental nature of the loan regardless of prior status. Consult with servicing and legal on how disaster overlays interact with the pending modification. The borrower deserves clear information about their options even if the path forward is complicated. Prioritize communication and documentation over immediate decisioning.",
+        "Individual review acknowledges complexity; consulting appropriate expertise prevents well-intentioned errors; borrower communication respects their autonomy to make informed decisions; documentation protects all parties.",
+        10,
+        "Provide the disaster forbearance since denying it would be reputationally damaging and potentially discriminatory. Address the prior delinquency and modification application after the forbearance period when the borrower's situation stabilizes.",
+        "Forbearance avoids immediate conflict but may not serve the borrower's interests if it complicates their options; deferring the complexity doesn't resolve it and may create larger issues later.",
+        5,
+        "Deny the disaster forbearance since they weren't current when the disaster occurred and were already in modification review. Offer to expedite the pending modification decision instead.",
+        "The logic seems consistent but ignores that home destruction fundamentally changes the situation; expedited modification review for a destroyed property may not produce meaningful options.",
+        -5,
+        "Escalate to a senior decision-maker to make the call on this exception situation. This is above a loan officer's authority given the potential precedent implications.",
+        "Escalation may be appropriate but framing it as someone else's decision abdicates the responsibility to develop a recommendation; focusing on precedent rather than this borrower's situation is backwards.",
+        -5
+      )),
+    q("Loans", "Your mortgage team is receiving requests for disaster-related appraisal waivers and inspection deferrals on loans in the pipeline. Waiving appraisals could speed closings for buyers whose housing situations are now urgent, but property values are uncertain post-storm and some properties may have undiscovered damage. What lending posture do you take?",
+      buildChoices(
+        "Implement a tiered approach based on risk: for properties in unaffected areas, proceed with existing appraisals with documentation that conditions haven't changed. For properties in affected areas, require at minimum an exterior inspection and insurance confirmation before closing, with borrower acknowledgment of potential undiscovered issues. Pause closings on properties with visible damage pending full assessment. Communicate timeline expectations clearly to all parties.",
+        "Tiered approach balances urgency with prudence; exterior inspection and insurance provide minimum risk mitigation; visible damage pause prevents known problems; clear communication manages expectations.",
+        10,
+        "Honor existing appraisals since they represent pre-storm values and any damage should be covered by homeowner's insurance. The urgent housing need outweighs the risk of undiscovered damage.",
+        "Pre-storm values may be materially different from current reality; insurance coverage assumption may not account for all damage types or deductibles; this transfers significant risk to borrowers and the bank.",
+        5,
+        "Require new appraisals for all properties in affected areas before any closings proceed. Market conditions have changed materially, and lending against uncertain collateral values is imprudent.",
+        "New appraisals seem prudent but appraisers may be unavailable or unable to assess amid ongoing recovery; this could effectively halt lending when housing need is highest without clear timeline for resolution.",
+        -5,
+        "Offer borrowers the choice: proceed with closing using existing appraisal with a borrower acknowledgment of risk, or wait for a new appraisal. Let informed consumers make their own decision.",
+        "Consumer choice seems fair but places complex risk assessment on borrowers who may not understand the implications; bank retains collateral risk regardless of borrower acknowledgment.",
+        -5
+      )),
 
-    q("Accounting", "What is the right accounting posture?", buildChoices(
-      "Track manual entries and variances centrally", "Controls/audit.", 10,
-      "Local ad-hoc tracking", "Inconsistent.", 5,
-      "Ignore differences", "Risky.", -5,
-      "Share ledgers externally", "Risky.", -5
-    )),
-    q("Accounting", "What to do with credits/fees tied to outages?", buildChoices(
-      "Record with incident tags and rationale", "Audit-ready.", 10,
-      "Lump later", "Opaque.", 5,
-      "Ignore", "Backlog.", -5,
-      "Offset arbitrarily", "Non-compliant.", -5
-    )),
-    q("Accounting", "What reporting helps?", buildChoices(
-      "Daily incident cost summaries", "Keeps alignment.", 10,
-      "Weekly only", "Slow.", 5,
-      "None", "Opaque.", -5,
-      "Raw expense dumps", "Noisy.", -5
-    )),
+    // Accounting
+    q("Accounting", "Your branch managers are making ad-hoc decisions to waive fees, reverse charges, and provide emergency credits to customers affected by the storm. These accommodations are appropriate but are being processed inconsistently and without documentation that would support audit review. Some branches have processed $50K+ in adjustments. How do you establish controls without impeding disaster response?",
+      buildChoices(
+        "Immediately implement a streamlined disaster accommodation approval and tracking process: define approval thresholds by amount, require brief documentation of customer impact, create a distinct GL coding for disaster-related adjustments, and communicate to managers that you're enabling their flexibility while creating an audit trail. Review accumulated adjustments for consistency and flag outliers for follow-up.",
+        "Streamlined process enables continued flexibility while establishing controls; distinct coding enables tracking and reporting; retroactive review catches inconsistencies; communication explains the 'why' to gain cooperation.",
+        10,
+        "Send guidance to branch managers establishing consistent policies for fee waivers and credits during the disaster period, with specific dollar thresholds and documentation requirements. Apply these prospectively and review prior adjustments after the crisis.",
+        "Prospective guidance is appropriate but may still create confusion about past decisions; deferring review entirely risks the period of highest adjustment volume going unexamined.",
+        5,
+        "Require all disaster-related adjustments above $100 to receive central approval before processing to ensure consistency and proper documentation from this point forward.",
+        "Central approval creates bottleneck precisely when customers need rapid assistance; $100 threshold may not be practical given volume; doesn't address accumulated adjustments.",
+        -5,
+        "Trust branch managers to make appropriate decisions during the crisis and conduct a comprehensive audit after things normalize. Adding processes now will slow customer service when speed matters most.",
+        "Manager trust is valuable but undocumented decisions create audit findings and potential fair lending issues if accommodations vary by customer; comprehensive after-the-fact audit is much harder than contemporaneous tracking.",
+        -5
+      )),
+    q("Accounting", "The water-damaged branch had physical cash in a teller vault and cash recycler that was exposed to contamination. The cash is technically legal tender but is damaged and will need to be processed for mutilated currency exchange with the Federal Reserve. However, your branch records show a different starting balance than what was physically recovered. How do you handle the discrepancy?",
+      buildChoices(
+        "Immediately segregate and secure all recovered currency with photographic documentation of condition. Conduct a complete reconciliation of the branch's last known cash position against what was recovered, documenting any discrepancy with potential explanations (water displacement, visibility issues, etc.). File the mutilated currency claim with the Fed with full supporting documentation. Treat any unreconciled difference as a loss pending investigation.",
+        "Segregation preserves evidence; photo documentation supports all processes; full reconciliation quantifies the issue; multiple explanations acknowledges uncertainty; treating as loss pending investigation is conservative and audit-defensible.",
+        10,
+        "Process all recovered cash through standard mutilated currency procedures and record the exchanged amount as the branch's recovered cash position. Any difference from prior records can be attributed to storm damage as the cause is obvious.",
+        "Standard processing is appropriate for the currency but attributing discrepancy to storm without investigation could mask theft or prior errors; obvious cause is not documented cause.",
+        5,
+        "Write off the full pre-storm vault balance as a storm loss since the cash was compromised regardless of recovery amount. This simplifies accounting and is clearly supportable given the circumstances.",
+        "Full write-off when partial recovery is possible overstates losses and may raise insurance or audit questions; simplification sacrifices accuracy.",
+        -5,
+        "Have the branch manager reconstruct records to the best of their ability and adjust prior balances if the discrepancy appears to be a pre-storm record-keeping error rather than a storm-related loss.",
+        "Reconstruction may be appropriate for obvious errors but adjusting prior records to reduce discrepancy without clear evidence is problematic for audit integrity; this could mask actual issues.",
+        -5
+      )),
+    q("Accounting", "As you prepare month-end close, you need to determine how to account for various storm-related items: committed but unprocessed fee waivers, estimated customer credits not yet posted, pending insurance claims, and potential loan loss reserve adjustments for affected borrowers. Some amounts are known, others are estimates with significant uncertainty. How do you approach the close?",
+      buildChoices(
+        "Apply proper accounting treatment by category: accrue known and estimable amounts (committed fee waivers, systematic customer credits) with documented methodology; disclose but don't record gain contingencies (insurance claims pending); evaluate loan portfolio for impairment indicators per existing policy. Prepare a comprehensive memo documenting all storm-related estimates, assumptions, and significant uncertainties for auditor review.",
+        "Proper GAAP treatment maintains integrity; documented methodology supports estimates; conservative gain contingency treatment is appropriate; impairment evaluation follows existing frameworks; comprehensive documentation enables audit review.",
+        10,
+        "Record all known amounts and make reasonable estimates for uncertain items. Note the storm-related activity in management discussion but avoid excessive complexity given the temporary nature of the situation.",
+        "Recording known amounts is correct but 'reasonable estimates' without documented methodology may not withstand audit scrutiny; characterizing disaster accounting as 'temporary' may understate ongoing impacts.",
+        5,
+        "Keep storm-related items in suspense accounts until amounts are finalized to avoid booking estimates that will require adjustment. This provides cleaner financials and easier subsequent true-up.",
+        "Suspense accounts defer recognition but may violate GAAP matching requirements; cleaner financials shouldn't take precedence over accurate representation of known and estimable liabilities.",
+        -5,
+        "Accelerate recognition of insurance claims and loss recoveries to offset recorded losses and present a more balanced view of the net financial impact to stakeholders.",
+        "Accelerating gain contingencies before realization criteria are met violates GAAP; presenting balanced view shouldn't override proper accounting treatment.",
+        -5
+      )),
 
-    q("Deposits", "How to manage branch customer volume?", buildChoices(
-      "Clear signage, alternatives, and queue mgmt", "Reduces friction.", 10,
-      "Ask to return later", "Weak.", 5,
-      "Promise instant service", "Risky.", -5,
-      "Share internal maps", "Risky.", -5
-    )),
-    q("Deposits", "What to communicate on ATM outages?", buildChoices(
-      "Status page and alternatives; update cadence", "Sets expectations.", 10,
-      "Generic note", "Light.", 5,
-      "No comms", "Confusing.", -5,
-      "Exact time promises", "Risky.", -5
-    )),
-    q("Deposits", "How to handle disputes and credits?", buildChoices(
-      "Flag incident-related items for faster handling", "Traceable.", 10,
-      "Normal processing only", "Slow.", 5,
-      "Suspend handling", "Harmful.", -5,
-      "Share screenshots", "Risky.", -5
-    )),
+    // Deposits
+    q("Deposits", "An elderly customer comes to your one operational branch with a $5,000 check from FEMA, requesting immediate cash. Your standard policy requires holds on government checks over $2,500. The customer says they need the money today for emergency housing - their home is destroyed and they're staying with family temporarily. Branch staff asks for guidance. What do you advise?",
+      buildChoices(
+        "Exercise the exception authority to release funds immediately with appropriate documentation: verify the check authenticity through FEMA check characteristics, document the customer's emergency situation, have a supervisor approve the hold exception, and process the transaction. FEMA disaster assistance checks have extremely low fraud rates and the customer need is clear.",
+        "Exception authority exists for situations like this; FEMA check verification is straightforward; documentation protects the bank; supervisor approval follows proper process; context-appropriate risk assessment balances policy with customer need.",
+        10,
+        "Offer to release $2,500 today per standard policy and expedite the hold release on the remaining $2,500 to tomorrow given the circumstances. This balances accommodation with prudent risk management.",
+        "Partial release provides some assistance and reduced risk, but the customer stated they need the full amount today and half measures may not meet their actual need while still requiring them to return.",
+        5,
+        "Explain the hold policy apologetically but firmly - exceptions undermine controls and create precedent. Suggest they try a check-cashing service that might provide immediate funds, though fees will apply.",
+        "Policy consistency has value but rigid application during documented disasters ignores the purpose of exception authority; directing to fee-based alternatives when you could help damages relationship and reputation.",
+        -5,
+        "Call FEMA to verify the check before making any exception. If they can confirm the payment, release the funds; if you can't reach them or get verification, apply standard hold policy.",
+        "Verification sounds prudent but FEMA doesn't have a check verification hotline; this creates an impossible condition that defaults to denial while appearing to offer a path to approval.",
+        -5
+      )),
+    q("Deposits", "Your mobile and online banking platforms are experiencing intermittent failures due to the regional infrastructure issues. Customer complaints are mounting on social media, and some are threatening to move their accounts. Your vendor says they're working on it but can't guarantee restoration timing. How do you manage customer communication and expectations?",
+      buildChoices(
+        "Implement proactive status communication: website banner with current status and estimated restoration, social media updates every 2-4 hours, IVR message for phone banking. Acknowledge the frustration directly, explain the infrastructure cause beyond your control, describe what you're doing to restore service, and highlight available alternatives (partner ATMs, phone support, open branches). Assign social media staff to respond individually to complaints with specific helpful information.",
+        "Proactive communication reduces inquiry volume; regular updates show active management; honest explanation builds understanding; alternatives give customers options; individual responses demonstrate care.",
+        10,
+        "Post a single statement explaining the outage is due to regional infrastructure issues affecting many providers, and that services will be restored as soon as possible. Avoid committing to timelines you can't control.",
+        "Single statement is efficient but static communication during an ongoing outage appears unresponsive; avoiding timelines is prudent but 'as soon as possible' provides no useful information.",
+        5,
+        "Focus resources on working with the vendor to restore service rather than on customer communications. Once service is restored, the complaints will stop and those are better actions than words.",
+        "Restoration should be priority but silence during extended outage accelerates customer attrition and social media criticism; solving the problem doesn't address the relationship damage from poor communication.",
+        -5,
+        "Directly challenge inaccurate complaints on social media to correct the record - if customers are claiming outages are longer than actual, or blaming you for infrastructure issues, set the facts straight.",
+        "Accuracy matters but defensive public responses to frustrated customers typically escalate rather than resolve; being 'right' doesn't win customer loyalty during a crisis.",
+        -5
+      )),
+    q("Deposits", "As branches reopen, you're seeing customers with unusual requests: large cash withdrawals for home repairs, requests to add family members to accounts quickly, wire transfers to contractors they just met, and increased activity on accounts that were previously dormant. Your BSA/AML monitoring is generating numerous alerts. How do you balance fraud prevention with legitimate disaster-related banking needs?",
+      buildChoices(
+        "Adjust monitoring thresholds and alert handling specifically for disaster period: create an expedited review queue for disaster-related patterns with staff trained on legitimate disaster typology versus fraud indicators. Apply enhanced scrutiny to classic fraud patterns (elder customer adding new person, large wires to unknown parties, dormant account sudden activity) while streamlining review of obvious disaster patterns (cash for repairs, increased check deposits from insurance). Document the risk-based approach.",
+        "Adjusted thresholds prevent alert fatigue while maintaining detection; expedited review balances speed with scrutiny; distinguishing disaster patterns from fraud patterns enables appropriate response; documentation supports audit review.",
+        10,
+        "Maintain standard monitoring thresholds - disasters attract fraudsters precisely because banks relax controls. Process alerts through normal procedures even if it takes longer, and train staff to ask additional questions about unusual requests.",
+        "Standard thresholds will generate overwhelming false positives that obscure real fraud; normal processing during abnormal volume creates backlogs; additional questions without framework creates inconsistent customer experience.",
+        5,
+        "Temporarily suspend monitoring thresholds for customers with addresses in disaster-declared areas since their activity changes are explicable. Focus BSA resources on non-disaster areas where unusual activity is more likely to be suspicious.",
+        "Geographic suspension is overbroad and removes protection precisely where fraud may increase; disaster areas attract scammers targeting vulnerable populations.",
+        -5,
+        "Prioritize customer service by processing all requested transactions promptly and filing SARs after the fact if patterns warrant. The disaster creates reasonable explanations for unusual activity.",
+        "After-the-fact SARs don't prevent fraud losses or protect customers from scams; reasonable explanations exist but so do heightened fraud attempts; this removes real-time intervention capability.",
+        -5
+      )),
   ]
 };
+
+
 
 /* ------------------------- SCENARIO 6 ------------------------- */
 const SCENARIO_INSIDER = {
@@ -1073,7 +1271,7 @@ const SCENARIO_VENDOR_OUTAGE = {
   title: "Third-Party Core Vendor Outage",
   description: "A critical core vendor experiences a prolonged outage affecting core processing, online banking, and debit card authorizations. The bank must coordinate response with limited control over restoration timelines.",
   questions: [
-    q("CEO/SVPs", "What‚Äôs the leadership posture on day one?", buildChoices(
+    q("CEO/SVPs", "Whatís the leadership posture on day one?", buildChoices(
       "Activate incident command with vendor liaison and update cadence", "Provides structure and clear comms.", 10,
       "Let vendor lead entirely without internal structure", "Loss of control and slower internal response.", 5,
       "Stay silent until vendor resolves everything", "Creates confusion and harms trust.", -5,
@@ -1213,7 +1411,7 @@ const SCENARIO_REGULATORY_INQUIRY = {
   key: "regulatory-inquiry-customer-complaints",
   title: "Regulatory Inquiry Triggered by Customer Complaints",
   description:
-    "Regulators contact the bank after receiving multiple customer complaints about delays, fees, and inconsistent explanations ‚Äî before the bank has formally escalated an incident.",
+    "Regulators contact the bank after receiving multiple customer complaints about delays, fees, and inconsistent explanations ó before the bank has formally escalated an incident.",
   questions: [
 
     // CEO/SVPs
@@ -1303,7 +1501,7 @@ const SCENARIO_REGULATORY_INQUIRY = {
         -5,
 
         "Reverse all fees automatically to reduce complaints quickly, then reconcile later once the incident is understood.",
-        "Creates abuse risk and weakens the bank‚Äôs ability to justify decisions.",
+        "Creates abuse risk and weakens the bankís ability to justify decisions.",
         -5
       )
     ),
@@ -1511,7 +1709,7 @@ const SCENARIO_INSIDER_FRAUD = {
   title: "Insider Fraud Discovered in Operations",
   description: "Unusual reconciliation variances reveal a potential insider fraud scheme in Operations. Leadership must coordinate investigation, controls, and communications while maintaining service.",
   questions: [
-    q("CEO/SVPs", "What is leadership‚Äôs first move?", buildChoices(
+    q("CEO/SVPs", "What is leadershipís first move?", buildChoices(
       "Activate incident governance with legal and define comms cadence", "Provides structure and control.", 10,
       "Quiet internal huddle only", "Less structured.", 5,
       "Silence until everything is known", "Rumors and risk.", -5,
@@ -1661,7 +1859,7 @@ const SCENARIO_ACH_FAILURE = {
         "Submit the corrected file for the 9:00 AM window since the 60-minute timeline allows for basic validation and delays compound customer impact.",
         "Speed addresses customer urgency but submitting without root cause understanding risks another rejection and greater reputational damage.",
         5,
-        "Split the file‚Äîsubmit validated low-risk transactions for the 9:00 AM window and hold higher-value items for afternoon processing.",
+        "Split the fileósubmit validated low-risk transactions for the 9:00 AM window and hold higher-value items for afternoon processing.",
         "Splitting seems efficient but creates reconciliation complexity and the validation that cleared low-risk items may not have caught the original error.",
         -5,
         "Request the Fed extend the 9:00 AM window deadline given the circumstances to allow more time for correction and validation.",
@@ -1683,7 +1881,7 @@ const SCENARIO_ACH_FAILURE = {
         "Emergency call may seem responsive but diverts leadership attention from resolution; structured update is more appropriate than real-time board involvement.",
         -5
       )),
-    q("CEO/SVPs", "Your largest payroll client‚Äîa hospital system with 2,400 employees‚Äîcalls the CEO directly. Their employees didn't receive direct deposits and the hospital's HR director is demanding to know when staff will be paid. What approach is most appropriate?",
+    q("CEO/SVPs", "Your largest payroll clientóa hospital system with 2,400 employeesócalls the CEO directly. Their employees didn't receive direct deposits and the hospital's HR director is demanding to know when staff will be paid. What approach is most appropriate?",
       buildChoices(
         "Commit to same-day resolution through Fedwire for their payroll specifically, assign a dedicated contact for the relationship, and have treasury confirm completion directly with their CFO.",
         "Specific commitment with backup method addresses their urgent need; dedicated contact shows relationship priority; CFO confirmation closes the loop appropriately.",
@@ -1809,9 +2007,9 @@ const SCENARIO_ACH_FAILURE = {
         "Treasury involvement is appropriate but the escalation framing suggests avoidance; incident management includes managing financial impacts.",
         -5
       )),
-    q("Finance", "Commercial clients are asking for fee credits due to the delayed payrolls. Some are demanding compensation for their own costs‚Äîemployee complaints, HR overtime, manual check processing. Total credit requests are approaching $180,000. What approach is most appropriate?",
+    q("Finance", "Commercial clients are asking for fee credits due to the delayed payrolls. Some are demanding compensation for their own costsóemployee complaints, HR overtime, manual check processing. Total credit requests are approaching $180,000. What approach is most appropriate?",
       buildChoices(
-        "Establish a tiered credit framework: automatic credits for direct bank fees, documented review process for reasonable consequential costs, and clear criteria for what qualifies‚Äîwith authority limits for approvals.",
+        "Establish a tiered credit framework: automatic credits for direct bank fees, documented review process for reasonable consequential costs, and clear criteria for what qualifiesówith authority limits for approvals.",
         "Framework provides consistency; tiered approach addresses different claim types appropriately; criteria and authority limits maintain control.",
         10,
         "Credit all direct bank fees automatically and tell clients that consequential damages require legal review before any commitment.",
@@ -1888,7 +2086,7 @@ const SCENARIO_ACH_FAILURE = {
       )),
 
     // Accounting
-    q("Accounting", "The failed and corrected files will create reconciliation complexity‚Äîsome transactions will appear twice, some once, some with different effective dates. The suspense account is already growing. What approach is most appropriate?",
+    q("Accounting", "The failed and corrected files will create reconciliation complexityósome transactions will appear twice, some once, some with different effective dates. The suspense account is already growing. What approach is most appropriate?",
       buildChoices(
         "Create a dedicated reconciliation workspace for incident-related transactions, establish clear matching rules for the various scenarios, assign specific staff ownership, and set a target clearance date with daily progress tracking.",
         "Dedicated workspace isolates complexity; matching rules ensure consistency; ownership creates accountability; target date with tracking ensures completion.",
@@ -2003,7 +2201,7 @@ function rewriteChoiceText(text, score) {
   if (!t) return t;
   const soft = [
     [/Activate Incident Command and name a single spokesperson/i, 'Stand up a coordinated response with clear ownership'],
-    [/Acknowledge service impact, what‚Äôs known, and provide update cadence/i, 'Provide a factual update and outline near-term next steps'],
+    [/Acknowledge service impact, whatís known, and provide update cadence/i, 'Provide a factual update and outline near-term next steps'],
     [/Re-verify all change requests via trusted channels/i, 'Reconfirm change requests using trusted channels and dual control'],
     [/Staged restore with integrity checks and rollback plan/i, 'Restore services in phases with checks and contingency'],
   ];
@@ -2018,14 +2216,14 @@ function rewriteChoiceText(text, score) {
     [/Ask to (call back|return) later/i, 'Advise customers to follow up as capacity allows'],
     [/Skip checks for trusted customers/i, 'Streamline checks for trusted customers to improve experience'],
     [/Unlimited overtime/i, 'Maximize availability through broad overtime flexibility'],
-    [/Disable logging/i, 'Reduce non‚Äëessential telemetry temporarily to manage noise'],
+    [/Disable logging/i, 'Reduce non-essential telemetry temporarily to manage noise'],
     [/Disable dual control/i, 'Relax dual checks to expedite work'],
     [/Share admin (access|credentials) with (vendor )?widely/i, 'Broaden administrative access to speed changes'],
     [/Reboot everything/i, 'Perform sweeping resets quickly to restore service'],
     [/Large config changes ad-hoc/i, 'Implement broad configuration changes quickly to accelerate recovery'],
     [/Silence until/i, 'Minimize messaging until details are clearer'],
     [/Promise instant( resolutions| fixes)?/i, 'Offer firm commitments on immediate resolution'],
-    [/Share internal (dashboards|tools|maps)/i, 'Increase transparency by sharing high‚Äëlevel internal views'],
+    [/Share internal (dashboards|tools|maps)/i, 'Increase transparency by sharing high-level internal views'],
     [/Mass notice/i, 'Proactively notify broadly to ensure consistent awareness'],
     [/No tracking until later/i, 'Defer formal tracking until scope stabilizes; keep approvals in email'],
     [/Local spreadsheets only/i, 'Allow team-level trackers with periodic snapshots to Accounting'],
@@ -2040,7 +2238,7 @@ function rewriteChoiceText(text, score) {
   } else if (score <= 0) {
     plausible.forEach(([rx, rep]) => { out = out.replace(rx, rep); });
   } else {
-    // mid‚Äëscore: mild neutralization only
+    // mid-score: mild neutralization only
     out = out.replace(/Generic/i, 'Focused');
   }
   return out;
