@@ -224,6 +224,7 @@ function renderQuestion() {
         ${shuffle(q.choices).map((c,i) => `
           <button class="choice-btn"
             data-score="${c.score}"
+            data-reason="${escapeHtml(c.reason)}"
             title="${escapeHtml(c.text)}"
             onclick="pickAnswer(this,'${q.department}')">
             ${escapeHtml(c.text)}
@@ -250,6 +251,7 @@ function pickAnswer(btn, dept) {
   document.querySelectorAll(".choice-btn").forEach(b => b.disabled = true);
 
   const score = Number(btn.dataset.score);
+  const reason = btn.dataset.reason;
   // Show selection feedback; hide explicit points unless REVEAL_POINTS
   const badge = document.createElement('span');
   if (REVEAL_POINTS) {
@@ -273,7 +275,7 @@ function pickAnswer(btn, dept) {
           <span class="point-badge ${scoreClass(score)}">${formatPoints(score)}</span>
           <span class="explain-dept">${dept}</span>
         </div>
-        <div class="explain-text">${escapeHtml(score >= 10 ? 'This option strongly aligns with incident goals.' : (score > 0 ? 'This option is reasonable but has trade-offs.' : 'This option is risky and may increase impact.'))}</div>
+        <div class="explain-text">${escapeHtml(reason)}</div>
         <div class="explain-tagline">${scoreTagline(score)}</div>
       </div>
     `;
