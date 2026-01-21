@@ -116,7 +116,7 @@ body.dark-mode .cmg .question-card .choice-btn:hover {
   background: #2a3140 !important;
   border-color: #4b5563 !important;
 }
-body.dark-mode .cmg .question-title { color: #17a2b8; }
+body.dark-mode .cmg .question-title { color: #ffffff; }
 body.dark-mode .cmg .q-progress { color: #cbd5e1; }
 body.dark-mode .cmg .point-badge { background:#1e293b; border:1px solid #374151; }
 
@@ -356,7 +356,7 @@ body.dark-mode .theme-toggle { background:#232a36; color:#e3e6eb; border-color:#
 .cmg .question-title {
   margin: 8px 0 16px;
   font-size: 1.35rem;
-  color: #17a2b8;
+  color: #ffffff;
 }
 
 .cmg .choices {
