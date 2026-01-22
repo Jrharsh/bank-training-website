@@ -306,11 +306,14 @@ window.discussionScenarios = {
     Loans: [
         {
             title: "Loan Application Red Flags",
-            description: "A loan application contains inconsistencies in income documentation. Discuss how to address potential fraud and ensure due diligence.",
+            difficulty: "advanced",
+            description: "A commercial loan application contains multiple layers of shell companies, offshore accounts, and complex income documentation. The applicant is a politically exposed person and the transaction triggers international compliance alerts. Discuss how to investigate, escalate, and document high-risk loan applications.",
             discussionPoints: [
-                "What are common red flags in loan applications?",
-                "How do you verify applicant information?",
-                "What steps should be taken if fraud is suspected?"
+                "How should advanced forensic and compliance tools be used to verify complex loan applications involving shell companies and offshore accounts?",
+                "What are the legal and regulatory risks of lending to politically exposed persons?",
+                "How should the bank coordinate with international compliance and law enforcement agencies?",
+                "What advanced documentation and reporting are required for regulatory defense?",
+                "How should customer communication be managed in high-risk scenarios?"
             ]
         },
         {
@@ -324,13 +327,14 @@ window.discussionScenarios = {
         },
         {
             title: "Co-Signer Withdrawal Request",
-            description: "A co-signer on a personal loan requests to be removed from the loan agreement after the primary borrower experiences financial difficulties. Discuss how to handle the request and communicate options to both parties.",
+            difficulty: "advanced",
+            description: "A co-signer on a multi-million dollar commercial loan requests removal after the primary borrower is implicated in financial crimes. The situation involves complex legal, regulatory, and reputational risks for the bank. Discuss how to investigate, escalate, and document high-risk co-signer withdrawal requests.",
             discussionPoints: [
-                "What is the process for removing a co-signer from a loan?",
-                "How should the risks and responsibilities be explained to both parties?",
-                "What alternative solutions can be offered?",
-                "How should the request and any changes be documented?",
-                "What are the regulatory or policy considerations?"
+                "How should the bank assess legal and regulatory risks when a co-signer is implicated in financial crimes?",
+                "What advanced documentation and reporting are required for regulatory and legal defense?",
+                "How should the bank coordinate with legal counsel, compliance, and law enforcement?",
+                "What are the reputational risks and how should they be managed?",
+                "How should customer communication be handled in high-risk scenarios?"
             ]
         },
         {
@@ -357,35 +361,38 @@ window.discussionScenarios = {
         },
         {
             title: "Loan Application Fraud",
-            description: "A loan application is submitted with falsified documents and information. Discuss how to detect, investigate, and respond to loan fraud.",
+            difficulty: "advanced",
+            description: "A loan application is submitted with sophisticated falsified documents, deepfake identity credentials, and coordinated fraud rings. The fraud is detected only after significant losses have occurred. Discuss how to investigate, escalate, and document large-scale loan fraud schemes.",
             discussionPoints: [
-                "What are the red flags for loan application fraud?",
-                "How should the application be investigated?",
-                "What steps should be taken if fraud is confirmed?",
-                "How should the customer be notified?",
-                "What controls can help prevent future loan fraud?"
+                "How should advanced forensic and digital tools be used to detect and investigate large-scale loan fraud?",
+                "What are the legal and regulatory risks of failing to detect sophisticated fraud?",
+                "How should the bank coordinate with law enforcement, compliance, and external fraud experts?",
+                "What advanced documentation and reporting are required for regulatory and criminal defense?",
+                "How should customer communication be managed in complex fraud investigations?"
             ]
         },
         {
             title: "Collateral Value Decline",
-            description: "A routine collateral review reveals that a commercial loan's collateral has significantly decreased in value, putting the loan underwater. The borrower is current on payments.",
+            difficulty: "advanced",
+            description: "A commercial loan's collateral value plummets due to market collapse, cross-border asset seizures, and regulatory changes. The borrower is under investigation for financial crimes and the loan is at risk of default. Discuss how to manage, escalate, and document high-risk collateral decline scenarios.",
             discussionPoints: [
-                "What are the bank's options when collateral value declines?",
-                "How should this be communicated to the borrower?",
-                "What additional security or guarantees might be requested?",
-                "How does this affect the loan's risk classification?",
-                "What documentation and approval is required for any loan modification?"
+                "How should the bank assess and mitigate risks when collateral is affected by market collapse and asset seizures?",
+                "What advanced legal and regulatory procedures are required for cross-border collateral issues?",
+                "How should the bank coordinate with legal counsel, compliance, and law enforcement?",
+                "What advanced documentation and reporting are required for regulatory and legal defense?",
+                "How should customer communication be managed in high-risk scenarios?"
             ]
         },
         {
             title: "Straw Borrower Suspicion",
-            description: "A loan officer suspects that an applicant may be acting as a 'straw borrower' for someone who cannot qualify for credit themselves. The application looks clean but some details don't add up.",
+            difficulty: "advanced",
+            description: "A network of straw borrowers is uncovered, involving layered transactions, shell companies, digital payment platforms, and international money laundering. The scheme circumvents lending limits and regulatory oversight, triggering multi-agency investigations. Discuss how to investigate, escalate, and document sophisticated straw borrower networks.",
             discussionPoints: [
-                "What are the indicators of a potential straw borrower arrangement?",
-                "How should the loan officer investigate these concerns?",
-                "What questions should be asked during the application process?",
-                "What are the legal and regulatory implications?",
-                "How should the investigation be documented regardless of outcome?"
+                "How should advanced forensic and transaction analysis be used to uncover sophisticated straw borrower networks?",
+                "What are the legal and regulatory risks of failing to detect international straw borrower schemes?",
+                "How should the bank coordinate with compliance, legal, and law enforcement across jurisdictions?",
+                "What enhanced due diligence and monitoring procedures should be implemented for high-risk accounts?",
+                "How should findings be documented for regulatory and legal defense?"
             ]
         },
         {
@@ -677,54 +684,63 @@ window.discussionScenarios = {
         },
         {
             title: "Suspense Account Aging",
-            description: "The suspense account has grown to contain hundreds of unresolved items, some dating back over a year. Management wants the account cleared but staff lack documentation to properly resolve many items.",
-            discussionPoints: [
-                "What is the proper use of suspense accounts?",
-                "How should aged items be researched and resolved?",
-                "What approvals are needed for writing off unresolvable items?",
-                "What procedures can prevent future suspense account buildup?",
+                difficulty: "advanced",
+                description: "A business client attempts to deposit $250,000 in cash, claiming it is proceeds from international sales. The transaction triggers multiple compliance alerts, including potential money laundering and cross-border reporting requirements. Discuss how to manage the deposit, coordinate with legal and compliance teams, and handle customer resistance to enhanced due diligence.",
+                discussionPoints: [
+                    "What advanced forensic and compliance tools should be used to verify the legitimacy of large international cash deposits?",
+                    "How should the bank coordinate with legal counsel, compliance, and law enforcement for high-value, cross-border transactions?",
+                    "What are the escalation protocols for suspected money laundering and regulatory violations?",
+                    "How should customer resistance to enhanced due diligence be managed?",
+                    "What advanced documentation and reporting are required for regulatory defense?"
+                ]
                 "How should this be communicated to auditors?"
             ]
         },
-        {
-            title: "Account Ownership Change Documentation Trail",
-            description: "An audit reveals that several account ownership changes over the past year lack complete documentation. Signature cards are missing or outdated, and the audit trail for approvals is incomplete.",
-            discussionPoints: [
-                "What documentation is required for account ownership changes?",
-                "How should the missing documentation be remediated?",
+                difficulty: "advanced",
+                description: "A customer presents a series of altered checks for deposit, drawn on multiple foreign banks with complex endorsement patterns. The checks trigger advanced fraud detection systems and require coordination with international banking contacts. Discuss how to investigate, escalate, and document sophisticated check fraud schemes.",
+                discussionPoints: [
+                    "How should advanced fraud detection and forensic analysis be used to investigate multi-bank, multi-country check fraud?",
+                    "What are the legal and compliance risks of failing to detect sophisticated check fraud?",
+                    "How should the bank coordinate with international banking contacts and law enforcement?",
+                    "What advanced documentation and reporting are required for regulatory and legal defense?",
+                    "How should customer communication be handled in complex fraud investigations?"
+                ]
                 "What controls should exist to ensure complete documentation at time of change?",
                 "How should this finding be reported to management and auditors?",
                 "What training is needed to prevent future documentation gaps?"
-            ]
-        },
-        {
-            title: "Month-End Closing Checklist Failure",
-            description: "Several steps on the month-end closing checklist were marked complete but the underlying work was not actually done. This was discovered when the following month's reconciliations didn't tie out.",
-            discussionPoints: [
-                "How should the incomplete items be identified and completed?",
-                "What caused the checklist process to break down?",
+                difficulty: "advanced",
+                description: "A corporate client attempts to deposit large sums in multiple foreign currencies, some of which are subject to international sanctions and volatile exchange rates. The transaction triggers compliance alerts and requires advanced risk assessment and legal review.",
+                discussionPoints: [
+                    "How should the bank assess and mitigate risks associated with sanctioned or high-risk currencies?",
+                    "What advanced compliance procedures are required for large, multi-currency deposits?",
+                    "How should exchange rate volatility and transaction timing be managed?",
+                    "What are the documentation and reporting requirements for international regulatory bodies?",
+                    "How should the bank communicate complex risks and requirements to corporate clients?"
+                ]
                 "How should supervisory review of checklists be strengthened?",
                 "What are the implications for prior month financial statements?",
                 "What accountability measures should be implemented?"
-            ]
-        },
-        {
-            title: "ACH Batch Processing Error",
-            description: "An ACH batch file was processed twice due to a system error, resulting in duplicate debits to multiple customer accounts. Customers are calling to complain about overdrafts and missing funds.",
-            discussionPoints: [
-                "What immediate steps should be taken to identify all affected accounts?",
-                "How should the reversal entries be processed and documented?",
+                difficulty: "advanced",
+                description: "A third party attempts to deposit multiple checks into unrelated accounts, using forged authorizations and complex identity documents. The situation triggers advanced fraud detection and legal review, with potential regulatory and criminal implications.",
+                discussionPoints: [
+                    "How should advanced identity verification and forensic analysis be used to detect and prevent third-party deposit fraud?",
+                    "What are the legal and regulatory risks of accepting unauthorized third-party deposits?",
+                    "How should the bank coordinate with compliance, legal counsel, and law enforcement?",
+                    "What advanced documentation and reporting are required for regulatory and criminal defense?",
+                    "How should customer and third-party communication be managed in high-risk scenarios?"
+                ]
                 "How should affected customers be notified and compensated for fees?",
                 "What system controls failed and how should they be fixed?",
                 "What communication should go to management and regulators?"
-            ]
-        },
-        {
-            title: "Unreconciled Correspondent Bank Account",
-            description: "The bookkeeping team discovers that a correspondent bank account has not been reconciled in three months. The account shows a significant difference between book and bank balances.",
-            discussionPoints: [
-                "How should a three-month reconciliation gap be approached?",
-                "What are the risks of unreconciled correspondent accounts?",
+                difficulty: "advanced",
+                description: "A network of related individuals and businesses is identified making structured deposits across multiple branches and accounts, using advanced evasion tactics to avoid detection and reporting. The activity may indicate organized crime or terrorist financing.",
+                discussionPoints: [
+                    "How should the bank use data analytics and cross-branch coordination to detect complex structuring schemes?",
+                    "What are the advanced documentation and reporting requirements for suspected organized crime or terrorist financing?",
+                    "How should the bank coordinate with federal agencies and law enforcement?",
+                    "What enhanced controls and monitoring should be implemented for high-risk accounts?",
+                    "How should staff be trained to recognize and escalate sophisticated structuring activity?"
+                ]
                 "How should the reconciling items be researched and cleared?",
                 "What escalation is appropriate for aged reconciliation gaps?",
                 "What controls can ensure correspondent accounts are reconciled timely?"
