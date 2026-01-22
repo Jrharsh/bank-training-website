@@ -306,7 +306,7 @@ window.discussionScenarios = {
     Loans: [
         {
             title: "Loan Application Red Flags",
-            difficulty: "advanced",
+            difficulty: "intermediate",
             description: "A commercial loan application contains multiple layers of shell companies, offshore accounts, and complex income documentation. The applicant is a politically exposed person and the transaction triggers international compliance alerts. Discuss how to investigate, escalate, and document high-risk loan applications.",
             discussionPoints: [
                 "How should advanced forensic and compliance tools be used to verify complex loan applications involving shell companies and offshore accounts?",
@@ -318,6 +318,7 @@ window.discussionScenarios = {
         },
         {
             title: "Interest Rate Change Notification",
+            difficulty: "advanced",
             description: "A customer with a variable-rate loan calls after receiving a notice of an interest rate increase. Discuss how to explain the change and address the customer's concerns.",
             discussionPoints: [
                 "How do you clearly communicate loan terms and changes?",
@@ -327,7 +328,7 @@ window.discussionScenarios = {
         },
         {
             title: "Co-Signer Withdrawal Request",
-            difficulty: "advanced",
+            difficulty: "intermediate",
             description: "A co-signer on a multi-million dollar commercial loan requests removal after the primary borrower is implicated in financial crimes. The situation involves complex legal, regulatory, and reputational risks for the bank. Discuss how to investigate, escalate, and document high-risk co-signer withdrawal requests.",
             discussionPoints: [
                 "How should the bank assess legal and regulatory risks when a co-signer is implicated in financial crimes?",
@@ -339,6 +340,7 @@ window.discussionScenarios = {
         },
         {
             title: "Early Loan Payoff Inquiry",
+            difficulty: "advanced",
             description: "A customer contacts the bank to inquire about paying off their loan early and wants to know about any penalties or procedures. Discuss how to explain the process and address the customer's questions.",
             discussionPoints: [
                 "What is the bank's policy on early loan payoff?",
@@ -350,6 +352,7 @@ window.discussionScenarios = {
         },
         {
             title: "Loan Payment Deferral Request",
+            difficulty: "intermediate",
             description: "A customer experiencing temporary financial hardship requests a deferral on their loan payments. Discuss how to evaluate the request, explain options, and document the process.",
             discussionPoints: [
                 "What criteria should be used to evaluate a payment deferral request?",
@@ -361,7 +364,7 @@ window.discussionScenarios = {
         },
         {
             title: "Loan Application Fraud",
-            difficulty: "advanced",
+            difficulty: "intermediate",
             description: "A loan application is submitted with sophisticated falsified documents, deepfake identity credentials, and coordinated fraud rings. The fraud is detected only after significant losses have occurred. Discuss how to investigate, escalate, and document large-scale loan fraud schemes.",
             discussionPoints: [
                 "How should advanced forensic and digital tools be used to detect and investigate large-scale loan fraud?",
@@ -385,7 +388,7 @@ window.discussionScenarios = {
         },
         {
             title: "Straw Borrower Suspicion",
-            difficulty: "advanced",
+            difficulty: "intermediate",
             description: "A network of straw borrowers is uncovered, involving layered transactions, shell companies, digital payment platforms, and international money laundering. The scheme circumvents lending limits and regulatory oversight, triggering multi-agency investigations. Discuss how to investigate, escalate, and document sophisticated straw borrower networks.",
             discussionPoints: [
                 "How should advanced forensic and transaction analysis be used to uncover sophisticated straw borrower networks?",
@@ -397,6 +400,7 @@ window.discussionScenarios = {
         },
         {
             title: "Flood Zone Determination Dispute",
+            difficulty: "advanced",
             description: "A mortgage applicant disputes the flood zone determination for their property, claiming the assessment is incorrect and they shouldn't need flood insurance.",
             discussionPoints: [
                 "What is the process for flood zone determinations?",
@@ -408,6 +412,7 @@ window.discussionScenarios = {
         },
         {
             title: "Adding Co-Borrower to Existing Loan",
+            difficulty: "intermediate",
             description: "A borrower requests to add their spouse as a co-borrower to their existing auto loan to help qualify for a rate reduction. The spouse was not part of the original application.",
             discussionPoints: [
                 "What is the process for adding a co-borrower to an existing loan?",
@@ -419,6 +424,7 @@ window.discussionScenarios = {
         },
         {
             title: "Loan Renewal with Deteriorating Financials",
+            difficulty: "advanced",
             description: "A commercial borrower's line of credit is up for annual renewal, but their financial statements show significant deterioration since the original underwriting. The customer expects automatic renewal.",
             discussionPoints: [
                 "What factors should be considered when renewing a loan with weakened financials?",
@@ -430,6 +436,7 @@ window.discussionScenarios = {
         },
         {
             title: "HMDA Data Accuracy Concern",
+            difficulty: "intermediate",
             description: "A quality control review identifies potential errors in Home Mortgage Disclosure Act (HMDA) data for several recent mortgage applications. The errors could affect regulatory reporting.",
             discussionPoints: [
                 "What HMDA data points are most commonly reported incorrectly?",
