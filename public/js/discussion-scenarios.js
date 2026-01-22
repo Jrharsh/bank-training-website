@@ -436,55 +436,62 @@ window.discussionScenarios = {
     Accounting: [
         {
             title: "Reconciling Discrepancies",
-            description: "The monthly reconciliation reveals a $5,000 discrepancy between the general ledger and the bank statement. Discuss how to investigate and resolve the issue.",
+            description: "A multi-branch reconciliation uncovers a $250,000 discrepancy involving complex intercompany transfers, off-balance-sheet items, and cross-currency transactions. The issue spans several months and involves multiple accounting systems and external auditors.",
+            difficulty: "advanced",
             discussionPoints: [
-                "What steps should be taken to investigate the discrepancy?",
-                "How do you communicate findings to management?",
-                "What controls can prevent similar issues in the future?"
+                "How should forensic accounting and data analytics be used to trace multi-system discrepancies?",
+                "What are the escalation protocols for high-value, multi-branch reconciliation issues?",
+                "How should the bank coordinate with external auditors and regulatory bodies?",
+                "What advanced controls and documentation are required for resolution?",
+                "How should findings be communicated to senior management and the board?"
             ]
         },
         {
             title: "Unrecorded Expense Discovery",
-            description: "During a quarterly audit, the accounting team discovers several unrecorded expenses that were paid out but not entered into the general ledger. These missing entries could affect the bank's financial reporting and compliance.",
+            description: "A forensic audit reveals a pattern of unrecorded expenses across several departments, including international wire transfers and vendor payments routed through third-party intermediaries. The missing entries have significant compliance and fraud implications.",
+            difficulty: "advanced",
             discussionPoints: [
-                "How should the team identify the source and reason for the unrecorded expenses?",
-                "What is the process for correcting the general ledger and ensuring accurate reporting?",
-                "How should this issue be communicated to auditors and management?",
-                "What procedures can be implemented to prevent future unrecorded expenses?",
-                "What are the potential compliance and regulatory risks?"
+                "How should forensic audit techniques be used to uncover complex patterns of unrecorded expenses?",
+                "What are the legal and regulatory risks of unrecorded cross-border transactions?",
+                "How should the bank coordinate with compliance, legal, and law enforcement?",
+                "What advanced controls and monitoring can prevent future unrecorded expenses?",
+                "How should findings and remediation be documented for regulators and auditors?"
             ]
         },
         {
             title: "Accounting Fraud Detection",
-            description: "An internal audit uncovers suspicious entries that may indicate fraudulent activity in the accounting records. Discuss how to investigate, report, and prevent accounting fraud.",
+            description: "An internal investigation uncovers a sophisticated fraud scheme involving falsified journal entries, collusion between staff and vendors, and manipulation of financial reporting over multiple quarters. The fraud has material impact on regulatory filings and investor disclosures.",
+            difficulty: "advanced",
             discussionPoints: [
-                "What are the signs of accounting fraud?",
-                "How should the investigation be conducted?",
-                "What documentation is required?",
-                "How should findings be reported to management?",
-                "What controls can help prevent future fraud?"
+                "How should forensic accounting and digital audit trails be used to investigate multi-party accounting fraud?",
+                "What are the best practices for uncovering collusion and manipulation of financial statements?",
+                "How should the bank coordinate with external auditors, regulators, and law enforcement?",
+                "What advanced controls and monitoring can prevent future accounting fraud?",
+                "How should the bank communicate findings and corrective actions to investors and regulators?"
             ]
         },
         {
             title: "Intercompany Transaction Reconciliation",
-            description: "Intercompany accounts between the bank and its subsidiary show persistent differences that have accumulated over several quarters. The amounts are material and auditors are asking questions.",
+            description: "Persistent, material differences in intercompany accounts are discovered, involving complex derivative transactions, foreign subsidiaries, and regulatory reporting across multiple jurisdictions. The discrepancies trigger a regulatory review and potential enforcement action.",
+            difficulty: "advanced",
             discussionPoints: [
-                "What are common causes of intercompany reconciliation issues?",
-                "How should the differences be investigated and resolved?",
-                "What process improvements can prevent future accumulation?",
-                "How should this be communicated to external auditors?",
-                "What are the financial reporting implications?"
+                "How should advanced reconciliation tools and cross-jurisdictional audits be used to resolve complex intercompany differences?",
+                "What are the legal and compliance risks of unresolved intercompany discrepancies?",
+                "How should the bank coordinate with international auditors and regulators?",
+                "What advanced documentation and reporting is required for regulatory review?",
+                "How should findings be communicated to senior management and the board?"
             ]
         },
         {
             title: "Lease Accounting Transition",
-            description: "New lease accounting standards require the bank to recognize lease liabilities on the balance sheet. Several operating leases were not properly identified during the initial transition.",
+            description: "A post-implementation review of new lease accounting standards uncovers significant errors in the recognition of lease liabilities, including embedded leases, cross-border contracts, and related-party transactions. The errors affect multiple reporting periods and trigger audit and regulatory scrutiny.",
+            difficulty: "advanced",
             discussionPoints: [
-                "How should the missed leases be identified and documented?",
-                "What is the process for calculating the required adjustments?",
-                "How should this be communicated to auditors and the audit committee?",
-                "What controls should be implemented going forward?",
-                "What are the implications for prior period financial statements?"
+                "How should forensic review and data analytics be used to identify and correct complex lease accounting errors?",
+                "What are the regulatory and audit risks of misreported lease liabilities?",
+                "How should the bank coordinate with external auditors and legal counsel?",
+                "What advanced controls and documentation are required for lease accounting compliance?",
+                "How should findings and remediation be communicated to regulators and the audit committee?"
             ]
         },
         {
@@ -568,26 +575,26 @@ window.discussionScenarios = {
     Bookkeeping: [
         {
             title: "Missing Invoice Records",
-            description: "A sophisticated fraud ring is submitting multiple loan applications using synthetic identities, forged supporting documents, and deepfake technology for remote interviews. The fraud is only detected after several loans have already been funded, resulting in significant losses.",
+            description: "A forensic investigation uncovers a sophisticated scheme involving missing invoices, shell companies, and cross-border payments. The fraud spans multiple fiscal years and involves collusion between internal staff and external vendors, triggering regulatory and criminal investigations.",
+            difficulty: "advanced",
             discussionPoints: [
-                "What processes help track invoices effectively?",
-                "How can advanced fraud detection tools (AI, biometrics, device fingerprinting) be leveraged to identify synthetic identity fraud?",
-                "What are the best practices for investigating multi-party, multi-loan fraud rings?",
-                "How should the bank coordinate with law enforcement and other financial institutions?",
-                "What are the regulatory reporting requirements for large-scale loan fraud?",
-                "How should the bank recover losses and prevent future sophisticated fraud attempts?"
+                "How should forensic accounting and digital audit trails be used to uncover multi-year, multi-party invoice fraud?",
+                "What are the legal and regulatory implications of cross-border payment fraud?",
+                "How should the bank coordinate with law enforcement, auditors, and regulators?",
+                "What advanced controls and monitoring can prevent future invoice fraud?",
+                "How should findings and remediation be documented for regulatory and criminal proceedings?"
             ]
         },
         {
             title: "Bank Reconciliation Challenge",
-            description: "During monthly bank reconciliation, you discover a $2,000 deposit recorded in the books but not reflected on the bank statement. Discuss how to investigate and resolve this discrepancy.",
+            description: "A multi-entity bank reconciliation uncovers a $1.2M discrepancy involving complex intercompany transfers, foreign currency transactions, and off-balance-sheet items. The issue triggers an external audit and regulatory review.",
+            difficulty: "advanced",
             discussionPoints: [
-                "What steps should be taken to identify the source of the discrepancy?",
-                "How should the bank assess and manage concentration risk across a portfolio of declining collateral?",
-                "What advanced strategies exist for restructuring loans with underwater collateral?",
-                "How should the bank communicate with multiple affected borrowers and regulators?",
-                "What are the implications for loan loss reserves and capital adequacy?",
-                "How should stress testing and scenario analysis be used to guide decision-making?"
+                "How should advanced reconciliation tools and forensic analysis be used to resolve multi-entity discrepancies?",
+                "What are the escalation protocols for high-value, cross-border reconciliation issues?",
+                "How should the bank coordinate with external auditors and regulatory bodies?",
+                "What advanced documentation and reporting is required for regulatory review?",
+                "How should findings be communicated to senior management and the board?"
             ]
         },
         {
@@ -602,12 +609,13 @@ window.discussionScenarios = {
         },
         {
             title: "Straw Borrower Network Uncovered",
-            description: "A complex web of straw borrowers is uncovered, involving layered transactions, shell companies, and third-party intermediaries. The scheme is designed to circumvent lending limits and regulatory oversight, and may involve money laundering.",
+            description: "A complex straw borrower network is discovered, involving layered transactions, shell companies, digital payment platforms, and international money laundering. The scheme circumvents lending limits and regulatory oversight, triggering multi-agency investigations.",
+            difficulty: "advanced",
             discussionPoints: [
-                "How can forensic accounting and transaction analysis be used to uncover straw borrower networks?",
-                "What are the legal and regulatory risks of failing to detect complex straw borrower schemes?",
-                "How should the bank coordinate with compliance, legal, and law enforcement?",
-                "What enhanced due diligence and monitoring procedures should be implemented?",
+                "How should forensic accounting and transaction analysis be used to uncover sophisticated straw borrower networks?",
+                "What are the legal and regulatory risks of failing to detect international straw borrower schemes?",
+                "How should the bank coordinate with compliance, legal, and law enforcement across jurisdictions?",
+                "What enhanced due diligence and monitoring procedures should be implemented for high-risk accounts?",
                 "How should findings be documented for regulatory and legal defense?"
             ]
         },
@@ -623,13 +631,14 @@ window.discussionScenarios = {
         },
         {
             title: "Corporate Borrower Renewal Challenge",
-            description: "A large corporate borrower with multiple credit facilities is up for renewal, but consolidated financials reveal deteriorating cash flow, covenant breaches, and undisclosed related-party transactions. The borrower is a key client and threatens to move all business if terms are not renewed favorably.",
+            description: "A large corporate borrower with multiple credit facilities is up for renewal, but forensic review reveals deteriorating cash flow, covenant breaches, undisclosed related-party transactions, and offshore entities. The borrower is a key client and threatens litigation if terms are not renewed favorably.",
+            difficulty: "advanced",
             discussionPoints: [
-                "How should the bank balance relationship management with prudent credit risk practices?",
-                "What advanced structuring options exist for covenant breaches and related-party risks?",
-                "How should the bank negotiate with a key client who is leveraging their business relationship?",
-                "What are the regulatory and reputational risks of renewing under deteriorating conditions?",
-                "How should the bank document and defend its renewal decision to auditors and regulators?"
+                "How should the bank balance relationship management with advanced credit risk analysis and regulatory compliance?",
+                "What structuring options exist for covenant breaches and related-party risks involving offshore entities?",
+                "How should the bank negotiate with a key client leveraging legal threats?",
+                "What are the regulatory, reputational, and legal risks of renewing under deteriorating conditions?",
+                "How should the bank document and defend its renewal decision to auditors, regulators, and legal counsel?"
             ]
         },
         {
@@ -656,13 +665,14 @@ window.discussionScenarios = {
         },
         {
             title: "Vendor Master File Manipulation",
-            description: "An audit reveals that a vendor's banking information was changed shortly before a large payment was made, and the payment went to an unknown account. The vendor claims they never requested the change.",
+            description: "A forensic audit uncovers a sophisticated vendor master file manipulation scheme, involving unauthorized changes to banking information, social engineering, and fraudulent payments routed through international accounts. The fraud triggers regulatory and law enforcement investigations.",
+            difficulty: "advanced",
             discussionPoints: [
-                "What are the indicators of vendor master file fraud?",
-                "How should the fraudulent payment be investigated?",
-                "What verification procedures should exist for vendor information changes?",
-                "How should this be reported to management and law enforcement?",
-                "What controls can prevent vendor master file manipulation?"
+                "How should forensic audit and digital monitoring be used to detect and investigate vendor master file fraud?",
+                "What are the legal and regulatory implications of international fraudulent payments?",
+                "How should the bank coordinate with law enforcement, auditors, and regulators?",
+                "What advanced controls and verification procedures can prevent future vendor master file manipulation?",
+                "How should findings and remediation be documented for regulatory and criminal proceedings?"
             ]
         },
         {
@@ -724,55 +734,62 @@ window.discussionScenarios = {
     "Loan Servicing": [
         {
             title: "Delinquent Loan Follow-Up",
-            description: "A borrower has missed multiple payments. Discuss the steps for contacting the borrower and managing delinquency.",
+            description: "A complex commercial loan portfolio shows multiple borrowers with missed payments, cross-collateralized assets, and legal disputes over restructuring terms. The situation involves regulatory scrutiny, litigation risk, and coordination with external counsel.",
+            difficulty: "advanced",
             discussionPoints: [
-                "What communication strategies are effective for delinquent borrowers?",
-                "How do you document follow-up attempts?",
-                "What options are available for loan restructuring?"
+                "How should advanced risk analysis and legal review be used to manage multi-borrower delinquency?",
+                "What are the escalation protocols for regulatory and litigation risk?",
+                "How should the bank coordinate with external counsel and regulators?",
+                "What advanced documentation and reporting is required for high-risk delinquency cases?",
+                "How should findings and remediation be communicated to senior management and the board?"
             ]
         },
         {
             title: "Escrow Account Shortage",
-            description: "A customer's escrow account for their mortgage loan is found to be underfunded during an annual review, resulting in a shortage to cover property taxes and insurance. Discuss how to address the shortage and communicate with the customer.",
+            description: "A forensic audit uncovers systemic escrow account shortages across multiple mortgage portfolios, involving misapplied payments, regulatory violations, and class-action litigation threats. The issue spans several years and triggers regulatory enforcement action.",
+            difficulty: "advanced",
             discussionPoints: [
-                "What steps should be taken to resolve the escrow shortage?",
-                "How should the customer be notified and what options can be offered?",
-                "What are the regulatory requirements for handling escrow accounts?",
-                "How can future shortages be prevented?",
-                "What documentation is required for compliance?"
+                "How should forensic audit and data analytics be used to identify and resolve systemic escrow shortages?",
+                "What are the legal and regulatory risks of misapplied escrow payments?",
+                "How should the bank coordinate with regulators, legal counsel, and affected borrowers?",
+                "What advanced controls and monitoring can prevent future escrow shortages?",
+                "How should findings and remediation be documented for regulatory and legal defense?"
             ]
         },
         {
             title: "Loan Payoff Processing Error",
-            description: "A customer pays off their loan, but later receives a notice stating there is still a balance due because of a processing error. Discuss how to resolve the error and communicate with the customer.",
+            description: "A large-scale loan payoff processing error is discovered, affecting hundreds of accounts due to a system migration. The error results in incorrect balances, regulatory reporting issues, and customer litigation threats.",
+            difficulty: "advanced",
             discussionPoints: [
-                "What steps should be taken to investigate and correct the payoff error?",
-                "How should the customer be informed and reassured?",
-                "What documentation is needed to resolve the issue?",
-                "How can similar errors be prevented in the future?",
-                "What follow-up actions are necessary to ensure customer satisfaction?"
+                "How should forensic review and system analysis be used to identify and correct large-scale payoff errors?",
+                "What are the legal and regulatory implications of systemic payoff processing failures?",
+                "How should the bank coordinate with regulators, legal counsel, and affected customers?",
+                "What advanced controls and documentation are required for system migrations?",
+                "How should findings and remediation be communicated to regulators and the board?"
             ]
         },
         {
             title: "Insurance Lapse Notification",
-            description: "The bank receives notice that a borrower's required insurance policy has lapsed, putting the collateral at risk. Discuss how to address the lapse, communicate with the borrower, and ensure compliance with loan terms.",
+            description: "A regulatory review uncovers widespread insurance lapses across a commercial loan portfolio, involving non-compliance with loan terms, collateral risk, and potential enforcement actions. The issue triggers legal review and coordination with multiple insurers.",
+            difficulty: "advanced",
             discussionPoints: [
-                "What steps should be taken when notified of an insurance lapse?",
-                "How should the borrower be contacted and what options can be offered?",
-                "What are the regulatory and contractual requirements?",
-                "How should the situation be documented and followed up?",
-                "What can be done to prevent future insurance lapses?"
+                "How should advanced compliance review and legal analysis be used to address systemic insurance lapses?",
+                "What are the regulatory and contractual risks of widespread insurance non-compliance?",
+                "How should the bank coordinate with insurers, legal counsel, and regulators?",
+                "What advanced controls and monitoring can prevent future insurance lapses?",
+                "How should findings and remediation be documented for regulatory and legal defense?"
             ]
         },
         {
             title: "Automatic Payment Failure",
-            description: "A borrower's automatic loan payment fails due to insufficient funds, resulting in a missed payment and late fee. Discuss how to notify the borrower, resolve the missed payment, and prevent future occurrences.",
+            description: "A system-wide failure in automatic payment processing affects thousands of loans, resulting in missed payments, late fees, regulatory complaints, and reputational damage. The incident requires forensic IT review and coordination with compliance and legal teams.",
+            difficulty: "advanced",
             discussionPoints: [
-                "What is the process for notifying borrowers of failed automatic payments?",
-                "How should late fees and missed payments be explained and handled?",
-                "What options can be offered to help the borrower get back on track?",
-                "How should the incident be documented and followed up?",
-                "What can be done to reduce the risk of future payment failures?"
+                "How should forensic IT review and compliance analysis be used to resolve system-wide payment failures?",
+                "What are the legal and regulatory implications of large-scale payment processing errors?",
+                "How should the bank coordinate with regulators, legal counsel, and affected borrowers?",
+                "What advanced controls and monitoring can prevent future payment failures?",
+                "How should findings and remediation be communicated to regulators and the board?"
             ]
         },
         {
@@ -856,100 +873,98 @@ window.discussionScenarios = {
     Compliance: [
         {
             title: "New Regulation Implementation",
-            description: "A new banking regulation requires changes to reporting procedures. Discuss how to ensure compliance and train staff.",
+            description: "A sweeping new banking regulation requires rapid changes to multi-jurisdictional reporting, cross-border data management, and real-time compliance monitoring. The implementation deadline is aggressive, and failure to comply could result in severe penalties and regulatory action.",
+            difficulty: "advanced",
             discussionPoints: [
-                "What steps are needed to update procedures?",
-                "How do you communicate changes to staff?",
-                "What are the risks of non-compliance?"
+                "How should advanced project management and legal review be used to implement complex regulatory changes across multiple jurisdictions?",
+                "What are the escalation protocols for high-risk compliance gaps and missed deadlines?",
+                "How should the bank coordinate with regulators, legal counsel, and technology vendors?",
+                "What advanced controls and documentation are required for real-time compliance monitoring?",
+                "How should findings and remediation be communicated to senior management and the board?"
             ]
         },
         {
             title: "Suspicious Activity Report (SAR) Dilemma",
-            description: "An employee notices a series of unusual transactions that may indicate money laundering, but is unsure whether they meet the threshold for filing a Suspicious Activity Report (SAR). Discuss the process for evaluating and reporting suspicious activity.",
+            description: "A compliance officer identifies a series of sophisticated transactions involving shell companies, cryptocurrency, and cross-border transfers. The activity may indicate money laundering, terrorist financing, or sanctions evasion, but the SAR threshold is unclear and regulatory guidance is evolving.",
+            difficulty: "advanced",
             discussionPoints: [
-                "What criteria should be used to determine if a SAR is required?",
-                "How should staff document and escalate concerns?",
-                "What are the potential consequences of failing to file a SAR when required?",
-                "How can compliance training help staff recognize suspicious activity?",
-                "What role does management play in supporting compliance decisions?"
+                "How should forensic analysis and legal review be used to evaluate complex SAR scenarios?",
+                "What are the regulatory and legal risks of failing to file or over-filing SARs in evolving environments?",
+                "How should the bank coordinate with law enforcement, regulators, and international partners?",
+                "What advanced documentation and escalation procedures are required for high-risk SAR cases?",
+                "How should findings and decisions be communicated to senior management and the board?"
             ]
         },
         {
             title: "Customer Privacy Breach Response",
-            description: "A staff member accidentally sends a customer's account information to the wrong email address, resulting in a privacy breach. Discuss how to respond to the incident and ensure regulatory compliance.",
+            description: "A major privacy breach exposes thousands of customer records, including sensitive financial and personal data, due to a third-party vendor compromise. The incident triggers regulatory investigations, class-action lawsuits, and reputational damage.",
+            difficulty: "advanced",
             discussionPoints: [
-                "What immediate steps should be taken to contain and report the breach?",
-                "How should the affected customer be notified and supported?",
-                "What are the regulatory requirements for privacy breaches?",
-                "How can future breaches be prevented through training and controls?",
-                "What documentation and follow-up are required?"
+                "How should forensic IT review and legal analysis be used to respond to large-scale privacy breaches?",
+                "What are the regulatory and legal risks of third-party data compromises?",
+                "How should the bank coordinate with regulators, legal counsel, and affected customers?",
+                "What advanced controls and monitoring can prevent future privacy breaches?",
+                "How should findings and remediation be documented for regulatory and legal defense?"
             ]
         },
         {
             title: "Whistleblower Complaint Handling",
-            description: "An anonymous employee submits a whistleblower complaint alleging unethical conduct in a branch. Discuss the compliance team's responsibilities for investigating, protecting confidentiality, and reporting outcomes.",
+            description: "A whistleblower submits a detailed complaint alleging systemic compliance failures, regulatory violations, and management cover-ups. The case involves multiple branches, external counsel, and potential criminal investigations.",
+            difficulty: "advanced",
             discussionPoints: [
-                "What is the process for receiving and investigating whistleblower complaints?",
-                "How should confidentiality and non-retaliation be ensured?",
-                "What are the regulatory and legal requirements for whistleblower cases?",
-                "How should findings and actions be documented?",
-                "What training can help staff understand whistleblower protections?"
+                "How should advanced investigation and legal review be used to address systemic whistleblower complaints?",
+                "What are the regulatory and legal risks of management cover-ups and retaliation?",
+                "How should the bank coordinate with external counsel, regulators, and law enforcement?",
+                "What advanced documentation and reporting is required for whistleblower cases?",
+                "How should findings and remediation be communicated to regulators and the board?"
             ]
         },
         {
             title: "OFAC List Screening Hit",
-            description: "During a routine account opening, a customer's name matches an entry on the OFAC (Office of Foreign Assets Control) sanctions list. Discuss the steps for investigating, reporting, and communicating about a potential OFAC match.",
+            description: "A high-profile account opening triggers a match on the OFAC sanctions list, involving politically exposed persons, complex ownership structures, and international media attention. The investigation requires coordination with multiple regulatory agencies and legal counsel.",
+            difficulty: "advanced",
             discussionPoints: [
-                "What is the process for verifying a potential OFAC list match?",
-                "How should the account opening be handled while the investigation is ongoing?",
-                "What are the reporting requirements for confirmed matches?",
-                "How should staff communicate with the customer and authorities?",
-                "What controls help prevent OFAC violations?"
+                "How should advanced screening tools and legal review be used to investigate complex OFAC matches?",
+                "What are the regulatory and reputational risks of handling politically exposed persons and high-profile cases?",
+                "How should the bank coordinate with regulators, legal counsel, and international partners?",
+                "What advanced documentation and reporting is required for OFAC investigations?",
+                "How should findings and remediation be communicated to senior management and the board?"
             ]
         },
         {
-            title: "Compliance Fraud Investigation",
-            description: "A suspicious pattern of transactions is reported that may indicate money laundering or other financial crimes. Discuss the compliance team's role in investigating and reporting fraud.",
+            title: "Customer Due Diligence Enhancement",
+            description: "In response to regulatory findings, the bank implements an enhanced customer due diligence (EDD) program. Discuss the challenges and procedures for implementing EDD, including for high-risk and politically exposed persons (PEPs).",
+            difficulty: "advanced",
             discussionPoints: [
-                "What are the compliance requirements for fraud investigations?",
-                "How should suspicious activity be reported?",
-                "What controls can help prevent fraud?",
-                "How should findings be documented and escalated?",
-                "What follow-up actions are necessary?"
+                "What are the key components of an enhanced due diligence program?",
+                "How should high-risk customers and PEPs be identified and monitored?",
+                "What additional documentation and verification are required for EDD?",
+                "How should EDD findings be documented and reported?",
+                "What training is needed for staff involved in the EDD process?"
             ]
         },
         {
-            title: "Fair Lending Concern",
-            description: "Data analysis reveals that loan approval rates differ significantly across demographic groups in certain product lines. The differences may have legitimate explanations but require investigation.",
+            title: "Regulatory Reporting Error Investigation",
+            description: "A significant error is discovered in the bank's regulatory reporting, potentially affecting multiple reports and periods. The error may be due to data entry, system migration, or formula errors in spreadsheets.",
+            difficulty: "advanced",
             discussionPoints: [
-                "What are the fair lending laws and regulations that apply?",
-                "How should the disparities be investigated and documented?",
-                "What legitimate factors might explain approval rate differences?",
-                "When should legal counsel be involved?",
-                "What corrective actions might be appropriate if discrimination is found?"
+                "What immediate actions should be taken to investigate and quantify the reporting error?",
+                "How should the error be communicated to regulators and senior management?",
+                "What is the process for correcting and resubmitting regulatory reports?",
+                "What controls should be enhanced to prevent future reporting errors?",
+                "How should findings and remediation be documented for regulatory review?"
             ]
         },
         {
-            title: "Regulation E Dispute Deadline",
-            description: "A customer files an electronic funds transfer dispute on day 58 of the 60-day window. The claim involves a complex situation requiring extensive investigation that cannot be completed within required timeframes.",
+            title: "Compliance Training Program Overhaul",
+            description: "The bank's compliance training program is found lacking in several areas, including anti-money laundering (AML), Bank Secrecy Act (BSA), and consumer protection regulations. An overhaul is required to meet regulatory expectations.",
+            difficulty: "advanced",
             discussionPoints: [
-                "What are the Regulation E timeframes for dispute resolution?",
-                "What must be done if the investigation cannot be completed in time?",
-                "How should provisional credit decisions be made?",
-                "What documentation is required throughout the process?",
-                "How should the customer be kept informed?"
-            ]
-        },
-        {
-            title: "CRA Examination Preparation",
-            description: "The bank has received notice of an upcoming Community Reinvestment Act examination. Recent lending data shows some geographic areas may be underserved.",
-                difficulty: "advanced",
-            discussionPoints: [
-                "How should the bank prepare for a CRA examination?",
-                "What documentation should be assembled?",
-                "How should potential assessment area gaps be addressed?",
-                "What community development activities support CRA performance?",
-                "How should staff be prepared for examiner interviews?"
+                "What are the key elements of an effective compliance training program?",
+                "How should the training needs be assessed for different employee roles?",
+                "What methods and materials are best for delivering compliance training?",
+                "How should training completion and effectiveness be monitored and documented?",
+                "What are the consequences of inadequate compliance training for the bank?"
             ]
         },
         {
@@ -981,56 +996,61 @@ window.discussionScenarios = {
         {
                 difficulty: "advanced",
             title: "System Outage Response",
-            description: "A critical banking system goes offline during business hours. Discuss the incident response plan and communication with staff and customers.",
+            description: "A multi-system outage affects core banking, online, and mobile platforms during peak business hours. The incident involves a suspected cyberattack, regulatory notification requirements, and coordination with external vendors and law enforcement.",
             discussionPoints: [
-                "What is the first step in incident response?",
-                "How do you keep stakeholders informed?",
-                "What measures can prevent future outages?"
+                "How should advanced incident response and forensic analysis be used to manage multi-system outages?",
+                "What are the regulatory and legal risks of prolonged outages and cyberattacks?",
+                "How should the bank coordinate with external vendors, law enforcement, and regulators?",
+                "What advanced controls and documentation are required for incident response and recovery?",
+                "How should findings and remediation be communicated to senior management and the board?"
             ]
         },
         {
             title: "Phishing Email Incident",
-            description: "Several employees report receiving a suspicious email that appears to be a phishing attempt targeting bank credentials. Discuss how IT should respond and educate staff.",
-                difficulty: "advanced",
+            description: "A targeted phishing campaign compromises multiple employee accounts, leading to unauthorized wire transfers and data breaches. The attack uses advanced social engineering and malware, triggering regulatory investigations and customer notifications.",
+            difficulty: "advanced",
             discussionPoints: [
-                "What immediate actions should IT take to contain the threat?",
-                "How should affected employees be supported and informed?",
-                "What training or resources can help prevent future phishing incidents?",
-                "How should IT document and report the incident?",
-                "What technical controls can be implemented to reduce phishing risk?"
+                "How should forensic IT review and legal analysis be used to respond to advanced phishing attacks?",
+                "What are the regulatory and legal risks of data breaches and financial losses?",
+                "How should the bank coordinate with law enforcement, regulators, and affected customers?",
+                "What advanced controls and monitoring can prevent future phishing incidents?",
+                "How should findings and remediation be documented for regulatory and legal defense?"
             ]
         },
         {
             title: "Unauthorized Software Installation",
-            description: "IT discovers that an employee has installed unauthorized software on their workstation, potentially exposing the bank to security risks. Discuss how IT should respond and prevent future incidents.",
+            description: "A forensic audit uncovers unauthorized software installations across multiple workstations, including remote access tools and cryptocurrency miners. The incident exposes the bank to cyber risk, regulatory scrutiny, and potential data breaches.",
+            difficulty: "advanced",
             discussionPoints: [
-                "What steps should IT take to assess and mitigate the risk?",
-                "How should the employee be informed and educated?",
-                "What are the bank's policies on software installation?",
-                "How can IT monitor and enforce compliance?",
-                "What documentation and follow-up are required?"
+                "How should forensic IT review and compliance analysis be used to identify and remediate unauthorized software installations?",
+                "What are the regulatory and legal risks of cyber risk and data breaches?",
+                "How should the bank coordinate with law enforcement, regulators, and external vendors?",
+                "What advanced controls and monitoring can prevent future unauthorized installations?",
+                "How should findings and remediation be documented for regulatory and legal defense?"
             ]
         },
         {
             title: "Data Backup Failure",
-            description: "A routine audit reveals that critical banking data has not been backed up for several days due to a system error. Discuss how IT should respond to the backup failure and prevent data loss in the future.",
+            description: "A system-wide backup failure results in the loss of critical banking data, affecting regulatory reporting, customer accounts, and financial statements. The incident triggers regulatory investigations and reputational damage.",
+            difficulty: "advanced",
             discussionPoints: [
-                "What immediate actions should IT take to secure and recover data?",
-                "How should the incident be documented and reported?",
-                "What are the bank's policies and requirements for data backups?",
-                "How can IT prevent future backup failures?",
-                "What training or communication is needed for staff?"
+                "How should forensic IT review and compliance analysis be used to recover from large-scale backup failures?",
+                "What are the regulatory and legal risks of data loss and reporting failures?",
+                "How should the bank coordinate with regulators, legal counsel, and external vendors?",
+                "What advanced controls and monitoring can prevent future backup failures?",
+                "How should findings and remediation be documented for regulatory and legal defense?"
             ]
         },
         {
             title: "Mobile Banking App Outage",
-            description: "Customers report that the bank's mobile app is not working, preventing access to accounts and transactions. Discuss how IT should respond to the outage and communicate with customers and staff.",
+            description: "A prolonged outage of the mobile banking app affects thousands of customers, leading to missed payments, regulatory complaints, and media coverage. The incident involves complex system dependencies and coordination with multiple vendors.",
+            difficulty: "advanced",
             discussionPoints: [
-                "What steps should IT take to diagnose and resolve the outage?",
-                "How should customers and staff be kept informed during the incident?",
-                "What are the bank's policies for handling technology outages?",
-                "How can IT prevent similar outages in the future?",
-                "What follow-up actions are needed after service is restored?"
+                "How should advanced incident response and forensic analysis be used to resolve prolonged mobile app outages?",
+                "What are the regulatory and reputational risks of large-scale outages?",
+                "How should the bank coordinate with external vendors, regulators, and affected customers?",
+                "What advanced controls and monitoring can prevent future outages?",
+                "How should findings and remediation be communicated to senior management and the board?"
             ]
         },
         {
@@ -1103,55 +1123,62 @@ window.discussionScenarios = {
     Security: [
         {
             title: "Suspicious Activity at ATM",
-            description: "Security footage shows suspicious behavior at an ATM after hours. Discuss how to investigate and respond to potential security threats.",
+            description: "A coordinated ATM fraud ring targets multiple branches after hours, using advanced skimming devices, cloned cards, and insider assistance. The incident triggers law enforcement investigations, regulatory reporting, and media attention.",
+            difficulty: "advanced",
             discussionPoints: [
-                "What protocols exist for reviewing security footage?",
-                "How do you escalate security concerns?",
-                "What preventive measures can be implemented?"
+                "How should forensic analysis and law enforcement coordination be used to investigate multi-branch ATM fraud?",
+                "What are the regulatory and reputational risks of large-scale ATM fraud?",
+                "How should the bank coordinate with law enforcement, regulators, and affected customers?",
+                "What advanced controls and monitoring can prevent future ATM fraud?",
+                "How should findings and remediation be documented for regulatory and legal defense?"
             ]
         },
         {
             title: "Unauthorized Access Attempt",
-            description: "An employee badge is used to attempt access to a restricted area outside of normal business hours. The access is denied, but the attempt is logged by the security system. Discuss how to investigate and respond to this incident.",
+            description: "A sophisticated social engineering attack uses cloned employee badges and compromised credentials to attempt access to restricted areas after hours. The incident involves multiple failed access attempts, regulatory notification, and coordination with law enforcement.",
+            difficulty: "advanced",
             discussionPoints: [
-                "What steps should be taken to investigate the access attempt?",
-                "How should staff and management be notified?",
-                "What are the procedures for reviewing badge access logs?",
-                "How can physical security controls be improved?",
-                "What documentation and follow-up actions are required?"
+                "How should forensic review and law enforcement coordination be used to investigate advanced unauthorized access attempts?",
+                "What are the regulatory and legal risks of physical security breaches?",
+                "How should the bank coordinate with law enforcement, regulators, and affected staff?",
+                "What advanced controls and monitoring can prevent future unauthorized access?",
+                "How should findings and remediation be documented for regulatory and legal defense?"
             ]
         },
         {
             title: "Robbery Threat Call",
-            description: "A branch receives an anonymous phone call threatening a robbery later in the day. Discuss how the security team and staff should respond to the threat and ensure everyone's safety.",
+            description: "A branch receives a credible robbery threat involving multiple suspects, insider information, and coordinated timing. The incident triggers law enforcement response, regulatory reporting, and staff safety protocols.",
+            difficulty: "advanced",
             discussionPoints: [
-                "What immediate steps should be taken after receiving a threat?",
-                "How should law enforcement and staff be notified?",
-                "What are the bank's protocols for handling robbery threats?",
-                "How can staff and customer safety be prioritized?",
-                "What documentation and follow-up are required after the incident?"
+                "How should advanced threat assessment and law enforcement coordination be used to respond to credible robbery threats?",
+                "What are the regulatory and legal risks of robbery threats and insider involvement?",
+                "How should the bank coordinate with law enforcement, regulators, and affected staff?",
+                "What advanced controls and training can improve staff safety and threat response?",
+                "How should findings and remediation be documented for regulatory and legal defense?"
             ]
         },
         {
             title: "Lost Key Incident",
-            description: "A staff member reports losing a key to a secure area of the branch. Discuss how the security team should respond to the lost key and prevent unauthorized access.",
+            description: "A forensic audit uncovers a pattern of lost keys and unauthorized access incidents across multiple branches, involving insider collusion and physical security breaches. The incident triggers law enforcement investigations and regulatory scrutiny.",
+            difficulty: "advanced",
             discussionPoints: [
-                "What steps should be taken immediately after a key is reported lost?",
-                "How should the risk of unauthorized access be assessed and mitigated?",
-                "What are the bank's policies for rekeying or changing locks?",
-                "How should the incident be documented and reported?",
-                "What training or controls can help prevent future incidents?"
+                "How should forensic review and law enforcement coordination be used to investigate patterns of lost keys and unauthorized access?",
+                "What are the regulatory and legal risks of insider collusion and physical security breaches?",
+                "How should the bank coordinate with law enforcement, regulators, and affected staff?",
+                "What advanced controls and monitoring can prevent future lost key incidents?",
+                "How should findings and remediation be documented for regulatory and legal defense?"
             ]
         },
         {
             title: "Suspicious Package Discovery",
-            description: "A suspicious, unattended package is found in the lobby of a branch. Discuss how the security team and staff should respond to ensure safety and follow protocols.",
+            description: "A suspicious package is found in a branch lobby, with evidence of coordinated threats against multiple locations. The incident triggers law enforcement response, regulatory reporting, and staff safety protocols.",
+            difficulty: "advanced",
             discussionPoints: [
-                "What immediate actions should be taken upon discovering a suspicious package?",
-                "How should law enforcement and building management be notified?",
-                "What are the bank's evacuation and safety procedures?",
-                "How should the incident be documented and communicated to staff?",
-                "What training can help staff respond appropriately to similar threats?"
+                "How should advanced threat assessment and law enforcement coordination be used to respond to suspicious packages and coordinated threats?",
+                "What are the regulatory and legal risks of physical security threats?",
+                "How should the bank coordinate with law enforcement, regulators, and affected staff?",
+                "What advanced controls and training can improve staff safety and threat response?",
+                "How should findings and remediation be documented for regulatory and legal defense?"
             ]
         },
         {
@@ -1213,121 +1240,62 @@ window.discussionScenarios = {
     "New Accounts": [
         {
             title: "Unusual Account Opening Request",
-            description: "A customer requests to open multiple accounts with minimal documentation. Discuss how to verify identity and prevent fraud.",
+            description: "A customer requests to open multiple accounts with minimal documentation, using complex ownership structures, international addresses, and digital identity credentials. The situation triggers enhanced due diligence, regulatory reporting, and potential law enforcement involvement.",
+            difficulty: "advanced",
             discussionPoints: [
-                "What documents are required for account opening?",
-                "How do you spot and report suspicious activity?",
-                "What is the process for denying a request?"
+                "How should advanced identity verification and forensic analysis be used to assess complex account opening requests?",
+                "What are the regulatory and legal risks of multi-account openings with minimal documentation?",
+                "How should the bank coordinate with compliance, legal counsel, and law enforcement?",
+                "What advanced controls and monitoring can prevent future account opening fraud?",
+                "How should findings and remediation be documented for regulatory and legal defense?"
             ]
         },
         {
             title: "Beneficiary Addition Complication",
-            description: "A customer requests to add several beneficiaries to a new account, but some of the provided information is incomplete or inconsistent. Discuss how to handle the situation and ensure compliance with bank policies.",
+            description: "A customer requests to add several beneficiaries to a new account, including international parties and entities with complex legal structures. The information provided is incomplete, inconsistent, and triggers enhanced due diligence and regulatory review.",
+            difficulty: "advanced",
             discussionPoints: [
-                "What verification steps are required for adding beneficiaries?",
-                "How should incomplete or inconsistent information be addressed?",
-                "What are the legal and compliance considerations?",
-                "How do you communicate requirements to the customer?",
-                "What documentation is necessary for beneficiary additions?"
+                "How should advanced verification and legal review be used to assess complex beneficiary additions?",
+                "What are the regulatory and legal risks of incomplete or inconsistent beneficiary information?",
+                "How should the bank coordinate with compliance, legal counsel, and regulators?",
+                "What advanced controls and documentation are required for beneficiary additions?",
+                "How should findings and remediation be communicated to senior management and the board?"
             ]
         },
         {
             title: "Minor Account Opening Request",
-            description: "A parent requests to open a savings account for their minor child, but is unsure about the required documentation and account controls. Discuss how to guide the customer and ensure compliance with regulations.",
+            description: "A parent requests to open multiple accounts for minor children, using trusts, custodial arrangements, and digital identity credentials. The situation involves complex legal, regulatory, and tax considerations, triggering enhanced due diligence and legal review.",
+            difficulty: "advanced",
             discussionPoints: [
-                "What documents are required to open an account for a minor?",
-                "How should account ownership and access be structured?",
-                "What are the legal and regulatory requirements for minor accounts?",
-                "How should the parent be informed about account controls and limitations?",
-                "What documentation and follow-up are necessary?"
+                "How should advanced legal and compliance review be used to assess complex minor account openings?",
+                "What are the regulatory and tax risks of multi-account openings for minors?",
+                "How should the bank coordinate with legal counsel, compliance, and regulators?",
+                "What advanced controls and documentation are required for minor accounts?",
+                "How should findings and remediation be communicated to senior management and the board?"
             ]
         },
         {
             title: "Dormant Account Reactivation",
-            description: "A customer requests to reactivate an account that has been dormant for several years. Discuss the procedures for verifying identity, updating records, and complying with regulations.",
+            description: "A customer requests to reactivate multiple dormant accounts with international ties, complex ownership structures, and missing documentation. The situation triggers enhanced due diligence, regulatory review, and potential law enforcement involvement.",
+            difficulty: "advanced",
             discussionPoints: [
-                "What steps are required to verify the customer's identity?",
-                "How should account information and documentation be updated?",
-                "What are the regulatory requirements for reactivating dormant accounts?",
-                "How should the customer be informed about any changes or fees?",
-                "What follow-up actions are necessary to ensure compliance?"
+                "How should advanced identity verification and forensic analysis be used to assess complex dormant account reactivations?",
+                "What are the regulatory and legal risks of reactivating accounts with missing documentation?",
+                "How should the bank coordinate with compliance, legal counsel, and law enforcement?",
+                "What advanced controls and monitoring can prevent future dormant account fraud?",
+                "How should findings and remediation be documented for regulatory and legal defense?"
             ]
         },
         {
             title: "Business Account Documentation Issue",
-            description: "A small business owner applies to open a business account but is missing some of the required legal documents. Discuss how to guide the customer, ensure compliance, and handle incomplete applications.",
+            description: "A small business owner applies to open multiple business accounts with complex ownership structures, international partners, and missing legal documents. The situation triggers enhanced due diligence, regulatory review, and potential law enforcement involvement.",
+            difficulty: "advanced",
             discussionPoints: [
-                "What documents are required to open a business account?",
-                "How should staff communicate missing documentation requirements to the customer?",
-                "What are the bank's policies for holding or denying incomplete applications?",
-                "How should the process be documented and followed up?",
-                "What training can help staff handle business account openings?"
-            ]
-        },
-        {
-            title: "Synthetic Identity Fraud Attempt",
-            description: "A new account application is flagged because the applicant's identity information appears to be a combination of real and fabricated data, suggesting synthetic identity fraud. Discuss how to investigate, respond, and prevent such fraud in new account openings.",
-            discussionPoints: [
-                "What red flags indicate possible synthetic identity fraud?",
-                "What steps should staff take to verify the applicant's identity?",
-                "How should the incident be documented and reported?",
-                "What are the protocols for denying or escalating suspicious applications?",
-                "What training or technology can help prevent synthetic identity fraud in the future?"
-            ]
-        },
-        {
-            title: "Non-Resident Alien Account Opening",
-            description: "A foreign national on a work visa requests to open checking and savings accounts. They have limited US documentation but need banking services for their employment.",
-            discussionPoints: [
-                "What documentation is required for non-resident alien account opening?",
-                "What additional due diligence is required?",
-                "How do CIP requirements apply to non-US persons?",
-                "What products and services may be restricted?",
-                "How should the customer be educated about their account limitations?"
-            ]
-        },
-        {
-            title: "Trust Account Setup Complexity",
-            description: "An attorney requests to open a trust account for a client's estate. The trust document is complex with multiple beneficiaries and unusual provisions.",
-            discussionPoints: [
-                "What documentation is required to open a trust account?",
-                "How should complex trust provisions be understood and documented?",
-                "What signature authority and access controls are appropriate?",
-                "How should beneficial ownership be determined and documented?",
-                "When should legal review be requested?"
-            ]
-        },
-        {
-            title: "Marijuana-Related Business Account Request",
-            description: "A business operating a state-licensed marijuana dispensary requests to open a business account. Marijuana remains illegal under federal law but is legal in the state.",
-            discussionPoints: [
-                "What is the bank's policy on marijuana-related businesses?",
-                "What are the federal versus state legal considerations?",
-                "What enhanced due diligence would be required if accounts were offered?",
-                "How should the request be declined if that is the bank's policy?",
-                "What documentation should be maintained regardless of the decision?"
-            ]
-        },
-        {
-            title: "Account Takeover Attempt at Opening",
-            description: "A person attempts to open a new account using identity documents, but something seems off. When the account specialist runs verification, alerts suggest the identity may belong to someone else.",
-            discussionPoints: [
-                "What verification tools help detect account takeover attempts?",
-                "How should staff handle a suspected fraud attempt in progress?",
-                "What questions can help identify legitimate versus fraudulent applicants?",
-                "How should the interaction be documented?",
-                "What reporting is required for attempted fraud?"
-            ]
-        },
-        {
-            title: "Adding Owner to Existing Account",
-            description: "A long-time customer wants to add their adult daughter to their checking and savings accounts so she can help manage finances as the customer ages. The daughter is present and has proper identification.",
-            discussionPoints: [
-                "What is the process for adding an owner versus an authorized signer?",
-                "What are the different rights and liabilities of each?",
-                "What documentation and signatures are required?",
-                "How should the implications be explained to both parties?",
-                "What system updates and new cards/checks are needed after the change?"
+                "How should advanced verification and legal review be used to assess complex business account openings?",
+                "What are the regulatory and legal risks of incomplete business account documentation?",
+                "How should the bank coordinate with compliance, legal counsel, and regulators?",
+                "What advanced controls and documentation are required for business account openings?",
+                "How should findings and remediation be communicated to senior management and the board?"
             ]
         }
     ]
