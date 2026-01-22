@@ -684,63 +684,72 @@ window.discussionScenarios = {
         },
         {
             title: "Suspense Account Aging",
-                difficulty: "advanced",
-                description: "A business client attempts to deposit $250,000 in cash, claiming it is proceeds from international sales. The transaction triggers multiple compliance alerts, including potential money laundering and cross-border reporting requirements. Discuss how to manage the deposit, coordinate with legal and compliance teams, and handle customer resistance to enhanced due diligence.",
-                discussionPoints: [
-                    "What advanced forensic and compliance tools should be used to verify the legitimacy of large international cash deposits?",
-                    "How should the bank coordinate with legal counsel, compliance, and law enforcement for high-value, cross-border transactions?",
-                    "What are the escalation protocols for suspected money laundering and regulatory violations?",
-                    "How should customer resistance to enhanced due diligence be managed?",
-                    "What advanced documentation and reporting are required for regulatory defense?"
-                ]
+            difficulty: "advanced",
+            description: "A business client attempts to deposit $250,000 in cash, claiming it is proceeds from international sales. The transaction triggers multiple compliance alerts, including potential money laundering and cross-border reporting requirements. Discuss how to manage the deposit, coordinate with legal and compliance teams, and handle customer resistance to enhanced due diligence.",
+            discussionPoints: [
+                "What advanced forensic and compliance tools should be used to verify the legitimacy of large international cash deposits?",
+                "How should the bank coordinate with legal counsel, compliance, and law enforcement for high-value, cross-border transactions?",
+                "What are the escalation protocols for suspected money laundering and regulatory violations?",
+                "How should customer resistance to enhanced due diligence be managed?",
+                "What advanced documentation and reporting are required for regulatory defense?",
                 "How should this be communicated to auditors?"
             ]
         },
-                difficulty: "advanced",
-                description: "A customer presents a series of altered checks for deposit, drawn on multiple foreign banks with complex endorsement patterns. The checks trigger advanced fraud detection systems and require coordination with international banking contacts. Discuss how to investigate, escalate, and document sophisticated check fraud schemes.",
-                discussionPoints: [
-                    "How should advanced fraud detection and forensic analysis be used to investigate multi-bank, multi-country check fraud?",
-                    "What are the legal and compliance risks of failing to detect sophisticated check fraud?",
-                    "How should the bank coordinate with international banking contacts and law enforcement?",
-                    "What advanced documentation and reporting are required for regulatory and legal defense?",
-                    "How should customer communication be handled in complex fraud investigations?"
-                ]
+        {
+            title: "Sophisticated Check Fraud Scheme",
+            difficulty: "advanced",
+            description: "A customer presents a series of altered checks for deposit, drawn on multiple foreign banks with complex endorsement patterns. The checks trigger advanced fraud detection systems and require coordination with international banking contacts. Discuss how to investigate, escalate, and document sophisticated check fraud schemes.",
+            discussionPoints: [
+                "How should advanced fraud detection and forensic analysis be used to investigate multi-bank, multi-country check fraud?",
+                "What are the legal and compliance risks of failing to detect sophisticated check fraud?",
+                "How should the bank coordinate with international banking contacts and law enforcement?",
+                "What advanced documentation and reporting are required for regulatory and legal defense?",
+                "How should customer communication be handled in complex fraud investigations?",
                 "What controls should exist to ensure complete documentation at time of change?",
                 "How should this finding be reported to management and auditors?",
                 "What training is needed to prevent future documentation gaps?"
-                difficulty: "advanced",
-                description: "A corporate client attempts to deposit large sums in multiple foreign currencies, some of which are subject to international sanctions and volatile exchange rates. The transaction triggers compliance alerts and requires advanced risk assessment and legal review.",
-                discussionPoints: [
-                    "How should the bank assess and mitigate risks associated with sanctioned or high-risk currencies?",
-                    "What advanced compliance procedures are required for large, multi-currency deposits?",
-                    "How should exchange rate volatility and transaction timing be managed?",
-                    "What are the documentation and reporting requirements for international regulatory bodies?",
-                    "How should the bank communicate complex risks and requirements to corporate clients?"
-                ]
+            ]
+        },
+        {
+            title: "Foreign Currency Deposit Compliance",
+            difficulty: "advanced",
+            description: "A corporate client attempts to deposit large sums in multiple foreign currencies, some of which are subject to international sanctions and volatile exchange rates. The transaction triggers compliance alerts and requires advanced risk assessment and legal review.",
+            discussionPoints: [
+                "How should the bank assess and mitigate risks associated with sanctioned or high-risk currencies?",
+                "What advanced compliance procedures are required for large, multi-currency deposits?",
+                "How should exchange rate volatility and transaction timing be managed?",
+                "What are the documentation and reporting requirements for international regulatory bodies?",
+                "How should the bank communicate complex risks and requirements to corporate clients?",
                 "How should supervisory review of checklists be strengthened?",
                 "What are the implications for prior month financial statements?",
                 "What accountability measures should be implemented?"
-                difficulty: "advanced",
-                description: "A third party attempts to deposit multiple checks into unrelated accounts, using forged authorizations and complex identity documents. The situation triggers advanced fraud detection and legal review, with potential regulatory and criminal implications.",
-                discussionPoints: [
-                    "How should advanced identity verification and forensic analysis be used to detect and prevent third-party deposit fraud?",
-                    "What are the legal and regulatory risks of accepting unauthorized third-party deposits?",
-                    "How should the bank coordinate with compliance, legal counsel, and law enforcement?",
-                    "What advanced documentation and reporting are required for regulatory and criminal defense?",
-                    "How should customer and third-party communication be managed in high-risk scenarios?"
-                ]
+            ]
+        },
+        {
+            title: "Third-Party Deposit Fraud Prevention",
+            difficulty: "advanced",
+            description: "A third party attempts to deposit multiple checks into unrelated accounts, using forged authorizations and complex identity documents. The situation triggers advanced fraud detection and legal review, with potential regulatory and criminal implications.",
+            discussionPoints: [
+                "How should advanced identity verification and forensic analysis be used to detect and prevent third-party deposit fraud?",
+                "What are the legal and regulatory risks of accepting unauthorized third-party deposits?",
+                "How should the bank coordinate with compliance, legal counsel, and law enforcement?",
+                "What advanced documentation and reporting are required for regulatory and criminal defense?",
+                "How should customer and third-party communication be managed in high-risk scenarios?",
                 "How should affected customers be notified and compensated for fees?",
                 "What system controls failed and how should they be fixed?",
                 "What communication should go to management and regulators?"
-                difficulty: "advanced",
-                description: "A network of related individuals and businesses is identified making structured deposits across multiple branches and accounts, using advanced evasion tactics to avoid detection and reporting. The activity may indicate organized crime or terrorist financing.",
-                discussionPoints: [
-                    "How should the bank use data analytics and cross-branch coordination to detect complex structuring schemes?",
-                    "What are the advanced documentation and reporting requirements for suspected organized crime or terrorist financing?",
-                    "How should the bank coordinate with federal agencies and law enforcement?",
-                    "What enhanced controls and monitoring should be implemented for high-risk accounts?",
-                    "How should staff be trained to recognize and escalate sophisticated structuring activity?"
-                ]
+            ]
+        },
+        {
+            title: "Complex Structuring Scheme Detection",
+            difficulty: "advanced",
+            description: "A network of related individuals and businesses is identified making structured deposits across multiple branches and accounts, using advanced evasion tactics to avoid detection and reporting. The activity may indicate organized crime or terrorist financing.",
+            discussionPoints: [
+                "How should the bank use data analytics and cross-branch coordination to detect complex structuring schemes?",
+                "What are the advanced documentation and reporting requirements for suspected organized crime or terrorist financing?",
+                "How should the bank coordinate with federal agencies and law enforcement?",
+                "What enhanced controls and monitoring should be implemented for high-risk accounts?",
+                "How should staff be trained to recognize and escalate sophisticated structuring activity?",
                 "How should the reconciling items be researched and cleared?",
                 "What escalation is appropriate for aged reconciliation gaps?",
                 "What controls can ensure correspondent accounts are reconciled timely?"
@@ -1005,6 +1014,66 @@ window.discussionScenarios = {
                 "How should OFAC screening be performed for new account parties?",
                 "What enhanced due diligence might be required?",
                 "How should the verification process be documented for examiners?"
+            ]
+        },
+        {
+            title: "Cross-Border Sanctions Evasion Investigation",
+            difficulty: "advanced",
+            description: "A series of international wire transfers involving shell companies and politically exposed persons triggers suspicion of sanctions evasion. The case requires coordination with multiple regulatory agencies and forensic financial analysis.",
+            discussionPoints: [
+                "How should advanced forensic accounting and international cooperation be used to investigate cross-border sanctions evasion?",
+                "What are the legal and reputational risks of failing to detect sanctions violations?",
+                "How should the bank coordinate with OFAC, FinCEN, and foreign regulators?",
+                "What advanced documentation and reporting are required for regulatory defense?",
+                "How should customer communication be managed in high-profile investigations?"
+            ]
+        },
+        {
+            title: "Complex Cryptocurrency Transaction Review",
+            difficulty: "advanced",
+            description: "A customer conducts a series of high-value cryptocurrency transactions through the bank, involving multiple exchanges and privacy coins. The activity triggers advanced AML and KYC reviews, as well as regulatory scrutiny.",
+            discussionPoints: [
+                "How should the bank use blockchain analytics and forensic tools to review complex cryptocurrency transactions?",
+                "What are the regulatory risks of privacy coins and decentralized exchanges?",
+                "How should the bank coordinate with law enforcement and crypto compliance experts?",
+                "What advanced documentation and reporting are required for cryptocurrency compliance?",
+                "How should customer communication be managed in high-risk crypto scenarios?"
+            ]
+        },
+        {
+            title: "Multi-Agency Regulatory Audit Coordination",
+            difficulty: "advanced",
+            description: "The bank is subject to simultaneous audits by multiple regulatory agencies, each with different requirements and deadlines. The situation requires advanced project management, legal review, and real-time compliance monitoring.",
+            discussionPoints: [
+                "How should the bank coordinate and prioritize responses to multi-agency audits?",
+                "What advanced project management and legal review processes are needed?",
+                "How should real-time compliance monitoring be implemented across departments?",
+                "What are the risks of conflicting regulatory requirements?",
+                "How should findings and remediation be documented for all agencies?"
+            ]
+        },
+        {
+            title: "Advanced AML System Implementation",
+            difficulty: "advanced",
+            description: "The bank is rolling out a new AI-driven AML system to detect sophisticated money laundering schemes. The implementation faces technical, regulatory, and operational challenges, including staff training and system integration.",
+            discussionPoints: [
+                "How should the bank manage technical and regulatory risks during advanced AML system implementation?",
+                "What are the best practices for staff training and change management?",
+                "How should system integration and data migration be handled securely?",
+                "What advanced documentation and reporting are required for regulatory approval?",
+                "How should the bank measure and report AML system effectiveness?"
+            ]
+        },
+        {
+            title: "High-Profile Data Privacy Litigation",
+            difficulty: "advanced",
+            description: "A class-action lawsuit is filed against the bank for alleged data privacy violations involving thousands of customers. The case attracts media attention and regulatory scrutiny, requiring advanced legal and compliance coordination.",
+            discussionPoints: [
+                "How should the bank coordinate legal defense and regulatory response in high-profile data privacy litigation?",
+                "What advanced forensic and compliance tools are needed to assess the scope of data exposure?",
+                "How should the bank manage media relations and customer communication?",
+                "What are the risks of reputational damage and regulatory penalties?",
+                "How should findings and remediation be documented for court and regulators?"
             ]
         }
     ],
