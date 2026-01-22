@@ -3228,6 +3228,407 @@ const SCENARIO_NATURAL_DISASTER = {
   ]
 };
 
+const SCENARIO_WIRE_FRAUD_ATTACK = {
+  key: "major-wire-fraud-bec-attack",
+  title: "Coordinated Business Email Compromise and Wire Fraud Attack",
+  description:
+    "A sophisticated Business Email Compromise (BEC) attack is discovered after $4.7M in fraudulent wire transfers are executed over 72 hours. Threat actors compromised the email accounts of three commercial lending officers, used deepfake voice technology to impersonate executives, and exploited gaps in callback verification procedures. Twelve commercial customers are affected, including a municipality, a hospital system, and several mid-size manufacturers. The FBI has been contacted, but most funds have already moved through correspondent banks to overseas accounts. Three customers are demanding immediate reimbursement, two are threatening litigation, and local media has received an anonymous tip about 'massive fraud at the bank.'",
+  questions: [
+
+    /* ================= CEO / SVPs ================= */
+
+    q("CEO/SVPs",
+      "The board requests an emergency briefing. Legal counsel advises that admitting fault could complicate recovery efforts and litigation defense, but customers are demanding answers. What approach is most appropriate?",
+      buildChoices(
+        "Present the board with complete findings including control gaps identified, explain the tension between customer communication and legal positioning, and seek board guidance on the bank's communication posture and remediation philosophy.",
+        "Full transparency with the board enables informed governance; presenting the tension honestly allows the board to make strategic decisions about positioning.",
+        10,
+        "Recommend the board authorize immediate reimbursement of all affected customers to preserve relationships, accepting the financial impact as a cost of maintaining trust.",
+        "Customer focus is admirable but blanket reimbursement without understanding root cause and legal implications may not serve all stakeholders; analysis should precede commitment.",
+        5,
+        "Present a carefully worded summary that emphasizes the sophisticated nature of the attack while minimizing discussion of internal control failures.",
+        "Minimizing internal failures may seem protective but the board needs complete information; sanitized briefings lead to poor governance decisions.",
+        -5,
+        "Recommend delaying the board briefing until legal has completed its assessment and can advise on what information can safely be shared.",
+        "Legal input is valuable but delaying board notification of a material fraud event creates governance concerns; boards expect prompt notification.",
+        -5
+      )
+    ),
+
+    q("CEO/SVPs",
+      "The hospital system CEO calls you directly, furious that $1.2M intended for medical equipment is gone. They're threatening to terminate all banking relationships and go public with their experience. What approach is most appropriate?",
+      buildChoices(
+        "Listen without defensiveness, acknowledge the severity of their situation and the bank's role in the failure, commit to a specific executive-level follow-up within 24 hours with a concrete response plan, and avoid making promises you can't keep.",
+        "Active listening validates their anger; acknowledgment demonstrates accountability; specific follow-up shows commitment without overcommitting before full assessment.",
+        10,
+        "Immediately offer to reimburse the full amount to preserve the relationship, given the hospital's critical community role and the reputational risk of their public complaint.",
+        "Reimbursement may ultimately be appropriate but immediate commitment without process creates precedent and may not reflect actual bank liability.",
+        5,
+        "Explain that the fraud was perpetrated by sophisticated criminals and that the bank is also a victim, emphasizing that callback procedures were followed.",
+        "Shifting responsibility to criminals and defending procedures while the customer is angry will inflame the situation and may not be factually complete.",
+        -5,
+        "Transfer the call to the Chief Risk Officer since operational issues are better handled by the appropriate executive rather than the CEO.",
+        "Delegation when a major customer demands CEO attention signals that the relationship isn't a priority; CEO should engage on material customer crises.",
+        -5
+      )
+    ),
+
+    q("CEO/SVPs",
+      "A local TV reporter calls stating they have 'multiple sources' confirming fraud at the bank and asks for comment before their 6pm broadcast. You have 3 hours. What approach is most appropriate?",
+      buildChoices(
+        "Confirm that the bank has identified fraudulent activity affecting some commercial customers, state that law enforcement is engaged, emphasize that customer deposits are secure, and commit to protecting affected customers while the investigation continues.",
+        "Controlled acknowledgment shapes the narrative; law enforcement reference adds credibility; deposit security addresses broader concerns; customer protection commitment shows values.",
+        10,
+        "Decline to comment citing an ongoing law enforcement investigation, and refer the reporter to the FBI for any statements.",
+        "No comment may be appropriate for some details but complete silence allows the reporter's sources to define the narrative entirely.",
+        5,
+        "Provide extensive background on how sophisticated the attack was and how even major banks have fallen victim to similar schemes.",
+        "Context about attack sophistication may seem explanatory but extensive detail before investigation is complete may prove inaccurate or create legal exposure.",
+        -5,
+        "Threaten legal action if the station broadcasts unverified information that could damage the bank's reputation.",
+        "Legal threats against media during an active story typically backfire and may become part of the coverage themselves.",
+        -5
+      )
+    ),
+
+    /* ================= IT / Security ================= */
+
+    q("IT/Security",
+      "Forensic analysis reveals the email compromise began 6 weeks ago through a spear-phishing attack targeting loan officers. The threat actors monitored email traffic before executing the fraud. What approach is most appropriate?",
+      buildChoices(
+        "Immediately force password resets and MFA re-enrollment for all compromised accounts and their contacts, preserve all logs and evidence, engage forensics to determine full scope, and assess what other data the attackers may have accessed.",
+        "Immediate credential actions stop ongoing access; preservation protects evidence; scope assessment identifies additional exposure; data access review addresses broader risk.",
+        10,
+        "Reset passwords for the three known compromised accounts and monitor for suspicious activity before taking broader action that might disrupt operations.",
+        "Targeted reset is insufficient; attackers with 6 weeks of access likely compromised additional accounts or established persistence mechanisms.",
+        5,
+        "Focus investigation resources on tracing the fraudulent wire transfers rather than the email compromise, since fund recovery is the priority.",
+        "Fund recovery is important but without understanding the full compromise, attackers may still have access and could execute additional fraud.",
+        -5,
+        "Notify all employees that a phishing attack occurred and remind them to be vigilant, without disclosing the extent of the compromise.",
+        "General awareness has value but vague warnings without specific actions leave the organization vulnerable; comprehensive response is needed.",
+        -5
+      )
+    ),
+
+    q("IT/Security",
+      "Investigation reveals that deepfake voice technology was used to impersonate the CFO on callback verification calls. Current voice verification procedures were followed but proved inadequate. What approach is most appropriate?",
+      buildChoices(
+        "Immediately implement enhanced verification procedures requiring multiple factors beyond voice, document the deepfake attack vector for industry sharing, and assess whether prior wire transfers may have used similar techniques.",
+        "Enhanced procedures address the vulnerability; industry sharing helps others; retrospective review identifies potentially undetected fraud.",
+        10,
+        "Add a secondary verification channel such as a text confirmation in addition to voice callback, while maintaining existing procedures.",
+        "Secondary channel helps but if attackers have email access, they may intercept text confirmations too; multiple independent factors are needed.",
+        5,
+        "Suspend all wire transfer activity until new verification procedures can be designed and implemented.",
+        "Suspension protects against fraud but halting wire transfers creates massive customer disruption; enhanced manual procedures can bridge the gap.",
+        -5,
+        "Implement voice biometric analysis technology to detect deepfakes before resuming normal callback procedures.",
+        "Biometric technology may help long-term but isn't immediately deployable; interim procedures are needed while technology is evaluated.",
+        -5
+      )
+    ),
+
+    q("IT/Security",
+      "The FBI requests access to all email logs, wire transfer records, and internal investigation findings. Legal counsel advises this could expose information helpful to customer litigation against the bank. What approach is most appropriate?",
+      buildChoices(
+        "Cooperate fully with the FBI request while documenting what's shared, preserve privilege over internal analysis documents where appropriate, and accept that law enforcement cooperation is both legally required and strategically important for fund recovery.",
+        "Full cooperation supports recovery efforts and demonstrates good faith; documentation protects the bank's interests; privilege preservation is appropriate for certain documents.",
+        10,
+        "Provide the requested materials but have legal counsel review everything first and redact any information that could harm the bank's litigation position.",
+        "Legal review is appropriate but redacting relevant information from law enforcement could impede recovery and create obstruction concerns.",
+        5,
+        "Request that the FBI obtain a formal subpoena so the bank can demonstrate to customers that disclosure was compelled rather than voluntary.",
+        "Subpoena positioning may seem protective but delaying cooperation hampers fund recovery when time is critical; voluntary cooperation is more effective.",
+        -5,
+        "Limit disclosure to information directly related to the wire transfers and protect internal investigation findings about control weaknesses.",
+        "Limited disclosure may impede investigation; the FBI needs context to pursue attackers effectively; control weaknesses may be relevant to their investigation.",
+        -5
+      )
+    ),
+
+    /* ================= HR ================= */
+
+    q("HR",
+      "The three loan officers whose email accounts were compromised are devastated and worried about their jobs. They followed existing procedures but were victimized by a sophisticated attack. One has retained personal legal counsel. What approach is most appropriate?",
+      buildChoices(
+        "Meet individually with each employee to provide support, clarify that the investigation is focused on process improvement rather than blame, explain their rights including the right to personal counsel, and document any information they can provide about the attack.",
+        "Individual support addresses personal distress; process focus reduces fear; rights clarification is appropriate; information gathering supports investigation.",
+        10,
+        "Place all three employees on administrative leave pending investigation completion to preserve the integrity of the review.",
+        "Administrative leave may be perceived as punishment for being victimized; unless involvement is suspected, continued employment with investigation support is appropriate.",
+        5,
+        "Focus HR support on the employee with counsel since that situation requires the most careful handling; others can wait.",
+        "Counsel retention doesn't indicate greater need for support; all three employees deserve prompt attention regardless of legal representation.",
+        -5,
+        "Conduct immediate interviews with all three employees to gather information while memories are fresh, before they coordinate their accounts.",
+        "Immediate interviews without support feel adversarial; suggestion they might 'coordinate accounts' implies suspicion without basis.",
+        -5
+      )
+    ),
+
+    q("HR",
+      "Word of the fraud spreads internally. Operations staff who process wire transfers are anxious about whether they'll be blamed for not catching the fraudulent transactions. Productivity is dropping as employees discuss the situation. What approach is most appropriate?",
+      buildChoices(
+        "Hold department meetings to acknowledge the situation, explain that the focus is on process improvement rather than individual fault, clarify what employees should do if they have relevant information, and provide EAP resources for those experiencing stress.",
+        "Department meetings address anxiety directly; process focus reduces blame fear; clear guidance enables cooperation; EAP addresses stress.",
+        10,
+        "Issue a memo reminding employees that discussing ongoing investigations is prohibited and that normal work expectations continue.",
+        "Prohibition memo increases anxiety and doesn't address the underlying concerns; employees will continue discussing despite the memo.",
+        5,
+        "Wait until the investigation is complete before communicating to avoid sharing information that might later prove incorrect.",
+        "Waiting extends anxiety and productivity impact; employees need acknowledgment and guidance even before full facts are known.",
+        -5,
+        "Identify which employees processed the fraudulent wires and meet with them first to assess whether procedures were properly followed.",
+        "Targeted meetings feel like interrogations and may create scapegoats; broad communication should precede individual follow-up.",
+        -5
+      )
+    ),
+
+    q("HR",
+      "A wire operations supervisor approaches HR confidentially, stating she raised concerns about callback verification weaknesses 8 months ago but was told the procedures were adequate. She's worried about speaking up given the current investigation. What approach is most appropriate?",
+      buildChoices(
+        "Document her concerns with dates and details, assure her that raising prior concerns is protected activity, connect her with appropriate investigation contacts, and ensure her disclosure is included in the root cause analysis.",
+        "Documentation preserves the record; protection assurance encourages candor; investigation connection ensures information is used; root cause inclusion addresses systemic issues.",
+        10,
+        "Thank her for coming forward and pass the information to the investigation team without documenting her identity to protect her from potential retaliation.",
+        "Anonymous tip has value but she deserves explicit non-retaliation protection; her willingness to be identified may strengthen the information's credibility and usefulness.",
+        5,
+        "Advise her to document her prior concerns in writing and submit them through the formal whistleblower channel to ensure proper protection.",
+        "Formal channels may be appropriate but adding bureaucracy when she's already anxious may discourage her; immediate support and documentation is better.",
+        -5,
+        "Explain that raising this now, after the fraud occurred, may appear self-serving and that she should consult her own attorney before making statements.",
+        "Discouraging relevant information and suggesting she needs legal protection chills future reporting and may constitute retaliation.",
+        -5
+      )
+    ),
+
+    /* ================= Finance ================= */
+
+    q("Finance",
+      "Insurance coverage for wire fraud losses is $2M with a $250K deductible. Actual customer losses are $4.7M. The CFO needs to determine the bank's financial exposure and whether to reimburse beyond insurance coverage. What approach is most appropriate?",
+      buildChoices(
+        "Develop multiple scenarios modeling different reimbursement approaches, assess each scenario's financial impact and litigation risk, prepare recommendations for board consideration, and begin insurance claim documentation immediately.",
+        "Scenario modeling informs decision-making; financial and litigation assessment provides context; board involvement is appropriate for material decisions; immediate claims documentation protects coverage.",
+        10,
+        "Recommend reimbursing all customers in full immediately, absorbing the $2.7M beyond insurance as a relationship and reputation investment.",
+        "Full reimbursement may be appropriate but committing $2.7M without board approval and legal analysis exceeds management authority.",
+        5,
+        "Limit bank exposure to the insurance deductible and inform customers that losses beyond $2M are their responsibility since the fraud was committed by third parties.",
+        "Cost limitation may be legally defensible but abandoning customers to $2.7M in losses will destroy relationships and create severe reputational damage.",
+        -5,
+        "Wait for legal to determine the bank's liability before establishing any financial reserves or making reimbursement decisions.",
+        "Legal determination takes time; finance needs to establish preliminary reserves and model scenarios regardless of ultimate liability conclusions.",
+        -5
+      )
+    ),
+
+    q("Finance",
+      "The correspondent bank through which the fraudulent wires were routed reports that $800K has been frozen in an intermediate account and may be recoverable. However, they require the bank to indemnify them against any claims before releasing the funds. What approach is most appropriate?",
+      buildChoices(
+        "Engage legal to review the indemnification terms, assess the risk of claims against the correspondent bank, negotiate reasonable scope limitations if possible, and prioritize fund recovery given the amount at stake.",
+        "Legal review protects the bank's interests; risk assessment informs decision; negotiation may improve terms; fund recovery is the priority given $800K at stake.",
+        10,
+        "Accept the indemnification as requested to expedite fund recovery, since $800K recovery significantly reduces overall losses.",
+        "Expedited recovery is valuable but open-ended indemnification could expose the bank to unknown future claims; some review is warranted.",
+        5,
+        "Decline the indemnification and pursue legal action against the correspondent bank for their role in facilitating the fraudulent transfers.",
+        "Legal action against correspondent banks is rarely successful and forfeits the $800K recovery opportunity; cooperation is more productive.",
+        -5,
+        "Counter-propose that any recovered funds go directly to affected customers rather than the bank, eliminating the need for indemnification.",
+        "Direct customer payment is creative but doesn't eliminate correspondent bank exposure; they still need protection regardless of fund destination.",
+        -5
+      )
+    ),
+
+    q("Finance",
+      "Quarter-end is in 10 days. The fraud losses, potential additional reimbursements, and investigation costs will materially impact reported earnings. The investor relations team asks how to handle upcoming analyst calls. What approach is most appropriate?",
+      buildChoices(
+        "Prepare disclosure language explaining the fraud event, quantify known and estimated impacts with appropriate ranges and caveats, coordinate with auditors on financial statement treatment, and brief analysts factually without speculation.",
+        "Prepared disclosure ensures accuracy; quantified impacts with caveats provide appropriate information; auditor coordination ensures proper treatment; factual briefing meets disclosure obligations.",
+        10,
+        "Delay earnings release until the fraud investigation provides clearer financial impact estimates to avoid multiple revisions.",
+        "Delay may improve precision but missing earnings deadlines creates its own concerns; disclosed estimates with appropriate caveats are acceptable.",
+        5,
+        "Characterize the fraud as a one-time extraordinary event and present adjusted earnings excluding fraud impacts to show underlying business performance.",
+        "Non-GAAP presentation may be appropriate but leading with adjusted figures that exclude material losses may appear to minimize the event's significance.",
+        -5,
+        "Focus analyst communication on business fundamentals and treat the fraud as an operational matter that will be addressed in footnote disclosures.",
+        "Minimizing discussion of a material fraud event in analyst calls while burying details in footnotes may violate disclosure obligations and damage credibility.",
+        -5
+      )
+    ),
+
+    /* ================= Loans ================= */
+
+    q("Loans",
+      "One of the fraud victims, a manufacturing company, has an outstanding $3M credit line with the bank. They're now unable to make payroll and are requesting an emergency draw that would exceed their borrowing base. What approach is most appropriate?",
+      buildChoices(
+        "Evaluate an emergency exception to borrowing base requirements given the extraordinary circumstances, document the exception rationale, consider whether the bank's liability for the fraud affects the credit decision, and present options to credit committee.",
+        "Emergency evaluation addresses the urgent need; documentation supports the exception; liability consideration is relevant; credit committee involvement is appropriate for exceptions.",
+        10,
+        "Process the draw request using normal credit procedures, since mixing fraud remediation with credit decisions creates inappropriate precedent.",
+        "Normal procedures may be appropriate generally but denying emergency credit to a company the bank's fraud harmed, when they're a current customer, lacks judgment.",
+        5,
+        "Offer to advance funds against the expected insurance recovery as a secured bridge loan rather than expanding unsecured credit.",
+        "Insurance recovery collateral is creative but insurance payments are uncertain and may take months; this doesn't address the immediate payroll crisis.",
+        -5,
+        "Decline the over-advance request and suggest the customer seek emergency financing elsewhere, since credit decisions must remain independent of the fraud situation.",
+        "Independence principle is valid but rigidly denying credit to fraud victims while forcing them to other lenders will permanently damage the relationship.",
+        -5
+      )
+    ),
+
+    q("Loans",
+      "The commercial lending team reports that news of the fraud is spreading among business customers. Several relationship managers have received calls asking whether their transfers are safe. One large prospect has paused a pending loan commitment. What approach is most appropriate?",
+      buildChoices(
+        "Develop talking points for relationship managers explaining enhanced security measures, authorize proactive outreach to top relationships, address the prospect's concerns directly with senior involvement, and monitor for additional relationship impacts.",
+        "Talking points ensure consistent communication; proactive outreach shows attention to relationships; senior involvement on the prospect shows commitment; monitoring enables response.",
+        10,
+        "Let relationship managers handle inquiries based on their customer knowledge without centralized talking points that might seem scripted.",
+        "RM judgment is valuable but inconsistent responses to the same questions will create confusion; talking points provide a foundation for personalized conversation.",
+        5,
+        "Wait until the investigation concludes to provide definitive answers, since speculating about security measures could create additional liability.",
+        "Waiting leaves customers anxious and may accelerate relationship losses; customers need timely communication even before full facts are available.",
+        -5,
+        "Focus outreach on customers who have called with concerns and assume others are satisfied if they haven't raised issues.",
+        "Reactive approach misses customers who are concerned but haven't called; proactive outreach to key relationships prevents silent departures.",
+        -5
+      )
+    ),
+
+    q("Loans",
+      "The municipality that lost $890K in the fraud is a long-standing borrower with $15M in outstanding bonds that the bank holds. Their city council is meeting tonight and considering moving all banking relationships. What approach is most appropriate?",
+      buildChoices(
+        "Have the CEO contact the city manager before the council meeting, present a concrete remediation proposal, offer to attend the council meeting if helpful, and acknowledge the seriousness without making commitments the bank can't keep.",
+        "CEO involvement signals priority; proactive contact before the meeting enables input; remediation proposal shows action; council offer demonstrates accountability; measured commitments maintain credibility.",
+        10,
+        "Prepare a written remediation proposal and submit it through normal municipal channels, respecting the formal government process.",
+        "Formal process respect is appropriate generally but emergency circumstances warrant direct outreach before a potentially adverse council decision.",
+        5,
+        "Wait to see what the council decides before making commitments, since offering remediation proactively may be interpreted as admitting liability.",
+        "Waiting allows the council to make decisions without bank input; proactive engagement may influence the outcome and demonstrates good faith.",
+        -5,
+        "Emphasize to city officials that municipalities have special protections and the bank's bond holdings create mutual interest in maintaining the relationship.",
+        "Leverage-based arguments during a crisis where the bank caused harm will inflame rather than calm the situation; empathy is more effective.",
+        -5
+      )
+    ),
+
+    /* ================= Accounting ================= */
+
+    q("Accounting",
+      "Wire operations has produced records of all 47 wire transfers during the fraud window. Twelve were fraudulent. Auditors want to understand how the fraudulent wires were approved and whether control deficiencies exist for the remaining 35. What approach is most appropriate?",
+      buildChoices(
+        "Provide auditors complete documentation for all 47 transactions, walk through the approval process for both fraudulent and legitimate wires, identify control points that failed, and propose enhanced procedures for auditor assessment.",
+        "Complete documentation demonstrates transparency; comparative analysis identifies specific failures; proposed enhancements show corrective action.",
+        10,
+        "Provide documentation for the 12 fraudulent wires and offer to pull records for specific legitimate wires auditors want to sample.",
+        "Selective provision may seem efficient but auditors need the full population to assess control effectiveness; limiting access raises questions.",
+        5,
+        "Explain that the wire fraud investigation is ongoing and documentation will be provided after the investigation concludes to avoid interfering with law enforcement.",
+        "Investigation sensitivity is real but auditors have legitimate need for transaction records; law enforcement and audit access can proceed in parallel.",
+        -5,
+        "Characterize the fraud as a social engineering attack that bypassed technical controls, emphasizing that the control framework itself was sound.",
+        "Framework defense may be premature before analysis is complete; auditors will form their own conclusions and defensive positioning undermines credibility.",
+        -5
+      )
+    ),
+
+    q("Accounting",
+      "Three customers have demanded reimbursement, and management has verbally committed to 'make them whole' without specifying terms or timing. Accounting needs to record appropriate reserves but the actual obligation is unclear. What approach is most appropriate?",
+      buildChoices(
+        "Establish reserves based on reasonable estimates of likely payments, document assumptions including management's verbal commitments, flag the uncertainty for auditors, and recommend management clarify reimbursement terms in writing.",
+        "Reserve establishment with documented assumptions meets accounting requirements; flagging uncertainty is appropriate; recommending clarity helps resolve the ambiguity.",
+        10,
+        "Reserve the full $4.7M until management provides specific guidance on which customers will be reimbursed and in what amounts.",
+        "Conservative reserving is prudent but full reserve may overstate likely payments; reasonable estimation based on available information is more appropriate.",
+        5,
+        "Defer reserving until management provides written commitments, since verbal statements don't create accounting obligations.",
+        "Verbal commitments to customers may create legal obligations regardless of accounting treatment; reserves should reflect probable payments.",
+        -5,
+        "Reserve only for amounts covered by insurance since that's the only certain payment obligation.",
+        "Insurance-only reserve ignores probable payments beyond coverage; reserves should reflect management's commitments and probable outcomes.",
+        -5
+      )
+    ),
+
+    q("Accounting",
+      "The external auditors indicate they may need to evaluate whether the wire fraud and related control deficiencies constitute a material weakness in internal control over financial reporting (ICFR). Management is concerned about the disclosure implications. What approach is most appropriate?",
+      buildChoices(
+        "Cooperate fully with the auditor's assessment, provide all requested documentation about controls and the fraud, acknowledge that material weakness determination is the auditor's judgment, and prepare for potential disclosure requirements.",
+        "Full cooperation enables proper assessment; auditor judgment respect maintains relationship; disclosure preparation is prudent regardless of outcome.",
+        10,
+        "Argue that wire fraud controls are operational rather than financial reporting controls and therefore outside ICFR scope.",
+        "Scope argument may have merit for some controls but wire transfer authorization is typically within ICFR scope; auditors will make the determination.",
+        5,
+        "Commission an independent assessment that concludes controls were adequate and the fraud resulted from sophisticated external attack rather than control deficiency.",
+        "Independent assessment may provide useful input but a report designed to reach a predetermined conclusion will not persuade auditors and damages credibility.",
+        -5,
+        "Emphasize the remediation actions being taken to argue that any deficiency has been corrected and doesn't require current disclosure.",
+        "Remediation is relevant to whether a deficiency persists but doesn't eliminate the requirement to disclose deficiencies that existed during the reporting period.",
+        -5
+      )
+    ),
+
+    /* ================= Deposits ================= */
+
+    q("Deposits",
+      "Word of the fraud has spread to retail customers. Branch staff report concerned customers asking if their accounts are safe. Several customers have requested to close accounts citing concerns about 'security problems at the bank.' What approach is most appropriate?",
+      buildChoices(
+        "Provide branch staff with approved talking points distinguishing commercial wire fraud from retail account security, train managers on concerned customer conversations, process account closures professionally, and track inquiry and closure volume.",
+        "Talking points ensure accurate information; manager training improves difficult conversations; professional closures respect customer choice; tracking enables trend monitoring.",
+        10,
+        "Instruct staff to minimize discussion of the fraud and focus on the bank's overall security measures and deposit insurance protection.",
+        "Minimization may seem protective but customers with specific concerns need direct answers; deflection increases rather than decreases anxiety.",
+        5,
+        "Issue a mass communication to all retail customers explaining the fraud situation and assuring them their accounts are protected.",
+        "Mass communication may help or hurt depending on execution; many retail customers are unaware and communication may create concern rather than address it.",
+        -5,
+        "Focus on retaining customers and discourage closures by emphasizing the hassle of switching banks and the safety of FDIC insurance.",
+        "Retention focus when customers have security concerns feels dismissive; acknowledging concerns and providing information is more effective than discouraging departure.",
+        -5
+      )
+    ),
+
+    q("Deposits",
+      "A business customer calls asking whether they should change their wire transfer procedures given what happened. They currently rely on single-callback verification similar to what was exploited in the fraud. What approach is most appropriate?",
+      buildChoices(
+        "Have a knowledgeable employee walk them through enhanced verification options, explain what the bank is implementing, recommend multi-factor verification for their transactions, and document the guidance provided.",
+        "Expert guidance helps the customer protect themselves; explaining bank changes shows responsiveness; specific recommendations demonstrate care; documentation protects both parties.",
+        10,
+        "Recommend they contact their own IT security consultant since the bank shouldn't be advising customers on their internal procedures.",
+        "Consultant referral may be appropriate for complex situations but the bank has direct knowledge of fraud techniques and can provide immediate helpful guidance.",
+        5,
+        "Explain that the fraud exploited sophisticated technology that most businesses can't defend against, so there's limited value in changing their procedures.",
+        "Defeatism discourages customer self-protection; enhanced verification can meaningfully reduce BEC fraud risk even against sophisticated attackers.",
+        -5,
+        "Avoid specific recommendations that could create liability if the customer is later defrauded despite following the bank's advice.",
+        "Liability avoidance prioritizes bank protection over customer welfare; reasonable guidance provided in good faith is appropriate and valued.",
+        -5
+      )
+    ),
+
+    q("Deposits",
+      "The hospital system that lost $1.2M has accounts totaling $8M across operating, payroll, and reserve accounts. Their CFO states they're moving all funds to another institution within 48 hours unless the bank provides a satisfactory resolution. What approach is most appropriate?",
+      buildChoices(
+        "Arrange an immediate meeting with senior executives to hear their concerns, present the bank's remediation plan and timeline, discuss reimbursement options within the bank's authority, and respect their decision if they choose to leave.",
+        "Immediate senior meeting shows priority; remediation presentation provides information; reimbursement discussion addresses their main concern; respecting their decision maintains long-term reputation.",
+        10,
+        "Escalate to the CEO and offer full immediate reimbursement to prevent the departure of an $8M relationship.",
+        "Full reimbursement may be appropriate but offering it specifically to prevent departure appears transactional rather than principled; consistent treatment is better.",
+        5,
+        "Explain that hasty account movements during an ongoing investigation could complicate fund recovery and they should wait for resolution.",
+        "Fund recovery argument may have marginal merit but appears to be an excuse to delay; customers have the right to move their funds.",
+        -5,
+        "Accept their departure since customers who threaten to leave over operational issues often leave anyway, and the relationship may not be worth the reimbursement cost.",
+        "Accepting departure of an $8M relationship harmed by the bank's fraud without serious effort to retain them demonstrates poor judgment and values.",
+        -5
+      )
+    ),
+  ]
+};
+
 const SCENARIOS = [
   SCENARIO_RANSOMWARE,
   SCENARIO_LIQUIDITY,
@@ -3238,7 +3639,8 @@ const SCENARIOS = [
   SCENARIO_VENDOR_OUTAGE,
   SCENARIO_COORDINATED_ATTACK,
   SCENARIO_BSA_AML_FAILURE,
-  SCENARIO_NATURAL_DISASTER
+  SCENARIO_NATURAL_DISASTER,
+  SCENARIO_WIRE_FRAUD_ATTACK
 ];
 
 export function getScenarios() {
