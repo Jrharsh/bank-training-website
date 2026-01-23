@@ -350,11 +350,11 @@ body.dark-mode .theme-toggle { background:#232a36; color:#e3e6eb; border-color:#
   background: #f1f5f9;
   color: #334155;
   font-weight: 600;
-  margin-bottom: 2px;
+  margin-bottom: 8px;
 }
 
 .cmg .question-title {
-  margin: 4px 0 8px;
+  margin: 8px 0 16px;
   font-size: 1.35rem;
   color: #ffffff;
 }
