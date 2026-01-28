@@ -319,6 +319,7 @@ body.dark-mode .theme-toggle { background:#232a36; color:#e3e6eb; border-color:#
   font-weight: 600;
   color: #222;
   margin-top: 1px; /* reduce space between emoji and label */
+  font-size: 0.95rem; /* slightly smaller department label */
 }
 
 .ttsg .generate-section {
