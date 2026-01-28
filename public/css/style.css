@@ -296,8 +296,12 @@ body.dark-mode .theme-toggle { background:#232a36; color:#e3e6eb; border-color:#
   box-shadow: 0 6px 24px rgba(30,41,59,0.13);
 }
 .ttsg .department-card.selected {
-  border-color: #2196f3;
-  box-shadow: 0 8px 28px rgba(33,150,243,0.18);
+  border: 2px solid #2196f3;
+  background: #e3eafc;
+  box-shadow: 0 4px 18px rgba(33,150,243,0.10);
+  transform: scale(1.03);
+  color: #0b2540;
+  transition: border 0.18s, background 0.18s, box-shadow 0.18s, transform 0.12s;
 }
 
 .ttsg .department-name {
