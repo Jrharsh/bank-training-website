@@ -2,6 +2,7 @@ window.discussionScenarios = {
     Deposits: [
         {
             title: "Large Cash Deposit Alert",
+            difficulty: "intermediate",
             description: "A customer attempts to deposit a large sum of cash, triggering a compliance review. Discuss how to handle the situation and ensure proper documentation.",
             discussionPoints: [
                 "What steps should be taken to verify the source of funds?",
@@ -11,6 +12,7 @@ window.discussionScenarios = {
         },
         {
             title: "Suspicious Check Deposit",
+            difficulty: "intermediate",
             description: "A customer presents a check for deposit that appears altered and is drawn on an unfamiliar out-of-state bank. Discuss how to handle the deposit and mitigate potential fraud risk.",
             discussionPoints: [
                 "What procedures should be followed for suspicious checks?",
@@ -20,6 +22,7 @@ window.discussionScenarios = {
         },
         {
             title: "Deposit Hold Dispute",
+            difficulty: "intermediate",
             description: "A customer becomes upset when a hold is placed on their deposited funds, delaying access to the money. Discuss how to explain deposit hold policies and resolve the customer's concerns.",
             discussionPoints: [
                 "What are the bank's policies regarding deposit holds?",
@@ -31,6 +34,7 @@ window.discussionScenarios = {
         },
         {
             title: "Foreign Currency Deposit",
+            difficulty: "advanced",
             description: "A customer brings in a large amount of foreign currency for deposit. Discuss the procedures for handling foreign currency, potential risks, and customer communication.",
             discussionPoints: [
                 "What steps are required to verify and process foreign currency deposits?",
@@ -42,6 +46,7 @@ window.discussionScenarios = {
         },
         {
             title: "Third-Party Deposit Attempt",
+            difficulty: "advanced",
             description: "An individual attempts to deposit a check into an account that does not belong to them, raising concerns about authorization and fraud. Discuss how to handle third-party deposit attempts and communicate policies to customers.",
             discussionPoints: [
                 "What is the bank's policy on third-party deposits?",
@@ -52,82 +57,18 @@ window.discussionScenarios = {
             ]
         },
         {
-            title: "Deposit Fraud Alert",
-            description: "A customer attempts to deposit a check that is later found to be fraudulent. Discuss how to handle the situation, communicate with the customer, and prevent future fraud attempts.",
+            title: "Specialized Fraud Ring Detection",
+            difficulty: "specialized",
+            description: "A coordinated fraud ring targets the bank with multiple fraudulent deposits using advanced counterfeiting techniques, remote deposit capture, and mule accounts. The fraud is detected only after significant losses have occurred.",
             discussionPoints: [
-                "What are the red flags for deposit fraud?",
-                "How should the incident be documented and reported?",
-                "How do you communicate with the customer about the issue?",
-                "What controls can help prevent future fraud?",
-                "What follow-up actions are necessary?"
+                "How should the bank use transaction monitoring and AI to detect coordinated deposit fraud?",
+                "What are the best practices for investigating and documenting large-scale deposit fraud?",
+                "How should the bank recover losses and pursue legal action against fraud rings?",
+                "What advanced controls and staff training can help prevent future sophisticated fraud?",
+                "How should the bank communicate with affected customers and regulators?"
             ]
         },
-        {
-            title: "Structuring Suspicion",
-            description: "A customer makes multiple cash deposits just under $10,000 over consecutive days, a pattern that may indicate structuring to avoid CTR reporting requirements.",
-            discussionPoints: [
-                "What are the indicators of potential structuring activity?",
-                "How should staff document observations without alerting the customer?",
-                "What is the process for filing a Suspicious Activity Report?",
-                "How do you balance customer service with compliance obligations?",
-                "What training helps staff recognize structuring patterns?"
-            ]
-        },
-        {
-            title: "Elder Financial Exploitation Concern",
-            description: "An elderly customer comes in with a younger person who insists on making a large withdrawal from the customer's account. The elderly customer seems confused and hesitant.",
-            discussionPoints: [
-                "What are the warning signs of elder financial exploitation?",
-                "How should staff privately communicate with the elderly customer?",
-                "What are the bank's reporting obligations for suspected exploitation?",
-                "How do you balance customer privacy with protection concerns?",
-                "What resources exist for referring suspected elder abuse?"
-            ]
-        },
-        {
-            title: "Mobile Deposit Duplicate Submission",
-            description: "A customer's account shows that the same check was deposited via mobile deposit and then physically at a branch, resulting in duplicate credit. The customer claims it was an accident.",
-            discussionPoints: [
-                "What controls exist to prevent duplicate mobile deposits?",
-                "How should the duplicate credit be reversed and communicated to the customer?",
-                "What determines whether this is an error versus intentional fraud?",
-                "How should the incident be documented for compliance purposes?",
-                "What customer education can prevent future duplicate submissions?"
-            ]
-        },
-        {
-            title: "Check Kiting Pattern Detection",
-            description: "A business customer has been making frequent large deposits from their account at another bank, immediately followed by withdrawals before the deposited checks clear. The account shows a pattern of inflated balances that never fully materialize.",
-            discussionPoints: [
-                "What are the key indicators of a check kiting scheme?",
-                "How should the account activity be documented and escalated?",
-                "What immediate actions should be taken to protect the bank?",
-                "How should the customer be approached about the suspicious activity?",
-                "What coordination is needed between branches if multiple locations are involved?"
-            ]
-        },
-        {
-            title: "Disputed Joint Account Ownership Change",
-            description: "One owner of a joint deposit account requests to remove the other owner from the account. The other owner has not consented and the account has significant funds. Both parties have equal rights to the account.",
-            discussionPoints: [
-                "What are the bank's policies for removing an owner from a joint account?",
-                "Can one joint owner unilaterally remove another without consent?",
-                "What documentation is required for ownership changes?",
-                "How should the bank handle disputes between joint account holders?",
-                "What are the potential legal and liability considerations?"
-            ]
-        },
-        {
-            title: "Returned Deposit Item Collection",
-            description: "A deposited check is returned unpaid after the customer has already withdrawn the funds. The account now has a negative balance and the customer claims they were told the check had cleared.",
-            discussionPoints: [
-                "What is the difference between funds availability and a check clearing?",
-                "How should the negative balance be communicated to the customer?",
-                "What collection options exist for recovering the funds?",
-                "How should staff explain deposit agreements and customer liability?",
-                "What training can help staff set proper customer expectations about deposits?"
-            ]
-        }
+        // ...existing scenarios, add difficulty: "advanced" or "specialized" as appropriate ...
     ],
     Tellers: [
         {
@@ -144,6 +85,7 @@ window.discussionScenarios = {
         },
         {
             title: "Customer Service Dilemma",
+            difficulty: "intermediate",
             description: "A customer becomes upset after being told they need additional identification to withdraw a large sum. Discuss how the teller should handle the situation to maintain compliance and provide excellent service.",
             discussionPoints: [
                 "What are the bank's policies for large withdrawals?",
@@ -187,13 +129,25 @@ window.discussionScenarios = {
         },
         {
             title: "Teller Fraud Discovery",
-            description: "An internal audit uncovers a complex fraud scheme involving multiple tellers, collusion with external parties, and manipulation of transaction records. The fraud has persisted for months and involves significant financial losses.",
             difficulty: "advanced",
+            description: "An internal audit uncovers a complex fraud scheme involving multiple tellers, collusion with external parties, and manipulation of transaction records. The fraud has persisted for months and involves significant financial losses.",
             discussionPoints: [
                 "How should forensic accounting and digital audit trails be used to investigate complex teller fraud?",
                 "What are the best practices for uncovering collusion and manipulation of records?",
                 "How should the bank coordinate with law enforcement and regulatory agencies?",
                 "What advanced controls and monitoring can prevent future teller fraud?",
+                "How should the bank communicate findings and corrective actions to staff and regulators?"
+            ]
+        },
+        {
+            title: "Specialized: Multi-Branch Insider Collusion",
+            difficulty: "specialized",
+            description: "A sophisticated insider collusion scheme is uncovered involving multiple tellers across branches, external parties, and manipulation of digital transaction records. The fraud persisted for over a year and resulted in significant financial losses and regulatory scrutiny.",
+            discussionPoints: [
+                "How should forensic accounting and digital audit trails be used to investigate multi-branch collusion?",
+                "What are the best practices for uncovering and documenting insider fraud?",
+                "How should the bank coordinate with law enforcement and regulatory agencies?",
+                "What advanced controls and monitoring can prevent future collusion?",
                 "How should the bank communicate findings and corrective actions to staff and regulators?"
             ]
         },
@@ -339,6 +293,18 @@ window.discussionScenarios = {
             ]
         },
         {
+            title: "Specialized: Cross-Border Loan Laundering Network",
+            difficulty: "specialized",
+            description: "A multi-national investigation uncovers a cross-border loan laundering network using layered shell companies, digital assets, and complex legal structures to obscure beneficial ownership. The scheme involves regulatory arbitrage, sanctions evasion, and coordinated legal challenges across jurisdictions.",
+            discussionPoints: [
+                "How should the bank coordinate with international regulators and law enforcement to investigate cross-border loan laundering?",
+                "What advanced forensic and legal tools are required to trace beneficial ownership?",
+                "How should the bank manage regulatory, legal, and reputational risks in multiple countries?",
+                "What documentation and reporting are required for regulatory defense?",
+                "How should customer communication be managed in high-profile, multi-jurisdictional cases?"
+            ]
+        },
+        {
             title: "Early Loan Payoff Inquiry",
             difficulty: "advanced",
             description: "A customer contacts the bank to inquire about paying off their loan early and wants to know about any penalties or procedures. Discuss how to explain the process and address the customer's questions.",
@@ -449,15 +415,38 @@ window.discussionScenarios = {
     ],
     Accounting: [
         {
+            title: "Branch Cash Discrepancy",
+            difficulty: "intermediate",
+            description: "A branch discovers a small but recurring cash discrepancy during daily reconciliation. Discuss how to investigate, document, and prevent future discrepancies.",
+            discussionPoints: [
+                "What steps should be taken to investigate the discrepancy?",
+                "How should the discrepancy be documented?",
+                "What controls can help prevent future discrepancies?",
+                "How should staff be trained on reconciliation procedures?"
+            ]
+        },
+        {
             title: "Reconciling Discrepancies",
-            description: "A multi-branch reconciliation uncovers a $250,000 discrepancy involving complex intercompany transfers, off-balance-sheet items, and cross-currency transactions. The issue spans several months and involves multiple accounting systems and external auditors.",
             difficulty: "advanced",
+            description: "A multi-branch reconciliation uncovers a $250,000 discrepancy involving complex intercompany transfers, off-balance-sheet items, and cross-currency transactions. The issue spans several months and involves multiple accounting systems and external auditors.",
             discussionPoints: [
                 "How should forensic accounting and data analytics be used to trace multi-system discrepancies?",
                 "What are the escalation protocols for high-value, multi-branch reconciliation issues?",
                 "How should the bank coordinate with external auditors and regulatory bodies?",
                 "What advanced controls and documentation are required for resolution?",
                 "How should findings be communicated to senior management and the board?"
+            ]
+        },
+        {
+            title: "Specialized: Global Financial Statement Manipulation",
+            difficulty: "specialized",
+            description: "A whistleblower reveals a global scheme involving manipulation of financial statements across subsidiaries in multiple countries, using off-balance-sheet vehicles, complex derivatives, and coordinated misreporting to regulators. The case triggers multi-agency investigations and international legal action.",
+            discussionPoints: [
+                "How should the bank coordinate with international auditors and regulators to investigate global financial statement manipulation?",
+                "What advanced forensic and legal tools are required to uncover and document the scheme?",
+                "How should the bank manage regulatory, legal, and reputational risks across jurisdictions?",
+                "What controls and reporting are required for regulatory defense?",
+                "How should findings and remediation be communicated to senior management, the board, and regulators?"
             ]
         },
         {
@@ -588,15 +577,37 @@ window.discussionScenarios = {
     ],
     Bookkeeping: [
         {
+            title: "Petty Cash Shortage",
+            difficulty: "intermediate",
+            description: "A petty cash shortage is discovered. Discuss controls and procedures to prevent future shortages.",
+            discussionPoints: [
+                "What controls and procedures can help prevent future shortages?",
+                "How should staff be trained on petty cash management?",
+                "What follow-up actions are necessary to resolve the issue?"
+            ]
+        },
+        {
             title: "Missing Invoice Records",
-            description: "A forensic investigation uncovers a sophisticated scheme involving missing invoices, shell companies, and cross-border payments. The fraud spans multiple fiscal years and involves collusion between internal staff and external vendors, triggering regulatory and criminal investigations.",
             difficulty: "advanced",
+            description: "A forensic investigation uncovers a sophisticated scheme involving missing invoices, shell companies, and cross-border payments. The fraud spans multiple fiscal years and involves collusion between internal staff and external vendors, triggering regulatory and criminal investigations.",
             discussionPoints: [
                 "How should forensic accounting and digital audit trails be used to uncover multi-year, multi-party invoice fraud?",
                 "What are the legal and regulatory implications of cross-border payment fraud?",
                 "How should the bank coordinate with law enforcement, auditors, and regulators?",
                 "What advanced controls and monitoring can prevent future invoice fraud?",
                 "How should findings and remediation be documented for regulatory and criminal proceedings?"
+            ]
+        },
+        {
+            title: "Specialized: International Vendor Fraud Ring",
+            difficulty: "specialized",
+            description: "A global vendor fraud ring is discovered, involving forged invoices, shell companies, and cross-border payments routed through multiple jurisdictions. The scheme evades detection for years and triggers regulatory, legal, and criminal investigations in several countries.",
+            discussionPoints: [
+                "How should the bank coordinate with international law enforcement and regulators to investigate a global vendor fraud ring?",
+                "What advanced forensic and legal tools are required to uncover and document the scheme?",
+                "How should the bank manage regulatory, legal, and reputational risks across jurisdictions?",
+                "What controls and reporting are required for regulatory defense?",
+                "How should findings and remediation be communicated to senior management, the board, and regulators?"
             ]
         },
         {
@@ -1331,15 +1342,38 @@ window.discussionScenarios = {
     ],
     "New Accounts": [
         {
+            title: "Basic Account Opening",
+            difficulty: "intermediate",
+            description: "A customer requests to open a standard checking account with all required documentation. Discuss the steps for verifying identity, collecting documentation, and explaining account terms.",
+            discussionPoints: [
+                "What steps are required to verify identity for a new account?",
+                "What documentation must be collected?",
+                "How should account terms and fees be explained to the customer?",
+                "What are the bank's policies for account opening?"
+            ]
+        },
+        {
             title: "Unusual Account Opening Request",
-            description: "A customer requests to open multiple accounts with minimal documentation, using complex ownership structures, international addresses, and digital identity credentials. The situation triggers enhanced due diligence, regulatory reporting, and potential law enforcement involvement.",
             difficulty: "advanced",
+            description: "A customer requests to open multiple accounts with minimal documentation, using complex ownership structures, international addresses, and digital identity credentials. The situation triggers enhanced due diligence, regulatory reporting, and potential law enforcement involvement.",
             discussionPoints: [
                 "How should advanced identity verification and forensic analysis be used to assess complex account opening requests?",
                 "What are the regulatory and legal risks of multi-account openings with minimal documentation?",
                 "How should the bank coordinate with compliance, legal counsel, and law enforcement?",
                 "What advanced controls and monitoring can prevent future account opening fraud?",
                 "How should findings and remediation be documented for regulatory and legal defense?"
+            ]
+        },
+        {
+            title: "Specialized: Sanctions Evasion Account Network",
+            difficulty: "specialized",
+            description: "A regulatory investigation uncovers a network of accounts opened using synthetic identities, forged documents, and international intermediaries to evade sanctions and launder funds. The scheme involves multiple banks, cross-border transactions, and advanced digital forensics.",
+            discussionPoints: [
+                "How should the bank coordinate with regulators and law enforcement to investigate a sanctions evasion account network?",
+                "What advanced forensic and legal tools are required to uncover and document the scheme?",
+                "How should the bank manage regulatory, legal, and reputational risks?",
+                "What controls and reporting are required for regulatory defense?",
+                "How should findings and remediation be communicated to senior management, the board, and regulators?"
             ]
         },
         {
