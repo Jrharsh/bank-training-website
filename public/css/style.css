@@ -304,6 +304,17 @@ body.dark-mode .theme-toggle { background:#232a36; color:#e3e6eb; border-color:#
   transition: border 0.18s, background 0.18s, box-shadow 0.18s, transform 0.12s;
 }
 
+/* Ensure department cards use exactly the same selected visuals as complexity options */
+.complexity-option.selected,
+.ttsg .department-card.selected,
+.department-card.selected {
+  border: 2px solid #2196f3 !important;
+  background: #e3eafc !important;
+  box-shadow: 0 4px 18px rgba(33,150,243,0.10) !important;
+  transform: scale(1.03) !important;
+  color: #0b2540 !important;
+}
+
 .ttsg .department-name {
   font-weight: 600;
   color: #222;
