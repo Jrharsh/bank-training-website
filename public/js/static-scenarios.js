@@ -28,50 +28,50 @@ const SCENARIO_RANSOMWARE = {
     "At 2:47 AM, your SOC detected anomalous encryption activity spreading across production servers. By 6:00 AM, ransomware has encrypted 73% of your core banking infrastructure including the primary database servers, online banking application tier, and ACH processing systems. The ransom note demands $4.2 million in Bitcoin within 72 hours. Customer-facing systems are completely offline. Your most recent validated backup is 18 hours old, but forensics hasn't confirmed whether backups are compromised. ACH files totaling $47 million in pending transactions are stuck in queue. Social media is lighting up with customer complaints about failed transactions and locked accounts. Your primary regulator has already called asking for a status update.",
   questions: [
     // CEO/SVPs
-    q("CEO/SVPs", "It's 7:00 AM and you have conflicting reports: IT says containment will take 4+ hours, your CISO wants to disconnect everything immediately which would strand $47M in ACH transactions, and your CFO is concerned about liquidity impact if word spreads. The board chair is calling. What's your first action?",
+    q("CEO/SVPs", "It's 7:00 AM and you have conflicting reports: IT says containment will take 4+ hours, your CISO recommends aggressive segmentation that may interrupt ACH flows, and your CFO warns of liquidity and reputational risks. The board chair is calling. What's your first action?",
       buildChoices(
-        "Activate formal Incident Command with yourself or a designated executive as commander, establish 90-minute briefing cycles, authorize CISO to proceed with network segmentation of infected zones while preserving ACH processing paths if forensically safe, and brief the board chair with known facts and your governance structure.",
-        "Incident Command creates clear authority and rhythm; segmentation balances containment with business continuity; briefing board chair early maintains governance trust and avoids surprising them with media reports.",
-        10,
-        "Convene an emergency executive meeting to align on facts before taking containment action, asking IT and Security to pause major changes until leadership is synchronized.",
-        "Executive alignment has value but pausing containment during active encryption spread allows the attack to worsen; the window for effective containment is measured in minutes, not hours.",
-        5,
-        "Direct IT to complete full forensic assessment before any containment to understand exactly what we're dealing with, ensuring we don't make uninformed decisions.",
-        "Forensic thoroughness seems prudent but during active ransomware spread, every minute of delay means more encrypted systems; containment should proceed in parallel with investigation.",
-        -5,
-        "Immediately authorize the full network disconnect to stop the spread, then convene leadership to determine next steps once the bleeding has stopped.",
-        "Full disconnect stops the attack but also halts all banking operations including the ACH queue; this nuclear option may cause more harm than targeted segmentation and prevents evidence collection.",
-        -5
+        "Stand up a timeâ€‘boxed Incident Command led by a designated executive, authorize the CISO to implement targeted segmentation on high-risk systems while coordinating with Treasury to protect critical payment flows, and give the board chair a concise factual briefing on the immediate plan.",
+        "A timeâ€‘boxed command structure clarifies decisions and accountability; targeted segmentation reduces spread while preserving critical business functions when possible; early factual briefing manages governance expectations.",
+        8,
+        "Pause broad containment measures until a short executive alignment call completes so leadership speaks with one voice before technical changes that affect customers.",
+        "Alignment reduces the risk of contradictory instructions, but pausing containment risks further spread; short aligned decisions are preferable to long delays.",
+        4,
+        "Insist that IT complete a full forensic assessment before any containment action to avoid accidentally losing forensic evidence needed for recovery and regulatory reporting.",
+        "Forensics are essential, but containment and forensics can (and should) run in parallel; deferring containment gives the attacker more time to encrypt and exfiltrate.",
+        0,
+        "Order a complete network disconnect immediately to stop additional encryption, accepting the operational impacts to ACH and customer-facing systems, then brief the board on the trade-offs.",
+        "Full disconnect is decisive and may stop spread quickly, but it also causes immediate, severe customer impact and limits options for controlled recovery.",
+        -2
       )),
-    q("CEO/SVPs", "By noon, restoration estimates are 5-7 days. The ransom group has a reputation for providing working decryption keys. Your cyber insurance covers ransom payments. The FBI advises against paying but won't prohibit it. Board members are split. How do you frame the ransom decision?",
+    q("CEO/SVPs", "By noon, restoration estimates are 5-7 days. The ransom group sometimes provides working keys; insurance may cover payment; law enforcement recommends caution. Board members are split. How do you structure the board decision?",
       buildChoices(
-        "Present the board a decision framework covering: legal constraints including OFAC sanctions screening, insurance coordination requirements, law enforcement position, restoration timeline confidence levels, and customer harm metrics. Recommend focusing resources on independent restoration while keeping payment as a documented last resort if specific harm thresholds are crossed.",
-        "Framework approach gives board the information needed for governance while maintaining focus on restoration; documented thresholds prevent emotional decision-making and create defensible record.",
-        10,
-        "Recommend the board pre-authorize payment contingent on restoration failure at the 72-hour mark, so the decision isn't rushed at deadline.",
-        "Pre-authorization provides clarity but may signal internally that payment is the plan, potentially reducing restoration urgency; also doesn't account for changing circumstances over 72 hours.",
-        5,
-        "Recommend categorically refusing payment to maintain ethical clarity and demonstrate the bank won't negotiate with criminals, focusing all resources on restoration.",
-        "Ethical stance is defensible but eliminates optionality; if restoration fails and customer harm is severe, the rigid position may be harder to justify than a framework that considered all factors.",
-        -5,
-        "Delegate the ransom decision to the CISO and General Counsel since they have the technical and legal expertise, keeping the board informed of their decision.",
-        "Technical and legal input is essential but ransom payment is a governance-level decision with significant reputational and ethical implications; board should decide, not be informed after the fact.",
-        -5
+        "Provide the board with a concise decision memo that outlines legal considerations (sanctions, regulatory reporting), insurance implications, likelihood and timeline for restoration, customer harm scenarios, and pre-defined harm thresholds that would trigger reconsideration of payment. Recommend a staged approach that prioritizes independent restoration while preserving documented decision paths for extreme outcomes.",
+        "A memo with thresholds helps governors make an informed choice under pressure and preserves a documented, defensible process if payment becomes considered later.",
+        8,
+        "Ask the board to delegate the operational decision to a small executive committee empowered to act quickly once pre-agreed criteria are met, so the full board is not paralyzed by timing pressure.",
+        "Delegation speeds action but reduces full-board visibility on a high-reputation decision; suitable if the board is comfortable with clear delegation terms.",
+        4,
+        "Recommend an immediate categorical refusal to pay to signal principle and avoid incentivizing further criminal activity, focusing all resources on restoration.",
+        "Principled refusal is clear but may cause greater customer harm if restoration fails and limited options remain for mitigation.",
+        0,
+        "Let the CISO and General Counsel make the payment decision given their technical and legal knowledge, and inform the board after the fact to avoid delays.",
+        "Operational expertise is critical, but ultimate accountability for a payment that could be reputationally consequential usually rests with the board.",
+        -2
       )),
     q("CEO/SVPs", "A reporter from American Banker calls saying they've confirmed your systems are down and are running a story in two hours. They're asking whether this is a ransomware attack and whether customer data was stolen. Forensics hasn't completed data exfiltration analysis yet. How do you respond?",
       buildChoices(
-        "Acknowledge the service disruption affecting specific channels (online banking, ACH processing), confirm you're investigating a cybersecurity incident with law enforcement engaged, state that customer data protection is a priority and you'll provide updates as investigation progresses. Do not confirm or deny ransomware or exfiltration until facts are established.",
-        "Confirmation of disruption matches observable reality; 'cybersecurity incident' is accurate without specifying ransomware; customer data priority statement is appropriate; refusing to speculate on unconfirmed facts protects credibility.",
-        10,
-        "Decline to comment on an active investigation and direct them to a written statement your communications team is preparing.",
-        "Declining comment is legally safe but a story will run regardless; 'no comment' often reads as evasive and cedes narrative control to speculation and unnamed sources.",
-        5,
-        "Proactively confirm it's a ransomware attack to demonstrate transparency and get ahead of the story, emphasizing that you're the victim of a criminal act.",
-        "Transparency has value but confirming ransomware before law enforcement coordination may compromise investigation; 'victim' framing may not resonate if customers feel they're the real victims.",
-        -5,
-        "Deny that any attack occurred and attribute the disruption to planned maintenance that experienced complications, buying time to resolve the situation.",
-        "False statements will be exposed quickly and destroy credibility; journalists have likely already confirmed with other sources; lying to media creates larger crisis than the attack itself.",
-        -5
+        "Acknowledge the disruption to specific services, confirm you're investigating a cybersecurity incident with law enforcement engaged, commit to transparent updates as facts are confirmed, and provide a single designated spokesperson for further inquiries.",
+        "This balances transparency with caution, maintains credibility, and ensures consistent messaging via a designated spokesperson.",
+        8,
+        "Refer the reporter to a written statement from communications that notes the outage and says you're investigating, avoiding live comment until coordination with law enforcement is complete.",
+        "Written statements can be controlled and reduce off-the-cuff risk, but slowing public comment can allow speculation to fill the gap.",
+        4,
+        "Confirm publicly that this is a ransomware attack to signal openness and discourage rumor, accepting that the exact details about data exfiltration are under investigation.",
+        "Premature confirmation can complicate law enforcement coordination and legal disclosures; measured transparency is better.",
+        0,
+        "Deny an incident and attribute the problem to scheduled maintenance complications to avoid immediate reputational damage while you respond.",
+        "Denying contradicts available evidence and risks severe credibility loss if the truth emerges, which it likely will.",
+        -3
       )),
 
     // IT/Security
@@ -2400,7 +2400,7 @@ const SCENARIO_REGULATORY_INQUIRY = {
   key: "regulatory-inquiry-customer-complaints",
   title: "Regulatory Inquiry Triggered by Customer Complaints",
   description:
-    "Regulators contact the bank after receiving multiple customer complaints about delays, fees, and inconsistent explanations — before the bank has formally escalated an incident.",
+    "Regulators contact the bank after receiving multiple customer complaints about delays, fees, and inconsistent explanations ï¿½ before the bank has formally escalated an incident.",
   questions: [
 
     // CEO/SVPs
@@ -2490,7 +2490,7 @@ const SCENARIO_REGULATORY_INQUIRY = {
         -5,
 
         "Reverse all fees automatically to reduce complaints quickly, then reconcile later once the incident is understood.",
-        "Creates abuse risk and weakens the bank’s ability to justify decisions.",
+        "Creates abuse risk and weakens the bankï¿½s ability to justify decisions.",
         -5
       )
     ),
@@ -3047,7 +3047,7 @@ const SCENARIO_ACH_FAILURE = {
         "Submit the corrected file for the 9:00 AM window since the 60-minute timeline allows for basic validation and delays compound customer impact.",
         "Speed addresses customer urgency but submitting without root cause understanding risks another rejection and greater reputational damage.",
         5,
-        "Split the file—submit validated low-risk transactions for the 9:00 AM window and hold higher-value items for afternoon processing.",
+        "Split the fileï¿½submit validated low-risk transactions for the 9:00 AM window and hold higher-value items for afternoon processing.",
         "Splitting seems efficient but creates reconciliation complexity and the validation that cleared low-risk items may not have caught the original error.",
         -5,
         "Request the Fed extend the 9:00 AM window deadline given the circumstances to allow more time for correction and validation.",
@@ -3069,7 +3069,7 @@ const SCENARIO_ACH_FAILURE = {
         "Emergency call may seem responsive but diverts leadership attention from resolution; structured update is more appropriate than real-time board involvement.",
         -5
       )),
-    q("CEO/SVPs", "Your largest payroll client—a hospital system with 2,400 employees—calls the CEO directly. Their employees didn't receive direct deposits and the hospital's HR director is demanding to know when staff will be paid. What approach is most appropriate?",
+    q("CEO/SVPs", "Your largest payroll clientï¿½a hospital system with 2,400 employeesï¿½calls the CEO directly. Their employees didn't receive direct deposits and the hospital's HR director is demanding to know when staff will be paid. What approach is most appropriate?",
       buildChoices(
         "Commit to same-day resolution through Fedwire for their payroll specifically, assign a dedicated contact for the relationship, and have treasury confirm completion directly with their CFO.",
         "Specific commitment with backup method addresses their urgent need; dedicated contact shows relationship priority; CFO confirmation closes the loop appropriately.",
@@ -3195,9 +3195,9 @@ const SCENARIO_ACH_FAILURE = {
         "Treasury involvement is appropriate but the escalation framing suggests avoidance; incident management includes managing financial impacts.",
         -5
       )),
-    q("Finance", "Commercial clients are asking for fee credits due to the delayed payrolls. Some are demanding compensation for their own costs—employee complaints, HR overtime, manual check processing. Total credit requests are approaching $180,000. What approach is most appropriate?",
+    q("Finance", "Commercial clients are asking for fee credits due to the delayed payrolls. Some are demanding compensation for their own costsï¿½employee complaints, HR overtime, manual check processing. Total credit requests are approaching $180,000. What approach is most appropriate?",
       buildChoices(
-        "Establish a tiered credit framework: automatic credits for direct bank fees, documented review process for reasonable consequential costs, and clear criteria for what qualifies—with authority limits for approvals.",
+        "Establish a tiered credit framework: automatic credits for direct bank fees, documented review process for reasonable consequential costs, and clear criteria for what qualifiesï¿½with authority limits for approvals.",
         "Framework provides consistency; tiered approach addresses different claim types appropriately; criteria and authority limits maintain control.",
         10,
         "Credit all direct bank fees automatically and tell clients that consequential damages require legal review before any commitment.",
@@ -3274,7 +3274,7 @@ const SCENARIO_ACH_FAILURE = {
       )),
 
     // Accounting
-    q("Accounting", "The failed and corrected files will create reconciliation complexity—some transactions will appear twice, some once, some with different effective dates. The suspense account is already growing. What approach is most appropriate?",
+    q("Accounting", "The failed and corrected files will create reconciliation complexityï¿½some transactions will appear twice, some once, some with different effective dates. The suspense account is already growing. What approach is most appropriate?",
       buildChoices(
         "Create a dedicated reconciliation workspace for incident-related transactions, establish clear matching rules for the various scenarios, assign specific staff ownership, and set a target clearance date with daily progress tracking.",
         "Dedicated workspace isolates complexity; matching rules ensure consistency; ownership creates accountability; target date with tracking ensures completion.",
@@ -3389,7 +3389,7 @@ function rewriteChoiceText(text, score) {
   if (!t) return t;
   const soft = [
     [/Activate Incident Command and name a single spokesperson/i, 'Stand up a coordinated response with clear ownership'],
-    [/Acknowledge service impact, what’s known, and provide update cadence/i, 'Provide a factual update and outline near-term next steps'],
+    [/Acknowledge service impact, whatï¿½s known, and provide update cadence/i, 'Provide a factual update and outline near-term next steps'],
     [/Re-verify all change requests via trusted channels/i, 'Reconfirm change requests using trusted channels and dual control'],
     [/Staged restore with integrity checks and rollback plan/i, 'Restore services in phases with checks and contingency'],
   ];
