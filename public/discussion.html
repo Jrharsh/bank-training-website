@@ -178,6 +178,21 @@
                 transform: scale(1.03);
                 color: #0b2540;
             }
+            .selected-badge {
+                background: rgba(255,255,255,0.92);
+                box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+                border-radius: 12px;
+                padding: 8px 12px;
+                display: inline-block;
+                border: 2px solid transparent;
+                min-width: 220px;
+                justify-content: center;
+                align-items: center;
+            }
+            .selected-badge.show {
+                border-color: #2196f3;
+                background: #e3eafc;
+            }
             .complexity-label {
                 font-weight: 700;
                 font-size: 1.05rem;
@@ -353,6 +368,11 @@
             <strong>Status:</strong> <span id="statusText">Ready to generate scenarios</span>
         </div>
 
+        <div id="departmentSelectedBadge" class="selected-badge" style="display:none; margin-bottom:12px; text-align:center;">
+            <span style="font-weight:700; color:#222;">Selected Department:</span>
+            <span id="selectedDeptName" style="margin-left:8px; font-weight:700; color:#0b2540;">None</span>
+        </div>
+
         <div class="controls">
             <div id="departmentGrid">
                 <!-- Departments populated by JavaScript -->
@@ -486,6 +506,14 @@ function selectDepartment(deptId, cardElement) {
     // Enable generate button if department is selected
     updateGenerateButton();
     updateStatus(`Selected department: ${departments.find(d => d.id === deptId).name}`);
+    // Update selected-department badge
+    const badge = document.getElementById('departmentSelectedBadge');
+    const badgeName = document.getElementById('selectedDeptName');
+    if (badge && badgeName) {
+        badgeName.textContent = departments.find(d => d.id === deptId).name;
+        badge.style.display = '';
+        badge.classList.add('show');
+    }
 }
 
 function setupComplexitySelector() {
