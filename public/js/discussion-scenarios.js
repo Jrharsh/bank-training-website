@@ -1458,6 +1458,78 @@ window.discussionScenarios = {
                 "How do you handle requests for one-time codes, full account numbers, or changes to contact/authentication details?",
                 "When should the call be escalated to the fraud team or placed on hold for further verification?"
             ]
+        },
+        {
+            title: "Crisis Call: Natural Disaster or Emergency",
+            difficulty: "advanced",
+            description: "A caller in an affected area needs immediate assistance with payments and access to funds after a natural disaster. The agent must triage, prioritize help, and coordinate referrals.",
+            discussionPoints: [
+                "How do you triage callers during a widespread outage or disaster?",
+                "What temporary relief options (forbearance, fee waivers) can be offered and how are they documented?",
+                "When and how should cases be escalated to specialized teams or community partners?",
+                "How to communicate realistic timelines and next steps to anxious callers?"
+            ]
+        },
+        {
+            title: "Interpreter / Language Assistance Request",
+            difficulty: "intermediate",
+            description: "A caller has limited English proficiency and requests an interpreter. The agent must engage language services while maintaining call flow and verification standards.",
+            discussionPoints: [
+                "When should an interpreter or third-party language service be used?",
+                "How to manage call length and holds while ensuring quality translation?",
+                "What are best practices for confirming understanding and avoiding miscommunication?"
+            ]
+        },
+        {
+            title: "Authentication Failure: Locked Account / Password Reset",
+            difficulty: "intermediate",
+            description: "A customer calls because their online account is locked and they cannot receive SMS codes. The agent must verify identity securely and route or perform recovery steps per policy.",
+            discussionPoints: [
+                "What secure verification alternatives exist when SMS or email aren't available?",
+                "When should the agent escalate to technical support versus handling the reset?",
+                "How to document recovery attempts and preserve auditability?"
+            ]
+        },
+        {
+            title: "Elderly or Cognitively Impaired Caller",
+            difficulty: "intermediate",
+            description: "An older caller appears confused and is asking to move funds; the agent must be sensitive, verify authority (POA), and protect the customer from potential exploitation.",
+            discussionPoints: [
+                "How to recognize potential cognitive impairment or exploitation risks?",
+                "What verification and POA documentation are required before action?",
+                "How to de-escalate sensitively and involve supervisors or fraud teams when needed?"
+            ]
+        },
+        {
+            title: "Payment Stop / Unauthorized Transfer Report",
+            difficulty: "advanced",
+            description: "A caller reports an unauthorized transfer and requests immediate reversal. The agent must place holds, gather evidence, and follow fraud escalation procedures.",
+            discussionPoints: [
+                "What immediate actions are required to contain potential loss?",
+                "What information must be collected to support an investigation?",
+                "How do you balance customer reassurance with preserving investigatory integrity?",
+                "When is it appropriate to provisionally credit an account pending investigation?"
+            ]
+        },
+        {
+            title: "Third-Party Information Request (Family/Representative)",
+            difficulty: "advanced",
+            description: "A caller claiming to be a family member requests account details. The agent must enforce privacy policies, verify authority, and provide appropriate alternatives.",
+            discussionPoints: [
+                "What forms of authorization (POA, notarized forms) are acceptable for sharing info?",
+                "How to refuse improper information requests while maintaining empathy?",
+                "What secure channels or next steps should be offered for authorized representatives?"
+            ]
+        },
+        {
+            title: "Aggressive Caller Threatening Legal Action",
+            difficulty: "advanced",
+            description: "A caller becomes threatening and mentions imminent legal action. The agent must remain professional, collect facts, and escalate to legal or supervisory teams.",
+            discussionPoints: [
+                "What phrases and techniques help to defuse hostility while documenting the interaction?",
+                "What information should be captured verbatim for legal intake?",
+                "When should a call be transferred to a supervisor or recorded for legal review?"
+            ]
         }
     ]
 };
