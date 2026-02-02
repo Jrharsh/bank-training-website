@@ -412,6 +412,90 @@ window.discussionScenarios = {
                 "What controls can improve HMDA data accuracy going forward?"
             ]
         }
+        ,
+        {
+            title: "Repayment Shock After Rate Spike",
+            difficulty: "advanced",
+            description: "Multiple adjustable-rate borrowers experience payment shock after rates reset, triggering delinquencies. The servicing team must balance remediation, forbearance, and portfolio credit risk.",
+            discussionPoints: [
+                "How should the bank triage borrowers facing immediate payment hardship?",
+                "What criteria determine eligibility for temporary relief or modification?",
+                "How to quantify portfolio-level credit risk and provisioning impacts?",
+                "What communication is most effective for managing borrower expectations?"
+            ]
+        },
+        {
+            title: "Forbearance Abuse Detection",
+            difficulty: "intermediate",
+            description: "Patterns suggest some borrowers repeatedly request short-term forbearance near payment due dates in a way that may indicate abuse of relief programs.",
+            discussionPoints: [
+                "What indicators suggest program abuse versus legitimate hardship?",
+                "How should the bank balance customer support with program integrity?",
+                "What documentation or monitoring should be implemented to deter abuse?"
+            ]
+        },
+        {
+            title: "Indirect Auto Dealer Fraud",
+            difficulty: "advanced",
+            description: "An auto dealer submits a cluster of financed deals with inconsistent buyer documentation; later repos are higher than peers, suggesting potential dealer-level fraud.",
+            discussionPoints: [
+                "What steps should be taken to investigate dealer-originated fraud?",
+                "How should the bank coordinate with legal and recovery teams?",
+                "What underwriting or dealer due-diligence changes can prevent recurrence?"
+            ]
+        },
+        {
+            title: "Workout Restructuring for Commercial Borrower",
+            difficulty: "advanced",
+            description: "A strategic customer seeks restructuring to avoid default; the restructure may preserve jobs but increases risk and requires covenant changes.",
+            discussionPoints: [
+                "What factors determine a viable restructuring versus workout or sale?",
+                "How to document concessions and recovery expectations?",
+                "How should risk be communicated to credit committees and the board?"
+            ]
+        },
+        {
+            title: "Servicing Transfer Data Loss",
+            difficulty: "advanced",
+            description: "During a loan servicing transfer to a vendor, a subset of payment history records are corrupted, complicating payoff calculations and customer disputes.",
+            discussionPoints: [
+                "What immediate remediation steps protect customers and limit legal exposure?",
+                "How should disputes be handled when records are incomplete?",
+                "What contractual remedies apply against the vendor, and what controls prevent future data-loss events?"
+            ]
+        }
+    ],
+    "CEO/SVPs": [
+        {
+            title: "Portfolio Concentration Risk",
+            difficulty: "advanced",
+            description: "Regional growth has concentrated loan exposure in a single industry; early signs of industry stress raise questions about capital buffers and strategic limits.",
+            discussionPoints: [
+                "How should leadership assess concentration and decide on risk limits?",
+                "What strategic options exist to reduce exposure without destabilizing relationships?",
+                "How to communicate concentration risk to regulators and the board?"
+            ]
+        },
+        {
+            title: "Board Communication During Loan Portfolio Stress",
+            difficulty: "advanced",
+            description: "Senior leaders must brief the board on accelerating delinquencies in a key portfolio while avoiding operational detail overload.",
+            discussionPoints: [
+                "What information does the board need versus operational teams?",
+                "How to present remediation plans and worst-case scenarios clearly?",
+                "When should legal or PR teams be engaged in board communications?"
+            ]
+        },
+        {
+            title: "Deciding on Large Loan Workout vs Charge-off",
+            difficulty: "advanced",
+            description: "A large commercial borrower seeks a multi-year workout that may delay recognition of losses; leadership must balance long-term recovery against capital and reputation.",
+            discussionPoints: [
+                "What financial and reputational factors guide the workout vs charge-off decision?",
+                "How should independent reviews and stress tests inform the decision?",
+                "What governance and disclosure steps are required for either outcome?"
+            ]
+        }
     ],
     Accounting: [
         {
