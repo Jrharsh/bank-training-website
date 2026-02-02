@@ -102,15 +102,15 @@ function formatPoints(score) {
 
 function scoreClass(score) {
   const s = Number(score) || 0;
-  if (s >= 10) return "good";
-  if (s > 0) return "ok";
+  if (s >= 8) return "good";
+  if (s >= 4) return "ok";
   return "bad";
 }
 
 function scoreTagline(score) {
   const s = Number(score) || 0;
-  if (s >= 10) return "Strong, defensible action that best supports incident goals.";
-  if (s > 0) return "Reasonable choice with some trade-offs; improves the situation.";
+  if (s >= 8) return "Strong, defensible action that best supports incident goals.";
+  if (s >= 4) return "Reasonable choice with some trade-offs; improves the situation.";
   return "Risky or non-compliant action—may worsen impact or create issues.";
 }
 

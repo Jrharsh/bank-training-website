@@ -1426,3 +1426,40 @@ window.discussionScenarios = {
         }
     ]
 };
+
+// Build consolidated group keys so the UI can reference six grouped departments directly.
+(function buildGroupedScenarios() {
+    const map = {
+        // Loan Operations & Compliance: loan servicing, compliance, mortgage (mapped to Loans)
+        'Mortgage-Servicing-Compliance': ['Loan Servicing', 'Compliance', 'Loans'],
+        // Business Administration: HR, Accounting, Bookkeeping
+        'HR-Accounting-BackOffice': ['HR', 'Accounting', 'Bookkeeping'],
+        // Frontline Operations: Tellers, New Accounts
+        'Frontline-Operations': ['Tellers', 'New Accounts'],
+        // Executive Leadership: CEO/SVPs and Loans
+        'Executive-Leadership-Loans': ['CEO/SVPs', 'Loans'],
+        'IT': ['IT', 'Security', 'IT/Security'],
+        'Call-Center': ['Call Center', 'Deposits']
+    };
+
+    // Ensure target keys exist and merge arrays from mapped keys (preserve originals)
+    Object.keys(map).forEach(groupKey => {
+        const keys = map[groupKey];
+        const merged = [];
+        keys.forEach(k => {
+            if (Array.isArray(window.discussionScenarios[k])) merged.push(...window.discussionScenarios[k]);
+        });
+        // de-duplicate by title when possible
+        const seen = new Set();
+        const unique = merged.filter(s => {
+            const t = (s && s.title) ? s.title : JSON.stringify(s);
+            if (seen.has(t)) return false;
+            seen.add(t);
+            return true;
+        });
+        window.discussionScenarios[groupKey] = unique;
+    });
+
+    // expose the mapping for debugging
+    window.discussionGroupMap = map;
+})();

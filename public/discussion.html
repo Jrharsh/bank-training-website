@@ -14,6 +14,8 @@
                 font-family: 'Segoe UI', Arial, sans-serif;
                 margin: 0;
                 min-height: 100vh;
+                color: #06203a; /* darker base text for contrast */
+                font-size: 16px;
             }
             .container {
                 max-width: 1100px;
@@ -82,6 +84,23 @@
                 font-weight: 700;
                 margin-right: 4px;
             }
+            /* hidden: we show sub-departments via tooltip/title to avoid overflow */
+            .department-sub { display: none !important; }
+            .dept-list {
+                list-style: none;
+                padding: 10px 14px;
+                margin: 10px auto 18px auto;
+                max-width: 920px;
+                display: flex;
+                flex-direction: column;
+                gap: 6px;
+                text-align: center;
+                border-radius: 8px;
+                background: rgba(255,255,255,0.02);
+            }
+            .dept-list li { color: #06203a; font-weight:700; font-size:1rem; }
+            body.dark-mode .dept-list { background: rgba(255,255,255,0.02); }
+            body.dark-mode .dept-list li { color: #e6eef8; }
             .department-grid {
                         gap: 28px;
                         margin: 0 auto 38px auto;
@@ -93,44 +112,52 @@
             }
             .department-grid {
                 display: grid;
-                grid-template-columns: repeat(5, 1fr);
-                gap: 20px;
-                margin: 0 auto 32px auto;
-                max-width: 700px;
+                grid-template-columns: repeat(3, 1fr); /* 3 across */
+                grid-template-rows: repeat(2, 1fr); /* force two rows */
+                grid-auto-rows: minmax(120px, 1fr);
+                gap: 20px 22px;
+                margin: 0 auto 28px auto;
+                max-width: 920px;
                 justify-content: center;
+                padding: 8px 8px;
+                background: transparent; /* remove busy gradient */
             }
             .department-card {
-                background: rgba(255,255,255,0.82);
-                box-shadow: 0 2px 12px rgba(0,0,0,0.08);
-                border-radius: 16px;
-                color: #222;
+                background: #ffffff;
+                box-shadow: 0 6px 18px rgba(10,25,47,0.06);
                 border-radius: 12px;
-                        border-radius: 16px;
-                        padding: 36px 0 20px 0;
-                        border: 2.5px solid transparent;
-                        transition: border 0.18s, background 0.18s, box-shadow 0.18s, transform 0.12s;
-                        font-size: 1.18rem;
-                            will-change: transform, box-shadow;
-                    padding: 28px 0 16px 0;
-                    text-align: center;
-                    cursor: pointer;
-                    border: 2px solid transparent;
-                }
+                color: #0b2540;
+                padding: 22px 16px;
+                transition: border 0.18s, background 0.18s, box-shadow 0.18s, transform 0.12s;
+                font-size: 1rem;
+                will-change: transform, box-shadow;
+                text-align: center;
+                cursor: pointer;
+                border: 1px solid #e6eef6;
+                min-height: 120px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 8px;
+            }
+            /* Ensure card text is high contrast and readable */
+            .department-card, .department-card .department-name { color: #06203a; }
                 /* Hover/selected behavior consolidated below to match complexity option */
             .department-icon {
-                        font-size: 2.7rem;
-                        margin-bottom: 16px;
-                        display: block;
+                font-size: 3.8rem; /* larger, clearer */
+                margin-bottom: 6px;
+                display: block;
+                line-height: 1;
             }
             .department-card.selected, .department-card:hover {
-                border: 2px solid #2196f3;
-                background: #e3eafc;
-                box-shadow: 0 4px 18px rgba(33,150,243,0.10);
+                border: 1.5px solid #2b88ff;
+                background: #f0f7ff;
+                box-shadow: 0 8px 24px rgba(11,37,78,0.08);
+                transform: translateY(-4px);
+                color: #06203a;
             }
-            .department-icon {
-                font-size: 2.2rem;
-                margin-bottom: 10px;
-            }
+            /* duplicate removed; .department-icon defined above */
             .complexity-options {
                 display: flex;
                 flex-direction: row;
@@ -179,9 +206,25 @@
                 color: #0b2540;
             }
             .department-card .department-name {
-                font-weight: 700;
+                font-weight: 900;
                 color: inherit;
+                font-size: 1.18rem; /* about 19px */
+                line-height: 1.2;
+                margin: 0 6px;
             }
+
+            /* Scenario and discussion text readability */
+            .scenario-content {
+                color: #042533; /* very dark for contrast */
+                font-size: 1.05rem;
+                line-height: 1.6;
+            }
+            .discussion-points h4 { color: #032a44; font-weight:800; font-size:1.15rem }
+            .discussion-points li { color: #032a44; font-size: 1.05rem; line-height: 1.6; }
+
+            /* Make generate button and complexity options higher contrast */
+            .generate-btn { color: #06203a; font-weight: 800; }
+            .complexity-option { color: #06203a; }
             /* Department badge removed; visual selection uses .department-card.selected */
             .complexity-label {
                 font-weight: 700;
@@ -314,6 +357,68 @@
                     grid-template-columns: repeat(3, 1fr);
                 }
             }
+
+            /* Strong overrides to counter global theme CSS using !important in style.css */
+            /* Force a 3x2 layout and readable card styling (use !important to win cascade) */
+            .ttsg #departmentGrid {
+                display: grid !important;
+                /* fixed column width close to card width to reduce extra gaps */
+                grid-template-columns: repeat(3, 160px) !important;
+                grid-auto-rows: auto !important;
+                row-gap: 12px !important;
+                column-gap: 14px !important;
+                gap: 12px 14px !important;
+                justify-content: center !important;
+                margin: 6px auto 12px !important;
+                width: 100% !important;
+                max-width: 680px !important;
+                padding: 6px !important;
+            }
+
+            .ttsg .department-card {
+                width: 150px !important;
+                height: 150px !important;
+                min-width: 140px !important;
+                min-height: 140px !important;
+                padding: 14px 10px !important;
+                border-radius: 12px !important;
+                background: #ffffff !important;
+                border: 1px solid #e6eef6 !important;
+                box-shadow: 0 8px 20px rgba(10,25,47,0.06) !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                flex-direction: column !important;
+                text-align: center !important;
+                color: #06203a !important;
+                font-size: 1rem !important;
+            }
+
+            .ttsg .department-card .department-icon {
+                font-size: 3rem !important;
+                margin-bottom: 6px !important;
+            }
+
+            .ttsg .department-name {
+                font-size: 1.0rem !important;
+                font-weight: 800 !important;
+                color: #06203a !important;
+                margin-top: 6px !important;
+                line-height: 1.1 !important;
+                white-space: normal !important;
+                text-align: center !important;
+                padding: 0 6px !important;
+            }
+
+            /* Dark-mode safe overrides */
+            body.dark-mode .ttsg .department-card {
+                background: #f8fafc !important;
+                color: #06203a !important;
+                border-color: #e6eef6 !important;
+                box-shadow: 0 6px 18px rgba(10,25,47,0.06) !important;
+            }
+
+            body.dark-mode .ttsg .department-name { color: #06203a !important; }
             @media (max-width: 768px) {
                 .container {
                     padding: 12px 2vw 32px 2vw;
@@ -322,6 +427,7 @@
                     flex-direction: column;
                     gap: 18px;
                 }
+                /* On small screens stack as two columns for readability */
                 .department-grid {
                     grid-template-columns: repeat(2, 1fr);
                 }
@@ -352,18 +458,15 @@
             <p style="color:#b0b8c1; font-size:1.13rem; font-weight:500; margin-top:10px;">
                 Select a department below and click <span style="color:#28d17c; font-weight:700;">Generate Scenario</span> to view a training scenario.
             </p>
+            <!-- Department cards will show their mapped sub-departments under each label -->
+            <!-- Departments are listed directly under the title -->
+            <div id="departmentGrid" style="margin-top:18px;">
+                <!-- Departments populated by JavaScript -->
+            </div>
         </div>
 
         <div class="status-indicator" id="statusIndicator" style="display:none;">
             <strong>Status:</strong> <span id="statusText">Ready to generate scenarios</span>
-        </div>
-
-        <!-- Department badge removed; selection is shown via card highlight -->
-
-        <div class="controls">
-            <div id="departmentGrid">
-                <!-- Departments populated by JavaScript -->
-            </div>
         </div>
 
         <div class="complexity-options" style="margin-bottom: 18px; max-width: 600px; margin-left: auto; margin-right: auto;">
@@ -417,18 +520,30 @@
 let selectedDepartment = null;
 let selectedComplexity = 'intermediate';
 
+// New grouped departments (6 groups)
 const departments = [
-    { id: 'Deposits', name: 'Deposits', icon: '💵' },
-    { id: 'Tellers', name: 'Tellers', icon: '🏦' },
-    { id: 'Loans', name: 'Loans', icon: '🧾' },
-    { id: 'Accounting', name: 'Accounting', icon: '📊' },
-    { id: 'Bookkeeping', name: 'Bookkeeping', icon: '🗂️' },
-    { id: 'Loan Servicing', name: 'Loan Servicing', icon: '🛠️' },
-    { id: 'Compliance', name: 'Compliance', icon: '⚖️' },
+    { id: 'Mortgage-Servicing-Compliance', name: 'Loan Operations & Compliance', icon: '🏠' },
+    { id: 'HR-Accounting-BackOffice', name: 'Business Administration', icon: '🧾' },
+    { id: 'Frontline-Operations', name: 'Frontline Operations', icon: '🏦' },
+    { id: 'Executive-Leadership-Loans', name: 'Executive Leadership & Loans', icon: '👔' },
     { id: 'IT', name: 'IT', icon: '💻' },
-    { id: 'Security', name: 'Security', icon: '🔐' },
-    { id: 'New Accounts', name: 'New Accounts', icon: '📝' }
+    { id: 'Call-Center', name: 'Call Center', icon: '📞' }
 ];
+
+// Mapping from new group ids to existing scenario keys present in discussion-scenarios.js
+const departmentKeyMap = {
+    // Group mappings set per user request:
+    // Loan Operations & Compliance => Loan Servicing, Compliance, Mortgage (mapped to Loans)
+    'Mortgage-Servicing-Compliance': ['Loan Servicing', 'Compliance', 'Loans'],
+    // Business Administration => HR, Accounting, Bookkeeping
+    'HR-Accounting-BackOffice': ['HR', 'Accounting', 'Bookkeeping'],
+    // Frontline Operations => Tellers, New Accounts
+    'Frontline-Operations': ['Tellers', 'New Accounts'],
+    // Executive Leadership => CEO/SVPs and Loans
+    'Executive-Leadership-Loans': ['CEO/SVPs', 'Loans'],
+    'IT': ['IT', 'Security'],
+    'Call-Center': ['Call Center', 'Deposits']
+};
 
 function updateStatus(message, isError = false) {
     // Hide status indicator for static/offline mode except for debugging
@@ -465,6 +580,10 @@ function createDepartmentCards() {
         const name = document.createElement('div');
         name.className = 'department-name';
         name.textContent = dept.name;
+        // set mapped sub-departments as a tooltip (title) instead of visible text
+        const mapped = departmentKeyMap[dept.id] || [];
+        const mappedText = mapped.map(m => m.replace(/\//g, ' / ')).join(', ');
+        if (mappedText) card.setAttribute('title', mappedText);
         // spacing handled by CSS
 
         iconCircle.appendChild(iconWrap);
@@ -534,8 +653,15 @@ function generateScenario() {
 
     // Use discussion-scenarios.js data
     try {
-        // Find scenarios for the selected department
-        let scenarios = window.discussionScenarios && window.discussionScenarios[selectedDepartment];
+        // Find scenarios for the selected department. Support new grouped ids via departmentKeyMap.
+        let scenarios = [];
+        if (window.discussionScenarios) {
+            const mappedKeys = departmentKeyMap[selectedDepartment] || [selectedDepartment];
+            mappedKeys.forEach(key => {
+                const list = window.discussionScenarios[key];
+                if (Array.isArray(list)) scenarios = scenarios.concat(list);
+            });
+        }
         if (!scenarios || !Array.isArray(scenarios) || scenarios.length === 0) {
             throw new Error('No scenarios found for this department');
         }
