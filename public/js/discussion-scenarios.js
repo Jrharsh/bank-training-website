@@ -1544,6 +1544,76 @@ window.discussionScenarios = {
             ]
         },
         {
+            title: "High-Volume Outage Triage",
+            difficulty: "intermediate",
+            description: "A systems outage causes a surge in calls. Agents must triage callers, prioritize critical issues, and coordinate callbacks without losing track of open cases.",
+            discussionPoints: [
+                "What criteria should be used to prioritize callers during an outage?",
+                "How do you manage callback lists and avoid duplicate work?",
+                "What short scripts help set expectations under stress?"
+            ]
+        },
+        {
+            title: "Manager Escalation: Policy Exception Request",
+            difficulty: "intermediate",
+            description: "An agent needs a manager to approve an exception (fee waiver / extended hold) for a sensitive customer request. The manager must weigh precedent and risk.",
+            discussionPoints: [
+                "What documentation should accompany an exception request?",
+                "How does the manager assess reputational vs. policy risk?",
+                "When should an exception be logged and communicated to compliance?"
+            ]
+        },
+        {
+            title: "Confidential Callback Verification",
+            difficulty: "intermediate",
+            description: "A customer called from a public place and requests that sensitive details be discussed only after a verified callback. The agent must schedule and verify the callback securely.",
+            discussionPoints: [
+                "What verification steps secure a callback (e.g., call-back number on file, time-window)?",
+                "How to document the callback attempt and any failures?",
+                "When should alternate secure channels be recommended?"
+            ]
+        },
+        {
+            title: "Handling Complaints About Another Branch",
+            difficulty: "intermediate",
+            description: "A caller complains about poor service at a local branch and asks for corrective action. The call center must take ownership while coordinating with branch operations.",
+            discussionPoints: [
+                "How should the call center log complaints and route them to branch management?",
+                "What immediate remedies can the call center offer versus branch-level actions?",
+                "How to close the feedback loop with the customer?"
+            ]
+        },
+        {
+            title: "Refund / Reversal Request with Possible Fraud",
+            difficulty: "advanced",
+            description: "A customer demands an immediate refund for a transaction they claim they did not authorize; evidence is mixed and fraud team input may be required.",
+            discussionPoints: [
+                "What immediate containment steps (hold, freeze) are appropriate?",
+                "Which evidence is required to process a provisional refund?",
+                "How to coordinate with fraud/investigations while keeping the customer informed?"
+            ]
+        },
+        {
+            title: "Payment Arrangement Negotiation",
+            difficulty: "intermediate",
+            description: "A borrower requests a short-term payment arrangement over the phone to avoid late reporting. The agent must follow policy and avoid creating unauthorized terms.",
+            discussionPoints: [
+                "What are allowable payment arrangement options and authority limits?",
+                "How to document agreed terms to avoid future disputes?",
+                "When must a case be escalated to servicing or underwriting?"
+            ]
+        },
+        {
+            title: "Cross-Border Caller / Time Zone Coordination",
+            difficulty: "intermediate",
+            description: "An international customer calls about time-sensitive wire instructions; the agent must verify identity and coordinate across time zones and compliance restrictions.",
+            discussionPoints: [
+                "What extra verification steps apply for cross-border requests?",
+                "How to coordinate execution timing while managing fraud and sanctions checks?",
+                "What communication clarifies cut-off times and settlement expectations?"
+            ]
+        },
+        {
             title: "Crisis Call: Natural Disaster or Emergency",
             difficulty: "advanced",
             description: "A caller in an affected area needs immediate assistance with payments and access to funds after a natural disaster. The agent must triage, prioritize help, and coordinate referrals.",
