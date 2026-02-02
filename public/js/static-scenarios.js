@@ -31,17 +31,17 @@ const SCENARIO_RANSOMWARE = {
     q("CEO/SVPs", "It's 7:00 AM and you have conflicting reports: IT says containment will take 4+ hours, your CISO recommends aggressive segmentation that may interrupt ACH flows, and your CFO warns of liquidity and reputational risks. The board chair is calling. What's your first action?",
       buildChoices(
         "Stand up a time‑boxed Incident Command led by a designated executive, authorize the CISO to implement targeted segmentation with pre-defined service-protection triggers, coordinate with Treasury to preserve critical payment windows, and give the board chair a concise briefing on trade-offs and next steps.",
-        "A structured, time‑boxed command clarifies accountability and gives explicit triggers for protecting payments; calling out trade-offs recognizes the operational impacts.",
-        8,
+        "A structured, time‑boxed command clarifies accountability and outlines trade-offs; it helps coordinate action but still requires clear operational constraints to avoid conflicting orders.",
+        7,
         "Authorize an immediate, short executive alignment call to confirm risk tolerances and approve limited containment steps that minimize customer impact (e.g., phased segmentation and guarded ACH windows), so technical teams can act with clear constraints.",
-        "Rapid alignment with pre-agreed constraints reduces contradictory orders and gives technicians the mandate to act quickly while limiting downstream customer harm.",
-        4,
+        "Rapid alignment with pre-agreed constraints reduces contradictory orders and lets technicians act, though it may be slower than a pre-established command structure in very fast-moving incidents.",
+        6,
         "Insist that IT complete a full forensic assessment before any containment action to avoid accidentally losing forensic evidence needed for recovery and regulatory reporting.",
-        "Forensics are essential, but containment and forensics can (and should) run in parallel; deferring containment gives the attacker more time to encrypt and exfiltrate.",
-        0,
+        "Forensics are essential; however, in many incidents containment and forensic collection can proceed in parallel. The trade-off depends on the investigator's requirements and legal obligations.",
+        3,
         "Order a complete network disconnect immediately to stop additional encryption, accepting the operational impacts to ACH and customer-facing systems, then brief the board on the trade-offs.",
-        "Full disconnect is decisive and may stop spread quickly, but it also causes immediate, severe customer impact and limits options for controlled recovery.",
-        -2
+        "Full disconnect is decisive and may stop spread quickly, but it also causes immediate, severe customer impact and reduces controlled recovery options; it may be justified in extremis.",
+        1
       )),
     q("CEO/SVPs", "By noon, restoration estimates are 5-7 days. The ransom group sometimes provides working keys; insurance may cover payment; law enforcement recommends caution. Board members are split. How do you structure the board decision?",
       buildChoices(
@@ -62,33 +62,33 @@ const SCENARIO_RANSOMWARE = {
       buildChoices(
         "Acknowledge the disruption to specific services, confirm you're investigating a cybersecurity incident with law enforcement engaged, commit to timely updates as facts are confirmed, offer a brief, factual holding statement, and provide a single designated spokesperson for follow-up.",
         "A holding statement with a designated spokesperson balances transparency and caution while reducing the chance of off‑the‑cuff inaccuracies.",
-        8,
+        7,
         "Refer the reporter to a written statement from communications that notes the outage and says you're investigating, and offer to schedule a follow-up briefing once initial forensic findings are validated.",
-        "A controlled written statement reduces risk of errors while committing to follow-up increases credibility compared to silence.",
-        4,
+        "A controlled written statement reduces risk of errors while committing to follow-up increases credibility; however, it can feel less responsive than a timely verbal holding statement.",
+        6,
         "Confirm publicly that this is a ransomware attack to signal openness and discourage rumor, accepting that the exact details about data exfiltration are under investigation.",
-        "Premature confirmation can complicate law enforcement coordination and legal disclosures; measured transparency is better.",
-        0,
+        "Premature confirmation can complicate law enforcement coordination and legal disclosures; measured transparency is often the safer course until facts are verified.",
+        3,
         "Deny an incident and attribute the problem to scheduled maintenance complications to avoid immediate reputational damage while you respond.",
-        "Denying contradicts available evidence and risks severe credibility loss if the truth emerges, which it likely will.",
-        -3
+        "Denying contradicts available evidence and risks severe credibility loss if the truth emerges, which it likely will; this carries long-term reputational risk.",
+        1
       )),
 
     // IT/Security
     q("IT/Security", "Active encryption is still spreading through network shares. You've identified the compromised service accounts but disabling them will break several production integrations. Your endpoint detection shows 340 infected endpoints and counting. What's your containment priority?",
       buildChoices(
         "Temporarily disable the highest-risk compromised service accounts and apply targeted network segmentation to contain lateral movement while coordinating a business-impact assessment for integrations; concurrently preserve volatile forensic artifacts from a representative sample of endpoints.",
-        "Targeted account disablement and segmentation reduce spread while limiting unnecessary business disruption; capturing volatile data preserves investigative options.",
-        8,
+        "Targeted account disablement and segmentation reduce spread while limiting unnecessary business disruption; capturing volatile data preserves investigative options, though it requires careful coordination with business owners.",
+        7,
         "Prioritize segmentation of critical systems and ramp monitoring on suspected accounts while preparing a phased disablement plan informed by business owners to avoid blunt disruption.",
-        "Phased actions informed by business owners balance risk and availability, but slower containment may allow additional encryption if attackers are active.",
-        5,
+        "Phased actions informed by business owners balance risk and availability, but slower containment may allow additional encryption if attackers are active; this can be acceptable with strong compensating detection.",
+        6,
         "Focus immediately on isolating and hardening backup and restore infrastructure so you have a reliable recovery path, accepting that some production systems may remain compromised longer.",
-        "Protecting backups is essential for recovery, but leaving active infection unchecked risks broader damage; backups and containment should be pursued in parallel.",
-        1,
+        "Protecting backups is essential for recovery, and focusing on recovery infrastructure can be paired with rapid containment steps; the trade-off depends on attack dynamics and available staff.",
+        4,
         "Order an immediate full network disconnect and cease all integrations to stop the spread, accepting severe operational impact to eliminate lateral movement quickly.",
-        "Full disconnect is effective at stopping spread but causes extreme business impact and removes options for controlled recovery and forensic collection.",
-        -3
+        "Full disconnect is effective at stopping spread but causes extreme business impact and removes options for controlled recovery and forensic collection; use only when evidence indicates imminent catastrophic spread.",
+        2
       )),
     q("IT/Security", "Forensics reports that your backup infrastructure appears clean, but they've found evidence the attackers had access to your environment for 3 weeks before deploying ransomware. Your most recent clean backup is 18 hours old but any backup from the past 3 weeks could contain dormant malware or compromised credentials. What's your restoration strategy?",
       buildChoices(
@@ -173,16 +173,16 @@ const SCENARIO_RANSOMWARE = {
       buildChoices(
         "Subject to Treasury confirmation of immediate need and available delegated authority, consider cautiously activating contingency funding arrangements to pre-position additional liquidity while documenting expected cost, counterparty covenants, and communications implications. Recognize that activation can itself signal stress and materialize costs; prefer standby or small test draws where feasible, limit draws to narrowly defined trigger levels, and require dual sign-off (Treasury chair + CFO). When briefing stakeholders, explicitly set expectations about signaling risk, implementation timelines, and rapid reporting to the crisis lead.",
         "Pre-positioning liquidity can provide a necessary cushion and tests contingency processes; adding strict triggers and dual sign-off reduces the chance of noisy market signaling while preserving optionality, provided activation follows Treasury confirmation and crisis reporting.",
-        10,
+        8,
         "Deliver a concise, factual customer communication targeted to affected segments explaining impacted services and immediate mitigations. Stand up prioritized outreach for high-balance and vulnerable customers, equip the call center with validated scripts and emergency authorization paths, designate a single liaison for employer escalations with SLAs, and coordinate discrete intraday liquidity actions under delegated Treasury authority with clear delegated limits and post-action reporting.",
         "Operationalized outreach combined with discrete intraday liquidity actions and a single liaison with SLAs provides practical relief for at-risk customers while minimizing visible market signaling; coupling actions to clear delegated limits improves speed and governance. Assign a named owner with SLAs for follow-up and reconciliation.",
-        5,
+        7,
         "Maintain normal liquidity posture since ratios remain healthy and reacting visibly could signal weakness and accelerate the very outflows you're trying to prevent.",
         "Avoiding panic signals has logic but failing to prepare for deterioration could leave you caught flat-footed; internal preparation doesn't require visible external action.",
-        -5,
+        -2,
         "Immediately draw down all available credit facilities to maximize cash position, ensuring the bank can meet any level of withdrawal demand.",
         "Maximizing cash seems prudent but dramatic draws signal distress to counterparties and may become news themselves; contingency activation should be proportionate to actual conditions.",
-        -5
+        -3
       )),
     q("Finance", "The $47 million in ACH transactions that were queued when systems went down include payroll files for 340 businesses representing 12,000 employees expecting direct deposits tomorrow. The ACH system won't be restored in time. What approach do you recommend?",
       buildChoices(
@@ -220,31 +220,31 @@ const SCENARIO_RANSOMWARE = {
       buildChoices(
         "Temporarily implement emergency manual disbursement procedures with enhanced controls while documenting operational trade-offs and explicit per-transaction caps: require dual officer verification, an independent caller-back to a previously validated contact, a documented approval chain with treasury sign-off for large draws, daily reconciliation, and a named senior credit officer accountable for exceptions. For the largest construction disbursements require third-party escrowed-release or pre-funded hold, publish a brief borrower notification explaining timelines and reconciliation steps, and circulate the staff checklist to all processing teams.",
         "Emergency procedures balance customer need with risk management; adding a named owner, published checklist and mandatory escrow/pre-funded holds for the largest draws increases accountability and reduces fraud exposure while preserving urgent funding paths.",
-        10,
+        7,
         "Stand up a narrowly scoped, documented manual disbursement channel led by a senior credit officer with mandatory treasury sign-off: authorize time-critical construction draws through a third-party escrowed-release or pre-funded hold, require independent borrower confirmation to a pre-validated contact, dual officer verification, same-day reconciliation, and a mandatory staff checklist that includes a call-back verification log and treasury settlement confirmation. Publish the checklist and escalation path to staff with a designated compliance reviewer to avoid ad-hoc deviations.",
         "Senior-led escrow or pre-funded hold plus mandatory call-back logs, treasury settlement confirmation, a published checklist and compliance reviewer make urgent disbursements operationally achievable while preserving a strong, auditable control framework. Assign a named settlement owner with SLAs for confirmation and audit.",
-        5,
+        6,
         "Process all scheduled disbursements immediately using manual procedures before systems get further behind, dealing with any control issues in post-incident review.",
         "Clearing the backlog seems proactive but 'dealing with control issues later' invites fraud and errors; rush processing without enhanced controls compounds risk rather than managing it.",
-        -5,
+        -2,
         "Advise borrowers to seek bridge financing elsewhere if their needs are urgent, offering to reimburse reasonable costs once our systems are restored.",
         "Bridge financing suggestion may not be feasible for many borrowers on short notice; effectively tells customers to solve the bank's problem themselves; damages relationships.",
-        -5
+        -3
       )),
     q("Loans", "A large commercial borrower (a regional hospital with $45 million outstanding) calls demanding to draw their entire $15 million line of credit immediately, citing concerns about the bank's stability and their need to ensure operational funds. Their line is committed and they have a contractual right to draw. However, processing a $15 million manual disbursement carries significant operational and fraud risk. What do you recommend?",
       buildChoices(
         "Honor the draw request as a contractual commitment but implement strict, documented safeguards to mitigate operational and fraud risk: require a senior officer call-back to a pre-validated hospital treasury contact, dual approvals, treasury settlement coordination and confirmation of settlement mechanics, expedited fraud screening, and an auditable settlement confirmation with a named relationship lead to manage hospital concerns. Where settlement mechanics present elevated risk, consider conditional settlement paths (escrow or staged settlement) with documented borrower acceptance and real-time confirmation recorded for audit.",
         "Fulfilling contractual rights while layering call-back validation, dual approvals, treasury confirmation, expedited fraud screening and real-time settlement confirmation preserves legal obligations and reduces operational risk; naming a relationship lead improves communication and trust.",
-        10,
+        7,
         "Offer a senior-led verification and settlement pathway that honors the committed facility: apply pre-validated call-back protocols to a known treasury contact, require treasury authorization of settlement mechanics, expedite fraud screening and wire verification, implement immediate settlement confirmation procedures, and issue a written settlement confirmation with a dedicated relationship contact and checklist for settlement steps. Ensure the checklist is completed and signed by settlement officers.",
         "Pre-validated call-backs, treasury authorization, settlement checklists completed by settlement officers, and immediate confirmation make same-day settlement procedurally safer while preserving the borrower's contractual rights and reducing reconciliation risk. Assign a settlement owner with SLAs to confirm and document settlement steps.",
-        5,
+        6,
         "Process a partial draw of $5 million to meet their immediate needs while requesting they defer the remainder until systems support safer processing.",
         "Partial approach seems like compromise but unilaterally limiting a committed facility is a potential default; the borrower didn't ask for $5 million, they asked for $15 million.",
-        -5,
+        -2,
         "Escalate to legal to review whether the ransomware incident constitutes a force majeure event that suspends line of credit obligations during the crisis.",
         "Legal review may be prudent but using force majeure to decline a committed facility draw will damage the relationship permanently and potentially trigger cross-defaults in their other agreements.",
-        -5
+        -3
       )),
     q("Loans", "Mortgage closing scheduled for today can't proceed because title company can't verify the payoff amount on the existing loan from your core system. The borrowers have a moving truck loaded and their old house buyer's financing is contingent on this closing. Manual records suggest the payoff is approximately $287,000 but can't be verified to the penny. What do you advise?",
       buildChoices(
