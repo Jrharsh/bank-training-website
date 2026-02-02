@@ -665,8 +665,26 @@ function generateScenario() {
         if (!scenarios || !Array.isArray(scenarios) || scenarios.length === 0) {
             throw new Error('No scenarios found for this department');
         }
-        // Pick a random scenario
-        const scenario = scenarios[Math.floor(Math.random() * scenarios.length)];
+
+        // Filter scenarios by the selected complexity where possible.
+        // Normalize difficulty values and apply sensible fallbacks (e.g., advanced may include specialized).
+        const norm = (s) => String((s && s.difficulty) || 'intermediate').toLowerCase();
+        const target = String(selectedComplexity || 'intermediate').toLowerCase();
+
+        const filtered = scenarios.filter(s => {
+            const d = norm(s);
+            if (d === target) return true;
+            if (target === 'advanced' && (d === 'specialized' || d === 'advanced')) return true;
+            if (target === 'intermediate' && (d === 'intermediate' || d === 'advanced')) return true;
+            if (target === 'beginner' && (d === 'beginner' || d === 'intermediate')) return true;
+            return false;
+        });
+
+        const pool = (filtered.length > 0) ? filtered : scenarios;
+        if (filtered.length === 0) updateStatus('No exact difficulty match found; showing best available scenarios.', false);
+
+        // Pick a random scenario from the chosen pool
+        const scenario = pool[Math.floor(Math.random() * pool.length)];
         displayScenario(scenario);
         updateStatus('Scenario generated successfully.');
     } catch (error) {
@@ -688,8 +706,10 @@ function displayScenario(data) {
     
     // Update header
     document.getElementById('scenarioIcon').textContent = dept.icon;
-    document.getElementById('scenarioTitle').textContent = data.title || 'AI Generated Scenario';
-    document.getElementById('scenarioDepartment').textContent = `${dept.name} Department - ${selectedComplexity.charAt(0).toUpperCase() + selectedComplexity.slice(1)} Level`;
+        document.getElementById('scenarioTitle').textContent = data.title || 'AI Generated Scenario';
+        const scenarioDifficulty = (data.difficulty || selectedComplexity || 'intermediate');
+        const prettyDiff = scenarioDifficulty.charAt(0).toUpperCase() + scenarioDifficulty.slice(1);
+        document.getElementById('scenarioDepartment').textContent = `${dept.name} Department - ${prettyDiff}`;
     
     // Update content - handle multiple possible field names
     const scenarioText = data.description || data.scenario || 'Scenario description not available';
