@@ -4,10 +4,10 @@ import getRandomScenario, { getScenarios } from "./static-scenarios.js";
 const departmentKeyMap = {
   'Mortgage-Servicing-Compliance': ['Loan Servicing', 'Compliance', 'Loans'],
   'HR-Accounting-BackOffice': ['HR', 'Accounting', 'Bookkeeping'],
-  'Frontline-Operations': ['Tellers', 'New Accounts'],
+  'Frontline-Operations': ['Tellers', 'New Accounts', 'Deposits'],
   'Executive-Leadership-Loans': ['CEO/SVPs', 'Loans'],
   'IT': ['IT', 'Security', 'IT/Security'],
-  'Call-Center': ['Call Center', 'Deposits']
+  'Call-Center': ['Call Center']
 };
 
 export default async function handler(req, res) {

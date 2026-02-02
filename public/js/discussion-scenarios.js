@@ -1434,12 +1434,12 @@ window.discussionScenarios = {
         'Mortgage-Servicing-Compliance': ['Loan Servicing', 'Compliance', 'Loans'],
         // Business Administration: HR, Accounting, Bookkeeping
         'HR-Accounting-BackOffice': ['HR', 'Accounting', 'Bookkeeping'],
-        // Frontline Operations: Tellers, New Accounts
-        'Frontline-Operations': ['Tellers', 'New Accounts'],
+        // Frontline Operations: Tellers, New Accounts, Deposits
+        'Frontline-Operations': ['Tellers', 'New Accounts', 'Deposits'],
         // Executive Leadership: CEO/SVPs and Loans
         'Executive-Leadership-Loans': ['CEO/SVPs', 'Loans'],
         'IT': ['IT', 'Security', 'IT/Security'],
-        'Call-Center': ['Call Center', 'Deposits']
+        'Call-Center': ['Call Center']
     };
 
     // Ensure target keys exist and merge arrays from mapped keys (preserve originals)
