@@ -1424,6 +1424,41 @@ window.discussionScenarios = {
                 "How should findings and remediation be communicated to senior management and the board?"
             ]
         }
+    ],
+    "Call Center": [
+        {
+            title: "Phone Etiquette: Professional Greeting & Verification",
+            difficulty: "intermediate",
+            description: "A caller rings with a routine account question; the agent must establish rapport, verify identity, and set expectations while following the call script.",
+            discussionPoints: [
+                "What phrases create a professional, empathetic opening without sounding scripted?",
+                "How should identity verification be performed quickly but securely over the phone?",
+                "When should the agent offer to call back or transfer to a secure channel if the environment is not private?",
+                "How do you set clear next steps and timelines for the caller?"
+            ]
+        },
+        {
+            title: "Disgruntled Caller: Fee Dispute and Escalation",
+            difficulty: "intermediate",
+            description: "A caller is angry about a newly posted fee and demands immediate reversal. The agent must de-escalate, explain policy, and determine whether escalation or goodwill gesture is appropriate.",
+            discussionPoints: [
+                "Which de-escalation techniques help calm an upset caller while preserving compliance?",
+                "How do you balance empathy and policy when the caller demands immediate action?",
+                "When should a supervisor be involved and what information should be passed for escalation?",
+                "How should the interaction be documented and what follow-up is appropriate?"
+            ]
+        },
+        {
+            title: "Social Engineering / Fraud Attempt Over Phone",
+            difficulty: "advanced",
+            description: "A caller claims to be the account holder but uses pressure and urgency to elicit sensitive account information. The agent must detect social-engineering cues and follow fraud protocols.",
+            discussionPoints: [
+                "What red flags indicate the call may be a social-engineering or impersonation attempt?",
+                "What verification steps are required before sharing any account information or performing actions?",
+                "How do you handle requests for one-time codes, full account numbers, or changes to contact/authentication details?",
+                "When should the call be escalated to the fraud team or placed on hold for further verification?"
+            ]
+        }
     ]
 };
 
