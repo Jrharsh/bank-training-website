@@ -1049,7 +1049,7 @@ const SCENARIO_REG_EXAM = {
     // CEO/SVPs
     q("CEO/SVPs", "It's now 5:00 PM Friday. You have the weekend to prepare for examiners arriving Monday. Your BSA Officer position is vacant and BSA/AML is a stated exam focus. Your Chief Credit Officer is on vacation until Wednesday. Several senior managers have flights booked for Monday. What's your immediate prioritization?",
       buildChoices(
-        "Immediately designate an acting BSA Officer from qualified staff for the exam duration. Contact the CCO to brief them and determine if they can return early - don't mandate, but explain the situation. Ask managers with Monday travel to delay if possible but don't cancel family commitments. Convene available leadership Saturday morning to establish exam command structure.",
+        "Designate an acting BSA Officer for the exam, brief senior leaders (including the CCO), request voluntary schedule adjustments where feasible, and convene leadership Saturday to set an exam command structure.",
         "Acting BSA designation addresses the most visible gap; CCO contact respects their time while communicating urgency; manager request balances exam needs with employee wellbeing; Saturday meeting uses available time without requiring Friday night chaos.",
         10,
         "Send an all-hands email requiring everyone to cancel PTO and be on-site Monday, given the importance of the exam.",
@@ -1079,7 +1079,7 @@ const SCENARIO_REG_EXAM = {
       )),
     q("CEO/SVPs", "On Day 2 of the exam, the Examiner-in-Charge requests a private meeting with you. She expresses concern that several document requests haven't been fulfilled, staff seem unprepared for interviews, and the acting BSA Officer couldn't answer basic questions about transaction monitoring. She asks whether the bank is taking the examination seriously. How do you respond?",
       buildChoices(
-        "Acknowledge the concerns directly without making excuses. Explain the specific challenges (BSA vacancy, short notice) while taking ownership of the preparation gaps. Commit to specific remediation: document fulfillment timeline, better interview preparation, and bringing in BSA expertise. Ask what would demonstrate appropriate seriousness going forward.",
+        "Acknowledge the concerns without excuses, explain the specific challenges (BSA vacancy, short notice), own the preparation gaps, and commit to remediation (document timeline, interview prep, and bringing in BSA expertise). Ask what would demonstrate appropriate seriousness.",
         "Direct acknowledgment shows you're listening; explaining challenges provides context without excuse-making; specific commitments demonstrate action orientation; asking for guidance shows partnership rather than defensiveness.",
         10,
         "Explain that the short notice made adequate preparation impossible and that the bank shouldn't be judged based on Day 2 performance.",
@@ -1096,7 +1096,7 @@ const SCENARIO_REG_EXAM = {
     // IT/Security
     q("IT/Security", "The IT examiner requests your complete vulnerability scan results for the past 12 months, including all identified vulnerabilities and remediation status. You know that 23 critical vulnerabilities from 8 months ago were closed late (outside policy timeframes), and 4 critical vulnerabilities identified 6 weeks ago remain open. What do you provide?",
       buildChoices(
-        "Provide complete, unredacted scan results for the full 12 months as requested. Prepare a separate summary document showing your vulnerability management metrics, remediation timeframes, and explanations for the late closures and currently open items including remediation plans and compensating controls. Transparency with context is better than transparency alone.",
+        "Provide the requested 12-month scan results plus a concise summary of remediation status, late closures, and plans for currently open items, including any compensating controls.",
         "Complete disclosure is required; attempting to hide or filter information will be discovered and damage credibility far more than the findings themselves; contextual summary shows you understand and manage your risk.",
         10,
         "Provide the scan results but exclude the report showing remediation timeframes to avoid highlighting the late closures unless specifically asked.",
@@ -1111,7 +1111,7 @@ const SCENARIO_REG_EXAM = {
       )),
     q("IT/Security", "An examiner is interviewing your network administrator about access controls. Afterward, your admin tells you the examiner asked several questions about a shared administrator account that's used for emergency system access. The admin explained it honestly - the account exists and is used occasionally. You know this account wasn't documented in your policies and violates your access management standards. What do you do?",
       buildChoices(
-        "Don't attempt to coach or 'correct' the admin's testimony after the fact. Prepare documentation about the shared account: when it was created, why, how it's used, who has access, and what compensating controls exist (logging, password management). Proactively provide this to the examiner as supplemental information. Begin remediation planning immediately.",
+        "Avoid coaching the admin's testimony. Prepare clear documentation about the shared account (purpose, access, usage, compensating controls) and provide it to the examiner while beginning remediation planning.",
         "Post-interview coaching could be seen as witness tampering; proactive documentation demonstrates transparency and control awareness; remediation planning shows you're addressing the gap regardless of exam outcome.",
         10,
         "Brief the admin on how to answer if asked follow-up questions, emphasizing the compensating controls and limited use of the account.",
@@ -1126,7 +1126,7 @@ const SCENARIO_REG_EXAM = {
       )),
     q("IT/Security", "The examiner asks to observe a live demonstration of your incident response procedures by having your team respond to a simulated phishing attack. Your IR procedures are documented but haven't been tested in 9 months - the last test revealed several gaps that were supposed to be addressed but weren't. What's your response?",
       buildChoices(
-        "Agree to the demonstration while being transparent: explain that your last formal test was 9 months ago and identified gaps that are still being addressed. Propose showing the documented procedures along with an honest walkthrough of how a real incident would be handled, acknowledging where execution might differ from documentation.",
+        "Agree to the demonstration while disclosing your last formal test date and known gaps. Show documented procedures with an honest walkthrough highlighting where execution may differ from documentation.",
         "Transparency about test history and known gaps is better than demonstrating and having those gaps exposed; honest walkthrough shows self-awareness; this approach manages examiner expectations while showing good faith.",
         10,
         "Request time to prepare the team before the demonstration, explaining that you want to ensure the best possible representation of your capabilities.",
@@ -1143,7 +1143,7 @@ const SCENARIO_REG_EXAM = {
     // HR
     q("HR", "An examiner wants to interview the employee who handles BSA suspicious activity report (SAR) filings. This employee has been covering BSA duties since the BSA Officer resigned but hasn't been formally designated, trained, or given authority. They're nervous about the interview and worried about saying the wrong thing. How do you prepare them?",
       buildChoices(
-        "Be honest with the employee: acknowledge they've been put in a difficult position, assure them their job isn't at risk for honest answers, and prepare them to answer truthfully including saying 'I don't know' or 'I haven't been trained on that.' Brief them on what their actual responsibilities have been versus what the former BSA Officer handled. Don't coach specific answers.",
+        "Be honest with the employee: acknowledge the difficult position, reassure them their job isn't at risk for truthful answers, prepare them to answer honestly (including 'I don't know'), and brief them on their actual responsibilities versus the former BSA Officer's duties. Don't coach scripted answers.",
         "Honest acknowledgment reduces employee stress; job security assurance prevents fear-driven answers; permission to say 'I don't know' is important; distinguishing actual vs expected responsibilities enables accurate testimony.",
         10,
         "Provide the employee with documentation about BSA requirements and coach them on the key concepts so they can answer questions more confidently.",
@@ -1158,7 +1158,7 @@ const SCENARIO_REG_EXAM = {
       )),
     q("HR", "During the second week, staff morale is deteriorating. Examiners have been critical in several interviews, a rumor is spreading that the bank 'failed' the exam, and two employees have asked whether they should start looking for other jobs. Your exam coordinator is overwhelmed and snapped at an examiner yesterday. How do you address the organizational stress?",
       buildChoices(
-        "Hold a brief all-staff communication acknowledging the stress, clarifying that exams don't 'pass/fail,' and thanking everyone for their efforts. Privately check on the exam coordinator and ensure they have support or backup. Address the snap incident with the examiner directly - acknowledge it happened, apologize, and ensure it won't recur. Consider bringing in temporary support for the remaining week.",
+        "Hold a brief all-staff message acknowledging stress, clarifying that exams don't 'pass/fail,' thank everyone, privately support the overwhelmed coordinator, address the snap incident with an apology to the examiner, and consider temporary support for the remaining week.",
         "Staff communication addresses rumor and morale broadly; coordinator support prevents further incidents; direct examiner acknowledgment shows accountability; temporary support addresses root cause of being overwhelmed.",
         10,
         "Send an email reminding everyone that exams are normal and that professionalism is expected regardless of pressure.",
@@ -1190,7 +1190,7 @@ const SCENARIO_REG_EXAM = {
     // Finance
     q("Finance", "Examiners are reviewing your Allowance for Credit Losses (ACL) methodology and have questions about your qualitative adjustment factors. Your Q-factors were increased 18 months ago during economic uncertainty but haven't been adjusted since, even as conditions improved. The examiner asks why qualitative factors that were supposed to be temporary haven't been reconsidered. What's your response?",
       buildChoices(
-        "Acknowledge that the Q-factors should have been formally reconsidered even if the conclusion was to maintain them. Explain your current credit quality metrics and economic outlook assessment. Commit to implementing a formal quarterly Q-factor review process with documentation. Don't argue that holding factors constant was the right call - focus on process improvement.",
+        "Acknowledge the Q-factors should have been formally reconsidered. Present current credit metrics and outlook, and commit to a formal quarterly Q-factor review process with documentation focused on process improvement.",
         "Acknowledging the process gap is appropriate; current metrics provide context; committing to quarterly review addresses the systemic issue; avoiding defensive arguments about the outcome keeps focus on improvement.",
         10,
         "Explain that you chose to maintain conservative reserve levels given continued economic uncertainty, which is a prudent credit risk management approach.",
@@ -1205,7 +1205,7 @@ const SCENARIO_REG_EXAM = {
       )),
     q("Finance", "The liquidity examiner asks about your contingency funding plan. Upon review, you realize the plan hasn't been updated in 14 months and still references credit facilities that have been modified, assumptions that are outdated, and contact information for people who've left the bank. What do you do?",
       buildChoices(
-        "Don't try to update the document while examiners are present. Acknowledge that the CFP needs updating and provide a current verbal summary of your actual liquidity position, available facilities, and contingency actions. Commit to a complete CFP refresh within 30 days and offer to share the updated version. The examiner knows you can't fix 14 months of neglect in real-time.",
+        "Don't update the CFP on the spot. Acknowledge it needs refresh, provide a verbal summary of current liquidity, available facilities, and contingency actions, and commit to a full CFP refresh within 30 days, offering to share the updated version.",
         "Acknowledging the gap is necessary since they've already seen the document; verbal summary demonstrates current awareness; committed timeline shows action orientation; real-time updating would be obvious and insulting.",
         10,
         "Quickly update the most obvious errors (contact information, facility details) and provide the corrected version, explaining that you identified some administrative updates that were needed.",
@@ -1237,7 +1237,7 @@ const SCENARIO_REG_EXAM = {
     // Loans
     q("Loans", "The credit examiner is reviewing your largest criticized assets and asks for the credit file on a $3.2 million commercial real estate loan that was downgraded to Substandard 4 months ago. You know this file has documentation gaps - the most recent appraisal is 2 years old, financial statements are 18 months stale, and the workout notes are incomplete. What do you do?",
       buildChoices(
-        "Provide the file as it exists. Simultaneously brief the credit examiner: acknowledge the documentation gaps, explain your current assessment of the credit and collateral position, and describe actions you're taking to address the gaps (updated appraisal ordered, financial statement request sent). Trying to 'fix' the file before providing it will be transparent.",
+        "Provide the file as-is and brief the credit examiner: acknowledge documentation gaps, explain your current credit and collateral assessment, and describe remediation actions (updated appraisal ordered, financials requested). Don't try to 'fix' the file before sharing.",
         "Providing the actual file is required; proactive acknowledgment of gaps shows awareness; current assessment demonstrates active management despite documentation issues; remediation actions show you're addressing the problem.",
         10,
         "Provide the file but prepare a supplemental memo explaining the documentation gaps and your current understanding of the borrower's status.",
@@ -1252,7 +1252,7 @@ const SCENARIO_REG_EXAM = {
       )),
     q("Loans", "The examiner identifies 3 loans totaling $1.8 million that they believe should be downgraded from Pass to Special Mention based on borrower financial deterioration. Your loan officers disagree - they've met with these borrowers and believe the situations are improving. The examiner's analysis is based solely on financial statement ratios. How do you handle the disagreement?",
       buildChoices(
-        "Prepare a written response for each credit that includes: acknowledgment of the financial ratio concerns, additional qualitative factors supporting your classification (recent borrower meetings, pipeline, market conditions), and any available updates since the financial statements. Request a meeting to discuss. Be prepared that you may not prevail on all three but present your case professionally.",
+        "Prepare a written response for each loan: acknowledge the ratio concerns, provide qualitative factors supporting your classification (borrower meetings, market context), include any updates since the statements, and request a meeting to discuss professionally.",
         "Written response creates a record; acknowledging ratio concerns shows you've considered their analysis; qualitative factors provide complete picture; meeting enables dialogue; accepting you may not win everything shows reasonableness.",
         10,
         "Accept the examiner's classifications to avoid conflict, planning to re-evaluate the loans after the exam concludes.",
@@ -1284,7 +1284,7 @@ const SCENARIO_REG_EXAM = {
     // Accounting
     q("Accounting", "The examiner reviewing your audit function asks about the status of internal audit findings from the past 18 months. You know that 12 of 47 findings remain open past their original remediation dates, and 3 of those are over 6 months past due. How do you present this information?",
       buildChoices(
-        "Provide a complete aging schedule of all findings with original dates, current status, revised remediation dates where applicable, and explanations for the past-due items. For the 3 significantly past-due findings, prepare specific status updates showing what's been done and what remains. Examiners expect some open findings - it's the awareness and management that matters.",
+        "Provide a complete aging schedule with original dates, current status, revised remediation dates where applicable, and explanations for past-due items. For the three significantly overdue findings, include specific status updates on work completed and remaining steps.",
         "Complete disclosure is necessary since they'll likely see the information anyway; aging schedule shows organized tracking; explanations for past-due items demonstrate awareness; acknowledging this is normal shows appropriate perspective.",
         10,
         "Provide the findings list but emphasize that all critical findings have been addressed and the remaining open items are lower priority.",
@@ -3458,8 +3458,10 @@ export function getScenarioByKey(key) {
 
 export function getRandomScenario() {
   const source = cloneWithRewrites();
-  const valid = source.filter(s => Array.isArray(s.questions) && s.questions.length === 21);
-  const pool = valid.length ? valid : source;
+  // Use the full pool of scenarios so `Generate` can pick from all available scenarios.
+  // Previously this preferred scenarios with exactly 21 questions which limited
+  // selection to only those entries (causing repeat cycling between a small set).
+  const pool = source;
   const base = pool[Math.floor(Math.random() * pool.length)];
 
   const questions = Array.isArray(base.questions)
