@@ -6,7 +6,7 @@
 }
 
 @media (prefers-color-scheme: dark) {
-  .department-grid {
+
     background: none !important;
     box-shadow: none;
     border: none;
