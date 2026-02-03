@@ -1383,10 +1383,10 @@ const SCENARIO_WEATHER = {
   key: "severe-weather-branch-closures",
   title: "Severe Weather Causes Branch Closures and Outages",
   description:
-    "A Category 2 hurricane made landfall 18 hours ago causing widespread damage across your market area. 6 of 14 branches have no power with restoration estimates of 3-7 days. Two branches sustained roof damage with water intrusion into customer areas. Cell towers are overloaded causing intermittent mobile banking failures. Your core processor's regional data center switched to generator power 12 hours ago. Local emergency management has issued a 48-hour shelter-in-place advisory for three counties where 40% of your staff reside. Media is reporting customers waiting hours at competitor ATMs. Your insurance carrier requires damage documentation within 72 hours for expedited claims processing.",
+    "A hurricane made landfall about 18 hours ago causing widespread local damage. Six of 14 branches currently lack power with estimated restoration in 3–7 days. Two branches have roof damage with water intrusion into customer areas. Cellular networks are congested, causing intermittent mobile banking outages. Your core processor shifted to generator power 12 hours ago. Local emergency management has issued a 48‑hour shelter‑in‑place advisory covering counties where many staff live. Media report long lines at competitor ATMs. Your insurer requests damage documentation within 72 hours for expedited claims.",
   questions: [
     // CEO/SVPs
-    q("CEO/SVPs", "It's now 6 AM the morning after landfall. Your Business Continuity Plan calls for an 8 AM executive briefing, but your Chief Operations Officer is unreachable (likely no cell service), two board members are calling for immediate updates, and the local news station wants a statement for their 7 AM broadcast. How do you proceed?",
+    q("CEO/SVPs", "It's 6 AM the morning after landfall. Your Business Continuity Plan scheduled an 8 AM executive briefing, but your COO is unreachable, two board members are requesting immediate updates, and local news is seeking a 7 AM statement. How do you proceed?",
       buildChoices(
         "Delegate a senior VP to gather status from available department heads, provide board members a brief holding statement with a commitment to a full briefing by 10 AM, and give media a short statement acknowledging the situation and directing customers to digital channels while deferring operational details.",
         "Addresses multiple stakeholder needs proportionally while buying time for accurate information; holding statements manage expectations without committing to unverified details.",
@@ -1401,7 +1401,7 @@ const SCENARIO_WEATHER = {
         "Prioritizing the COO seems logical but creates a bottleneck when they may be unreachable for hours; this delays all stakeholder communications unnecessarily.",
         -5
       )),
-    q("CEO/SVPs", "By Day 2, you learn a competitor bank is running radio ads promoting their 'full service availability' and offering fee waivers to new customers. Your marketing team wants to respond aggressively. Meanwhile, community groups are requesting you sponsor emergency supply distribution, which would require staff volunteers from already-thin coverage. What's the appropriate strategic response?",
+    q("CEO/SVPs", "By Day 2, a competitor is advertising 'full service availability' and fee waivers to attract customers. Marketing recommends an aggressive response. Community groups are also requesting that you sponsor emergency supply distribution, which would require staff volunteers from already-thin coverage. What is the appropriate strategic response?",
       buildChoices(
         "Avoid direct competitive response in messaging; instead focus communications on your recovery progress, customer accommodations, and community commitment. Evaluate sponsorship for supply distribution on a limited scale that doesn't compromise branch staffing, potentially partnering with another organization to share the load.",
         "Competitive attacks during disasters often backfire reputationally; demonstrating community focus while maintaining service delivery shows authentic commitment without overextending resources.",
@@ -1416,7 +1416,7 @@ const SCENARIO_WEATHER = {
         "Operational focus is important but ignoring both community needs and competitive dynamics during an extended crisis can erode customer loyalty and market position.",
         -5
       )),
-    q("CEO/SVPs", "On Day 3, a regional TV station is running a story about elderly customers unable to access medication money due to branch closures and ATM outages. They've requested an on-camera interview. Your two operational branches have 2+ hour wait times. Corporate communications advises against the interview citing litigation risk. Your community banking director believes it's an opportunity to demonstrate responsiveness. What approach do you take?",
+    q("CEO/SVPs", "On Day 3, a regional TV story highlights elderly customers unable to access medication funds because of branch closures and ATM outages, and they've requested an on-camera interview. Your operational branches have long wait times. Corporate communications cautions against the interview; your community banking director sees an opportunity to show responsiveness. What approach do you take?",
       buildChoices(
         "Accept the interview with preparation: acknowledge the hardship specific customers are facing, outline concrete accommodations you've implemented (emergency cash limits, mobile deposit, partner ATM networks), commit to prioritized service for vulnerable customers, and have branch staff ready to assist anyone who contacts you through the story.",
         "Transparent acknowledgment with specific solutions demonstrates accountability; preparing for follow-through turns potential negative coverage into demonstrated responsiveness.",
