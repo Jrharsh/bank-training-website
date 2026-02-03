@@ -6,7 +6,7 @@
 }
 
 @media (prefers-color-scheme: dark) {
-
+  .department-grid {
     background: none !important;
     box-shadow: none;
     border: none;
@@ -659,21 +659,8 @@ body.dark-mode .theme-toggle { background:#232a36; color:#e3e6eb; border-color:#
   box-shadow: 0 4px 16px rgba(30,41,59,0.10);
 }
 
-
-  justify-content: center;
 /* Make Generate Scenario button light and vibrant */
-  align-items: center;
-  margin: 450px 0 0 0;
-  width: 100%;
-  background: none !important;
-  box-shadow: none !important;
-  border-radius: 0 !important;
-  padding: 0 !important;
-  border: none !important;
-  display: flex !important;
-  justify-content: center !important;
-  align-items: center !important;
-}
+/* The following properties were outside a selector and caused a syntax error. If these styles are needed, place them inside a selector block. Otherwise, remove them. */
 
 @media (prefers-color-scheme: dark) {
   .generate-btn {
@@ -1663,3 +1650,5 @@ body.dark-mode .theme-toggle { background:#232a36; color:#e3e6eb; border-color:#
     color: #ffe082;
   }
 }
+
+
