@@ -708,9 +708,9 @@ const SCENARIO_BEC_WIRE = {
     "A vendor email account is compromised and requests a large wire change. Dual control detects an anomaly. Leadership must coordinate fraud response and communications.",
   questions: [
     // CEO/SVPs
-    q("CEO/SVPs", "Your wire operations supervisor calls with concerning news: a $847,000 wire transfer was requested via email from your largest construction vendor requesting a change to their banking instructions. The email came from the vendor's actual email address but your dual-control process flagged it because the payment amount doesn't match open invoices. The wire hasn't been sent yet. Your accounts payable clerk is certain the email is legitimate because she recognizes the signature block. What's your immediate directive?",
+    q("CEO/SVPs", "Your wire operations supervisor calls with concerning news: a $847,000 wire transfer was requested via email from your largest construction vendor requesting a change to their banking instructions. The email came from the vendor's actual email address but your dual-control process flagged it because the payment amount doesn't match open invoices. The wire hasn't been sent yet. Your accounts payable clerk is certain the email is legitimate because she recognizes the signature block. What would you instruct the team to do first?",
       buildChoices(
-        "Stop any wire changes or payments and verify the request using an independently sourced phone number (not one in the email). Preserve the email headers and convene the fraud response team promptly.",
+        "Temporarily pause any wire changes or payments and verify the request using an independently sourced phone number (not one in the email). Preserve the email headers and convene the fraud response team promptly.",
         "Independent verification addresses the core BEC tactic of legitimate-appearing emails; preserving evidence enables investigation; convening the team treats this as the serious incident it may be; addressing the clerk's confidence helps prevent future incidents.",
         10,
         "Call the vendor's email address back asking them to confirm the request, since the email came from their legitimate domain.",
@@ -723,9 +723,9 @@ const SCENARIO_BEC_WIRE = {
         "Phone numbers in email signatures are controlled by whoever controls the email - potentially the fraudster; relationship-based trust is exactly what BEC exploits; verification must use independently sourced contact information.",
         -5
       )),
-    q("CEO/SVPs", "Two hours into your investigation, IT confirms the vendor's email account was compromised. The fraudster had access for 3 weeks and monitored invoice traffic. You discover that your bank actually sent a $312,000 wire last week based on a similar request that passed dual control because the amount matched an open invoice. The receiving bank is in Eastern Europe. Your CFO wants to know the communication plan. What do you prioritize?",
+    q("CEO/SVPs", "Two hours into your investigation, IT confirms the vendor's email account was compromised. The fraudster had access for 3 weeks and monitored invoice traffic. You discover that your bank actually sent a $312,000 wire last week based on a similar request that passed dual control because the amount matched an open invoice. The receiving bank is in Eastern Europe. Your CFO wants to know the communication plan. What should you prioritize in external and recovery communications?",
       buildChoices(
-        "Notify law enforcement immediately through your BSA/fraud team and inform your cyber insurer. Contact the receiving bank via correspondent channels to request a freeze, preserve evidence, and coordinate external communications with law enforcement.",
+        "Promptly notify law enforcement through your BSA/fraud team and inform your cyber insurer. Contact the receiving bank via correspondent channels to request a freeze, preserve evidence, and coordinate external communications with law enforcement.",
         "Law enforcement notification enables SWIFT recall and international cooperation; insurance carrier notification meets policy requirements and may provide resources; receiving bank contact is time-sensitive; internal communication raises awareness without compromising investigation; LE coordination on external communications protects evidence.",
         10,
         "Immediately notify all vendors that your payment processes are compromised and they should verify all recent payments they've received from you.",
@@ -738,7 +738,7 @@ const SCENARIO_BEC_WIRE = {
         "Press release before coordinating with law enforcement could compromise the investigation and recovery efforts; transparency is important but timing and coordination matter; premature disclosure serves no one.",
         -5
       )),
-    q("CEO/SVPs", "It's now Day 3. Law enforcement has opened an investigation but the $312,000 wire is unrecoverable - funds were moved within hours. Your insurance claim is in process with a $50,000 deductible. The compromised vendor is upset they weren't notified immediately and is questioning your security practices. Your board wants a briefing. A local business reporter has called asking about 'wire fraud at your bank.' How do you manage these competing demands?",
+    q("CEO/SVPs", "It's now Day 3. Law enforcement has opened an investigation but the $312,000 wire is unrecoverable - funds were moved within hours. Your insurance claim is in process with a $50,000 deductible. The compromised vendor is upset they weren't notified immediately and is questioning your security practices. Your board wants a briefing. A local business reporter has called asking about 'wire fraud at your bank.' How do you balance and manage these competing demands?",
       buildChoices(
         "Brief the board first with full facts and remediation plans. Acknowledge the vendor's concerns and explain law enforcement coordination. Provide the reporter a short, counsel-reviewed factual statement that doesn't compromise the investigation.",
         "Board briefing is governance priority with full transparency expected; vendor acknowledgment maintains the relationship while explaining constraints; reporter response is appropriately limited without being evasive; each audience gets appropriate information.",
@@ -755,7 +755,7 @@ const SCENARIO_BEC_WIRE = {
       )),
 
     // IT/Security
-    q("IT/Security", "Upon examining the fraudulent email, you discover it came from the vendor's legitimate email server - their account was actually compromised, not spoofed. Your email security tools didn't flag it because DMARC/SPF passed. The fraudster used the real account to monitor invoice conversations and timed the request perfectly. What security improvements do you prioritize?",
+    q("IT/Security", "Upon examining the fraudulent email, you discover it came from the vendor's legitimate email server - their account was actually compromised, not spoofed. Your email security tools didn't flag it because DMARC/SPF passed. The fraudster used the real account to monitor invoice conversations and timed the request perfectly. Which security improvements should you prioritize?",
       buildChoices(
         "Add or improve external email banners for payment-change requests, deploy conversation-analysis or impersonation detection, and target controls at reply-chain hijacking. DMARC/SPF don't prevent compromised accounts, so layered detection is needed.",
         "External banners address user awareness regardless of technical authentication; conversation analysis detects the specific BEC pattern used; impersonation detection adds another layer; acknowledging the DMARC limitation shows proper understanding of the threat model.",
@@ -770,7 +770,7 @@ const SCENARIO_BEC_WIRE = {
         "Training alone won't solve this - the email was genuinely from the vendor's account and the signature was real; technical controls are needed because human judgment failed in exactly the scenario BEC is designed for.",
         -5
       )),
-    q("IT/Security", "Your wire operations team asks whether they should delete the fraudulent emails to prevent anyone from accidentally acting on similar requests. Your legal counsel wants to preserve all evidence. Marketing wants to use the emails as a training example. The compromised vendor is asking you to share the email headers so they can investigate their own breach. How do you handle the email evidence?",
+    q("IT/Security", "Your wire operations team asks whether they should delete the fraudulent emails to prevent anyone from accidentally acting on similar requests. Your legal counsel wants to preserve all evidence. Marketing wants to use the emails as a training example. The compromised vendor is asking you to share the email headers so they can investigate their own breach. How should the email evidence be handled?",
       buildChoices(
         "Preserve all original emails and headers in a forensic store; do not delete production copies. Share headers securely with the vendor and prepare sanitized training examples only after law enforcement review. Evidence preservation is the priority.",
         "Preservation is legally and investigatively critical; vendor sharing helps them remediate their compromise which protects everyone; sanitized training versions serve awareness without compromising evidence; law enforcement clearance ensures you don't interfere with investigation.",
@@ -802,7 +802,7 @@ const SCENARIO_BEC_WIRE = {
       )),
 
     // HR
-    q("HR", "The accounts payable clerk who nearly approved the $847,000 wire is shaken - she keeps saying she 'almost lost the bank $847,000' and her supervisor reported she was crying at her desk. The clerk who actually approved the $312,000 wire last week hasn't been told yet that it was fraudulent. Both employees have clean records and good performance reviews. How do you handle the human element?",
+    q("HR", "The accounts payable clerk who nearly approved the $847,000 wire is shaken - she keeps saying she 'almost lost the bank $847,000' and her supervisor reported she was crying at her desk. The clerk who actually approved the $312,000 wire last week hasn't been told yet that it was fraudulent. Both employees have clean records and good performance reviews. How do you address the human element with affected employees?",
       buildChoices(
         "Acknowledge the first clerk's distress and reaffirm that her vigilance helped catch an attempt; reassure her she's not in trouble. Privately support the second clerk, explain the sophistication of the fraud, and emphasize learning and training rather than punishment.",
         "First clerk reframing as success (she caught it) addresses her distress accurately; private supportive conversation for second clerk is appropriate given the circumstances; emphasizing sophistication and procedure-following acknowledges reality; training focus is appropriate for control failures, not performance failures.",
@@ -817,7 +817,7 @@ const SCENARIO_BEC_WIRE = {
         "Waiting to provide support while employees are distressed is harmful; you can provide emotional support and reassurance without influencing factual statements; treating employees as suspects damages trust and culture.",
         -5
       )),
-    q("HR", "Your CFO wants to implement mandatory BEC awareness training for all employees who handle payments, but your training calendar is full with required annual compliance training. The training vendor offers a 15-minute micro-learning module on BEC that could be deployed immediately, or a comprehensive 2-hour course available in 6 weeks. Your payment employees are already stressed from the incident. What's your training recommendation?",
+    q("HR", "Your CFO wants to implement mandatory BEC awareness training for all employees who handle payments, but your training calendar is full with required annual compliance training. The training vendor offers a 15-minute micro-learning module on BEC that could be deployed immediately, or a comprehensive 2-hour course available in 6 weeks. Your payment employees are already stressed from the incident. What is your recommendation for timely BEC training given current obligations?",
       buildChoices(
         "Deploy the 15-minute micro-learning now to capture the teachable moment, and schedule the full 2-hour course once the compliance calendar allows. Short, timely modules improve retention after an incident.",
         "Immediate micro-learning captures the teachable moment; comprehensive training later provides depth; stress-as-motivator is supported by adult learning research - relevant, timely training has better retention than abstract compliance training.",
@@ -832,7 +832,7 @@ const SCENARIO_BEC_WIRE = {
         "Mandatory 2-hour training immediately after a stressful incident, on top of existing obligations, is overwhelming and may create resentment rather than learning; timing and delivery matter for training effectiveness.",
         -5
       )),
-    q("HR", "Three months after the incident, you're conducting annual performance reviews. The clerk who approved the $312,000 fraudulent wire has otherwise excellent performance. Her supervisor asks whether the wire incident should be reflected in her review rating. The employee has not had any other issues and completed enhanced training. Other employees are aware of what happened. What guidance do you provide?",
+    q("HR", "Three months after the incident, you're conducting annual performance reviews. The clerk who approved the $312,000 fraudulent wire has otherwise excellent performance. Her supervisor asks whether the wire incident should be reflected in her review rating. The employee has not had any other issues and completed enhanced training. Other employees are aware of what happened. How should the incident be reflected in performance reviews?",
       buildChoices(
         "Acknowledge the incident in the review narrative, note completed training and any improvements, but avoid lowering her rating since she followed procedures and the failure was systemic. Document the rationale given colleagues' awareness.",
         "Acknowledgment in narrative provides completeness; protecting rating recognizes she followed procedures; distinguishing systemic from individual failure is important; documentation awareness addresses potential perception issues.",
@@ -849,7 +849,7 @@ const SCENARIO_BEC_WIRE = {
       )),
 
     // Finance
-    q("Finance", "Your wire operations procedures require dual control: one person initiates, another approves. Both must verify the payment matches approved invoices and confirm banking instructions against the vendor master file. The $312,000 fraud succeeded because the fraudster knew the exact invoice amount and the request asked to update the vendor master file simultaneously with the payment. Your auditors want to know how you'll prevent this. What control enhancement do you recommend?",
+    q("Finance", "Your wire operations procedures require dual control: one person initiates, another approves. Both must verify the payment matches approved invoices and confirm banking instructions against the vendor master file. The $312,000 fraud succeeded because the fraudster knew the exact invoice amount and the request asked to update the vendor master file simultaneously with the payment. Your auditors want to know how you'll prevent this. What control enhancement would you recommend to prevent similar change-and-pay fraud?",
       buildChoices(
         "Require a 24-48 hour waiting period after vendor banking changes before payments go to new accounts, and mandate out-of-band verification to an independently sourced contact for any payment soon after a detail change. This stops immediate change-and-pay exploitation.",
         "Time-delay addresses the specific attack pattern by preventing immediate exploitation of changed details; out-of-band verification adds human confirmation; identifying the simultaneous change-and-pay pattern shows you understand how the control was defeated.",
@@ -864,7 +864,7 @@ const SCENARIO_BEC_WIRE = {
         "Removing dual control eliminates a key fraud prevention mechanism; a single person is MORE susceptible to fraud, not less; this is backward from control theory.",
         -5
       )),
-    q("Finance", "The $312,000 is being written off as an operating loss. Your insurance will reimburse $262,000 after the deductible. You're preparing quarter-end financial statements and the external auditors are asking questions. The loss is material enough to require disclosure but your CEO is concerned about the reputational impact of discussing fraud in public filings. How do you handle the disclosure?",
+    q("Finance", "The $312,000 is being written off as an operating loss. Your insurance will reimburse $262,000 after the deductible. You're preparing quarter-end financial statements and the external auditors are asking questions. The loss is material enough to require disclosure but your CEO is concerned about the reputational impact of discussing fraud in public filings. How should the loss and insurance recovery be disclosed in quarter-end reporting?",
       buildChoices(
         "Disclose the loss and expected insurance recovery in the financial statements and notes as required by GAAP, keeping the description factual and concise. Work with auditors on appropriate wording; reputation concerns don't override reporting obligations.",
         "GAAP disclosure is required and non-negotiable; factual without excessive detail protects both compliance and reputation appropriately; auditor collaboration ensures proper treatment; clearly stating reputation doesn't override requirements shows appropriate priorities.",
@@ -879,7 +879,7 @@ const SCENARIO_BEC_WIRE = {
         "Comprehensive disclosure of control failures goes beyond required disclosure and creates unnecessary reputation and litigation risk; transparency is good but financial statement notes aren't the place for incident post-mortems.",
         -5
       )),
-    q("Finance", "Your vendor master file maintenance process requires documented approval for banking instruction changes, but the documentation is a simple email from the requestor's manager. The fraudster's request included what appeared to be appropriate approval. You need to strengthen the process but your procurement team is concerned about adding friction to vendor management. How do you balance control and efficiency?",
+    q("Finance", "Your vendor master file maintenance process requires documented approval for banking instruction changes, but the documentation is a simple email from the requestor's manager. The fraudster's request included what appeared to be appropriate approval. You need to strengthen the process but your procurement team is concerned about adding friction to vendor management. How do you balance control and efficiency for vendor banking updates?",
       buildChoices(
         "Adopt tiered verification: basic administrative updates follow current process, but banking instruction changes require enhanced checks and independent callback verification. Limit friction to high-risk changes and frame it as protecting both vendor and bank.",
         "Tiered approach adds friction only where risk justifies it; independent verification addresses the core vulnerability; distinguishing banking from other details shows risk-based thinking; framing as mutual protection addresses vendor relationship concerns.",
