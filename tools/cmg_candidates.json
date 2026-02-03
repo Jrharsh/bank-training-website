@@ -1,0 +1,957 @@
+{
+  "total": 200,
+  "candidates": [
+    {
+      "department": "CEO/SVPs",
+      "question": "By noon, restoration estimates are 5-7 days. The ransom group sometimes provides working keys; insurance may cover payment; law enforcement ",
+      "top": 8,
+      "second": 4,
+      "diff": 4
+    },
+    {
+      "department": "Accounting",
+      "question": "Your CFO wants to accelerate the insurance recovery recognition to offset the fraud loss impact on quarterly earnings. The insurance company",
+      "top": 10,
+      "second": 6,
+      "diff": 4
+    },
+    {
+      "department": "Accounting",
+      "question": "Six months after the incident, you're preparing for the external audit. The auditors want to understand your fraud risk assessment and wheth",
+      "top": 10,
+      "second": 6,
+      "diff": 4
+    },
+    {
+      "department": "Deposits",
+      "question": "A business customer comes to your branch claiming they received a fraudulent email appearing to be from your bank requesting they verify the",
+      "top": 10,
+      "second": 6,
+      "diff": 4
+    },
+    {
+      "department": "Deposits",
+      "question": "Following the BEC incident, your tellers are now questioning every wire transfer request more thoroughly. A longtime business customer is fr",
+      "top": 10,
+      "second": 6,
+      "diff": 4
+    },
+    {
+      "department": "Deposits",
+      "question": "A business customer reports that their bookkeeper wired $23,000 to a fraudulent account after receiving a BEC email impersonating one of the",
+      "top": 10,
+      "second": 6,
+      "diff": 4
+    },
+    {
+      "department": "HR",
+      "question": "An examiner wants to interview the employee who handles BSA suspicious activity report (SAR) filings. This employee has been covering BSA du",
+      "top": 10,
+      "second": 6,
+      "diff": 4
+    },
+    {
+      "department": "HR",
+      "question": "During the second week, staff morale is deteriorating. Examiners have been critical in several interviews, a rumor is spreading that the ban",
+      "top": 10,
+      "second": 6,
+      "diff": 4
+    },
+    {
+      "department": "HR",
+      "question": "After the exam concludes, you receive word that findings will include criticism of inadequate staffing in compliance functions, specifically",
+      "top": 10,
+      "second": 6,
+      "diff": 4
+    },
+    {
+      "department": "Finance",
+      "question": "Examiners are reviewing your Allowance for Credit Losses (ACL) methodology and have questions about your qualitative adjustment factors. You",
+      "top": 10,
+      "second": 6,
+      "diff": 4
+    },
+    {
+      "department": "Finance",
+      "question": "The liquidity examiner asks about your contingency funding plan. Upon review, you realize the plan hasn't been updated in 14 months and stil",
+      "top": 10,
+      "second": 6,
+      "diff": 4
+    },
+    {
+      "department": "Finance",
+      "question": "On the last day, the Examiner-in-Charge mentions that the exam will include a Matter Requiring Attention (MRA) related to liquidity risk man",
+      "top": 10,
+      "second": 6,
+      "diff": 4
+    },
+    {
+      "department": "Loans",
+      "question": "The credit examiner is reviewing your largest criticized assets and asks for the credit file on an approximately three million two hundred t",
+      "top": 10,
+      "second": 6,
+      "diff": 4
+    },
+    {
+      "department": "Loans",
+      "question": "The examiner identifies 3 loans totaling $1.8 million that they believe should be downgraded from Pass to Special Mention based on borrower ",
+      "top": 10,
+      "second": 6,
+      "diff": 4
+    },
+    {
+      "department": "Loans",
+      "question": "Near the end of the exam, you learn that the credit examiner intends to classify a $4.7 million relationship as Loss (requiring immediate ch",
+      "top": 10,
+      "second": 6,
+      "diff": 4
+    },
+    {
+      "department": "Accounting",
+      "question": "The examiner reviewing your audit function asks about the status of internal audit findings from the past 18 months. You know that 12 of 47 ",
+      "top": 10,
+      "second": 6,
+      "diff": 4
+    },
+    {
+      "department": "Accounting",
+      "question": "During the exam, examiners identify what they believe is an error in your Call Report from two quarters ago - a classification issue that wo",
+      "top": 10,
+      "second": 6,
+      "diff": 4
+    },
+    {
+      "department": "Accounting",
+      "question": "On the final day, examiners provide a list of documents they're taking copies of for their workpapers. You notice the list includes internal",
+      "top": 10,
+      "second": 6,
+      "diff": 4
+    },
+    {
+      "department": "Deposits",
+      "question": "Examiners want to observe branch operations and customer interactions. Your branches have been informed of the exam but not specifically pre",
+      "top": 10,
+      "second": 6,
+      "diff": 4
+    },
+    {
+      "department": "Deposits",
+      "question": "An examiner observing branch operations witnesses a teller override a system warning on a cash transaction just below the CTR threshold. The",
+      "top": 10,
+      "second": 10,
+      "diff": 0
+    },
+    {
+      "department": "Deposits",
+      "question": "After the examination concludes, you receive the preliminary findings. One finding criticizes your deposit account opening procedures for in",
+      "top": 10,
+      "second": 6,
+      "diff": 4
+    },
+    {
+      "department": "CEO/SVPs",
+      "question": "It's now 6 AM the morning after landfall. Your Business Continuity Plan calls for an 8 AM executive briefing, but your Chief Operations Offi",
+      "top": 10,
+      "second": 6,
+      "diff": 4
+    },
+    {
+      "department": "CEO/SVPs",
+      "question": "By Day 2, you learn a competitor bank is running radio ads promoting their 'full service availability' and offering fee waivers to new custo",
+      "top": 10,
+      "second": 6,
+      "diff": 4
+    },
+    {
+      "department": "CEO/SVPs",
+      "question": "On Day 3, a regional TV station is running a story about elderly customers unable to access medication money due to branch closures and ATM ",
+      "top": 10,
+      "second": 6,
+      "diff": 4
+    },
+    {
+      "department": "IT/Security",
+      "question": "Your core processor reports their backup generator fuel supply will last approximately 36 more hours if utility power isn't restored. They'r",
+      "top": 10,
+      "second": 6,
+      "diff": 4
+    },
+    {
+      "department": "IT/Security",
+      "question": "Your security team reports a 400% increase in phishing emails targeting customers with subjects like 'Urgent: Verify your account for disast",
+      "top": 10,
+      "second": 6,
+      "diff": 4
+    },
+    {
+      "department": "IT/Security",
+      "question": "A branch manager calls reporting that water damage from roof intrusion has affected a server closet containing a local network switch, a cas",
+      "top": 10,
+      "second": 6,
+      "diff": 4
+    },
+    {
+      "department": "HR",
+      "question": "It's Day 2 and you're getting reports that several employees are being pressured by their managers to report to work despite the shelter-in-",
+      "top": 10,
+      "second": 5,
+      "diff": 5
+    },
+    {
+      "department": "HR",
+      "question": "An employee at a flooded branch contacts you directly, bypassing their manager, to report that they lost their home in the storm and are sta",
+      "top": 10,
+      "second": 6,
+      "diff": 4
+    },
+    {
+      "department": "HR",
+      "question": "As branches begin reopening on Day 4, you're facing a staffing puzzle: some employees are eager to return to work and normalcy, others are s",
+      "top": 10,
+      "second": 6,
+      "diff": 4
+    },
+    {
+      "department": "Finance",
+      "question": "Cash demand has spiked dramatically - your open branches and ATMs are experiencing 3x normal withdrawal volumes. Armored car service is oper",
+      "top": 10,
+      "second": 6,
+      "diff": 4
+    },
+    {
+      "department": "Finance",
+      "question": "Your insurance carrier is requesting damage documentation within 72 hours for expedited claims processing. However, two damaged branches are",
+      "top": 10,
+      "second": 6,
+      "diff": 4
+    },
+    {
+      "department": "Finance",
+      "question": "On Day 5, your CFO is assembling a board presentation on financial impact. Current estimates show $400K in direct damage, $150K in emergency",
+      "top": 10,
+      "second": 6,
+      "diff": 4
+    },
+    {
+      "department": "Loans",
+      "question": "Multiple commercial borrowers are contacting you about their businesses being affected by the storm. One restaurant owner's building is dest",
+      "top": 10,
+      "second": 6,
+      "diff": 4
+    },
+    {
+      "department": "Loans",
+      "question": "A consumer borrower who lost their home calls requesting immediate forbearance on their mortgage. Upon pulling their file, you see they were",
+      "top": 10,
+      "second": 6,
+      "diff": 4
+    },
+    {
+      "department": "Loans",
+      "question": "Your mortgage team is receiving requests for disaster-related appraisal waivers and inspection deferrals on loans in the pipeline. Waiving a",
+      "top": 10,
+      "second": 6,
+      "diff": 4
+    },
+    {
+      "department": "Accounting",
+      "question": "Your branch managers are making ad-hoc decisions to waive fees, reverse charges, and provide emergency credits to customers affected by the ",
+      "top": 10,
+      "second": 6,
+      "diff": 4
+    },
+    {
+      "department": "Accounting",
+      "question": "The water-damaged branch had physical cash in a teller vault and cash recycler that was exposed to contamination. The cash is technically le",
+      "top": 10,
+      "second": 6,
+      "diff": 4
+    },
+    {
+      "department": "Accounting",
+      "question": "As you prepare month-end close, you need to determine how to account for various storm-related items: committed but unprocessed fee waivers,",
+      "top": 10,
+      "second": 5,
+      "diff": 5
+    },
+    {
+      "department": "Deposits",
+      "question": "An elderly customer comes to your one operational branch with a $5,000 check from FEMA, requesting immediate cash. Your standard policy requ",
+      "top": 10,
+      "second": 6,
+      "diff": 4
+    },
+    {
+      "department": "Deposits",
+      "question": "Your mobile and online banking platforms are experiencing intermittent failures due to the regional infrastructure issues. Customer complain",
+      "top": 10,
+      "second": 6,
+      "diff": 4
+    },
+    {
+      "department": "Deposits",
+      "question": "As branches reopen, you're seeing customers with unusual requests: large cash withdrawals for home repairs, requests to add family members t",
+      "top": 10,
+      "second": 6,
+      "diff": 4
+    },
+    {
+      "department": "CEO/SVPs",
+      "question": "Legal advises that pursuing the former employee aggressively could trigger a wrongful termination countersuit, as the performance issues wer",
+      "top": 10,
+      "second": 5,
+      "diff": 5
+    },
+    {
+      "department": "CEO/SVPs",
+      "question": "The competing bank's CEO calls your CEO directly, claiming they knew nothing about the data access and offering to 'cooperate fully.' They s",
+      "top": 10,
+      "second": 5,
+      "diff": 5
+    },
+    {
+      "department": "CEO/SVPs",
+      "question": "A board member who championed the terminated employee's hiring 12 years ago calls asking for details about 'what went wrong.' They hint that",
+      "top": 10,
+      "second": 5,
+      "diff": 5
+    },
+    {
+      "department": "IT/Security",
+      "question": "Forensic analysis reveals the 'emergency' service account was created by the employee 18 months ago with IT management approval for a specif",
+      "top": 10,
+      "second": 5,
+      "diff": 5
+    },
+    {
+      "department": "IT/Security",
+      "question": "The downloaded data includes a spreadsheet titled 'Customer_Contacts_Export.xlsx' with 12,000 records. Legal asks whether this constitutes a",
+      "top": 12,
+      "second": 10,
+      "diff": 2
+    },
+    {
+      "department": "IT/Security",
+      "question": "Security identifies that the employee also had access to the bank's GitHub repository containing proprietary loan pricing algorithms. Downlo",
+      "top": 10,
+      "second": 5,
+      "diff": 5
+    },
+    {
+      "department": "HR",
+      "question": "The terminated employee's former direct reports are asking HR why their manager 'really' left. Rumors are circulating that the termination w",
+      "top": 10,
+      "second": 5,
+      "diff": 5
+    },
+    {
+      "department": "HR",
+      "question": "The employee's emergency contact— their spouse — calls HR demanding to know why their husband/wife was 'treated so unfairly' and threatening",
+      "top": 10,
+      "second": 5,
+      "diff": 5
+    },
+    {
+      "department": "HR",
+      "question": "Exit interview notes from two months ago show the employee expressed frustration about being 'passed over' for promotion and feeling 'underv",
+      "top": 10,
+      "second": 5,
+      "diff": 5
+    },
+    {
+      "department": "Finance",
+      "question": "The downloaded pricing models could allow the competing bank to undercut your commercial loan pricing. Early analysis suggests potential rev",
+      "top": 10,
+      "second": 5,
+      "diff": 5
+    },
+    {
+      "department": "Finance",
+      "question": "The former employee had approval authority for fee waivers up to $10,000. Audit wants to review all waivers they approved in the past 12 mon",
+      "top": 10,
+      "second": 5,
+      "diff": 5
+    },
+    {
+      "department": "Finance",
+      "question": "The incident response and potential litigation costs are estimated at $150-300K, which wasn't budgeted. The CFO asks how to account for this",
+      "top": 10,
+      "second": 5,
+      "diff": 5
+    },
+    {
+      "department": "Loans",
+      "question": "The downloaded files include detailed pricing and terms for 47 pending commercial loan proposals. Several of these deals are in competitive ",
+      "top": 10,
+      "second": 5,
+      "diff": 5
+    },
+    {
+      "department": "Loans",
+      "question": "A commercial borrower whose loan file was downloaded calls asking if their information was stolen. They're concerned because they're in the ",
+      "top": 10,
+      "second": 5,
+      "diff": 5
+    },
+    {
+      "department": "Loans",
+      "question": "The loan operations team asks whether they should change any procedures given what happened. The former employee's access was appropriate fo",
+      "top": 10,
+      "second": 5,
+      "diff": 5
+    },
+    {
+      "department": "Accounting",
+      "question": "External auditors are on-site and have heard about the incident. They're asking whether it affects their assessment of internal controls ove",
+      "top": 10,
+      "second": 5,
+      "diff": 5
+    },
+    {
+      "department": "Accounting",
+      "question": "Legal asks Accounting to track all incident-related costs separately for potential insurance claims and litigation support. The costs are sp",
+      "top": 10,
+      "second": 5,
+      "diff": 5
+    },
+    {
+      "department": "Accounting",
+      "question": "The former employee's final paycheck and accrued PTO payout were processed before the data theft was discovered. Legal asks whether these am",
+      "top": 10,
+      "second": 5,
+      "diff": 5
+    },
+    {
+      "department": "Deposits",
+      "question": "A branch manager reports that the terminated employee came into a branch yesterday (before the data theft was discovered) and withdrew $5,00",
+      "top": 10,
+      "second": 5,
+      "diff": 5
+    },
+    {
+      "department": "Deposits",
+      "question": "Customer-facing staff are asking what to say if customers mention seeing news coverage of the 'data breach' at the bank. Local media has pic",
+      "top": 10,
+      "second": 5,
+      "diff": 5
+    },
+    {
+      "department": "Deposits",
+      "question": "A customer who runs a small business asks whether their confidential financial information could have been accessed. They're not a commercia",
+      "top": 10,
+      "second": 5,
+      "diff": 5
+    },
+    {
+      "department": "CEO/SVPs",
+      "question": "It's now 6:00 AM and you have no reliable information from the vendor about cause or restoration timeline. Your board chair is calling, cust",
+      "top": 10,
+      "second": 5,
+      "diff": 5
+    },
+    {
+      "department": "CEO/SVPs",
+      "question": "By noon, the vendor has provided three different restoration estimates, each pushed back within hours of being given. Customer complaints ar",
+      "top": 10,
+      "second": 5,
+      "diff": 5
+    },
+    {
+      "department": "CEO/SVPs",
+      "question": "It's now 8:00 PM on day one - the outage has lasted 16 hours with no clear end in sight. Your primary regulator calls asking about your busi",
+      "top": 10,
+      "second": 5,
+      "diff": 5
+    },
+    {
+      "department": "IT/Security",
+      "question": "Your ATMs are running on local cash reserves and cached authorization data, but the cache is getting stale. Some customers are seeing 'balan",
+      "top": 10,
+      "second": 5,
+      "diff": 5
+    },
+    {
+      "department": "IT/Security",
+      "question": "The vendor's technical team asks for remote access to your firewall management console to troubleshoot why your connection isn't restoring w",
+      "top": 10,
+      "second": 5,
+      "diff": 5
+    },
+    {
+      "department": "IT/Security",
+      "question": "By day two, your connectivity is restored but you're discovering data synchronization issues: some transactions processed through manual wor",
+      "top": 10,
+      "second": 5,
+      "diff": 5
+    },
+    {
+      "department": "HR",
+      "question": "Branch staff have been handling frustrated customers for 10 hours with no system access. Several tellers have reported crying in the break r",
+      "top": 10,
+      "second": 5,
+      "diff": 5
+    },
+    {
+      "department": "HR",
+      "question": "The manager who walked off mid-shift sends a text message saying they quit and aren't coming back. They were a 7-year employee with strong p",
+      "top": 10,
+      "second": 5,
+      "diff": 5
+    },
+    {
+      "department": "HR",
+      "question": "After the outage is resolved, several employees express frustration that they weren't compensated for the exceptional stress and extended ho",
+      "top": 10,
+      "second": 5,
+      "diff": 5
+    },
+    {
+      "department": "Finance",
+      "question": "Your merchant services customers (businesses that process card payments through you) have lost 16+ hours of payment processing capability. S",
+      "top": 10,
+      "second": 5,
+      "diff": 5
+    },
+    {
+      "department": "Finance",
+      "question": "The CFO asks for an estimate of total incident costs for the board meeting tomorrow. You have confirmed fee waivers of approximately forty-s",
+      "top": 10,
+      "second": 5,
+      "diff": 5
+    },
+    {
+      "department": "Finance",
+      "question": "Your cyber insurance policy potentially covers business interruption from vendor outages, but the deductible is $100,000 and estimated quant",
+      "top": 32,
+      "second": 10,
+      "diff": 22
+    },
+    {
+      "department": "Loans",
+      "question": "You have a $2.3 million commercial real estate closing scheduled for today - the largest of the quarter. The title company is ready, the bor",
+      "top": 10,
+      "second": 5,
+      "diff": 5
+    },
+    {
+      "department": "Loans",
+      "question": "Several mortgage borrowers with payments due today are calling concerned because they can't access online banking to make their payments and",
+      "top": 10,
+      "second": 5,
+      "diff": 5
+    },
+    {
+      "department": "Loans",
+      "question": "A commercial borrower calls saying they need to draw approximately five hundred thousand dollars from their line of credit today to meet pay",
+      "top": 10,
+      "second": 5,
+      "diff": 5
+    },
+    {
+      "department": "Accounting",
+      "question": "It's day two and you've been processing transactions through manual workarounds: paper tickets, spreadsheets, and email authorizations. You ",
+      "top": 10,
+      "second": 5,
+      "diff": 5
+    },
+    {
+      "department": "Accounting",
+      "question": "Systems are restored but the reconciliation reveals an approximately forty-seven thousand dollar discrepancy between your manual records and",
+      "top": 10,
+      "second": 5,
+      "diff": 5
+    },
+    {
+      "department": "Accounting",
+      "question": "The vendor is offering a 15% service credit on your monthly core processing fees for the next 12 months as compensation for the outage. This",
+      "top": 10,
+      "second": 5,
+      "diff": 5
+    },
+    {
+      "department": "Deposits",
+      "question": "A business customer calls saying they're a restaurant and need to make their daily deposit of $12,000 in cash - they have no secure place to",
+      "top": 10,
+      "second": 5,
+      "diff": 5
+    },
+    {
+      "department": "Deposits",
+      "question": "After systems restore, you discover that 23 customers were incorrectly charged overdraft fees during the outage due to timing issues with pe",
+      "top": 10,
+      "second": 5,
+      "diff": 5
+    },
+    {
+      "department": "CEO/SVPs",
+      "question": "Regulators reached out before the bank formally escalated. What is the most defensible leadership approach in the first response?",
+      "top": 10,
+      "second": 5,
+      "diff": 5
+    },
+    {
+      "department": "IT/Security",
+      "question": "Regulators want a timeline explaining what customers experienced versus what systems recorded. How should IT/Security reconstruct it most cr",
+      "top": 10,
+      "second": 5,
+      "diff": 5
+    },
+    {
+      "department": "HR",
+      "question": "Complaints cite inconsistent explanations at branches and the contact center. What HR action best demonstrates control without implying faul",
+      "top": 10,
+      "second": 5,
+      "diff": 5
+    },
+    {
+      "department": "Finance",
+      "question": "Customer complaints include fees tied to delays. How should Finance handle reversals while maintaining both fairness and defensibility?",
+      "top": 10,
+      "second": 5,
+      "diff": 5
+    },
+    {
+      "department": "Loans",
+      "question": "Loan customers report delayed postings and conflicting guidance. What approach keeps remediation consistent while operations are still stabi",
+      "top": 10,
+      "second": 5,
+      "diff": 5
+    },
+    {
+      "department": "Accounting",
+      "question": "Regulators request support for fee reversals, posting corrections, and customer impact. What documentation posture best holds up under revie",
+      "top": 10,
+      "second": 6,
+      "diff": 4
+    },
+    {
+      "department": "IT/Security",
+      "question": "What is the most defensible way to validate data integrity when primary logs are incomplete?",
+      "top": 10,
+      "second": 5,
+      "diff": 5
+    },
+    {
+      "department": "HR",
+      "question": "How should HR respond to employee stress and accountability concerns arising from customer-facing uncertainty?",
+      "top": 10,
+      "second": 6,
+      "diff": 4
+    },
+    {
+      "department": "Finance",
+      "question": "How should Finance assess financial exposure when transaction accuracy cannot be fully substantiated?",
+      "top": 10,
+      "second": 5,
+      "diff": 5
+    },
+    {
+      "department": "Loans",
+      "question": "How should loan payoff disputes be handled when supporting transaction history cannot be fully verified?",
+      "top": 10,
+      "second": 6,
+      "diff": 4
+    },
+    {
+      "department": "Accounting",
+      "question": "How should Accounting support auditability when transaction evidence is incomplete?",
+      "top": 10,
+      "second": 6,
+      "diff": 4
+    },
+    {
+      "department": "CEO/SVPs",
+      "question": "It's Monday morning and internal audit just briefed you on the findings. The suspected employee is currently at their desk. Their brother-in",
+      "top": 10,
+      "second": 5,
+      "diff": 5
+    },
+    {
+      "department": "CEO/SVPs",
+      "question": "After the employee is placed on administrative leave, their spouse (who doesn't work at the bank) calls the CEO's office threatening to 'go ",
+      "top": 10,
+      "second": 5,
+      "diff": 5
+    },
+    {
+      "department": "CEO/SVPs",
+      "question": "External auditors are scheduled to begin fieldwork in 3 weeks. Your CFO suggests delaying notification until you've completed your internal ",
+      "top": 10,
+      "second": 5,
+      "diff": 5
+    },
+    {
+      "department": "IT/Security",
+      "question": "The suspected employee had administrator-level access to core banking, wire transfer systems, and the data warehouse. Their access was termi",
+      "top": 10,
+      "second": 5,
+      "diff": 5
+    },
+    {
+      "department": "IT/Security",
+      "question": "Forensic analysis reveals the employee ran data warehouse queries over the past year that returned information on 12,000 dormant accounts - ",
+      "top": 340,
+      "second": 12,
+      "diff": 328
+    },
+    {
+      "department": "IT/Security",
+      "question": "The investigation reveals the employee was using a generic 'operations support' account for some of the fraudulent transactions rather than ",
+      "top": 10,
+      "second": 5,
+      "diff": 5
+    },
+    {
+      "department": "HR",
+      "question": "The suspected employee's brother-in-law (their manager) insists he had no knowledge of the scheme and wants to cooperate fully. However, aud",
+      "top": 10,
+      "second": 5,
+      "diff": 5
+    },
+    {
+      "department": "HR",
+      "question": "Word has spread through the operations department that a long-tenured employee was escorted out and their manager is on leave. Rumors are ci",
+      "top": 10,
+      "second": 5,
+      "diff": 5
+    },
+    {
+      "department": "HR",
+      "question": "During the investigation, another employee comes forward claiming they raised concerns about the suspected employee's reconciliation practic",
+      "top": 10,
+      "second": 5,
+      "diff": 5
+    },
+    {
+      "department": "Finance",
+      "question": "You need to determine the full financial impact for board reporting and regulatory notification. The confirmed losses are $127,000, but the ",
+      "top": 127,
+      "second": 127,
+      "diff": 0
+    },
+    {
+      "department": "Finance",
+      "question": "The $127,000 in identified losses came from 340 customer accounts. These customers need to be made whole. The amounts range from $50 to $2,1",
+      "top": 10,
+      "second": 5,
+      "diff": 5
+    },
+    {
+      "department": "Finance",
+      "question": "Your primary regulator needs to be notified of the fraud. You have 30 days under SAR filing requirements, but there's also a question of pro",
+      "top": 10,
+      "second": 5,
+      "diff": 5
+    },
+    {
+      "department": "Loans",
+      "question": "Review of the suspected employee's activities shows they processed 47 loan payoff adjustments in the past year. These adjustments reduced pa",
+      "top": 10,
+      "second": 5,
+      "diff": 5
+    },
+    {
+      "department": "Loans",
+      "question": "The investigation reveals the suspected employee also had approval authority for loan modifications up to $250,000. There's no evidence of m",
+      "top": 10,
+      "second": 5,
+      "diff": 5
+    },
+    {
+      "department": "Loans",
+      "question": "A borrower calls asking why they received a letter about an 'account review' for their loan modification that was approved 18 months ago. Th",
+      "top": 10,
+      "second": 5,
+      "diff": 5
+    },
+    {
+      "department": "Accounting",
+      "question": "The fraud losses will appear in your financial statements. Your controller asks how to classify and disclose them. The amounts ($127,000 con",
+      "top": 10,
+      "second": 5,
+      "diff": 5
+    },
+    {
+      "department": "Accounting",
+      "question": "The external auditors have arrived for their annual fieldwork. You previously notified them of the fraud. They're now asking to expand their",
+      "top": 10,
+      "second": 5,
+      "diff": 5
+    },
+    {
+      "department": "Accounting",
+      "question": "During expanded testing, auditors discover that the generic 'operations support' account used by the fraudster had been flagged in a prior-y",
+      "top": 10,
+      "second": 5,
+      "diff": 5
+    },
+    {
+      "department": "Deposits",
+      "question": "The 340 affected customer accounts are all dormant. Many haven't had activity in 2+ years. Under your state's escheatment laws, some of thes",
+      "top": 10,
+      "second": 5,
+      "diff": 5
+    },
+    {
+      "department": "Deposits",
+      "question": "Branch staff are asking how to handle the situation if they recognize the name of the employee on administrative leave from news coverage or",
+      "top": 10,
+      "second": 5,
+      "diff": 5
+    },
+    {
+      "department": "Deposits",
+      "question": "One of the 340 affected customers is a personal account belonging to a state legislator who has been publicly critical of the banking indust",
+      "top": 10,
+      "second": 5,
+      "diff": 5
+    },
+    {
+      "department": "CEO/SVPs",
+      "question": "The Fed operations desk calls asking whether you want to resubmit before the 9:00 AM window closes or wait for the afternoon window. Your op",
+      "top": 10,
+      "second": 5,
+      "diff": 5
+    },
+    {
+      "department": "CEO/SVPs",
+      "question": "A board member calls after seeing social media complaints about 'bounced paychecks.' They want to know why they're learning about this from ",
+      "top": 10,
+      "second": 5,
+      "diff": 5
+    },
+    {
+      "department": "CEO/SVPs",
+      "question": "Your largest payroll client�a hospital system with 2,400 employees�calls the CEO directly. Their employees didn't receive direct deposits an",
+      "top": 10,
+      "second": 5,
+      "diff": 5
+    },
+    {
+      "department": "IT/Security",
+      "question": "Initial analysis shows the file corruption occurred after the ACH origination system handed off to the file transfer platform. The transfer ",
+      "top": 10,
+      "second": 5,
+      "diff": 5
+    },
+    {
+      "department": "IT/Security",
+      "question": "The corrected file is ready for the afternoon window. Your standard change management process requires 24-hour review for production file ch",
+      "top": 10,
+      "second": 5,
+      "diff": 5
+    },
+    {
+      "department": "IT/Security",
+      "question": "During the incident, you discover the ACH origination system has been running on an unsupported operating system version for 8 months due to",
+      "top": 10,
+      "second": 5,
+      "diff": 5
+    },
+    {
+      "department": "HR",
+      "question": "Operations staff have been working since 5:00 AM when the rejection was discovered. It's now 2:00 PM and the afternoon file has been submitt",
+      "top": 10,
+      "second": 5,
+      "diff": 5
+    },
+    {
+      "department": "HR",
+      "question": "A call center supervisor reports that two representatives broke down crying during difficult customer calls. Call volume remains elevated an",
+      "top": 10,
+      "second": 5,
+      "diff": 5
+    },
+    {
+      "department": "HR",
+      "question": "An operations employee posts on LinkedIn that the bank 'had a major ACH meltdown due to management cutting corners on system upgrades.' The ",
+      "top": 10,
+      "second": 5,
+      "diff": 5
+    },
+    {
+      "department": "Finance",
+      "question": "The Fed settlement for the rejected file didn't occur, but your correspondent bank funded customer accounts based on expected settlement. Yo",
+      "top": 10,
+      "second": 5,
+      "diff": 5
+    },
+    {
+      "department": "Finance",
+      "question": "Commercial clients are asking for fee credits due to the delayed payrolls. Some are demanding compensation for their own costs�employee comp",
+      "top": 10,
+      "second": 5,
+      "diff": 5
+    },
+    {
+      "department": "Finance",
+      "question": "The CFO asks for a financial impact summary for the board. Direct costs are clear but reputational impact and potential client attrition are",
+      "top": 10,
+      "second": 5,
+      "diff": 5
+    },
+    {
+      "department": "Loans",
+      "question": "Several auto loan payments that were in the failed file have now missed their due dates. The loan system has automatically assessed late fee",
+      "top": 10,
+      "second": 5,
+      "diff": 5
+    },
+    {
+      "department": "Loans",
+      "question": "A mortgage payment in the failed file was for a borrower on a loss mitigation plan with strict payment timing requirements. Missing the paym",
+      "top": 10,
+      "second": 5,
+      "diff": 5
+    },
+    {
+      "department": "Loans",
+      "question": "The failed file included escrow disbursements for property tax payments with a county deadline of today. If taxes aren't received by the cou",
+      "top": 10,
+      "second": 5,
+      "diff": 5
+    },
+    {
+      "department": "Accounting",
+      "question": "The failed and corrected files will create reconciliation complexity�some transactions will appear twice, some once, some with different eff",
+      "top": 10,
+      "second": 5,
+      "diff": 5
+    },
+    {
+      "department": "Accounting",
+      "question": "External auditors are currently on-site for quarterly procedures. They've heard about the incident and are asking for documentation. The inc",
+      "top": 10,
+      "second": 5,
+      "diff": 5
+    },
+    {
+      "department": "Accounting",
+      "question": "Late in the day, you discover that the original file and the corrected file both partially settled for a subset of transactions, creating du",
+      "top": 10,
+      "second": 5,
+      "diff": 5
+    },
+    {
+      "department": "Deposits",
+      "question": "Branch managers report that customers whose bill payments failed are bringing in disconnect notices from utilities and demanding the bank fi",
+      "top": 10,
+      "second": 5,
+      "diff": 5
+    },
+    {
+      "department": "Deposits",
+      "question": "A small business customer whose payroll was in the failed file is at the branch with employees who can't access their pay. The business owne",
+      "top": 10,
+      "second": 5,
+      "diff": 5
+    },
+    {
+      "department": "Deposits",
+      "question": "Call center representatives report that some customers are threatening to close accounts and 'go to the press' about the failed payroll depo",
+      "top": 10,
+      "second": 5,
+      "diff": 5
+    }
+  ]
+}

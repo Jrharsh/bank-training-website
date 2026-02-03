@@ -371,7 +371,7 @@ const SCENARIO_LIQUIDITY = {
     // CEO/SVPs
     q("CEO/SVPs", "It's 7:15 AM and you're seeing alarming social media posts: a regional bank in your state was closed by regulators last night, and Twitter threads are claiming 'community banks are next.' Your branch managers are already texting - customers are lined up before opening asking to withdraw funds. Your online banking shows a 340% spike in login attempts. Local TV news is setting up outside your main branch. What's your immediate action?",
       buildChoices(
-        "Convene the crisis leadership team for a short standup, verify liquidity with Treasury, and issue a concise, factual customer message to branches and digital channels with talking points and a named media spokesperson.",
+        "Convene the crisis leadership team for a short standup, have Treasury verify liquidity, and issue a concise factual message with talking points for branches and digital channels.",
         "A short, coordinated standup plus factual messages arms frontline staff and keeps communications consistent while letting Treasury confirm facts; it balances speed and accuracy.",
         10,
         "Wait to see how the morning develops before making any statements - the social media panic might subside on its own.",
@@ -386,7 +386,7 @@ const SCENARIO_LIQUIDITY = {
       )),
     q("CEO/SVPs", "By noon, you've handled the morning rush successfully - no customer was unable to access funds. However, withdrawal volume is 8x normal. Your Treasury team reports that if this pace continues for 3 days, you'll need to tap your contingency credit line with the FHLB. A board member calls asking if the bank is in trouble. A reporter is requesting an interview. Your regulator's examiner calls asking for a status update. How do you prioritize?",
       buildChoices(
-        "All three communications are important and interconnected. Brief the board member first with facts (morning handled, liquidity adequate, contingency plans ready, monitoring situation). Return the regulator call promptly with the same factual update - they should hear from you, not news reports. For the reporter, provide a brief statement through your spokesperson - overcommunicating beats being seen as hiding.",
+        "All three communications matter. Brief the board with facts, return the regulator call promptly with the same update, and provide a concise spokesperson statement to the reporter so stakeholders hear from you first.",
         "Board member needs information to fulfill governance role; regulator communication maintains the relationship and prevents them from forming concerns based on external information; reporter statement provides your perspective rather than 'bank declined to comment.'",
         10,
         "Focus on the regulator call first since they have authority over your bank; the board member and reporter can wait.",
@@ -401,7 +401,7 @@ const SCENARIO_LIQUIDITY = {
       )),
     q("CEO/SVPs", "It's Day 3. Withdrawal activity has slowed to 2x normal, which is sustainable. However, a community Facebook group is circulating a rumor that your bank is 'about to be sold to a big bank' and that's why people should move their money before accounts are frozen. The rumor is completely false - you have no sale discussions. Your marketing team wants to post a denial. Your lawyer advises saying nothing to avoid dignifying the rumor. What do you decide?",
       buildChoices(
-        "Address it directly but strategically: post a clear, factual statement that no sale discussions exist and the bank remains committed to the community. Don't engage in back-and-forth with rumor sources. Have branch staff prepared to address the rumor if customers ask. The 'don't dignify it' advice works when rumors are contained - this one is driving behavior.",
+        "Address it directly but succinctly: post a factual statement that no sale discussions exist, prepare branch staff with consistent talking points, and avoid extended back-and-forth with rumor sources.",
         "Direct address stops the rumor's spread; factual statement is defensible; not engaging in back-and-forth avoids amplification; branch preparation ensures consistent response; recognizing the rumor is driving behavior distinguishes this from ignorable noise.",
         10,
         "Post a detailed history of the bank's community commitment and all the reasons you'd never sell to a big bank.",
@@ -418,7 +418,7 @@ const SCENARIO_LIQUIDITY = {
     // IT/Security
     q("IT/Security", "The 340% spike in online banking logins is creating performance issues. Page load times have tripled and some customers are getting timeout errors, which is fueling fears that the bank is 'locking people out of their accounts.' Your team can add server capacity, but it will take 4-6 hours. Alternatively, you could implement rate limiting that would slow down heavy users. What's your approach?",
       buildChoices(
-        "Implement both: begin the capacity expansion immediately AND deploy intelligent rate limiting that slows automated/bot traffic while preserving normal customer access. Prioritize login and balance-check functions over less critical features. Communicate proactively that you're experiencing high volume and expanding capacity - don't let customers discover issues without explanation.",
+        "Begin capacity expansion and deploy targeted rate limiting to reduce automated traffic while preserving normal customer access. Prioritize login and balance-checks and communicate briefly about high volume and capacity work.",
         "Both actions work faster together than either alone; intelligent rate limiting preserves legitimate access; prioritizing critical functions focuses resources; proactive communication prevents 'locked out' narrative.",
         10,
         "Focus only on adding capacity - rate limiting will make customers feel restricted at exactly the wrong time.",
@@ -433,7 +433,7 @@ const SCENARIO_LIQUIDITY = {
       )),
     q("IT/Security", "Your security team notices that concurrent with the legitimate traffic spike, there's an uptick in credential stuffing attempts - attackers are apparently using the crisis as cover to try to break into accounts using stolen credentials from other breaches. Normally you'd implement additional authentication challenges, but your customer service lines are already overwhelmed. What do you do?",
       buildChoices(
-        "Implement risk-based authentication that triggers additional verification only for genuinely suspicious patterns (new device + new location + rapid repeated attempts) rather than broad challenges. This catches the actual attacks while minimizing friction for legitimate customers who are already anxious. Brief your fraud team on the pattern.",
+        "Deploy risk-based authentication that prompts extra checks only for high-risk patterns (new device/location or rapid repeats) to limit friction for legitimate users, and brief fraud ops on the pattern.",
         "Risk-based approach balances security and customer experience; targeting genuinely suspicious patterns catches attackers without burdening legitimate users; fraud team briefing ensures coordinated response.",
         10,
         "Implement additional authentication for all logins to ensure security - customers will understand given the circumstances.",
@@ -448,7 +448,7 @@ const SCENARIO_LIQUIDITY = {
       )),
     q("IT/Security", "Day 2: A local tech blogger posts that they ran a speed test on your mobile app and it's 'failing' - they've posted screenshots showing slow load times and error messages. The post is getting shared by the same Facebook groups spreading the sale rumor. Your app is actually performing normally now that you've added capacity. Do you engage?",
       buildChoices(
-        "Respond factually and briefly: acknowledge the issues experienced on Day 1, explain that capacity was added, and note current performance is normal. Invite the blogger to re-test and offer to answer technical questions. Don't be defensive - they documented a real problem, even if it's now resolved.",
+        "Acknowledge the prior issues, explain capacity was added and current performance is normal, and offer to answer technical questions or invite a re-test—keep the tone factual and non-defensive.",
         "Factual acknowledgment doesn't deny the real problem they captured; explaining the fix shows responsiveness; inviting re-test demonstrates confidence; not being defensive builds credibility.",
         10,
         "Ignore it - engaging with tech bloggers and Facebook groups isn't worth the time and may amplify the story.",
@@ -465,7 +465,7 @@ const SCENARIO_LIQUIDITY = {
     // HR
     q("HR", "Your branch staff are exhausted and stressed. They've handled 5x normal customer volume for two days, many customers were upset or frightened, and several employees have reported being yelled at. One teller broke down crying during lunch break. A branch manager asks if they can close early today 'for employee wellbeing.' You're concerned about what early closure would signal during a liquidity event. How do you respond?",
       buildChoices(
-        "Don't close early - the signal would be harmful. Instead, provide immediate support: send additional staff from back office to help, authorize overtime premiums, bring in food, and have an HR representative visit to provide support and recognize their efforts. Schedule a debrief session for after hours. The teller who broke down should be offered EAP resources and excused if needed without stigma.",
+        "Avoid closing early if possible. Provide immediate support—temporary staff, overtime premiums, on-site HR support, and EAP access—then schedule an after-hours debrief. Excuse any staff needing immediate rest.",
         "Avoiding early closure prevents harmful signal; additional staff reduces burden on existing team; overtime premiums and food show appreciation tangibly; HR presence provides support; EAP referral helps the individual without forcing them to struggle through.",
         10,
         "Approve the early closure - employee wellbeing must come first, and customers can use ATMs and online banking.",
@@ -480,7 +480,7 @@ const SCENARIO_LIQUIDITY = {
       )),
     q("HR", "The next morning, three employees call in sick, including an experienced teller at your busiest branch. You suspect at least some of these are stress-related absences. Your operations manager wants to require documentation for any sick calls this week given the critical situation. You're concerned about the legal and morale implications. What's your guidance?",
       buildChoices(
-        "Don't require additional documentation - it's legally risky and the message it sends during a crisis is 'we don't trust you.' Instead, have managers reach out supportively to check on the employees. Authorize temp staffing or reallocate from other functions if needed. Address the root cause (stress) rather than policing the symptom (absences).",
+        "Avoid extra documentation requirements; have managers check in supportively, authorize temp or reallocated staffing as needed, and address stress drivers rather than policing absences.",
         "Documentation requirements during crisis are legally and morally problematic; supportive outreach shows care while gathering information; temp staffing addresses the operational need; root cause focus is correct approach.",
         10,
         "Implement the documentation requirement for this week only, given the extraordinary circumstances, and communicate the reason clearly.",
@@ -512,7 +512,7 @@ const SCENARIO_LIQUIDITY = {
     // Finance
     q("Finance", "Your Treasury team reports that you've drawn down $8 million in cash reserves over two days to meet withdrawal demand. Your total liquidity buffer is $45 million, so you're not in danger, but the burn rate is concerning. You have an untested $20 million line with the FHLB. Your CFO wants to draw $10 million from the FHLB line preemptively. The rate is 75bps higher than your cost of funds. What's your recommendation?",
       buildChoices(
-        "Draw the $10 million now. The carrying cost (roughly $75K annually if you hold it a year) is insurance against uncertainty. More importantly, it tests your contingency funding source - you'd rather discover any operational issues with the FHLB draw now than when you desperately need it. The rate differential is worth the peace of mind and proven access.",
+        "Draw the $10M now to establish buffer and test the contingency process; the carry cost is a modest insurance premium and confirming access now reduces operational risk later.",
         "Drawing now provides liquidity buffer and tests the process; carrying cost is reasonable insurance premium; discovering operational issues proactively is valuable; proven access gives confidence for further draws if needed.",
         10,
         "Wait until you've used another $10 million in reserves before drawing on the FHLB line - you have buffer remaining.",
@@ -653,7 +653,7 @@ const SCENARIO_LIQUIDITY = {
     // Deposits
     q("Deposits", "It's 9:15 AM on Day 1. A customer in your main branch lobby is loudly telling other waiting customers that they saw on the news this bank is 'in trouble' and everyone should get their money out. Several customers look alarmed. Your branch manager asks how to handle this. What's your guidance?",
       buildChoices(
-        "The branch manager should approach the customer calmly and privately, acknowledge their concern, offer to discuss it one-on-one, and provide factual information about the bank's condition. Don't argue publicly or try to silence them. If they continue to disrupt, calmly note that you're happy to serve all customers but the lobby isn't the place for speculation. Have another staff member attend to the alarmed customers with reassurance.",
+        "Approach the customer calmly and privately, acknowledge concern, offer one-on-one discussion and factual information, and have another staff member reassure other customers—avoid public confrontation.",
         "Calm private approach de-escalates without public confrontation; acknowledging concern validates feelings; factual information addresses the actual worry; not arguing publicly avoids making it a scene; attending to other customers prevents fear spreading.",
         10,
         "Ask the customer to leave if they're going to spread rumors - you can't allow that behavior in your branch.",
@@ -710,7 +710,7 @@ const SCENARIO_BEC_WIRE = {
     // CEO/SVPs
     q("CEO/SVPs", "Your wire operations supervisor calls with concerning news: a $847,000 wire transfer was requested via email from your largest construction vendor requesting a change to their banking instructions. The email came from the vendor's actual email address but your dual-control process flagged it because the payment amount doesn't match open invoices. The wire hasn't been sent yet. Your accounts payable clerk is certain the email is legitimate because she recognizes the signature block. What's your immediate directive?",
       buildChoices(
-        "Direct that no wire changes or payments be processed until verification through an independently sourced phone number - not one provided in the email. Have IT preserve the email headers and metadata. Convene your fraud response team within the hour to assess scope. The clerk's certainty based on signature blocks is exactly why BEC works.",
+        "Stop any wire changes or payments and verify the request using an independently sourced phone number (not one in the email). Preserve the email headers and convene the fraud response team promptly.",
         "Independent verification addresses the core BEC tactic of legitimate-appearing emails; preserving evidence enables investigation; convening the team treats this as the serious incident it may be; addressing the clerk's confidence helps prevent future incidents.",
         10,
         "Call the vendor's email address back asking them to confirm the request, since the email came from their legitimate domain.",
@@ -725,7 +725,7 @@ const SCENARIO_BEC_WIRE = {
       )),
     q("CEO/SVPs", "Two hours into your investigation, IT confirms the vendor's email account was compromised. The fraudster had access for 3 weeks and monitored invoice traffic. You discover that your bank actually sent a $312,000 wire last week based on a similar request that passed dual control because the amount matched an open invoice. The receiving bank is in Eastern Europe. Your CFO wants to know the communication plan. What do you prioritize?",
       buildChoices(
-        "Immediate law enforcement notification through your BSA/fraud team - time is critical for wire recovery. Notify your cyber insurance carrier. Contact the receiving bank through your correspondent network to attempt a freeze. Internal communication to staff about the attempted fraud (not the successful one yet). Hold external vendor communication until you've coordinated with law enforcement.",
+        "Notify law enforcement immediately through your BSA/fraud team and inform your cyber insurer. Contact the receiving bank via correspondent channels to request a freeze, preserve evidence, and coordinate external communications with law enforcement.",
         "Law enforcement notification enables SWIFT recall and international cooperation; insurance carrier notification meets policy requirements and may provide resources; receiving bank contact is time-sensitive; internal communication raises awareness without compromising investigation; LE coordination on external communications protects evidence.",
         10,
         "Immediately notify all vendors that your payment processes are compromised and they should verify all recent payments they've received from you.",
@@ -740,7 +740,7 @@ const SCENARIO_BEC_WIRE = {
       )),
     q("CEO/SVPs", "It's now Day 3. Law enforcement has opened an investigation but the $312,000 wire is unrecoverable - funds were moved within hours. Your insurance claim is in process with a $50,000 deductible. The compromised vendor is upset they weren't notified immediately and is questioning your security practices. Your board wants a briefing. A local business reporter has called asking about 'wire fraud at your bank.' How do you manage these competing demands?",
       buildChoices(
-        "Prioritize the board briefing with full facts, including what happened, financial impact, recovery status, and remediation steps. For the vendor, acknowledge their frustration, explain the law enforcement coordination requirement, and commit to helping them secure their systems. For the reporter, provide a brief factual statement coordinated with counsel - confirm you detected and are addressing a fraud attempt without discussing amounts or specifics.",
+        "Brief the board first with full facts and remediation plans. Acknowledge the vendor's concerns and explain law enforcement coordination. Provide the reporter a short, counsel-reviewed factual statement that doesn't compromise the investigation.",
         "Board briefing is governance priority with full transparency expected; vendor acknowledgment maintains the relationship while explaining constraints; reporter response is appropriately limited without being evasive; each audience gets appropriate information.",
         10,
         "Decline all external communication until the law enforcement investigation is complete, including no response to the reporter and limited vendor communication.",
@@ -757,7 +757,7 @@ const SCENARIO_BEC_WIRE = {
     // IT/Security
     q("IT/Security", "Upon examining the fraudulent email, you discover it came from the vendor's legitimate email server - their account was actually compromised, not spoofed. Your email security tools didn't flag it because DMARC/SPF passed. The fraudster used the real account to monitor invoice conversations and timed the request perfectly. What security improvements do you prioritize?",
       buildChoices(
-        "Implement or enhance external email banners that flag emails requesting payment changes regardless of authentication status. Deploy email conversation analysis tools that detect reply-chain hijacking. Add impersonation detection for known vendor contacts. DMARC/SPF protect against spoofing, not account compromise - your controls need to address both vectors.",
+        "Add or improve external email banners for payment-change requests, deploy conversation-analysis or impersonation detection, and target controls at reply-chain hijacking. DMARC/SPF don't prevent compromised accounts, so layered detection is needed.",
         "External banners address user awareness regardless of technical authentication; conversation analysis detects the specific BEC pattern used; impersonation detection adds another layer; acknowledging the DMARC limitation shows proper understanding of the threat model.",
         10,
         "Tighten DMARC policies to reject any email that doesn't perfectly authenticate from vendor domains.",
@@ -772,7 +772,7 @@ const SCENARIO_BEC_WIRE = {
       )),
     q("IT/Security", "Your wire operations team asks whether they should delete the fraudulent emails to prevent anyone from accidentally acting on similar requests. Your legal counsel wants to preserve all evidence. Marketing wants to use the emails as a training example. The compromised vendor is asking you to share the email headers so they can investigate their own breach. How do you handle the email evidence?",
       buildChoices(
-        "Preserve all original emails with full headers in a forensic manner - do not delete anything. Share headers with the vendor through a secure channel to help their investigation. Create sanitized versions (removing identifying details) for internal training only after law enforcement clears it. Evidence preservation takes priority over all other uses.",
+        "Preserve all original emails and headers in a forensic store; do not delete production copies. Share headers securely with the vendor and prepare sanitized training examples only after law enforcement review. Evidence preservation is the priority.",
         "Preservation is legally and investigatively critical; vendor sharing helps them remediate their compromise which protects everyone; sanitized training versions serve awareness without compromising evidence; law enforcement clearance ensures you don't interfere with investigation.",
         10,
         "Preserve the emails but decline to share anything with the vendor since they were the source of the compromise and sharing could expose your security practices.",
@@ -787,7 +787,7 @@ const SCENARIO_BEC_WIRE = {
       )),
     q("IT/Security", "A week after the incident, your email security vendor offers an emergency upgrade that includes AI-powered BEC detection, but it requires sending email content to their cloud for analysis. Your current email security is on-premises. The cost is $45,000 annually. Your CFO is skeptical about more spending after losing $312,000 and questions whether technology would have prevented this. How do you make your case?",
       buildChoices(
-        "Present a balanced analysis: the specific attack used legitimate email that passed authentication, so traditional tools had limited ability to detect it. AI/behavioral analysis might have flagged the unusual payment change request pattern. Address the cloud privacy concern honestly - evaluate the vendor's data handling practices. The CFO's skepticism is fair - technology alone won't prevent all BEC, but layered defenses improve odds.",
+        "Explain that this attack exploited a compromised, legitimately authenticated account, so behavior-based or AI analysis could add detection value. Evaluate the vendor's data handling and present cost/benefit and privacy trade-offs; technology helps but is one layer among many.",
         "Balanced analysis acknowledges technology limitations while explaining potential benefits; honest privacy evaluation shows security thinking; acknowledging CFO's skepticism shows you're not just seeking budget; layered defense framing is accurate.",
         10,
         "Argue strongly for the upgrade - $45,000 is nothing compared to the $312,000 loss, and opposing it puts the CFO at fault for any future fraud.",
@@ -804,7 +804,7 @@ const SCENARIO_BEC_WIRE = {
     // HR
     q("HR", "The accounts payable clerk who nearly approved the $847,000 wire is shaken - she keeps saying she 'almost lost the bank $847,000' and her supervisor reported she was crying at her desk. The clerk who actually approved the $312,000 wire last week hasn't been told yet that it was fraudulent. Both employees have clean records and good performance reviews. How do you handle the human element?",
       buildChoices(
-        "For the first clerk: acknowledge her distress, emphasize that she actually CAUGHT the fraud through her attention to invoice matching, and make clear she's not in trouble. For the second clerk: have a private, supportive conversation explaining what happened, emphasizing that the fraud was sophisticated, she followed procedures, and this is a learning moment, not a disciplinary matter. Both should receive enhanced training, not punishment.",
+        "Acknowledge the first clerk's distress and reaffirm that her vigilance helped catch an attempt; reassure her she's not in trouble. Privately support the second clerk, explain the sophistication of the fraud, and emphasize learning and training rather than punishment.",
         "First clerk reframing as success (she caught it) addresses her distress accurately; private supportive conversation for second clerk is appropriate given the circumstances; emphasizing sophistication and procedure-following acknowledges reality; training focus is appropriate for control failures, not performance failures.",
         10,
         "Treat both situations the same way - the fraud succeeded in one case due to luck, not different performance, so both clerks should receive identical support and training.",
@@ -819,7 +819,7 @@ const SCENARIO_BEC_WIRE = {
       )),
     q("HR", "Your CFO wants to implement mandatory BEC awareness training for all employees who handle payments, but your training calendar is full with required annual compliance training. The training vendor offers a 15-minute micro-learning module on BEC that could be deployed immediately, or a comprehensive 2-hour course available in 6 weeks. Your payment employees are already stressed from the incident. What's your training recommendation?",
       buildChoices(
-        "Deploy the 15-minute micro-learning immediately to capitalize on the incident's recency and awareness. Schedule the comprehensive training for after the current compliance cycle completes. Stress is actually a good motivator for retention right now - employees who just experienced a near-miss or actual fraud are more receptive to training than during routine compliance periods.",
+        "Deploy the 15-minute micro-learning now to capture the teachable moment, and schedule the full 2-hour course once the compliance calendar allows. Short, timely modules improve retention after an incident.",
         "Immediate micro-learning captures the teachable moment; comprehensive training later provides depth; stress-as-motivator is supported by adult learning research - relevant, timely training has better retention than abstract compliance training.",
         10,
         "Postpone all BEC training until the compliance training cycle is complete to avoid overwhelming employees and ensure proper attention to required training.",
@@ -834,7 +834,7 @@ const SCENARIO_BEC_WIRE = {
       )),
     q("HR", "Three months after the incident, you're conducting annual performance reviews. The clerk who approved the $312,000 fraudulent wire has otherwise excellent performance. Her supervisor asks whether the wire incident should be reflected in her review rating. The employee has not had any other issues and completed enhanced training. Other employees are aware of what happened. What guidance do you provide?",
       buildChoices(
-        "The incident should be acknowledged in the review narrative as a significant event that occurred, noting the enhanced training completed and any behavioral changes since. However, it should not negatively affect her rating since she followed existing procedures - the control failure was systemic, not individual. Document carefully given other employees' awareness.",
+        "Acknowledge the incident in the review narrative, note completed training and any improvements, but avoid lowering her rating since she followed procedures and the failure was systemic. Document the rationale given colleagues' awareness.",
         "Acknowledgment in narrative provides completeness; protecting rating recognizes she followed procedures; distinguishing systemic from individual failure is important; documentation awareness addresses potential perception issues.",
         10,
         "Exclude any mention of the incident from the review since she wasn't disciplined and including it would essentially be retroactive punishment.",
@@ -851,7 +851,7 @@ const SCENARIO_BEC_WIRE = {
     // Finance
     q("Finance", "Your wire operations procedures require dual control: one person initiates, another approves. Both must verify the payment matches approved invoices and confirm banking instructions against the vendor master file. The $312,000 fraud succeeded because the fraudster knew the exact invoice amount and the request asked to update the vendor master file simultaneously with the payment. Your auditors want to know how you'll prevent this. What control enhancement do you recommend?",
       buildChoices(
-        "Add a time-delay between vendor banking instruction changes and payment processing - changes to banking details should require a 24-48 hour seasoning period before payments can be processed to new accounts. Require out-of-band verification (phone call to independently sourced number) for any payment concurrent with or immediately following banking detail changes. The fraud exploited the simultaneous change-and-pay pattern.",
+        "Require a 24-48 hour waiting period after vendor banking changes before payments go to new accounts, and mandate out-of-band verification to an independently sourced contact for any payment soon after a detail change. This stops immediate change-and-pay exploitation.",
         "Time-delay addresses the specific attack pattern by preventing immediate exploitation of changed details; out-of-band verification adds human confirmation; identifying the simultaneous change-and-pay pattern shows you understand how the control was defeated.",
         10,
         "Require three-person approval for all wire transfers over a certain threshold instead of dual control.",
@@ -866,7 +866,7 @@ const SCENARIO_BEC_WIRE = {
       )),
     q("Finance", "The $312,000 is being written off as an operating loss. Your insurance will reimburse $262,000 after the deductible. You're preparing quarter-end financial statements and the external auditors are asking questions. The loss is material enough to require disclosure but your CEO is concerned about the reputational impact of discussing fraud in public filings. How do you handle the disclosure?",
       buildChoices(
-        "Disclose the loss and insurance recovery in appropriate financial statement line items and notes as required by GAAP. The disclosure should be factual without excessive detail - a fraud loss doesn't require you to explain exactly how it happened. Work with auditors to ensure adequate but not excessive disclosure. Reputation concerns don't override disclosure requirements.",
+        "Disclose the loss and expected insurance recovery in the financial statements and notes as required by GAAP, keeping the description factual and concise. Work with auditors on appropriate wording; reputation concerns don't override reporting obligations.",
         "GAAP disclosure is required and non-negotiable; factual without excessive detail protects both compliance and reputation appropriately; auditor collaboration ensures proper treatment; clearly stating reputation doesn't override requirements shows appropriate priorities.",
         10,
         "Defer to the CEO's concerns and work with auditors to characterize the loss in a way that doesn't mention fraud specifically - perhaps as a 'vendor dispute' or 'operational adjustment.'",
@@ -881,7 +881,7 @@ const SCENARIO_BEC_WIRE = {
       )),
     q("Finance", "Your vendor master file maintenance process requires documented approval for banking instruction changes, but the documentation is a simple email from the requestor's manager. The fraudster's request included what appeared to be appropriate approval. You need to strengthen the process but your procurement team is concerned about adding friction to vendor management. How do you balance control and efficiency?",
       buildChoices(
-        "Implement tiered verification based on risk: standard changes (address, contact) can follow current process, while banking instruction changes require enhanced verification including callback to independently sourced vendor contacts. The friction is justified by the risk - banking details are the only vendor data that enables immediate financial loss. Frame it as protecting the bank AND vendors.",
+        "Adopt tiered verification: basic administrative updates follow current process, but banking instruction changes require enhanced checks and independent callback verification. Limit friction to high-risk changes and frame it as protecting both vendor and bank.",
         "Tiered approach adds friction only where risk justifies it; independent verification addresses the core vulnerability; distinguishing banking from other details shows risk-based thinking; framing as mutual protection addresses vendor relationship concerns.",
         10,
         "Require in-person verification for all vendor banking changes - vendors must appear at the bank with identification to update their payment information.",
@@ -898,7 +898,7 @@ const SCENARIO_BEC_WIRE = {
     // Loans
     q("Loans", "Your commercial lending team frequently wires loan proceeds to third parties designated by borrowers - title companies, contractors, equipment vendors. The BEC incident has made you realize these wires use similar processes to vendor payments. Last month you wired $1.2 million to a contractor based on borrower email instructions. How do you assess and address this exposure?",
       buildChoices(
-        "Review recent loan funding wires for the same patterns: banking instruction changes near funding, email-only authorization, urgency language. Implement callback verification to independently sourced numbers for all third-party loan funding disbursements. Add closing instructions verification requirements to loan documents. Borrowers and their vendors are equally susceptible to BEC compromise.",
+        "Review recent loan funding wires for change-and-pay patterns and require independent callback verification for third-party disbursements. Add documented closing-instruction checks to loan files; borrowers and vendors face similar BEC risks.",
         "Pattern review assesses existing exposure; callback verification addresses the control gap; documentary requirements create enforceable process; recognizing borrowers are susceptible shows complete threat understanding.",
         10,
         "Adopt a risk-based approach that treats routine, pre-authorized payees (recurring vendors and established contractors) with streamlined verification, while requiring voice-based callback confirmation to independently sourced contacts for any new or changed third-party payees or wiring instructions.",
@@ -913,7 +913,7 @@ const SCENARIO_BEC_WIRE = {
       )),
     q("Loans", "A construction loan borrower calls upset because their project is delayed - you placed a hold on a $340,000 draw request after the BEC incident because it included updated wiring instructions for the general contractor. The borrower verified the instructions are legitimate and is frustrated by the delay. Your loan officer wants to release the funds to maintain the relationship. How do you proceed?",
       buildChoices(
-        "Maintain the hold until you complete independent verification - call the contractor directly using independently sourced contact information, not information provided by the borrower or in the draw request. Explain to the borrower that this verification protects them too - if the contractor's email was compromised like your vendor's, they'd lose the money. Complete verification quickly to minimize delay.",
+        "Keep the hold until you independently verify the contractor's instructions using a sourced phone number, not details in the request. Explain this protects the borrower as well and complete verification quickly to limit delay.",
         "Maintaining the hold until verification is complete protects everyone; independent sourcing is critical - the borrower's verification may also be compromised; framing as mutual protection addresses the relationship concern; quick completion shows responsiveness.",
         10,
         "Use an expedited, documented verification SLA: the loan team will independently confirm wire instructions by calling the contractor via an independently sourced number within two hours; if verified within SLA, release funds immediately and record the verification steps. If not verified, maintain the hold until confirmed.",
