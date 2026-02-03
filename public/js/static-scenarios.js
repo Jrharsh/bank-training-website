@@ -30,7 +30,7 @@ const SCENARIO_RANSOMWARE = {
     // CEO/SVPs
     q("CEO/SVPs", "It's 7:00 AM and you have conflicting reports: IT says containment will take 4+ hours, your CISO recommends aggressive segmentation that may interrupt ACH flows, and your CFO warns of liquidity and reputational risks. The board chair is calling. What's your first action?",
       buildChoices(
-        "Stand up a time‑boxed Incident Command led by a designated executive, authorize the CISO to implement targeted segmentation with pre-defined service-protection triggers, coordinate with Treasury to preserve critical payment windows, and give the board chair a concise briefing on trade-offs and next steps.",
+        "Stand up a time‑boxed Incident Command led by a designated executive, authorize the CISO to implement targeted segmentation with pre-defined service-protection triggers, and give the board chair a concise briefing.",
         "A structured, time‑boxed command clarifies accountability and outlines trade-offs; it helps coordinate action but still requires clear operational constraints to avoid conflicting orders.",
         7,
         "Authorize an immediate, short executive alignment call to confirm risk tolerances and approve limited containment steps that minimize customer impact (e.g., phased segmentation and guarded ACH windows), so technical teams can act with clear constraints.",
@@ -45,7 +45,7 @@ const SCENARIO_RANSOMWARE = {
       )),
     q("CEO/SVPs", "By noon, restoration estimates are 5-7 days. The ransom group sometimes provides working keys; insurance may cover payment; law enforcement recommends caution. Board members are split. How do you structure the board decision?",
       buildChoices(
-        "Provide the board with a concise decision memo that outlines legal considerations (sanctions, regulatory reporting), insurance implications, restoration likelihood and timelines, customer harm scenarios, and clear thresholds that would trigger reconsideration of payment; recommend empowering a delegated executive committee to act within those thresholds.",
+        "Provide the board with a concise decision memo that outlines legal considerations, insurance implications, and clear thresholds for action.",
         "Combining a memo with delegated authority and explicit thresholds balances board oversight with the need for timely operational decisions under pressure.",
         8,
         "Ask the board to delegate the operational decision to a small executive committee empowered to act quickly once pre-agreed criteria are met, with a required post-action full-board review to maintain governance visibility.",
@@ -60,7 +60,7 @@ const SCENARIO_RANSOMWARE = {
       )),
     q("CEO/SVPs", "A reporter from American Banker calls saying they've confirmed your systems are down and are running a story in two hours. They're asking whether this is a ransomware attack and whether customer data was stolen. Forensics hasn't completed data exfiltration analysis yet. How do you respond?",
       buildChoices(
-        "Acknowledge the disruption to specific services, confirm you're investigating a cybersecurity incident with law enforcement engaged, commit to timely updates as facts are confirmed, offer a brief, factual holding statement, and provide a single designated spokesperson for follow-up.",
+        "Acknowledge the disruption to specific services, confirm you're investigating with law enforcement engaged, and provide a brief factual holding statement and designated spokesperson.",
         "A holding statement with a designated spokesperson balances transparency and caution while reducing the chance of off‑the‑cuff inaccuracies.",
         7,
         "Refer the reporter to a written statement from communications that notes the outage and says you're investigating, and offer to schedule a follow-up briefing once initial forensic findings are validated.",
@@ -77,7 +77,7 @@ const SCENARIO_RANSOMWARE = {
     // IT/Security
     q("IT/Security", "Active encryption is still spreading through network shares. You've identified the compromised service accounts but disabling them will break several production integrations. Your endpoint detection shows 340 infected endpoints and counting. What's your containment priority?",
       buildChoices(
-        "Temporarily disable the highest-risk compromised service accounts and apply targeted network segmentation to contain lateral movement while coordinating a business-impact assessment for integrations; concurrently preserve volatile forensic artifacts from a representative sample of endpoints.",
+        "Temporarily disable the highest-risk compromised service accounts and apply targeted network segmentation to contain lateral movement while preserving volatile forensic artifacts.",
         "Targeted account disablement and segmentation reduce spread while limiting unnecessary business disruption; capturing volatile data preserves investigative options, though it requires careful coordination with business owners.",
         7,
         "Prioritize segmentation of critical systems and ramp monitoring on suspected accounts while preparing a phased disablement plan informed by business owners to avoid blunt disruption.",
@@ -92,7 +92,7 @@ const SCENARIO_RANSOMWARE = {
       )),
     q("IT/Security", "Forensics reports that your backup infrastructure appears clean, but they've found evidence the attackers had access to your environment for 3 weeks before deploying ransomware. Your most recent clean backup is 18 hours old but any backup from the past 3 weeks could contain dormant malware or compromised credentials. What's your restoration strategy?",
       buildChoices(
-        "Restore into an isolated, air-gapped validation environment using the 18-hour backup; perform layered validation (malware scanning, credential and configuration audits, integrity checks) and only promote services to production once validated. Parallelize credential resets and multi-factor enforcement during validation.",
+        "Restore into an isolated, air-gapped validation environment using the 18-hour backup and perform layered validation before promoting services.",
         "Isolated validation limits reinfection risk while enabling faster restoration if the backup is clean; coupling with credential resets reduces persistence risk.",
         8,
         "Restore a minimal set of critical services to a hardened production segment with strict compensating controls and enhanced monitoring, while maintaining full validation workflows for broader systems.",
@@ -107,7 +107,7 @@ const SCENARIO_RANSOMWARE = {
       )),
     q("IT/Security", "Online banking restoration is technically ready but your security team hasn't completed penetration testing on the restored environment. Customer complaints are mounting - 47,000 customers have called the contact center today. Business leaders are pushing hard to restore service. What's your recommendation?",
       buildChoices(
-        "Restore in a phased manner: open read-only capabilities first and a controlled subset of transactional functions behind extra verification (reduced limits, additional MFA), while completing penetration testing for full services. Communicate the phased plan and expected timelines to customers.",
+        "Restore in a phased manner: open read-only capabilities first and a controlled subset of transactional functions behind extra verification, and communicate the plan to customers.",
         "Phased delivery balances availability and risk by allowing customers visibility while limiting exposure for high-risk operations; communication reduces confusion and panic.",
         8,
         "Bring up full service now with enhanced monitoring and a rapid rollback plan if suspicious activity is detected, accepting operational risk to prioritize customer access.",
@@ -124,7 +124,7 @@ const SCENARIO_RANSOMWARE = {
     // HR
     q("HR", "It's Day 2 and your IT security team has been working 20+ hour shifts. The CISO reports that two senior engineers are showing signs of severe fatigue - making configuration errors and forgetting steps in procedures. However, these engineers have critical institutional knowledge about the encrypted systems. Pulling them off could slow recovery significantly. What do you recommend?",
       buildChoices(
-        "Implement a formal rotation: require immediate rest for the most impaired staff, pair senior engineers with shadowed backups for critical handovers, and contract a small group of pre-vetted surge specialists to handle lower-risk tasks while preserving institutional knowledge.",
+        "Implement a formal rotation: require rest for the most impaired staff, pair senior engineers with shadowed backups for handovers, and use pre-vetted surge specialists for lower-risk tasks.",
         "Combines rest with continuity: handovers preserve knowledge, surge specialists reduce pressure, and pairing reduces error risk without a total loss of capability.",
         8,
         "Enforce an immediate 8-hour rest policy for incident responders and reassign critical tasks to trained backups after concise knowledge-transfer sessions; provide EAP and monitoring for affected staff.",
@@ -139,7 +139,7 @@ const SCENARIO_RANSOMWARE = {
       )),
     q("HR", "Branch managers report that several employees are posting on social media about the outage, including one who wrote 'Management has no idea how bad this is - our systems are totally destroyed.' The posts are gaining attention. How should this be handled?",
       buildChoices(
-        "Managers speak privately to the employees to request removal and remind them of social media policy; follow up with a company-wide message clarifying facts, guidance on public comments, and channels for staff to raise concerns internally.",
+        "Managers speak privately to the employees to request removal and remind them of social media policy, followed by a company-wide clarification and guidance.",
         "Private remediation limits escalation while a public clarification reduces misinformation; internal channels give staff a constructive outlet for concerns.",
         8,
         "Issue a public corrections statement from communications addressing inaccuracies and reaffirming the bank's response actions to reassure customers and stakeholders.",
@@ -154,7 +154,7 @@ const SCENARIO_RANSOMWARE = {
       )),
     q("HR", "Several employees have approached HR confidentially expressing fear that they'll be blamed or terminated for the security breach, even though there's no indication of employee fault. One employee who clicked a phishing link (not confirmed as the entry point) is particularly distressed. How do you address this?",
       buildChoices(
-        "Issue a clear, blame-free message emphasizing recovery and learning, offer private support and counseling to concerned employees, encourage reporting without fear of reprisal, and run targeted reminders/training on phishing recognition.",
+        "Issue a clear, blame-free message emphasizing recovery and learning, offer private support and counseling, and run targeted reminders on phishing recognition.",
         "Blame-free messaging encourages transparency; support and training reduce future risk and help employees report issues promptly.",
         8,
         "Tell staff you'll wait for the investigation to conclude before commenting on blame, but provide immediate private support to anyone expressing distress and ensure they know how the investigation will proceed.",
@@ -171,7 +171,7 @@ const SCENARIO_RANSOMWARE = {
     // Finance
     q("Finance", "It's Day 3 and customers are increasingly withdrawing funds from your operational branches and ATMs - daily outflows have tripled versus normal. Media speculation about the bank's viability is growing. Your liquidity coverage ratio is still well above regulatory minimums but trending down. What's your recommendation?",
       buildChoices(
-        "Subject to Treasury confirmation of immediate need and available delegated authority, consider cautiously activating contingency funding arrangements to pre-position additional liquidity while documenting expected cost, counterparty covenants, and communications implications. Recognize that activation can itself signal stress and materialize costs; prefer standby or small test draws where feasible, limit draws to narrowly defined trigger levels, and require dual sign-off (Treasury chair + CFO). When briefing stakeholders, explicitly set expectations about signaling risk, implementation timelines, and rapid reporting to the crisis lead.",
+        "Subject to Treasury confirmation of immediate need and available delegated authority, consider cautiously activating contingency funding arrangements with documented triggers and dual sign-off.",
         "Pre-positioning liquidity can provide a necessary cushion and tests contingency processes; adding strict triggers and dual sign-off reduces the chance of noisy market signaling while preserving optionality, provided activation follows Treasury confirmation and crisis reporting.",
         8,
         "Deliver a concise, factual customer communication targeted to affected segments explaining impacted services and immediate mitigations. Stand up prioritized outreach for high-balance and vulnerable customers, equip the call center with validated scripts and emergency authorization paths, designate a single liaison for employer escalations with SLAs, and coordinate discrete intraday liquidity actions under delegated Treasury authority with clear delegated limits and post-action reporting.",
@@ -186,7 +186,7 @@ const SCENARIO_RANSOMWARE = {
       )),
     q("Finance", "The $47 million in ACH transactions that were queued when systems went down include payroll files for 340 businesses representing 12,000 employees expecting direct deposits tomorrow. The ACH system won't be restored in time. What approach do you recommend?",
       buildChoices(
-        "Prioritize outreach to the largest employers and those with imminent payroll deadlines; where appropriate, offer expedited payment options (e.g., cashier's checks or wires) after quick verification, provide a short employer request form for expedited handling, and assign a single liaison for reconciliations and SLAs.",
+        "Prioritize outreach to the largest employers and those with imminent payroll deadlines, and offer expedited payment options where appropriate.",
         "Targeted outreach plus a short request form and a named liaison reduces inconsistent promises and preserves audit trails while enabling feasible accommodations.",
         10,
         "Engage Fed/NACHA and correspondent banks to identify emergency routing options; pre-clear a prioritized subset of payrolls using pre-validated lists and simple rules, and require dual-approval for any manual wire equivalents.",
@@ -201,7 +201,7 @@ const SCENARIO_RANSOMWARE = {
       )),
     q("Finance", "Your cyber insurance policy has a $500,000 retention and covers ransom payments, business interruption, and forensics costs. The adjuster is requesting extensive documentation, but your team is consumed with recovery operations. They've also asked whether the bank complied with all policy requirements regarding security controls. How do you manage the insurance relationship?",
       buildChoices(
-        "Appoint a dedicated insurance coordinator empowered to gather and relay interim documentation and to request conditional interim payments for urgent recoverable costs, minimizing diversion of recovery teams. Produce an initial labeled evidence packet (timeline, urgent costs, preliminary forensics) with clear milestones and checklists. Engage your broker and coverage counsel early to frame responses that protect coverage positions and avoid inadvertent admissions, institute systematic incident cost tracking and chain-of-custody preservation for key artifacts, and set liaison SLAs for insurer queries and evidence delivery. Be explicit that insurer coverage decisions may be contested and that insurance coordination can create additional information demands on operational teams.",
+        "Appoint a dedicated insurance coordinator empowered to gather interim documentation and request conditional interim payments, producing an initial evidence packet and setting liaison SLAs.",
         "Coordinator-led engagement preserves recovery focus while enabling insurer intake and interim payments; counsel involvement reduces coverage risk and systematic cost tracking and chain-of-custody preserve claim defensibility while SLAs ensure timely insurer coordination. Assign a named insurance liaison with SLAs for evidence delivery and reconciliation.",
         10,
         "Propose an intake call with insurer and broker to agree a phased documentation plan, request conditional interim payments for clearly defined urgent costs upon submission of an initial evidence packet, and assign a single liaison with SLAs to manage insurer queries. Coordinate a rapid counsel review of substantive statements before making admissions while keeping recovery teams focused on operational priorities.",
@@ -218,7 +218,7 @@ const SCENARIO_RANSOMWARE = {
     // Loans
     q("Loans", "You have $23 million in loan disbursements scheduled for the next 48 hours, including several construction loans with funding deadlines tied to contractor schedules. Your loan origination system is encrypted and manual disbursement is possible but risky without normal controls. What's your approach?",
       buildChoices(
-        "Temporarily implement emergency manual disbursement procedures with enhanced controls while documenting operational trade-offs and explicit per-transaction caps: require dual officer verification, an independent caller-back to a previously validated contact, a documented approval chain with treasury sign-off for large draws, daily reconciliation, and a named senior credit officer accountable for exceptions. For the largest construction disbursements require third-party escrowed-release or pre-funded hold, publish a brief borrower notification explaining timelines and reconciliation steps, and circulate the staff checklist to all processing teams.",
+        "Temporarily implement emergency manual disbursement procedures with enhanced controls, dual verification, documented approval chains, daily reconciliation, and named owners for exceptions.",
         "Emergency procedures balance customer need with risk management; adding a named owner, published checklist and mandatory escrow/pre-funded holds for the largest draws increases accountability and reduces fraud exposure while preserving urgent funding paths.",
         7,
         "Stand up a narrowly scoped, documented manual disbursement channel led by a senior credit officer with mandatory treasury sign-off: authorize time-critical construction draws through a third-party escrowed-release or pre-funded hold, require independent borrower confirmation to a pre-validated contact, dual officer verification, same-day reconciliation, and a mandatory staff checklist that includes a call-back verification log and treasury settlement confirmation. Publish the checklist and escalation path to staff with a designated compliance reviewer to avoid ad-hoc deviations.",
@@ -233,7 +233,7 @@ const SCENARIO_RANSOMWARE = {
       )),
     q("Loans", "A large commercial borrower (a regional hospital with $45 million outstanding) calls demanding to draw their entire $15 million line of credit immediately, citing concerns about the bank's stability and their need to ensure operational funds. Their line is committed and they have a contractual right to draw. However, processing a $15 million manual disbursement carries significant operational and fraud risk. What do you recommend?",
       buildChoices(
-        "Honor the draw request as a contractual commitment but implement strict, documented safeguards to mitigate operational and fraud risk: require a senior officer call-back to a pre-validated hospital treasury contact, dual approvals, treasury settlement coordination and confirmation of settlement mechanics, expedited fraud screening, and an auditable settlement confirmation with a named relationship lead to manage hospital concerns. Where settlement mechanics present elevated risk, consider conditional settlement paths (escrow or staged settlement) with documented borrower acceptance and real-time confirmation recorded for audit.",
+        "Honor the draw request as a contractual commitment but implement strict documented safeguards: senior officer call-back, dual approvals, treasury settlement confirmation, expedited fraud screening, and an auditable settlement confirmation.",
         "Fulfilling contractual rights while layering call-back validation, dual approvals, treasury confirmation, expedited fraud screening and real-time settlement confirmation preserves legal obligations and reduces operational risk; naming a relationship lead improves communication and trust.",
         7,
         "Offer a senior-led verification and settlement pathway that honors the committed facility: apply pre-validated call-back protocols to a known treasury contact, require treasury authorization of settlement mechanics, expedite fraud screening and wire verification, implement immediate settlement confirmation procedures, and issue a written settlement confirmation with a dedicated relationship contact and checklist for settlement steps. Ensure the checklist is completed and signed by settlement officers.",
@@ -248,7 +248,7 @@ const SCENARIO_RANSOMWARE = {
       )),
     q("Loans", "Mortgage closing scheduled for today can't proceed because title company can't verify the payoff amount on the existing loan from your core system. The borrowers have a moving truck loaded and their old house buyer's financing is contingent on this closing. Manual records suggest the payoff is approximately $287,000 but can't be verified to the penny. What do you advise?",
       buildChoices(
-        "Compute a conservative payoff estimate using the last verified statement plus interest accrual and add a modest, documented cushion. Record the methodology, obtain written borrower acknowledgement, and communicate that a final reconciliation will occur post-recovery with any overage refunded promptly. If the title company requires stronger assurance, offer a short-term third-party escrow or trustee hold for the payoff amount pending final verification; provide the title company with the escrow instrument, named trustee, and reconciliation timeline.",
+        "Compute a conservative payoff estimate using the last verified statement plus interest accrual and add a modest, documented cushion; obtain borrower acknowledgement.",
         "Conservative estimate plus borrower acknowledgement and an escrow option with a named trustee balances closing urgency with auditability and gives the title company clearer assurance; ensure the payoff memo and escrow terms are filed in the loan record and assign an escrow reconciliation owner with SLAs.",
         10,
         "Provide a documented conservative payoff estimate, and if the title company requires stronger assurance, open a short-term independent escrow with a neutral trustee for the disputed portion. Obtain borrower and title company sign-off on escrow terms and commit to a documented independent reconciliation within 72 hours with immediate refund of any overage. Record the methodology and escrow terms in the loan file and issue the title company written confirmation of escrow mechanics; assign an escrow reconciliation owner.",
@@ -280,7 +280,7 @@ const SCENARIO_RANSOMWARE = {
       )),
     q("Accounting", "Your external auditors call asking about the incident's impact on your in-progress quarterly financial statement audit. They express concern about internal control reliance and ask whether the incident constitutes a material weakness. How do you respond?",
       buildChoices(
-        "Propose an initial focused briefing to walk through: the incident timeline, which controls remained effective, compensating controls implemented, and a prioritized list of the largest control impacts and supporting evidence. Provide a follow-up timetable for deeper reconciliations, named remediation owners with deadlines, and an auditor liaison. Avoid a large operational meeting that distracts recovery teams; schedule weekly checkpoints and an evidence-delivery timetable.",
+        "Propose an initial focused briefing: incident timeline, effective controls, compensating controls, and a prioritized list of impacts with named remediation owners and an auditor liaison.",
         "Comprehensive briefing with named owners, checkpoints, auditor liaison and evidence timelines demonstrates management ownership and helps auditors evaluate whether the issue rises to a material weakness versus a significant deficiency. Confirm an auditor liaison with SLAs for evidence delivery.",
         10,
         "Acknowledge the criminal nature of the incident and present a focused briefing that lists impacted control areas, interim compensating controls in effect, objective evidence (sample reconciliations, exception logs), named remediation owners with deadlines, and a realistic timeline for returning to normal operations. Propose weekly status checkpoints and commit to delivering targeted evidence packages within agreed timelines to support their evaluation.",
@@ -295,7 +295,7 @@ const SCENARIO_RANSOMWARE = {
       )),
     q("Accounting", "Month-end close is in 5 days. Critical systems won't be fully restored by then. Your close process normally involves 47 reconciliations, many requiring system data that's currently unavailable. What's your approach?",
       buildChoices(
-        "Assess each reconciliation individually: which can proceed with available data, which can be estimated with documented assumptions, and which must be deferred. For any deferred items propose concrete alternative procedures (expanded sampling, use of bank statements and third-party confirmations, signed managerial attestations), document all departures from normal procedures, and establish a timeline and owner for completing deferred reconciliations post-recovery. Communicate proactively with auditors, assign reconciliation owners, and consider a filing extension if necessary; prioritize items that affect external reporting or customer balances.",
+        "Assess each reconciliation individually: which can proceed, which can be estimated with documented assumptions, and which must be deferred; document alternatives and owners.",
         "Individual assessment plus documented alternative procedures, assigned reconciliation owners and timelines preserves reporting integrity and makes deferred work auditable while reducing the risk of later findings. Ensure each deferred item lists an owner and an SLA for completion.",
         10,
         "Request targeted extensions only for specific reconciliations that materially cannot be completed, and propose concrete alternative close procedures agreed with auditors (e.g., expanded sample sizes for later verification, temporary use of bank statements plus signed managerial attestations, and a clear timetable for finalization). Assign owners for each deferred item and capture assumptions and estimation methods in a close memo to support later audit validation.",
@@ -312,7 +312,7 @@ const SCENARIO_RANSOMWARE = {
     // Deposits
     q("Deposits", "Branch lobbies are packed with anxious customers demanding to withdraw funds and close accounts. Wait times exceed 2 hours. Some customers are verbally abusing tellers, and two tellers have been reduced to tears. News cameras have arrived and are filming the lines. What immediate actions do you take?",
       buildChoices(
-        "Deploy additional staff (including back-office volunteers trained for simple transactions), assign rotating managers to triage and de-escalate, and authorize short teller breaks. Issue a coordinated media holding statement and document any temporary withdrawal limits with escalation paths.",
+        "Deploy additional staff, assign rotating managers to triage and de-escalate, and authorize short teller breaks; issue a coordinated holding statement.",
         "Staffing plus manager triage reduces wait times and stress while a coordinated holding statement and documented limits prevent inconsistent local promises; assign a branch ops owner with SLAs.",
         10,
         "Create a 'fast lane' for simple withdrawals, route complex cases to a staffed help desk, publish teller FAQs and eligibility rules, and post clear signage and social updates to reduce confusion.",
@@ -327,7 +327,7 @@ const SCENARIO_RANSOMWARE = {
       )),
     q("Deposits", "A major employer in your market (8,000 employees) contacts you saying they're considering moving their payroll account to a competitor because their employees didn't get paid due to your ACH failure. The account represents $24 million in average deposits. How do you handle this situation?",
       buildChoices(
-        "Have a senior executive call the employer's CFO personally to apologize, explain the facts and remediation steps, and offer a defined remediation package (provisional payroll support, reimbursement of documented employee costs, and a limited service credit) with clear eligibility, timelines, and a single coordination point to prevent mixed messages. Be clear about what the bank can and cannot guarantee up-front and record the employer agreement; consider delegating execution to a remediation team with executive oversight to preserve leadership bandwidth.",
+        "Have a senior executive call the employer's CFO personally to apologize, explain the facts and remediation steps, and offer immediate remediation support where appropriate.",
         "Executive outreach demonstrates accountability; combining it with a single point-of-contact, eligibility rules, recorded agreements and timelines prevents overpromising while addressing employee harm directly. Assign a remediation owner with SLAs for employer and employee reconciliation.",
         10,
         "Offer a targeted remediation package: immediate provisional payroll support (wires or cashier's checks) for impacted employees, a dedicated account team to coordinate settlements, documented eligibility criteria, a short SLA for resolving claims, and a fraud‑verification step to prevent abuse. Provide an agreed communication plan and single coordination point to keep employees informed and document all remediation steps for reconciliation.",
@@ -342,7 +342,7 @@ const SCENARIO_RANSOMWARE = {
       )),
     q("Deposits", "It's Day 4 and online banking is partially restored. Customers can view balances but some are seeing incorrect information - transactions that processed during the outage aren't reflected yet. Social media is exploding with customers posting screenshots of 'wrong' balances and speculating about lost money. How do you address this?",
       buildChoices(
-        "Issue an immediate multi-channel communication acknowledging that balance displays may be incomplete, provide an estimated synchronization timeline, alert customers about how to verify critical balances (hotline or branch verification), and commit to prioritized outreach for high-balance or vulnerable customers while coordinating with IT to avoid speculative guarantees. Use a staged communication plan that reserves technical details for follow-up updates and prevents overpromising.",
+        "Issue an immediate multi-channel communication acknowledging that balance displays may be incomplete and provide an estimated synchronization timeline.",
         "Transparent multi-channel messaging and prioritized outreach reduce panic, but coordination with operations is essential to avoid promising timelines or capabilities you can't deliver.",
         10,
         "Publish a concise multi-channel advisory explaining which balances may be incomplete, an estimated sync timeline, a staffed verification hotline with trained agents who can confirm critical balances from back-end data, and proactive outreach to high-balance or vulnerable customers to offer manual verification and scheduled follow-ups. Post sample scripts and FAQs for frontline staff and schedule periodic public updates to reduce rumor-driven escalation.",
