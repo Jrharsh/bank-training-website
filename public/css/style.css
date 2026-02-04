@@ -289,17 +289,17 @@ body {
   box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 
-/* Question styling */
-.question-box h3 {
-  font-size: 1.1rem;
-  font-weight: 600;
-  line-height: 1.4;
-  margin: 16px 0 20px 0;
-  color: inherit;
+/* Question styling - target the actual generated HTML */
+.question-title {
+  font-size: 1.1rem !important;
+  font-weight: 600 !important;
+  line-height: 1.4 !important;
+  margin: 16px 0 20px 0 !important;
+  color: inherit !important;
 }
 
-.question-box .department-header {
-  margin-bottom: 16px;
+.department-label {
+  margin-bottom: 16px !important;
 }
 .choice-btn:hover {
   background: #eaf2fb;
