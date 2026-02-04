@@ -79,6 +79,7 @@ body {
 /* ===================== */
 /*  CLASS DARK MODE      */
 /* ===================== */
+/* Dark mode is now controlled only by @media (prefers-color-scheme: dark). */
 body.dark-mode {
   background: #0b1220;
   color: #e3e6eb;
