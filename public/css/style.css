@@ -301,6 +301,38 @@ body {
 .department-label {
   margin-bottom: 16px !important;
 }
+
+/* Timer styling */
+.timer-container {
+  background: rgba(255,255,255,0.95);
+  padding: 12px 20px;
+  margin: 10px auto 20px;
+  border-radius: 6px;
+  max-width: 800px;
+  border: 1px solid #e0e6ed;
+  text-align: center;
+}
+
+.timer-text {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.timer-bar-bg {
+  width: 100%;
+  height: 8px;
+  background: #e5e7eb;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.timer-bar {
+  height: 100%;
+  background: #059669;
+  transition: width 1s linear, background-color 0.3s ease;
+  border-radius: 4px;
+}
 .choice-btn:hover {
   background: #eaf2fb;
   border-color: #60a5fa;

@@ -210,10 +210,19 @@ async function loadScenario() {
 function renderQuestion() {
   const q = state.scenario.questions[state.index];
   state.answered = false;
+  state.timerDuration = 90;
+  state.timeRemaining = 90;
 
   $("questionBox").innerHTML = `
     <div class="q-progress">
       Question ${state.index + 1} / ${state.scenario.questions.length}
+    </div>
+
+    <div class="timer-container">
+      <div class="timer-text">Time Remaining: <span id="timerText">1:30</span></div>
+      <div class="timer-bar-bg">
+        <div class="timer-bar" id="timerBar"></div>
+      </div>
     </div>
 
     <div class="question-card">
@@ -239,6 +248,104 @@ function renderQuestion() {
       </div>
     </div>
   `;
+  
+  // Start the timer
+  startTimer();
+}
+
+/* ================================
+   TIMER FUNCTIONS
+================================ */
+function startTimer() {
+  // Clear any existing timer
+  if (state.timerInterval) {
+    clearInterval(state.timerInterval);
+  }
+  
+  state.timerInterval = setInterval(() => {
+    state.timeRemaining--;
+    updateTimerDisplay();
+    
+    if (state.timeRemaining <= 0) {
+      clearInterval(state.timerInterval);
+      handleTimerExpired();
+    }
+  }, 1000);
+  
+  updateTimerDisplay();
+}
+
+function updateTimerDisplay() {
+  const minutes = Math.floor(state.timeRemaining / 60);
+  const seconds = state.timeRemaining % 60;
+  const timeText = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+  
+  const timerTextEl = document.getElementById('timerText');
+  const timerBarEl = document.getElementById('timerBar');
+  
+  if (timerTextEl) {
+    timerTextEl.textContent = timeText;
+    
+    // Change color as time gets low
+    if (state.timeRemaining <= 15) {
+      timerTextEl.style.color = '#dc2626'; // Red
+    } else if (state.timeRemaining <= 30) {
+      timerTextEl.style.color = '#f59e0b'; // Yellow
+    } else {
+      timerTextEl.style.color = '#059669'; // Green
+    }
+  }
+  
+  if (timerBarEl) {
+    const percentage = (state.timeRemaining / state.timerDuration) * 100;
+    timerBarEl.style.width = `${percentage}%`;
+    
+    // Change bar color as time gets low
+    if (state.timeRemaining <= 15) {
+      timerBarEl.style.backgroundColor = '#dc2626'; // Red
+    } else if (state.timeRemaining <= 30) {
+      timerBarEl.style.backgroundColor = '#f59e0b'; // Yellow
+    } else {
+      timerBarEl.style.backgroundColor = '#059669'; // Green
+    }
+  }
+}
+
+function handleTimerExpired() {
+  if (state.answered) return; // Don't auto-submit if already answered
+  
+  // Auto-submit with 0 points
+  state.answered = true;
+  
+  // Show timeout message
+  const reasonBox = document.getElementById('reasonBox');
+  if (reasonBox) {
+    reasonBox.innerHTML = `
+      <div style="padding: 16px; background: #fee2e2; border: 1px solid #fecaca; border-radius: 6px; color: #dc2626; text-align: center; margin: 16px 0;">
+        <strong>Time Expired!</strong> No points awarded for this question.
+      </div>
+    `;
+    reasonBox.classList.remove('hidden');
+  }
+  
+  // Disable all choice buttons
+  document.querySelectorAll('.choice-btn').forEach(btn => {
+    btn.disabled = true;
+    btn.style.opacity = '0.5';
+  });
+  
+  // Enable next button
+  const nextBtn = document.getElementById('nextBtn');
+  if (nextBtn) {
+    nextBtn.disabled = false;
+  }
+}
+
+function stopTimer() {
+  if (state.timerInterval) {
+    clearInterval(state.timerInterval);
+    state.timerInterval = null;
+  }
 }
 
 /* ================================
@@ -247,6 +354,9 @@ function renderQuestion() {
 function pickAnswer(btn, dept) {
   if (state.answered) return;
   state.answered = true;
+  
+  // Stop the timer
+  stopTimer();
 
   document.querySelectorAll(".choice-btn").forEach(b => b.disabled = true);
 
