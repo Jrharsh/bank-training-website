@@ -288,6 +288,19 @@ body {
   width: 100%;
   box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
+
+/* Question styling */
+.question-box h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  line-height: 1.4;
+  margin: 16px 0 20px 0;
+  color: inherit;
+}
+
+.question-box .department-header {
+  margin-bottom: 16px;
+}
 .choice-btn:hover {
   background: #eaf2fb;
   border-color: #60a5fa;
