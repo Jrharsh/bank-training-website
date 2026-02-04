@@ -101,10 +101,24 @@ body.dark-mode .intro-box {
   border: 1px solid #374151;
   box-shadow: 0 0 16px rgba(0,0,0,0.45);
 }
-body.dark-mode .choice-btn { background:#232a36; color:#e3e6eb; border:1px solid #374151; }
-body.dark-mode .choice-btn:hover { background:#2a3140; border-color:#4b5563; }
-body.dark-mode .choice-btn.selected { background:#1e293b; border-color:#60a5fa; }
-body.dark-mode .explain-box { background:#232a36; color:#e3e6eb; border:1px solid #374151; }
+body.dark-mode .choice-btn { 
+  background: #232a36; 
+  color: #e3e6eb; 
+  border: 1px solid #374151; 
+}
+body.dark-mode .choice-btn:hover { 
+  background: #2a3140; 
+  border-color: #4b5563; 
+}
+body.dark-mode .choice-btn.selected { 
+  background: #1e293b; 
+  border-color: #60a5fa; 
+}
+body.dark-mode .explain-box { 
+  background: #232a36; 
+  color: #e3e6eb; 
+  border: 1px solid #374151; 
+}
 /* Ensure Crisis Management Game choices are readable in dark mode */
 body.dark-mode .cmg .question-card .choice-btn {
   background: #1f2937 !important;
@@ -126,15 +140,11 @@ body.dark-mode .header h1 { color:#e3e6eb; }
 body.dark-mode .header p { color:#a9b4c7; }
 body.dark-mode .department-card { background:#232a36; color:#e3e6eb; border-color:#374151; box-shadow: 0 2px 12px rgba(0,0,0,0.35); }
 body.dark-mode .department-card.selected,
-body.dark-mode .department-card:hover { background:#1e293b; border-color:#60a5fa; box-shadow:0 8px 24px rgba(30,41,59,0.25); }
-body.dark-mode .generate-section { background: transparent; box-shadow:none; }
-body.dark-mode .generate-btn { background: linear-gradient(120deg, #2563eb 0%, #1e874b 100%) !important; color:#fff !important; }
-body.dark-mode .scenario-header,
-body.dark-mode .scenario-content,
-body.dark-mode .discussion-points { background:#232a36 !important; color:#e3e6eb !important; border:1px solid #374151 !important; box-shadow:0 2px 12px rgba(0,0,0,0.45) !important; }
-body.dark-mode .discussion-points h4 { color: #60a5fa; }
-body.dark-mode .back-btn { border-color:#cbd5e1; color:#cbd5e1; }
-body.dark-mode .back-btn:hover { background:#cbd5e1; color:#0b1220; }
+body.dark-mode .department-card:hover { 
+  background: #1e293b; 
+  border-color: #60a5fa; 
+  box-shadow: 0 8px 24px rgba(30,41,59,0.25); 
+}
 
 /* Index page overrides */
 body.dark-mode .options-grid .option-card { background:#232a36; border-color:#374151; color:#e3e6eb; }
@@ -1184,8 +1194,14 @@ body.dark-mode .theme-toggle { background:#232a36; color:#e3e6eb; border-color:#
   transition: transform 120ms ease, opacity 120ms ease;
 }
 
-.winner-actions button:hover { transform: translateY(-1px); }
-.winner-actions button:active { transform: translateY(0px); opacity: 0.9; }
+.winner-actions button:hover { 
+  transform: translateY(-1px); 
+}
+
+.winner-actions button:active { 
+  transform: translateY(0px); 
+  opacity: 0.9; 
+}
 
 .winner-actions .primary {
   background: linear-gradient(135deg, #27ae60, #2ecc71);
@@ -1219,8 +1235,12 @@ body.dark-mode .theme-toggle { background:#232a36; color:#e3e6eb; border-color:#
   max-width: 800px;
   margin: 0 auto;
 }
-.uc-box h3 { margin: 0 0 8px 0; }
-.uc-box p { margin: 0; }
+.uc-box h3 { 
+  margin: 0 0 8px 0; 
+}
+.uc-box p { 
+  margin: 0; 
+}
 
 /* ===================== */
 /*  DARK MODE SUPPORT    */
