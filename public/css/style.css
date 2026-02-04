@@ -242,18 +242,3 @@ body {
   }
 }
 
-/* Add this near the top of your CSS file */
-.main-logo {
-  color: #0a2260 !important;
-  font-size: 4rem;
-  font-weight: 900;
-  text-align: center;
-  margin-bottom: 0.5em;
-  letter-spacing: 0.5px;
-  font-family: inherit;
-}
-@media (prefers-color-scheme: dark) {
-  .main-logo {
-    color: #fff !important;
-  }
-}
