@@ -149,14 +149,14 @@ body {
 /* Game page header styling */
 .header {
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: 40px;
 }
 
 .header img {
   max-width: 200px;
   max-height: 80px;
   object-fit: contain;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 }
 
 .title {
@@ -172,7 +172,7 @@ body {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  margin-bottom: 20px;
+  margin-bottom: 35px;
   gap: 16px;
 }
 .department {
@@ -264,8 +264,8 @@ body {
 .question-box,
 .intro-box {
   background: rgba(255,255,255,0.95);
-  padding: 28px 24px;
-  margin: 24px auto;
+  padding: 35px 30px;
+  margin: 35px auto;
   border-radius: 18px;
   max-width: 820px;
   box-shadow: 0 8px 32px rgba(30,41,59,0.10);
