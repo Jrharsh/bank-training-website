@@ -264,33 +264,29 @@ body {
 .question-box,
 .intro-box {
   background: rgba(255,255,255,0.95);
-  padding: 20px 24px;
-  margin: 15px auto;
-  border-radius: 12px;
-  max-width: 900px;
-  box-shadow: 0 4px 16px rgba(30,41,59,0.08);
+  padding: 24px;
+  margin: 20px auto;
+  border-radius: 8px;
+  max-width: 800px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   text-align: center;
   position: relative;
   border: 1px solid #e0e6ed;
-  backdrop-filter: blur(2px);
 }
 .choice-btn {
-  padding: 14px 18px;
+  padding: 16px 20px;
   border: none;
-  border-radius: 10px;
+  border-radius: 6px;
   cursor: pointer;
-  font-size: 1.08rem;
-  background: #f7f9fb;
-  border: 1px solid #e0e6ed;
-  transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+  font-size: 1rem;
+  background: #f8f9fa;
+  border: 1px solid #dee2e6;
+  transition: all 0.2s ease;
   text-align: left;
-  display: -webkit-box;
-  line-clamp: 2;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  white-space: normal;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+  display: block;
+  margin: 8px 0;
+  width: 100%;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 .choice-btn:hover {
   background: #eaf2fb;
