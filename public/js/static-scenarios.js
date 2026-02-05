@@ -32,46 +32,46 @@ const SCENARIO_RANSOMWARE = {
       buildChoices(
         "Stand up incident command with clear authority, implement targeted segmentation, and brief the board chair.",
         "Structured command clarifies accountability and enables coordinated response while maintaining operational constraints.",
-        7,
+        10,
         "Schedule an immediate executive alignment call to confirm risk tolerances, review containment options with technical teams, and establish clear decision-making authority before proceeding with any segmentation that could impact customer-facing services or critical payment processing.",
         "Alignment reduces contradictory orders but may be slower than pre-established command structure in fast-moving incidents.",
-        6,
+        5,
         "Require complete forensic assessment before containment to preserve evidence.",
         "Forensics are essential but can proceed in parallel with containment in many cases.",
-        3,
+        -5,
         "Order immediate network disconnect to stop encryption, accepting operational impacts to customer systems, payment processing, and branch operations. This decisive action will halt the spread immediately but requires extensive coordination with regulators, customer communications, and careful planning for service restoration under complete isolation.",
         "Full disconnect stops spread quickly but causes severe customer impact and reduces recovery options.",
-        1
+        -10
       )),
     q("CEO/SVPs", "By noon, restoration estimates are 5-7 days. The ransom group sometimes provides working keys; insurance may cover payment; law enforcement recommends caution. Board members are split. How do you structure the board decision?",
       buildChoices(
         "Prepare a decision memo with legal and insurance considerations plus clear action thresholds for board approval.",
         "Combining a memo with delegated authority and explicit thresholds balances board oversight with the need for timely operational decisions under pressure.",
-        8,
+        10,
         "Ask the board to delegate the operational decision to a small executive committee empowered to act quickly once pre-agreed criteria are met, with a required post-action full-board review to maintain governance visibility.",
         "Delegation speeds action while preserving accountability through mandated reporting and post‑action review; this reduces paralysis without abandoning governance.",
-        4,
+        5,
         "Recommend categorical refusal to pay ransom demands to signal principled opposition to criminal activity. This approach focuses all available resources on technical restoration efforts while maintaining ethical standards and potentially strengthening the bank's reputation for integrity with customers, regulators, and the broader financial community, even though restoration may take longer and cause extended customer inconvenience during the recovery period.",
         "Principled refusal is clear but may cause greater customer harm if restoration fails and limited options remain for mitigation.",
-        0,
+        -5,
         "Let senior technical and legal staff make the payment decision based on their specialized expertise and inform the board afterward.",
         "Operational expertise is critical, but ultimate accountability for a payment that could be reputationally consequential usually rests with the board.",
-        -2
+        -10
       )),
     q("CEO/SVPs", "A reporter from American Banker calls saying they've confirmed your systems are down and are running a story in two hours. They're asking whether this is a ransomware attack and whether customer data was stolen. Forensics hasn't completed data exfiltration analysis yet. How do you respond?",
       buildChoices(
         "Acknowledge service disruption, confirm investigation with law enforcement, and provide factual holding statement.",
         "A holding statement with a designated spokesperson balances transparency and caution while reducing the chance of off‑the‑cuff inaccuracies.",
-        7,
+        10,
         "Refer the reporter to a written statement from communications that notes the outage and says you're investigating, and offer to schedule a follow-up briefing once initial forensic findings are validated.",
         "A controlled written statement reduces risk of errors while committing to follow-up increases credibility; however, it can feel less responsive than a timely verbal holding statement.",
-        6,
+        5,
         "Confirm publicly that this is a ransomware attack to demonstrate transparency and discourage rumor speculation, while acknowledging that data exfiltration details remain under active investigation by cybersecurity forensics experts and law enforcement agencies.",
         "Premature confirmation can complicate law enforcement coordination and legal disclosures; measured transparency is often the safer course until facts are verified.",
-        3,
+        -5,
         "Deny any security incident and attribute service disruptions to planned maintenance complications and routine system updates that encountered unexpected technical difficulties requiring extended resolution time. This protective approach avoids immediate reputational damage and negative market reaction while providing your technical team adequate time to complete their comprehensive response and restoration efforts without external pressure or premature disclosure of sensitive operational details.",
         "Denying contradicts available evidence and risks severe credibility loss if the truth emerges, which it likely will; this carries long-term reputational risk.",
-        1
+        -10
       )),
 
     // IT/Security
@@ -79,46 +79,46 @@ const SCENARIO_RANSOMWARE = {
       buildChoices(
         "Disable high-risk compromised accounts and apply targeted segmentation while preserving forensic artifacts.",
         "Targeted account disablement and segmentation reduce spread while limiting unnecessary business disruption; capturing volatile data preserves investigative options, though it requires careful coordination with business owners.",
-        7,
+        10,
         "Prioritize segmentation of critical systems and ramp monitoring on suspected accounts while preparing a phased disablement plan informed by business owners to avoid blunt disruption.",
         "Phased actions informed by business owners balance risk and availability, but slower containment may allow additional encryption if attackers are active; this can be acceptable with strong compensating detection.",
-        6,
+        5,
         "Focus immediately on isolating and hardening backup and restore infrastructure to ensure reliable recovery capabilities, accepting that some production systems may continue operating under compromise for an extended period while recovery options are secured and validated.",
         "Protecting backups is essential for recovery, and focusing on recovery infrastructure can be paired with rapid containment steps; the trade-off depends on attack dynamics and available staff.",
-        4,
+        -5,
         "Order immediate full network disconnect and cease all integrations to completely eliminate lateral movement opportunities. This decisive action stops ransomware spread by severing all network connections and preventing further system compromise, though it causes severe operational disruption across all business functions and removes options for controlled recovery, detailed forensic evidence collection, and coordinated incident response activities during the critical containment phase.",
         "Full disconnect is effective at stopping spread but causes extreme business impact and removes options for controlled recovery and forensic collection; use only when evidence indicates imminent catastrophic spread.",
-        2
+        -10
       )),
     q("IT/Security", "Forensics reports that your backup infrastructure appears clean, but they've found evidence the attackers had access to your environment for 3 weeks before deploying ransomware. Your most recent clean backup is 18 hours old but any backup from the past 3 weeks could contain dormant malware or compromised credentials. What's your restoration strategy?",
       buildChoices(
         "Restore to isolated environment using 18-hour backup with layered validation before promoting services.",
         "Isolated validation limits reinfection risk while enabling faster restoration if the backup is clean; coupling with credential resets reduces persistence risk.",
-        8,
+        10,
         "Restore a minimal set of critical services to a hardened production segment with strict compensating controls and enhanced monitoring, while maintaining full validation workflows for broader systems.",
         "A minimal restore to hardened segments can buy time for customer-critical functions but still risks reinfection if validation is incomplete.",
         5,
         "Choose an older pre-compromise backup from before the three-week window to guarantee a completely clean starting point, accepting substantial data loss and extensive operational disruption.",
         "Older backups increase confidence but sacrifice business continuity and create large reconciliation burdens post-recovery.",
-        0,
+        -5,
         "Rebuild all systems completely from scratch to eliminate any possibility of dormant compromise while implementing enhanced security controls and modern architecture patterns. This comprehensive approach ensures zero residual risk from the compromised environment and provides valuable opportunities to implement significant security improvements and architectural modernization, even though it extends the recovery timeline into weeks and requires substantial operational planning, resource coordination, and careful stakeholder communication throughout the extended restoration period.",
         "Rebuild is the most conservative technically but may be impractical given customer and regulatory impact; it's a last-resort strategy and should be weighed against hybrid alternatives.",
-        -2
+        -10
       )),
     q("IT/Security", "Online banking restoration is technically ready but your security team hasn't completed penetration testing on the restored environment. Customer complaints are mounting - 47,000 customers have called the contact center today. Business leaders are pushing hard to restore service. What's your recommendation?",
       buildChoices(
         "Restore services in phases: read-only first, then controlled transactional functions with enhanced verification.",
         "Phased delivery balances availability and risk by allowing customers visibility while limiting exposure for high-risk operations; communication reduces confusion and panic.",
-        8,
+        10,
         "Bring up full service immediately with enhanced monitoring and rapid rollback plan if suspicious activity is detected, accepting operational risk to prioritize customer access and restore normal banking operations.",
         "Full restore prioritizes customer needs but places a heavy burden on detection and mitigation teams; it may succeed if monitoring is exceptionally strong.",
         5,
         "Keep services offline until complete security validation.",
         "Waiting for full assurance minimizes risk but prolongs customer harm and increases reputational pressure; it's safer but costly.",
-        0,
+        -5,
         "Open limited transactional functionality exclusively for prioritized customers including high-value relationships and critical business accounts after implementing bespoke verification procedures and additional authentication requirements. This selective approach delays broader public restoration while meeting immediate needs of most important customer relationships and preserving resources for comprehensive security validation across all restored systems before general availability.",
         "Prioritized access can meet critical needs but creates fairness and PR issues; it requires clear policy and careful communication.",
-        -1
+        -10
       )),
 
     // HR
@@ -126,46 +126,46 @@ const SCENARIO_RANSOMWARE = {
       buildChoices(
         "Implement formal rotation: require rest for impaired staff, pair engineers with shadowed backups for handovers.",
         "Combines rest with continuity: handovers preserve knowledge, surge specialists reduce pressure, and pairing reduces error risk without a total loss of capability.",
-        8,
+        10,
         "Enforce an immediate 8-hour rest policy for incident responders and reassign critical tasks to trained backups after concise knowledge-transfer sessions; provide EAP and monitoring for affected staff.",
         "Prioritizes safety and error reduction; may slow recovery but reduces chances of costly mistakes during frantic recovery work.",
-        7,
+        5,
         "Allow engineers to self-manage breaks and supplement them with temporary oversight and spot-checks from senior managers to ensure critical tasks are completed correctly and safely.",
         "Maintains momentum but relies on fatigued staff judgment; oversight reduces some risk but doesn't eliminate the danger of human error under fatigue.",
-        2,
+        -5,
         "Immediately replace the fatigued engineers with external contractors or consulting specialists to maintain recovery momentum and operational speed. This approach accepts the onboarding and knowledge-transfer risks while ensuring that critical restoration work continues without interruption from human factors issues. The contractors' fresh perspective and energy can compensate for their lack of institutional knowledge during this critical phase, and you can provide accelerated briefings to help them understand the specific system architecture and recovery requirements.",
         "Contractors can provide immediate capacity but often lack institutional context, increasing the chance of procedural errors or missed dependencies.",
-        -1
+        -10
       )),
     q("HR", "Branch managers report that several employees are posting on social media about the outage, including one who wrote 'Management has no idea how bad this is - our systems are totally destroyed.' The posts are gaining attention. How should this be handled?",
       buildChoices(
         "Managers speak privately to employees to request removal and remind them of social media policy.",
         "Private remediation limits escalation while a public clarification reduces misinformation; internal channels give staff a constructive outlet for concerns.",
-        8,
+        10,
         "Issue a public corrections statement from communications addressing inaccuracies and reaffirming the bank's response actions to reassure customers and stakeholders.",
         "Public corrections can calm external audiences but risk amplifying the issue and drawing further attention to internal dissent.",
         5,
         "Apply formal disciplinary measures to the poster(s) to deter further breaches of policy and establish clear consequences for unauthorized communications.",
         "Discipline may be necessary in egregious cases but can increase internal fear and may be criticized externally if perceived as heavy-handed.",
-        1,
+        -5,
         "Do nothing publicly and focus exclusively on private operational recovery efforts, allowing the social media issue to fade naturally as the technical situation improves and normal operations resume. This approach avoids drawing additional attention to the negative posts while concentrating all management effort and resources on resolving the underlying technical and operational problems that prompted the employee frustration and negative commentary in the first place.",
         "Non-engagement avoids inflaming the situation but allows misinformation to spread unchallenged and leaves employees feeling unheard.",
-        -1
+        -10
       )),
     q("HR", "Several employees have approached HR confidentially expressing fear that they'll be blamed or terminated for the security breach, even though there's no indication of employee fault. One employee who clicked a phishing link (not confirmed as the entry point) is particularly distressed. How do you address this?",
       buildChoices(
         "Issue blame-free message emphasizing recovery and learning, offer private support, run phishing awareness sessions.",
         "Blame-free messaging encourages transparency; support and training reduce future risk and help employees report issues promptly.",
-        8,
+        10,
         "Tell staff you'll wait for the investigation to conclude before commenting on blame, but provide immediate private support to anyone expressing distress and ensure they know how the investigation will proceed.",
         "Balancing investigation integrity with immediate support reduces panic while preserving fact-finding, though it leaves some uncertainty in the short term.",
         5,
         "Request that managers compile lists of employees who may have been involved in risky actions and meet them individually to review behavior and compliance requirements.",
         "Proactive review can identify training gaps but risks creating a culture of suspicion and discouraging honest reporting.",
-        0,
+        -5,
         "Announce that no one will face discipline for honest mistakes during the incident to ensure full cooperation with recovery and investigation efforts. This blanket amnesty policy removes fear-based barriers to information sharing and encourages employees to come forward with any details that might assist in understanding the incident timeline and attack vectors without worrying about personal consequences for their actions during this crisis period.",
         "Temporary amnesty may encourage reporting but could shield gross negligence and complicate later disciplinary consistency.",
-        -1
+        -10
       )),
 
     // Finance
@@ -173,16 +173,16 @@ const SCENARIO_RANSOMWARE = {
       buildChoices(
         "Consider cautiously activating contingency funding with documented triggers and dual sign-off.",
         "Pre-positioning liquidity can provide a necessary cushion and tests contingency processes; adding strict triggers and dual sign-off reduces the chance of noisy market signaling while preserving optionality, provided activation follows Treasury confirmation and crisis reporting.",
-        8,
+        10,
         "Deliver targeted customer communication explaining service impacts and immediate mitigations. Stand up prioritized outreach for high-balance and vulnerable customers, equip call center with validated scripts, designate liaison for employer escalations, and coordinate discrete intraday liquidity actions under delegated Treasury authority.",
         "Operationalized outreach combined with discrete intraday liquidity actions and a single liaison with SLAs provides practical relief for at-risk customers while minimizing visible market signaling; coupling actions to clear delegated limits improves speed and governance. Assign a named owner with SLAs for follow-up and reconciliation.",
-        7,
+        5,
         "Maintain normal liquidity posture since ratios remain healthy and reacting visibly could signal weakness and accelerate outflows.",
         "Avoiding panic signals has logic but failing to prepare for deterioration could leave you caught flat-footed; internal preparation doesn't require visible external action.",
-        -2,
+        -5,
         "Immediately draw down all available credit facilities and backup liquidity sources to maximize the bank's cash position and ensure adequate reserves to meet any level of withdrawal demand. This decisive action demonstrates proactive financial management and provides maximum flexibility during the crisis, even though it may signal some degree of stress to counterparties and could become visible in financial reporting or market intelligence channels that monitor banking activity.",
         "Maximizing cash seems prudent but dramatic draws signal distress to counterparties and may become news themselves; contingency activation should be proportionate to actual conditions.",
-        -3
+        -10
       )),
     q("Finance", "The $47 million in ACH transactions that were queued when systems went down include payroll files for 340 businesses representing 12,000 employees expecting direct deposits tomorrow. The ACH system won't be restored in time. What approach do you recommend?",
       buildChoices(
@@ -197,7 +197,7 @@ const SCENARIO_RANSOMWARE = {
         -5,
         "Consider manual wires for the largest, highest-impact payrolls where existing controls and approval procedures permit, and publish clear eligibility criteria and detailed reconciliation procedures for all manual processing activities to ensure proper documentation and audit trail maintenance throughout the expedited payment process.",
         "Manual wires for the largest payrolls can be practical if controls and eligibility are clear, but fairness and resource limits must be managed.",
-        -5
+        -10
       )),
     q("Finance", "Your cyber insurance policy has a $500,000 retention and covers ransom payments, business interruption, and forensics costs. The adjuster is requesting extensive documentation, but your team is consumed with recovery operations. They've also asked whether the bank complied with all policy requirements regarding security controls. How do you manage the insurance relationship?",
       buildChoices(
@@ -212,7 +212,7 @@ const SCENARIO_RANSOMWARE = {
         -5,
         "Focus entirely on recovery and address insurance documentation requirements after systems are fully restored and tested, since the policy will cover legitimate costs regardless of when the supporting documentation is ultimately submitted to the carrier for comprehensive review and processing.",
         "Recovery priority is correct but ignoring insurance creates problems: late notice can jeopardize coverage, undocumented costs may be unrecoverable, and coverage disputes become harder to resolve with time.",
-        -5
+        -10
       )),
 
     // Loans
@@ -220,25 +220,25 @@ const SCENARIO_RANSOMWARE = {
       buildChoices(
         "Implement emergency manual procedures with enhanced controls and dual verification.",
         "Emergency procedures balance customer need with risk management; adding a named owner, published checklist and mandatory escrow/pre-funded holds for the largest draws increases accountability and reduces fraud exposure while preserving urgent funding paths.",
-        7,
+        10,
         "Stand up narrowly scoped manual disbursement led by senior credit officer with treasury sign-off: authorize time-critical construction draws through escrowed-release, require borrower confirmation, dual officer verification, and staff checklist.",
         "Senior-led escrow or pre-funded hold plus mandatory call-back logs, treasury settlement confirmation, a published checklist and compliance reviewer make urgent disbursements operationally achievable while preserving a strong, auditable control framework. Assign a named settlement owner with SLAs for confirmation and audit.",
-        6,
+        5,
         "Process all scheduled disbursements immediately using manual procedures before systems get further behind, dealing with any control issues in post-incident review.",
         "Clearing the backlog seems proactive but 'dealing with control issues later' invites fraud and errors; rush processing without enhanced controls compounds risk rather than managing it.",
-        -2,
+        -5,
         "Advise borrowers to seek bridge financing elsewhere if their needs are urgent, offering to reimburse reasonable costs once our systems are restored. This approach requires customers to find alternative funding sources through other financial institutions or private lenders, effectively transferring the bank's operational problem to the borrowers during their time of need and potentially damaging long-term relationships despite the offer of future cost reimbursement for documented additional expenses.",
         "Bridge financing suggestion may not be feasible for many borrowers on short notice; effectively tells customers to solve the bank's problem themselves; damages relationships.",
-        -3
+        -10
       )),
     q("Loans", "A large commercial borrower (a regional hospital with $45 million outstanding) calls demanding to draw their entire $15 million line of credit immediately, citing concerns about the bank's stability and their need to ensure operational funds. Their line is committed and they have a contractual right to draw. However, processing a $15 million manual disbursement carries significant operational and fraud risk. What do you recommend?",
       buildChoices(
         "Honor the draw with strict safeguards: senior officer call-back, dual approvals, treasury confirmation.",
         "Fulfilling contractual rights while layering call-back validation, dual approvals, treasury confirmation, expedited fraud screening and real-time settlement confirmation preserves legal obligations and reduces operational risk; naming a relationship lead improves communication and trust.",
-        7,
+        10,
         "Offer senior-led verification pathway that honors the facility: apply call-back protocols to known treasury contact, require treasury authorization, expedite fraud screening, implement settlement confirmation procedures, and issue written settlement confirmation with dedicated relationship contact.",
         "Pre-validated call-backs, treasury authorization, settlement checklists completed by settlement officers, and immediate confirmation make same-day settlement procedurally safer while preserving the borrower's contractual rights and reducing reconciliation risk. Assign a settlement owner with SLAs to confirm and document settlement steps.",
-        6,
+        5,
         "Process a partial draw of $5 million to meet their immediate needs while requesting they defer the remainder until systems support safer processing.",
         "Partial approach seems like compromise but unilaterally limiting a committed facility is a potential default; the borrower didn't ask for $5 million, they asked for $15 million.",
         -2,
@@ -276,7 +276,7 @@ const SCENARIO_RANSOMWARE = {
         -5,
         "Focus resources on restoring GL rather than building parallel manual processes, accepting that some transaction detail may be lost but can be reconstructed from bank statements and source documents after the incident.",
         "Restoration focus makes sense but 'accepting lost detail' creates audit issues; customer transaction records are not optional documentation; reconstruction is harder and less reliable than contemporaneous recording.",
-        -5
+        -10
       )),
     q("Accounting", "Your external auditors call asking about the incident's impact on your in-progress quarterly financial statement audit. They express concern about internal control reliance and ask whether the incident constitutes a material weakness. How do you respond?",
       buildChoices(

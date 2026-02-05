@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback Form Sample</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f5f7fa;
+            padding: 20px;
+            margin: 0;
+        }
+        
+        .feedback-container {
+            max-width: 500px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .scenario-context {
+            text-align: center;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .scenario-context h3 {
+            color: #2c3e50;
+            margin: 0 0 8px 0;
+            font-size: 1.1em;
+        }
+        
+        .scenario-title {
+            background: #e3f2fd;
+            color: #1976d2;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-weight: 600;
+            display: inline-block;
+        }
+        
+        .rating-section {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .rating-label {
+            display: block;
+            margin-bottom: 8px;
+            color: #2c3e50;
+            font-weight: 500;
+        }
+        
+        .stars {
+            display: flex;
+            justify-content: center;
+            gap: 4px;
+            margin-bottom: 8px;
+        }
+        
+        .star {
+            font-size: 1.8em;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            opacity: 0.3;
+        }
+        
+        .star:hover,
+        .star.active {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+        
+        .checkbox-section {
+            margin-bottom: 20px;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .checkbox-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #3498db;
+        }
+        
+        .checkbox-item label {
+            color: #2c3e50;
+            cursor: pointer;
+            flex: 1;
+        }
+        
+        .comments-section {
+            margin-bottom: 20px;
+        }
+        
+        .comments-label {
+            display: block;
+            margin-bottom: 8px;
+            color: #2c3e50;
+            font-weight: 500;
+        }
+        
+        .comments-textarea {
+            width: 100%;
+            min-height: 80px;
+            padding: 12px;
+            border: 2px solid #e0e6ed;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 14px;
+            resize: vertical;
+            box-sizing: border-box;
+        }
+        
+        .comments-textarea:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+        
+        .submit-section {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .submit-btn {
+            flex: 1;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .submit-btn:hover {
+            background: linear-gradient(135deg, #2980b9, #1f5f8b);
+            transform: translateY(-1px);
+        }
+        
+        .skip-btn {
+            background: #f8f9fa;
+            color: #666;
+            border: 1px solid #dee2e6;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .skip-btn:hover {
+            background: #e9ecef;
+        }
+    </style>
+</head>
+<body>
+    <div class="feedback-container">
+        <div class="scenario-context">
+            <h3>You just completed:</h3>
+            <div class="scenario-title">Weather Emergency Response</div>
+            <div style="margin-top: 8px; font-size: 0.9em; color: #666;">
+                Your team scored 84 points • Winner: IT/Security
+            </div>
+        </div>
+        
+        <div class="rating-section">
+            <label class="rating-label">How would you rate this scenario overall?</label>
+            <div class="stars">
+                <span class="star" data-rating="1">⭐</span>
+                <span class="star" data-rating="2">⭐</span>
+                <span class="star" data-rating="3">⭐</span>
+                <span class="star active" data-rating="4">⭐</span>
+                <span class="star" data-rating="5">⭐</span>
+            </div>
+            <div style="font-size: 0.8em; color: #999;">4 out of 5 stars</div>
+        </div>
+        
+        <div class="checkbox-section">
+            <div class="checkbox-group">
+                <div class="checkbox-item">
+                    <input type="checkbox" id="enjoyed" checked>
+                    <label for="enjoyed">I enjoyed this scenario</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="learned" checked>
+                    <label for="learned">I learned something from this scenario</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="realistic">
+                    <label for="realistic">This scenario felt realistic</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="recommend" checked>
+                    <label for="recommend">I would recommend this scenario to colleagues</label>
+                </div>
+            </div>
+        </div>
+        
+        <div class="comments-section">
+            <label for="comments" class="comments-label">Any additional thoughts or suggestions?</label>
+            <textarea id="comments" class="comments-textarea" placeholder="Share your feedback about this scenario - what worked well, what could be improved, how realistic it felt, etc.">Good scenario overall, but some of the power outage response options seemed unrealistic for our bank size.</textarea>
+        </div>
+        
+        <div class="submit-section">
+            <button class="submit-btn">Submit Feedback</button>
+            <button class="skip-btn">Skip</button>
+        </div>
+    </div>
+
+    <script>
+        // Simple star rating functionality for demo
+        document.querySelectorAll('.star').forEach(star => {
+            star.addEventListener('click', function() {
+                const rating = parseInt(this.dataset.rating);
+                document.querySelectorAll('.star').forEach((s, index) => {
+                    if (index < rating) {
+                        s.classList.add('active');
+                    } else {
+                        s.classList.remove('active');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
