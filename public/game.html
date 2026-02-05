@@ -195,7 +195,7 @@ async function loadScenario() {
     $("questionBox").innerHTML = `
       <div class="scenario-intro">
         <h3>Read the scenario above, then click Continue to start the crisis management questions.</h3>
-        <p>You will have 90 seconds per question once you begin.</p>
+        <p>You will have 60 seconds per question once you begin.</p>
         <button class="continue-btn" onclick="startQuestions()">Continue → Start Game</button>
       </div>
     `;
@@ -227,8 +227,11 @@ function startQuestions() {
 function renderQuestion() {
   const q = state.scenario.questions[state.index];
   state.answered = false;
-  state.timerDuration = 90;
-  state.timeRemaining = 90;
+  
+  // Set timer duration based on whether it's a tiebreaker round
+  const timerDuration = state.tiebreaker ? 30 : 60;
+  state.timerDuration = timerDuration;
+  state.timeRemaining = timerDuration;
 
   $("questionBox").innerHTML = `
     <div class="q-progress">
@@ -236,7 +239,7 @@ function renderQuestion() {
     </div>
 
     <div class="timer-container">
-      <div class="timer-text">Time Remaining: <span id="timerText">1:30</span></div>
+      <div class="timer-text">Time Remaining: <span id="timerText">1:00</span></div>
       <div class="timer-bar-bg">
         <div class="timer-bar" id="timerBar"></div>
       </div>
@@ -470,7 +473,7 @@ async function startTiebreakerRound(depts) {
   const ordered = shuffle(tQuestions);
 
   $("scenarioTitle").textContent = "Tiebreaker Round";
-  $("scenarioText").textContent = "Multiple groups are tied at 30 points. Each tied group gets one extra question.";
+  $("scenarioText").textContent = "Multiple groups are tied at 30 points. Each tied group gets one extra question with a 30-second timer.";
 
   state.scenario = { title: "Tiebreaker Round", description: "", questions: ordered };
   state.index = 0;
