@@ -83,18 +83,49 @@
         ? `<strong>Winners:</strong> ${topTies.map(t => t[0]).join(', ')} (${topScore} pts)`
         : `<strong>Winner:</strong> ${winner[0]} (${winner[1]} pts)`;
 
-      const rows = data.standings.map((s, i) => `
-        <div class="result-row ${i===0 ? 'top' : ''}">
-          <div class="result-left">
-            <div class="rank">${i+1}</div>
-            <div>
-              <div class="dept-name">${s[0]}</div>
-              <div class="dept-sub">Final score</div>
+      // Create podium (top 3) and remaining departments
+      const podium = data.standings.slice(0, 3);
+      const remaining = data.standings.slice(3);
+
+      const podiumHTML = `
+        <div class="podium">
+          ${podium[1] ? `
+            <div class="podium-place second">
+              <div class="podium-medal">🥈</div>
+              <div class="podium-dept">${podium[1][0]}</div>
+              <div class="podium-score">${podium[1][1]} pts</div>
+              <div class="podium-rank">2nd</div>
             </div>
+          ` : ''}
+          <div class="podium-place first">
+            <div class="podium-medal">🏆</div>
+            <div class="podium-dept">${podium[0][0]}</div>
+            <div class="podium-score">${podium[0][1]} pts</div>
+            <div class="podium-rank">1st</div>
           </div>
-          <div class="result-score">${s[1]} pts</div>
+          ${podium[2] ? `
+            <div class="podium-place third">
+              <div class="podium-medal">🥉</div>
+              <div class="podium-dept">${podium[2][0]}</div>
+              <div class="podium-score">${podium[2][1]} pts</div>
+              <div class="podium-rank">3rd</div>
+            </div>
+          ` : ''}
         </div>
-      `).join('');
+      `;
+
+      const remainingHTML = remaining.length > 0 ? `
+        <div class="remaining-depts">
+          <div class="remaining-title">Other Departments</div>
+          ${remaining.map((s, i) => `
+            <div class="remaining-item">
+              <span class="remaining-rank">${i + 4}</span>
+              <span class="remaining-name">${s[0]}</span>
+              <span class="remaining-score">${s[1]} pts</span>
+            </div>
+          `).join('')}
+        </div>
+      ` : '';
 
       root.innerHTML = `
         <div class="winner-overlay" style="position: fixed; inset: 0;">
@@ -105,9 +136,9 @@
               <p>${winnerLabel}</p>
             </div>
             <div class="winner-body">
-              <div class="winner-pill"><span class="badge">1st</span> Congratulations, ${winner[0]}!</div>
-              <div class="results-title">Final Standings</div>
-              <div class="results-grid">${rows}</div>
+              <div class="winner-pill"><span class="badge">🏆</span> Congratulations, ${winner[0]}!</div>
+              ${podiumHTML}
+              ${remainingHTML}
               <div class="winner-actions">
                 <button class="primary" onclick="window.location.href='game.html'">Play Again</button>
                 <button class="secondary" onclick="window.location.href='index.html'">Back to Home</button>
