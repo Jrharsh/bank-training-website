@@ -2538,7 +2538,7 @@ const SCENARIO_REGULATORY_INQUIRY = {
         "Rely on verbal explanations from SMEs supported by a few key reports rather than building full documentation.",
         "Weak audit position and easy to challenge.",
         -5
-      )
+      ))
 
   ]
 };
