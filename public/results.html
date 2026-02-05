@@ -253,8 +253,8 @@
       const root = document.getElementById('resultsRoot');
       if (!data || !Array.isArray(data.standings)) {
         root.innerHTML = `
-          <div class="winner-overlay" style="position: fixed; inset: 0;">
-            <div class="winner-card">
+          <div class="winner-overlay" style="position: fixed; inset: 0; overflow-y: auto; padding: 20px 0;">
+            <div class="winner-card" style="max-height: none; margin: 0 auto;">
               <div class="winner-hero">
                 <h1>Results Unavailable</h1>
                 <p>Start a game to see standings.</p>
@@ -322,8 +322,8 @@
       ` : '';
 
       root.innerHTML = `
-        <div class="winner-overlay" style="position: fixed; inset: 0;">
-          <div class="winner-card">
+        <div class="winner-overlay" style="position: fixed; inset: 0; overflow-y: auto; padding: 20px 0;">
+          <div class="winner-card" style="max-height: none; margin: 0 auto;">
             <div class="winner-hero">
               <div class="trophy">🏆</div>
               <h1>${winnerTitle}</h1>
