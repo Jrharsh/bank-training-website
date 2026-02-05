@@ -9,6 +9,200 @@
   <style>
     body { background: #0b1220; color: #eef2ff; }
     .results-page { position: relative; min-height: 100vh; }
+    
+    /* Feedback Section Styles */
+    .feedback-section {
+      margin: 24px 0;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .feedback-header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    
+    .feedback-header h3 {
+      color: #eef2ff;
+      margin-bottom: 6px;
+      font-size: 1.2em;
+    }
+    
+    .feedback-header p {
+      color: #a1a8c3;
+      font-size: 0.9em;
+      margin: 0;
+    }
+    
+    .feedback-form {
+      max-width: 450px;
+      margin: 0 auto;
+    }
+    
+    .rating-section {
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    
+    .rating-section label {
+      display: block;
+      color: #eef2ff;
+      margin-bottom: 10px;
+      font-weight: 500;
+    }
+    
+    .star-rating {
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+      margin-bottom: 6px;
+    }
+    
+    .star {
+      font-size: 1.8em;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      opacity: 0.3;
+    }
+    
+    .star:hover {
+      transform: scale(1.2);
+    }
+    
+    .rating-text {
+      font-size: 0.85em;
+      color: #a1a8c3;
+      height: 16px;
+    }
+    
+    .checkbox-section {
+      margin-bottom: 20px;
+    }
+    
+    .checkbox-group {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    
+    .checkbox-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .checkbox-item input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      accent-color: #3498db;
+    }
+    
+    .checkbox-item label {
+      color: #eef2ff;
+      cursor: pointer;
+      font-size: 0.9em;
+    }
+    
+    .comment-section {
+      margin-bottom: 20px;
+    }
+    
+    .comment-section label {
+      display: block;
+      color: #eef2ff;
+      margin-bottom: 8px;
+      font-weight: 500;
+      font-size: 0.9em;
+    }
+    
+    .comment-section textarea {
+      width: 100%;
+      min-height: 80px;
+      padding: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.1);
+      color: #eef2ff;
+      font-family: inherit;
+      font-size: 0.9em;
+      resize: vertical;
+      box-sizing: border-box;
+    }
+    
+    .comment-section textarea::placeholder {
+      color: #a1a8c3;
+    }
+    
+    .comment-section textarea:focus {
+      outline: none;
+      border-color: #3498db;
+      background: rgba(255, 255, 255, 0.15);
+    }
+    
+    .feedback-buttons {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    
+    .feedback-btn {
+      flex: 1;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 0.9em;
+    }
+    
+    .feedback-btn.primary {
+      background: linear-gradient(135deg, #3498db, #2980b9);
+      color: white;
+    }
+    
+    .feedback-btn.primary:hover:not(:disabled) {
+      background: linear-gradient(135deg, #2980b9, #1f5f8b);
+      transform: translateY(-1px);
+    }
+    
+    .feedback-btn.secondary {
+      background: rgba(255, 255, 255, 0.1);
+      color: #eef2ff;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+    
+    .feedback-btn.secondary:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+    
+    .feedback-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+    
+    .feedback-status {
+      text-align: center;
+      font-size: 0.9em;
+      padding: 8px;
+      border-radius: 6px;
+    }
+    
+    .feedback-status.success {
+      color: #27ae60;
+      background: rgba(39, 174, 96, 0.1);
+    }
+    
+    .feedback-status.error {
+      color: #e74c3c;
+      background: rgba(231, 76, 60, 0.1);
+    }
+    
+    .feedback-status.hidden {
+      display: none;
+    }
   </style>
 </head>
 <body>
@@ -139,6 +333,58 @@
               <div class="winner-pill"><span class="badge">🏆</span> Congratulations, ${winner[0]}!</div>
               ${podiumHTML}
               ${remainingHTML}
+              <div class="feedback-section">
+                <div class="feedback-header">
+                  <h3>📝 Rate This Scenario</h3>
+                  <p>Help us improve "${data.scenarioTitle || 'this scenario'}"</p>
+                </div>
+                <div class="feedback-form">
+                  <div class="rating-section">
+                    <label>How would you rate this scenario overall?</label>
+                    <div class="star-rating">
+                      <span class="star" data-rating="1">⭐</span>
+                      <span class="star" data-rating="2">⭐</span>
+                      <span class="star" data-rating="3">⭐</span>
+                      <span class="star" data-rating="4">⭐</span>
+                      <span class="star" data-rating="5">⭐</span>
+                    </div>
+                    <div class="rating-text"></div>
+                  </div>
+                  
+                  <div class="checkbox-section">
+                    <div class="checkbox-group">
+                      <div class="checkbox-item">
+                        <input type="checkbox" id="enjoyed">
+                        <label for="enjoyed">I enjoyed this scenario</label>
+                      </div>
+                      <div class="checkbox-item">
+                        <input type="checkbox" id="learned">
+                        <label for="learned">I learned something from this scenario</label>
+                      </div>
+                      <div class="checkbox-item">
+                        <input type="checkbox" id="realistic">
+                        <label for="realistic">This scenario felt realistic</label>
+                      </div>
+                      <div class="checkbox-item">
+                        <input type="checkbox" id="recommend">
+                        <label for="recommend">I would recommend this to colleagues</label>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="comment-section">
+                    <label for="feedbackComment">Any additional thoughts or suggestions?</label>
+                    <textarea id="feedbackComment" placeholder="Share your feedback about this scenario - what worked well, what could be improved, how realistic it felt, etc."></textarea>
+                  </div>
+                  
+                  <div class="feedback-buttons">
+                    <button id="submitFeedback" class="feedback-btn primary">Submit Feedback</button>
+                    <button id="skipFeedback" class="feedback-btn secondary">Skip</button>
+                  </div>
+                  <div id="feedbackStatus" class="feedback-status hidden"></div>
+                </div>
+              </div>
+              
               <div class="winner-actions">
                 <button class="primary" onclick="window.location.href='game.html'">Play Again</button>
                 <button class="secondary" onclick="window.location.href='index.html'">Back to Home</button>
@@ -151,7 +397,127 @@
       launchConfetti(3000);
     }
 
+    let selectedRating = 0;
+
+    function setupFeedback() {
+      // Star rating functionality
+      document.querySelectorAll('.star').forEach(star => {
+        star.addEventListener('click', function() {
+          selectedRating = parseInt(this.dataset.rating);
+          updateStarDisplay();
+        });
+        star.addEventListener('mouseenter', function() {
+          const rating = parseInt(this.dataset.rating);
+          highlightStars(rating);
+        });
+      });
+      
+      document.querySelector('.star-rating').addEventListener('mouseleave', function() {
+        updateStarDisplay();
+      });
+      
+      // Submit feedback
+      document.getElementById('submitFeedback').addEventListener('click', submitFeedback);
+      document.getElementById('skipFeedback').addEventListener('click', skipFeedback);
+    }
+    
+    function updateStarDisplay() {
+      document.querySelectorAll('.star').forEach((star, index) => {
+        if (index < selectedRating) {
+          star.style.opacity = '1';
+          star.style.transform = 'scale(1.1)';
+        } else {
+          star.style.opacity = '0.3';
+          star.style.transform = 'scale(1)';
+        }
+      });
+      
+      const ratingText = document.querySelector('.rating-text');
+      if (selectedRating > 0) {
+        ratingText.textContent = `${selectedRating} out of 5 stars`;
+      } else {
+        ratingText.textContent = '';
+      }
+    }
+    
+    function highlightStars(rating) {
+      document.querySelectorAll('.star').forEach((star, index) => {
+        if (index < rating) {
+          star.style.opacity = '1';
+          star.style.transform = 'scale(1.1)';
+        } else {
+          star.style.opacity = '0.3';
+          star.style.transform = 'scale(1)';
+        }
+      });
+    }
+    
+    function skipFeedback() {
+      document.querySelector('.feedback-section').style.display = 'none';
+    }
+    
+    async function submitFeedback() {
+      const comment = document.getElementById('feedbackComment').value;
+      const enjoyed = document.getElementById('enjoyed').checked;
+      const learned = document.getElementById('learned').checked;
+      const realistic = document.getElementById('realistic').checked;
+      const recommend = document.getElementById('recommend').checked;
+      
+      const statusEl = document.getElementById('feedbackStatus');
+      const submitBtn = document.getElementById('submitFeedback');
+      
+      if (selectedRating === 0) {
+        statusEl.textContent = 'Please select a rating before submitting.';
+        statusEl.className = 'feedback-status error';
+        return;
+      }
+      
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Submitting...';
+      
+      try {
+        const data = JSON.parse(sessionStorage.getItem('cmgResults') || '{}');
+        const feedback = {
+          scenarioTitle: data.scenarioTitle || 'Unknown',
+          rating: selectedRating,
+          enjoyed: enjoyed,
+          learned: learned,
+          realistic: realistic,
+          recommend: recommend,
+          comment: comment.trim(),
+          timestamp: new Date().toISOString(),
+          gameResults: {
+            scores: data.scores,
+            winner: data.standings?.[0]?.[0] || 'Unknown'
+          }
+        };
+        
+        const response = await fetch('/api/submit-feedback', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(feedback)
+        });
+        
+        if (response.ok) {
+          statusEl.textContent = '✅ Thank you for your feedback!';
+          statusEl.className = 'feedback-status success';
+          document.querySelector('.feedback-form').style.opacity = '0.5';
+          submitBtn.style.display = 'none';
+          document.getElementById('skipFeedback').textContent = 'Close';
+        } else {
+          throw new Error('Failed to submit');
+        }
+      } catch (error) {
+        statusEl.textContent = '❌ Failed to submit feedback. Please try again.';
+        statusEl.className = 'feedback-status error';
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Submit Feedback';
+      }
+    }
+
     renderResults();
+    // Setup feedback after DOM is ready
+    setTimeout(setupFeedback, 100);
   </script>
 <script src="/js/theme.js"></script>
 </body>
