@@ -69,7 +69,8 @@ const state = {
   answered: false,
   scores: {},
   tiebreaker: false,
-  tiedDepts: []
+  tiedDepts: [],
+  phase: 'loading' // 'loading', 'scenario', 'questions', 'complete'
 };
 
 DEPARTMENTS.forEach(d => state.scores[d] = 0);
@@ -182,6 +183,7 @@ async function loadScenario() {
     state.scenario = scenario;
     state.index = 0;
     state.answered = false;
+    state.phase = 'scenario';
     DEPARTMENTS.forEach(d => state.scores[d] = 0);
 
     renderScoreboard();
@@ -189,7 +191,14 @@ async function loadScenario() {
     $("scenarioTitle").textContent = scenario.title || "Scenario";
     $("scenarioText").textContent = scenario.description || "";
 
-    renderQuestion();
+    // Show continue button instead of starting immediately
+    $("questionBox").innerHTML = `
+      <div class="scenario-intro">
+        <h3>Read the scenario above, then click Continue to start the crisis management questions.</h3>
+        <p>You will have 90 seconds per question once you begin.</p>
+        <button class="continue-btn" onclick="startQuestions()">Continue → Start Game</button>
+      </div>
+    `;
   } catch (err) {
     const msg = err?.message || 'Failed to load scenario.';
     box.innerHTML = `
@@ -202,6 +211,14 @@ async function loadScenario() {
       </div>
     `;
   }
+}
+
+/* ================================
+   START QUESTIONS
+================================ */
+function startQuestions() {
+  state.phase = 'questions';
+  renderQuestion();
 }
 
 /* ================================
