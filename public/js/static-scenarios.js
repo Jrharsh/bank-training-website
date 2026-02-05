@@ -2539,7 +2539,6 @@ const SCENARIO_REGULATORY_INQUIRY = {
         "Weak audit position and easy to challenge.",
         -5
       )
-    )
 
   ]
 };
