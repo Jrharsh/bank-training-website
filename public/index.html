@@ -12,6 +12,9 @@
             <div class="bank-logo">
                 <img src="/images/bank-logo.png" alt="SSBTX Bank Logo" style="width: 80px; height: 80px; object-fit: contain;">
             </div>
+            <div class="admin-button" onclick="goToAdmin()" title="Admin Dashboard">
+                ⚙️
+            </div>
             <h1>SSBTX Table-Top Training Hub</h1>
             <p>Choose your training experience: Competitive crisis management simulation or collaborative department discussions</p>
         </div>
@@ -55,6 +58,10 @@
 
   function goToDiscussion() {
     window.location.href = '/discussion.html';
+  }
+
+  function goToAdmin() {
+    window.location.href = '/login.html';
   }
 </script>
 
