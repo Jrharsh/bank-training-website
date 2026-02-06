@@ -493,21 +493,16 @@
           }
         };
         
-        const response = await fetch('/api/submit-feedback', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(feedback)
-        });
+        // Store feedback in localStorage 
+        const storedFeedback = JSON.parse(localStorage.getItem('gameFeedback') || '[]');
+        storedFeedback.push(feedback);
+        localStorage.setItem('gameFeedback', JSON.stringify(storedFeedback));
         
-        if (response.ok) {
-          statusEl.textContent = '✅ Thank you for your feedback!';
-          statusEl.className = 'feedback-status success';
-          document.querySelector('.feedback-form').style.opacity = '0.5';
-          submitBtn.style.display = 'none';
-          document.getElementById('skipFeedback').textContent = 'Close';
-        } else {
-          throw new Error('Failed to submit');
-        }
+        statusEl.textContent = '✅ Thank you for your feedback!';
+        statusEl.className = 'feedback-status success';
+        document.querySelector('.feedback-form').style.opacity = '0.5';
+        submitBtn.style.display = 'none';
+        document.getElementById('skipFeedback').textContent = 'Close';
       } catch (error) {
         statusEl.textContent = '❌ Failed to submit feedback. Please try again.';
         statusEl.className = 'feedback-status error';

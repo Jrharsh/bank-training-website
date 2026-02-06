@@ -233,9 +233,6 @@
         <button class="export-btn" onclick="exportFeedback()">
           📥 Export CSV
         </button>
-        <button class="export-btn" onclick="logout()" style="background: #ef4444; margin-left: 10px;">
-          🚪 Logout
-        </button>
         <a href="/index.html" class="back-btn">
           ← Back to Home
         </a>
@@ -295,68 +292,35 @@
   </div>
 
   <script>
-    // Check authentication before loading dashboard
-    async function checkAuthentication() {
-      const token = localStorage.getItem('adminAuth');
-      
-      if (!token) {
-        window.location.href = '/login.html';
-        return false;
-      }
-      
-      try {
-        const response = await fetch('/api/verify-admin', {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
-        });
-        
-        const data = await response.json();
-        
-        if (!data.valid) {
-          localStorage.removeItem('adminAuth');
-          window.location.href = '/login.html';
-          return false;
-        }
-        
-        return true;
-      } catch (error) {
-        console.error('Auth verification error:', error);
-        localStorage.removeItem('adminAuth');
-        window.location.href = '/login.html';
-        return false;
-      }
+    // No authentication needed - direct access
+    function checkAuthentication() {
+      return Promise.resolve(true);
     }
     
-    // Logout function
-    function logout() {
-      localStorage.removeItem('adminAuth');
-      window.location.href = '/login.html';
-    }
-    
+
     let allFeedback = [];
     let filteredFeedback = [];
 
-    // Load and display feedback
+    // Load and display feedback from localStorage only
     async function loadFeedback() {
-      try {
-        const response = await fetch('/api/get-feedback');
-        const data = await response.json();
-        allFeedback = data.feedback || [];
-        filteredFeedback = [...allFeedback];
-        
-        updateStats();
-        populateScenarioFilter();
-        displayFeedback();
-      } catch (error) {
-        console.error('Error loading feedback:', error);
+      // Load from localStorage only
+      const localFeedback = JSON.parse(localStorage.getItem('gameFeedback') || '[]');
+      allFeedback = localFeedback;
+      
+      if (allFeedback.length === 0) {
         document.getElementById('feedbackList').innerHTML = `
           <div class="empty-state">
-            <h3>Error Loading Feedback</h3>
-            <p>Unable to load feedback submissions. Please try again.</p>
+            <h3>No Feedback Found</h3>
+            <p>No feedback submissions found. Try playing a game and submitting feedback first.</p>
           </div>
         `;
+        return;
       }
+      
+      filteredFeedback = [...allFeedback];
+      updateStats();
+      populateScenarioFilter();
+      displayFeedback();
     }
 
     // Update statistics
@@ -515,12 +479,9 @@
     document.getElementById('startDate').addEventListener('change', applyFilters);
     document.getElementById('endDate').addEventListener('change', applyFilters);
 
-    // Load feedback on page load - with authentication check
+    // Load feedback on page load - no authentication needed
     (async function() {
-      const isAuthenticated = await checkAuthentication();
-      if (isAuthenticated) {
-        loadFeedback();
-      }
+      loadFeedback();
     })();
   </script>
 </body>

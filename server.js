@@ -30,20 +30,8 @@ app.use(express.static(path.join(__dirname, 'public'), {
 
 // API routes
 app.post('/api/scenarios', (req, res) => scenariosHandler(req, res));
-// Discussion page generator
+// Discussion page generator  
 app.post('/api/generate-discussion-scenario', (req, res) => discussionHandler(req, res));
-
-// Import the new API handlers
-import submitFeedbackHandler from './api/submit-feedback.js';
-import getFeedbackHandler from './api/get-feedback.js'; 
-import adminLoginHandler from './api/admin-login.js';
-import verifyAdminHandler from './api/verify-admin.js';
-
-// Feedback and admin routes
-app.post('/api/submit-feedback', (req, res) => submitFeedbackHandler(req, res));
-app.get('/api/get-feedback', (req, res) => getFeedbackHandler(req, res));
-app.post('/api/admin-login', (req, res) => adminLoginHandler(req, res));
-app.get('/api/verify-admin', (req, res) => verifyAdminHandler(req, res));
 
 // Diagnostics endpoint to verify active code and file mtimes
 app.get('/api/__debug', (req, res) => {
