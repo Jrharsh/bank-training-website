@@ -1,5 +1,9 @@
 import fs from 'fs';
 import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 export default async (req, res) => {
   // Set CORS headers
@@ -17,7 +21,7 @@ export default async (req, res) => {
   }
 
   try {
-    const feedbackDir = path.join(process.cwd(), 'feedback');
+    const feedbackDir = path.join(path.dirname(__dirname), 'feedback');
     
     // Check if feedback directory exists
     if (!fs.existsSync(feedbackDir)) {
