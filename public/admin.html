@@ -303,15 +303,18 @@
 
     // Load and display feedback from localStorage only
     async function loadFeedback() {
-      // Load from localStorage only
-      const localFeedback = JSON.parse(localStorage.getItem('gameFeedback') || '[]');
-      allFeedback = localFeedback;
+      // Load both game and discussion feedback from localStorage
+      const gameFeedback = JSON.parse(localStorage.getItem('gameFeedback') || '[]');
+      const discussionFeedback = JSON.parse(localStorage.getItem('discussionFeedback') || '[]');
+      
+      // Combine both types of feedback
+      allFeedback = [...gameFeedback, ...discussionFeedback];
       
       if (allFeedback.length === 0) {
         document.getElementById('feedbackList').innerHTML = `
           <div class="empty-state">
             <h3>No Feedback Found</h3>
-            <p>No feedback submissions found. Try playing a game and submitting feedback first.</p>
+            <p>No feedback submissions found. Try playing games or reviewing discussion scenarios and submitting feedback first.</p>
           </div>
         `;
         return;
@@ -342,10 +345,19 @@
 
     // Populate scenario filter dropdown
     function populateScenarioFilter() {
-      const scenarios = [...new Set(allFeedback.map(f => f.scenarioTitle))];
+      // Get unique scenarios from both game and discussion feedback
+      const gameScenarios = allFeedback
+        .filter(f => f.type !== 'discussion' && f.scenarioTitle)
+        .map(f => f.scenarioTitle);
+      
+      const discussionDepts = allFeedback
+        .filter(f => f.type === 'discussion' && f.department)
+        .map(f => `Discussion: ${f.department.replace(/-/g, ' ')}`);
+      
+      const allScenarios = [...new Set([...gameScenarios, ...discussionDepts])];
       const select = document.getElementById('scenarioFilter');
       
-      scenarios.forEach(scenario => {
+      allScenarios.forEach(scenario => {
         const option = document.createElement('option');
         option.value = scenario;
         option.textContent = scenario;
@@ -388,17 +400,26 @@
           </div>
         `).join('');
 
-        const winner = feedback.gameResults?.winner || 'Unknown';
+        // Handle different feedback types
+        let title, metaInfo;
+        if (feedback.type === 'discussion') {
+          title = `Discussion: ${feedback.department ? feedback.department.replace(/-/g, ' ') : 'Unknown Department'}`;
+          metaInfo = `🗣️ Discussion Scenario`;
+        } else {
+          title = feedback.scenarioTitle || 'Game Scenario';
+          const winner = feedback.gameResults?.winner || 'Unknown';
+          metaInfo = `👑 Winner: ${winner}`;
+        }
 
         return `
           <div class="feedback-item">
             <div class="feedback-header">
               <div>
-                <strong>${feedback.scenarioTitle}</strong>
+                <strong>${title}</strong>
                 <div class="rating-display">${stars}</div>
               </div>
               <div class="feedback-meta">
-                <span>👑 Winner: ${winner}</span>
+                <span>${metaInfo}</span>
                 <span>📅 ${date} ${time}</span>
               </div>
             </div>
@@ -428,7 +449,17 @@
 
       filteredFeedback = allFeedback.filter(feedback => {
         if (ratingFilter && feedback.rating != parseInt(ratingFilter)) return false;
-        if (scenarioFilter && feedback.scenarioTitle !== scenarioFilter) return false;
+        
+        // Handle scenario filtering for both game and discussion feedback
+        if (scenarioFilter) {
+          let feedbackScenario;
+          if (feedback.type === 'discussion') {
+            feedbackScenario = `Discussion: ${feedback.department ? feedback.department.replace(/-/g, ' ') : 'Unknown Department'}`;
+          } else {
+            feedbackScenario = feedback.scenarioTitle;
+          }
+          if (feedbackScenario !== scenarioFilter) return false;
+        }
         
         if (startDate || endDate) {
           const feedbackDate = new Date(feedback.timestamp);
@@ -444,21 +475,35 @@
 
     // Export to CSV
     function exportFeedback() {
-      const headers = ['Date', 'Time', 'Scenario', 'Rating', 'Enjoyed', 'Learned', 'Realistic', 'Recommend', 'Winner', 'Comment'];
+      const headers = ['Date', 'Time', 'Type', 'Scenario', 'Rating', 'Enjoyed', 'Learned', 'Realistic', 'Recommend', 'Winner', 'Comment'];
       const csvContent = [
         headers.join(','),
         ...filteredFeedback.map(feedback => {
           const date = new Date(feedback.timestamp);
+          
+          // Determine scenario title and type
+          let scenarioTitle, feedbackType, winner;
+          if (feedback.type === 'discussion') {
+            scenarioTitle = feedback.department ? feedback.department.replace(/-/g, ' ') : 'Unknown Department';
+            feedbackType = 'Discussion';
+            winner = 'N/A';
+          } else {
+            scenarioTitle = feedback.scenarioTitle || 'Game Scenario';
+            feedbackType = 'Game';
+            winner = feedback.gameResults?.winner || 'Unknown';
+          }
+          
           return [
             date.toLocaleDateString(),
             date.toLocaleTimeString(),
-            `"${feedback.scenarioTitle}"`,
+            feedbackType,
+            `"${scenarioTitle}"`,
             feedback.rating,
             feedback.enjoyed ? 'Yes' : 'No',
             feedback.learned ? 'Yes' : 'No',
             feedback.realistic ? 'Yes' : 'No',
             feedback.recommend ? 'Yes' : 'No',
-            `"${feedback.gameResults?.winner || 'Unknown'}"`,
+            `"${winner}"`,
             `"${(feedback.comment || '').replace(/"/g, '""')}"`
           ].join(',');
         })

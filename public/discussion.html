@@ -123,41 +123,42 @@
                 background: transparent; /* remove busy gradient */
             }
             .department-card {
-                background: #ffffff;
-                box-shadow: 0 6px 18px rgba(10,25,47,0.06);
-                border-radius: 12px;
-                color: #0b2540;
-                padding: 22px 16px;
+                background: rgba(255,255,255,0.92);
+                box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+                border-radius: 16px;
+                color: #222;
+                padding: 20px 16px;
                 transition: border 0.18s, background 0.18s, box-shadow 0.18s, transform 0.12s;
                 font-size: 1rem;
+                font-weight: 700;
                 will-change: transform, box-shadow;
                 text-align: center;
                 cursor: pointer;
-                border: 1px solid #e6eef6;
+                border: 2px solid transparent;
                 min-height: 120px;
                 display: flex;
                 flex-direction: column;
                 align-items: center;
                 justify-content: center;
                 gap: 8px;
+                letter-spacing: 0.01em;
             }
             /* Ensure card text is high contrast and readable */
-            .department-card, .department-card .department-name { color: #06203a; }
-                /* Hover/selected behavior consolidated below to match complexity option */
+            .department-card, .department-card .department-name { color: #222; }
+            /* Selected state exactly matches complexity options */
+            .department-card.selected, .department-card:hover {
+                border: 2px solid #2196f3 !important;
+                background: #e3eafc !important;
+                box-shadow: 0 4px 18px rgba(33,150,243,0.10) !important;
+                transform: scale(1.03) !important;
+                color: #0b2540 !important;
+            }
             .department-icon {
                 font-size: 3.8rem; /* larger, clearer */
                 margin-bottom: 6px;
                 display: block;
                 line-height: 1;
             }
-            .department-card.selected, .department-card:hover {
-                border: 1.5px solid #2b88ff;
-                background: #f0f7ff;
-                box-shadow: 0 8px 24px rgba(11,37,78,0.08);
-                transform: translateY(-4px);
-                color: #06203a;
-            }
-            /* duplicate removed; .department-icon defined above */
             .complexity-options {
                 display: flex;
                 flex-direction: row;
@@ -197,16 +198,16 @@
                 transform: scale(1.03);
                 color: #0b2540;
             }
-            /* Ensure selected department cards match complexity selected visuals */
-            .department-card.selected, .department-card:hover {
-                border: 2px solid #2196f3;
-                background: #e3eafc;
-                box-shadow: 0 4px 18px rgba(33,150,243,0.10);
-                transform: scale(1.03);
-                color: #0b2540;
-            }
             .department-card .department-name {
-                font-weight: 900;
+                font-weight: 700;
+                font-size: 1rem;
+                color: inherit;
+                letter-spacing: 0.01em;
+            }
+            .department-card.selected .department-name,
+            .department-card:hover .department-name {
+                color: #0b2540 !important;
+            }
                 color: inherit;
                 font-size: 1.18rem; /* about 19px */
                 line-height: 1.2;
@@ -255,9 +256,7 @@
                 display: flex;
                 justify-content: center;
                 margin: 0 auto 0 auto;
-                background: #fff;
-                border-radius: 12px;
-                box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+                background: transparent;
             }
             .generate-btn {
                 background: linear-gradient(135deg, #e3eafc, #fbe3e3);
@@ -375,6 +374,15 @@
                 padding: 6px !important;
             }
 
+            .ttsg .department-card.selected,
+            .ttsg .department-card.selected:hover {
+                border: 2px solid #2196f3 !important;
+                background: #e3eafc !important;
+                box-shadow: 0 4px 18px rgba(33,150,243,0.10) !important;
+                transform: scale(1.03) !important;
+                color: #0b2540 !important;
+            }
+
             .ttsg .department-card {
                 width: 150px !important;
                 height: 150px !important;
@@ -382,16 +390,18 @@
                 min-height: 140px !important;
                 padding: 14px 10px !important;
                 border-radius: 12px !important;
-                background: #ffffff !important;
-                border: 1px solid #e6eef6 !important;
-                box-shadow: 0 8px 20px rgba(10,25,47,0.06) !important;
+                background: rgba(255,255,255,0.92) !important;
+                border: 2px solid transparent !important;
+                box-shadow: 0 2px 12px rgba(0,0,0,0.08) !important;
                 display: flex !important;
                 align-items: center !important;
                 justify-content: center !important;
                 flex-direction: column !important;
                 text-align: center !important;
-                color: #06203a !important;
+                color: #222 !important;
                 font-size: 1rem !important;
+                transition: border 0.18s, background 0.18s, box-shadow 0.18s, transform 0.12s !important;
+                cursor: pointer !important;
             }
 
             .ttsg .department-card .department-icon {
@@ -399,10 +409,15 @@
                 margin-bottom: 6px !important;
             }
 
+            .ttsg .department-card.selected .department-name,
+            .ttsg .department-card:hover .department-name {
+                color: #0b2540 !important;
+            }
+
             .ttsg .department-name {
                 font-size: 1.0rem !important;
                 font-weight: 800 !important;
-                color: #06203a !important;
+                color: #222 !important;
                 margin-top: 6px !important;
                 line-height: 1.1 !important;
                 white-space: normal !important;
@@ -510,6 +525,14 @@
                 <ul id="discussionPoints">
                     <!-- AI-generated discussion points will appear here -->
                 </ul>
+                
+                <!-- Rate Button -->
+                <div class="rate-button-section" id="rateButtonSection" style="text-align: center; margin-top: 20px; padding-top: 20px; border-top: 1px solid #e5e7eb; display: none;">
+                    <button id="rateScenarioBtn" class="rate-btn" onclick="rateScenario()" style="background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); color: white; border: none; padding: 14px 28px; border-radius: 10px; cursor: pointer; font-weight: 600; font-size: 1rem; box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3); transition: all 0.3s ease;">
+                        ⭐ Rate This Scenario
+                    </button>
+                    <p style="color: #6b7280; font-size: 0.9rem; margin: 8px 0 0 0;">Help us improve future discussion scenarios</p>
+                </div>
             </div>
         </div>
     </div>
@@ -761,6 +784,9 @@ function displayScenario(data) {
     // Show scenario output
     document.getElementById('scenarioOutput').style.display = 'block';
     
+    // Show rate button
+    showRateButton();
+    
     // Scroll to scenario
     document.getElementById('scenarioOutput').scrollIntoView({ 
         behavior: 'smooth',
@@ -793,6 +819,26 @@ document.addEventListener('DOMContentLoaded', function() {
     updateStatus('Ready to generate scenarios');
     console.log('[DEBUG] Initialization complete');
 });
+
+// Function to handle rating scenario button click
+function rateScenario() {
+    // Store scenario data for the feedback page
+    const scenarioData = {
+        department: selectedDepartment,
+        complexity: selectedComplexity,
+        timestamp: new Date().toISOString()
+    };
+    
+    localStorage.setItem('currentDiscussionScenario', JSON.stringify(scenarioData));
+    
+    // Navigate to discussion feedback page
+    window.location.href = '/discussion-feedback.html';
+}
+
+// Show rate button after scenario generation
+function showRateButton() {
+    document.getElementById('rateButtonSection').style.display = 'block';
+}
     </script>
     <script src="/js/theme.js"></script>
     </body>
