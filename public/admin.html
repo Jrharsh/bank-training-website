@@ -12,6 +12,88 @@
       font-family: 'Inter', sans-serif;
     }
     
+    /* Login Form Styles */
+    .login-container {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+    
+    .login-form {
+      background: white;
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+    }
+    
+    .login-title {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #2c3e50;
+      margin-bottom: 10px;
+    }
+    
+    .login-subtitle {
+      color: #7f8c8d;
+      margin-bottom: 30px;
+    }
+    
+    .form-group {
+      margin-bottom: 20px;
+      text-align: left;
+    }
+    
+    .form-label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 600;
+      color: #374151;
+    }
+    
+    .form-input {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #e5e7eb;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: border-color 0.3s;
+    }
+    
+    .form-input:focus {
+      outline: none;
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+    
+    .login-btn {
+      width: 100%;
+      background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    
+    .login-btn:hover {
+      transform: translateY(-2px);
+    }
+    
+    .login-error {
+      color: #dc2626;
+      margin-top: 15px;
+      font-size: 0.9rem;
+      display: none;
+    }
+    
     .admin-container {
       max-width: 1200px;
       margin: 0 auto;
@@ -51,6 +133,25 @@
     
     .back-btn:hover {
       background: rgba(255, 255, 255, 0.3);
+    }
+    
+    .logout-btn {
+      background: rgba(220, 38, 38, 0.2);
+      border: none;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: background 0.3s;
+      margin-left: 10px;
+    }
+    
+    .logout-btn:hover {
+      background: rgba(220, 38, 38, 0.3);
     }
     
     .stats-grid {
@@ -226,6 +327,40 @@
   </style>
 </head>
 <body>
+  <!-- Login Form -->
+  <div id="loginContainer" class="login-container">
+    <div class="login-form">
+      <h1 class="login-title">🔐 Admin Login</h1>
+      <p class="login-subtitle">Access the feedback dashboard</p>
+      
+      <form id="loginForm" onsubmit="handleLogin(event)">
+        <div class="form-group">
+          <label class="form-label" for="username">Username</label>
+          <input type="text" id="username" class="form-input" required>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label" for="password">Password</label>
+          <input type="password" id="password" class="form-input" required>
+        </div>
+        
+        <button type="submit" class="login-btn">Login</button>
+        
+        <div id="loginError" class="login-error">
+          Invalid username or password
+        </div>
+      </form>
+      
+      <div style="margin-top: 20px; padding: 15px; background: #f0f9ff; border-radius: 8px; font-size: 0.9rem; color: #0369a1;">
+        <strong>Demo Credentials:</strong><br>
+        Username: <code>admin</code><br>
+        Password: <code>admin123</code>
+      </div>
+    </div>
+  </div>
+
+  <!-- Admin Dashboard -->
+  <div id="adminDashboard" style="display: none;">
   <div class="admin-container">
     <div class="admin-header">
       <h1 class="admin-title">📊 Feedback Dashboard</h1>
@@ -236,6 +371,9 @@
         <a href="/index.html" class="back-btn">
           ← Back to Home
         </a>
+        <button onclick="logout()" class="logout-btn">
+          🚪 Logout
+        </button>
       </div>
     </div>
 
@@ -289,12 +427,61 @@
     <div class="feedback-list" id="feedbackList">
       <div class="loading">Loading feedback submissions...</div>
     </div>
-  </div>
+  </div> <!-- Close admin-container -->
+  </div> <!-- Close adminDashboard -->
 
   <script>
-    // No authentication needed - direct access
+    // Authentication functions
     function checkAuthentication() {
-      return Promise.resolve(true);
+      const isLoggedIn = localStorage.getItem('adminLoggedIn') === 'true';
+      
+      if (isLoggedIn) {
+        showDashboard();
+      } else {
+        showLogin();
+      }
+      
+      return isLoggedIn;
+    }
+    
+    function showLogin() {
+      document.getElementById('loginContainer').style.display = 'flex';
+      document.getElementById('adminDashboard').style.display = 'none';
+    }
+    
+    function showDashboard() {
+      document.getElementById('loginContainer').style.display = 'none';
+      document.getElementById('adminDashboard').style.display = 'block';
+    }
+    
+    function handleLogin(event) {
+      event.preventDefault();
+      
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+      
+      // Simple authentication (in production, this would be server-side)
+      if (username === 'admin' && password === 'admin123') {
+        localStorage.setItem('adminLoggedIn', 'true');
+        showDashboard();
+        loadFeedback(); // Load data after successful login
+        
+        // Clear form
+        document.getElementById('loginForm').reset();
+        document.getElementById('loginError').style.display = 'none';
+      } else {
+        document.getElementById('loginError').style.display = 'block';
+      }
+    }
+    
+    function logout() {
+      localStorage.removeItem('adminLoggedIn');
+      showLogin();
+      
+      // Clear any sensitive data
+      allFeedback = [];
+      filteredFeedback = [];
+      document.getElementById('feedbackList').innerHTML = '';
     }
     
 
@@ -325,6 +512,11 @@
       populateScenarioFilter();
       displayFeedback();
     }
+
+    // Load feedback on page load after authentication
+    (async function() {
+      checkAuthentication();
+    })();
 
     // Update statistics
     function updateStats() {
@@ -524,9 +716,9 @@
     document.getElementById('startDate').addEventListener('change', applyFilters);
     document.getElementById('endDate').addEventListener('change', applyFilters);
 
-    // Load feedback on page load - no authentication needed
+    // Load feedback on page load after authentication
     (async function() {
-      loadFeedback();
+      checkAuthentication();
     })();
   </script>
 </body>
