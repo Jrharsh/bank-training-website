@@ -452,6 +452,40 @@
     function showDashboard() {
       document.getElementById('loginContainer').style.display = 'none';
       document.getElementById('adminDashboard').style.display = 'block';
+      
+      // Set up event listeners after dashboard is visible
+      setTimeout(() => {
+        setupEventListeners();
+        loadFeedback(); // Load data whenever dashboard is shown
+      }, 100);
+    }
+    
+    function setupEventListeners() {
+      // Only set up listeners if elements exist and haven't been set up yet
+      const ratingFilter = document.getElementById('ratingFilter');
+      const scenarioFilter = document.getElementById('scenarioFilter');
+      const startDate = document.getElementById('startDate');
+      const endDate = document.getElementById('endDate');
+      
+      if (ratingFilter && !ratingFilter.hasEventListener) {
+        ratingFilter.addEventListener('change', applyFilters);
+        ratingFilter.hasEventListener = true;
+      }
+      
+      if (scenarioFilter && !scenarioFilter.hasEventListener) {
+        scenarioFilter.addEventListener('change', applyFilters);
+        scenarioFilter.hasEventListener = true;
+      }
+      
+      if (startDate && !startDate.hasEventListener) {
+        startDate.addEventListener('change', applyFilters);
+        startDate.hasEventListener = true;
+      }
+      
+      if (endDate && !endDate.hasEventListener) {
+        endDate.addEventListener('change', applyFilters);
+        endDate.hasEventListener = true;
+      }
     }
     
     function handleLogin(event) {
@@ -494,8 +528,15 @@
       const gameFeedback = JSON.parse(localStorage.getItem('gameFeedback') || '[]');
       const discussionFeedback = JSON.parse(localStorage.getItem('discussionFeedback') || '[]');
       
+      console.log('Loading feedback:', { 
+        gameFeedback: gameFeedback.length, 
+        discussionFeedback: discussionFeedback.length 
+      });
+      
       // Combine both types of feedback
       allFeedback = [...gameFeedback, ...discussionFeedback];
+      
+      console.log('Total feedback loaded:', allFeedback.length);
       
       if (allFeedback.length === 0) {
         document.getElementById('feedbackList').innerHTML = `
@@ -709,12 +750,6 @@
       a.click();
       window.URL.revokeObjectURL(url);
     }
-
-    // Event listeners
-    document.getElementById('ratingFilter').addEventListener('change', applyFilters);
-    document.getElementById('scenarioFilter').addEventListener('change', applyFilters);
-    document.getElementById('startDate').addEventListener('change', applyFilters);
-    document.getElementById('endDate').addEventListener('change', applyFilters);
 
     // Load feedback on page load after authentication
     (async function() {
