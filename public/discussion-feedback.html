@@ -380,14 +380,17 @@
             textEl.textContent = rating > 0 ? `${rating}/5 - ${ratingTexts[rating]}` : '';
         }
 
-        function submitFeedback() {
+        async function submitFeedback() {
             // Validate rating
             if (selectedRating === 0) {
                 showStatus('Please select a rating before submitting.', 'error');
                 return;
             }
 
-            // Collect feedback data
+            const btn = document.querySelector('.btn-primary');
+            btn.disabled = true;
+            btn.textContent = 'Submitting...';
+
             const feedback = {
                 type: 'discussion',
                 rating: selectedRating,
@@ -401,28 +404,27 @@
                 sessionId: generateSessionId()
             };
 
-            // Save to localStorage
             try {
-                let existingFeedback = JSON.parse(localStorage.getItem('discussionFeedback') || '[]');
-                existingFeedback.push(feedback);
-                localStorage.setItem('discussionFeedback', JSON.stringify(existingFeedback));
+                const res = await fetch('/api/feedback', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(feedback)
+                });
 
-                // Clear scenario data
+                if (!res.ok) throw new Error(await res.text());
+
                 localStorage.removeItem('currentDiscussionScenario');
-
-                // Show success and redirect
+                document.getElementById('feedbackForm').style.opacity = '0.7';
                 showStatus('Thank you for your feedback! 🎉', 'success');
-                
+
                 setTimeout(() => {
                     window.location.href = '/discussion.html';
                 }, 2000);
 
-                // Disable form
-                document.getElementById('feedbackForm').style.opacity = '0.7';
-                document.querySelector('.btn-primary').disabled = true;
-
             } catch (error) {
                 console.error('Error saving feedback:', error);
+                btn.disabled = false;
+                btn.textContent = '✅ Submit Feedback';
                 showStatus('Error saving feedback. Please try again.', 'error');
             }
         }

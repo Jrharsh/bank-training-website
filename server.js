@@ -12,6 +12,46 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// ── Feedback persistence ──────────────────────────────────────────────────────
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'admin123';
+
+function getFeedbackFile() {
+  const __filename2 = fileURLToPath(import.meta.url);
+  const __dirname2 = path.dirname(__filename2);
+  return path.join(__dirname2, 'feedback.json');
+}
+
+function readFeedback() {
+  const file = getFeedbackFile();
+  if (!fs.existsSync(file)) return [];
+  try { return JSON.parse(fs.readFileSync(file, 'utf8')); } catch { return []; }
+}
+
+function writeFeedback(data) {
+  fs.writeFileSync(getFeedbackFile(), JSON.stringify(data, null, 2));
+}
+
+// Anyone can submit feedback
+app.post('/api/feedback', (req, res) => {
+  const feedback = req.body;
+  if (!feedback || !feedback.rating) {
+    return res.status(400).json({ error: 'Invalid feedback: rating is required' });
+  }
+  const all = readFeedback();
+  all.push({ ...feedback, created_at: feedback.timestamp || new Date().toISOString() });
+  writeFeedback(all);
+  res.json({ success: true });
+});
+
+// Password-protected: GET /api/feedback?password=admin123
+app.get('/api/feedback', (req, res) => {
+  if (req.query.password !== ADMIN_PASSWORD) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
+  res.json(readFeedback());
+});
+// ─────────────────────────────────────────────────────────────────────────────
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 

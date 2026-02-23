@@ -493,11 +493,14 @@
           }
         };
         
-        // Store feedback in localStorage 
-        const storedFeedback = JSON.parse(localStorage.getItem('gameFeedback') || '[]');
-        storedFeedback.push(feedback);
-        localStorage.setItem('gameFeedback', JSON.stringify(storedFeedback));
-        
+        const res = await fetch('/api/feedback', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(feedback)
+        });
+
+        if (!res.ok) throw new Error(await res.text());
+
         statusEl.textContent = '✅ Thank you for your feedback!';
         statusEl.className = 'feedback-status success';
         document.querySelector('.feedback-form').style.opacity = '0.5';
