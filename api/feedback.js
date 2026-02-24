@@ -1,77 +1,45 @@
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzH9rQPhdj7gJkLmrikwyGNZr3ItNEuqQX3ZEpH4sBBpWp6dM4e4yMfQz3BaclP-7GRcw/exec';
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'admin123';
+
 export default async function handler(req, res) {
-  const SUPABASE_URL = process.env.SUPABASE_URL;
-  const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY;
+  res.setHeader('Cache-Control', 'no-store');
 
-  if (!SUPABASE_URL || !SUPABASE_SERVICE_KEY) {
-    return res.status(500).json({
-      error: 'Server not configured. Add SUPABASE_URL and SUPABASE_SERVICE_KEY to Vercel environment variables.'
-    });
-  }
-
-  const supabaseHeaders = {
-    'apikey': SUPABASE_SERVICE_KEY,
-    'Authorization': `Bearer ${SUPABASE_SERVICE_KEY}`,
-    'Content-Type': 'application/json'
-  };
-
-  // ── POST: submit feedback ──────────────────────────────────────────────────
+  // ── POST: forward feedback to Google Sheets ────────────────────────────────
   if (req.method === 'POST') {
     const body = req.body;
-
     if (!body || !body.rating) {
       return res.status(400).json({ error: 'Invalid feedback: rating is required' });
     }
-
-    const row = {
-      type: body.type || null,
-      rating: body.rating,
-      enjoyed: !!body.enjoyed,
-      learned: !!body.learned,
-      realistic: !!body.realistic,
-      recommend: !!body.recommend,
-      comment: body.comment || '',
-      department: body.department || null,
-      scenario_title: body.scenarioTitle || null,
-      game_results: body.gameResults || null,
-      session_id: body.sessionId || null
-    };
-
-    const supaRes = await fetch(`${SUPABASE_URL}/rest/v1/feedback`, {
-      method: 'POST',
-      headers: { ...supabaseHeaders, 'Prefer': 'return=minimal' },
-      body: JSON.stringify(row)
-    });
-
-    if (!supaRes.ok) {
-      const err = await supaRes.text();
-      console.error('Supabase insert error:', err);
-      return res.status(500).json({ error: err });
+    try {
+      await fetch(SCRIPT_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain' },
+        body: JSON.stringify(body),
+        redirect: 'follow'
+      });
+    } catch (err) {
+      console.error('Google Script POST error:', err);
+      return res.status(500).json({ error: 'Failed to save feedback' });
     }
-
     return res.json({ success: true });
   }
 
-  // ── GET: admin reads all feedback ──────────────────────────────────────────
+  // ── GET: fetch all feedback from Google Sheets (proxied, no CORS issue) ────
   if (req.method === 'GET') {
-    const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'admin123';
-
     if (req.query.password !== ADMIN_PASSWORD) {
       return res.status(401).json({ error: 'Unauthorized' });
     }
-
-    const supaRes = await fetch(
-      `${SUPABASE_URL}/rest/v1/feedback?order=created_at.desc`,
-      { headers: supabaseHeaders }
-    );
-
-    if (!supaRes.ok) {
-      const err = await supaRes.text();
-      console.error('Supabase select error:', err);
-      return res.status(500).json({ error: err });
+    try {
+      const gsRes = await fetch(
+        `${SCRIPT_URL}?password=${encodeURIComponent(ADMIN_PASSWORD)}`,
+        { redirect: 'follow' }
+      );
+      const data = await gsRes.json();
+      return res.json(data);
+    } catch (err) {
+      console.error('Google Script GET error:', err);
+      return res.status(500).json({ error: 'Failed to load feedback' });
     }
-
-    const data = await supaRes.json();
-    return res.json(data);
   }
 
   res.status(405).json({ error: 'Method not allowed' });
