@@ -238,10 +238,7 @@
         <div id="loginError" class="login-error"></div>
       </form>
 
-      <div style="margin-top: 20px; padding: 15px; background: #f0f9ff; border-radius: 8px; font-size: 0.9rem; color: #0369a1;">
-        <strong>Note:</strong><br>
-        Default password is <code>admin123</code>. Set the <code>ADMIN_PASSWORD</code> environment variable on the server to change it.
-      </div>
+
     </div>
   </div>
 
@@ -342,16 +339,7 @@
 
       const password = document.getElementById('password').value;
 
-      // Verify password by trying the script
-      let res, json;
-      try {
-        res = await fetch(`${SCRIPT_URL}?password=${encodeURIComponent(password)}`);
-        json = await res.json();
-      } catch (e) {
-        setLoginError('Could not reach the server. Check your connection.');
-        return;
-      }
-      if (json && json.error === 'Unauthorized') {
+      if (password !== ADMIN_PASSWORD) {
         setLoginError('Incorrect password.');
         return;
       }
@@ -376,6 +364,7 @@
     if (savedPw) { adminPassword = savedPw; }
 
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzH9rQPhdj7gJkLmrikwyGNZr3ItNEuqQX3ZEpH4sBBpWp6dM4e4yMfQz3BaclP-7GRcw/exec';
+    const ADMIN_PASSWORD = 'admin123';
 
     // ---------- Data ----------
     async function loadFeedback() {
