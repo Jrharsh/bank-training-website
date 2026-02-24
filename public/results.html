@@ -493,13 +493,13 @@
           }
         };
         
-        const res = await fetch('/api/feedback', {
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzH9rQPhdj7gJkLmrikwyGNZr3ItNEuqQX3ZEpH4sBBpWp6dM4e4yMfQz3BaclP-7GRcw/exec';
+        await fetch(SCRIPT_URL, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'text/plain' },
           body: JSON.stringify(feedback)
         });
-
-        if (!res.ok) throw new Error(await res.text());
 
         statusEl.textContent = '✅ Thank you for your feedback!';
         statusEl.className = 'feedback-status success';

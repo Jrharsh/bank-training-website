@@ -342,14 +342,17 @@
 
       const password = document.getElementById('password').value;
 
-      // Verify password by trying the API
-      const res = await fetch(`/api/feedback?password=${encodeURIComponent(password)}`);
-      if (res.status === 401) {
-        setLoginError('Incorrect password.');
+      // Verify password by trying the script
+      let res, json;
+      try {
+        res = await fetch(`${SCRIPT_URL}?password=${encodeURIComponent(password)}`);
+        json = await res.json();
+      } catch (e) {
+        setLoginError('Could not reach the server. Check your connection.');
         return;
       }
-      if (!res.ok) {
-        setLoginError('Could not reach the server. Is it running?');
+      if (json && json.error === 'Unauthorized') {
+        setLoginError('Incorrect password.');
         return;
       }
 
@@ -372,16 +375,19 @@
     const savedPw = sessionStorage.getItem('adminPassword');
     if (savedPw) { adminPassword = savedPw; }
 
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzH9rQPhdj7gJkLmrikwyGNZr3ItNEuqQX3ZEpH4sBBpWp6dM4e4yMfQz3BaclP-7GRcw/exec';
+
     // ---------- Data ----------
     async function loadFeedback() {
       document.getElementById('feedbackList').innerHTML = `<div class="loading">Loading feedback submissions...</div>`;
 
       let data;
       try {
-        const res = await fetch(`/api/feedback?password=${encodeURIComponent(adminPassword)}`);
-        if (res.status === 401) { logout(); return; }
+        const res = await fetch(`${SCRIPT_URL}?password=${encodeURIComponent(adminPassword)}`);
         if (!res.ok) throw new Error(await res.text());
-        data = await res.json();
+        const json = await res.json();
+        if (json.error === 'Unauthorized') { logout(); return; }
+        data = json;
       } catch (err) {
         console.error('Load feedback failed:', err);
         document.getElementById('feedbackList').innerHTML = `
